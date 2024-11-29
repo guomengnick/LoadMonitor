@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadMonitor", "LoadMonitor\LoadMonitor.csproj", "{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A56F7700-E2E5-4BD6-B399-84321BFAFF71}
+	EndGlobalSection
+EndGlobal
