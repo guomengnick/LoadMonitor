@@ -56,7 +56,7 @@ namespace LoadMonitor
       // 
       panel1.BorderStyle = BorderStyle.FixedSingle;
       panel1.Controls.Add(panel2);
-      panel1.Location = new Point(709, 617);
+      panel1.Location = new Point(705, 762);
       panel1.Name = "panel1";
       panel1.Size = new Size(92, 59);
       panel1.TabIndex = 0;
@@ -70,7 +70,7 @@ namespace LoadMonitor
       // 
       // panel3
       // 
-      panel3.Location = new Point(322, 614);
+      panel3.Location = new Point(318, 759);
       panel3.Name = "panel3";
       panel3.Size = new Size(371, 219);
       panel3.TabIndex = 2;
@@ -81,8 +81,9 @@ namespace LoadMonitor
       flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
       flowLayoutPanel1.Location = new Point(12, 12);
+      flowLayoutPanel1.Margin = new Padding(0);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
-      flowLayoutPanel1.Size = new Size(307, 586);
+      flowLayoutPanel1.Size = new Size(307, 727);
       flowLayoutPanel1.TabIndex = 3;
       flowLayoutPanel1.WrapContents = false;
       flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
@@ -91,7 +92,7 @@ namespace LoadMonitor
       // 
       PartInfoPanel.Controls.Add(InfoPanel);
       PartInfoPanel.Controls.Add(ThumbnailPanel);
-      PartInfoPanel.Location = new Point(30, 642);
+      PartInfoPanel.Location = new Point(8, 749);
       PartInfoPanel.Name = "PartInfoPanel";
       PartInfoPanel.Size = new Size(269, 100);
       PartInfoPanel.TabIndex = 8;
@@ -102,7 +103,7 @@ namespace LoadMonitor
       InfoPanel.Controls.Add(SummaryLabel);
       InfoPanel.Location = new Point(117, 3);
       InfoPanel.Name = "InfoPanel";
-      InfoPanel.Size = new Size(148, 94);
+      InfoPanel.Size = new Size(148, 79);
       InfoPanel.TabIndex = 1;
       // 
       // TitleLabel
@@ -110,17 +111,18 @@ namespace LoadMonitor
       TitleLabel.Font = new Font("Microsoft JhengHei UI", 14F);
       TitleLabel.Location = new Point(3, 9);
       TitleLabel.Name = "TitleLabel";
-      TitleLabel.Size = new Size(100, 23);
+      TitleLabel.Size = new Size(100, 33);
       TitleLabel.TabIndex = 2;
       TitleLabel.Text = "主軸";
       // 
       // SummaryLabel
       // 
-      SummaryLabel.Location = new Point(18, 41);
+      SummaryLabel.Location = new Point(18, 38);
       SummaryLabel.Name = "SummaryLabel";
-      SummaryLabel.Size = new Size(127, 44);
+      SummaryLabel.Size = new Size(127, 32);
       SummaryLabel.TabIndex = 1;
       SummaryLabel.Text = "轉速 : 37000 rmp\r\n溫度 : 35 度\r\n";
+      SummaryLabel.Click += SummaryLabel_Click;
       // 
       // ThumbnailPanel
       // 
@@ -131,18 +133,17 @@ namespace LoadMonitor
       // 
       // DetailChartPanel
       // 
-      DetailChartPanel.BorderStyle = BorderStyle.FixedSingle;
       DetailChartPanel.Location = new Point(335, 12);
       DetailChartPanel.Name = "DetailChartPanel";
-      DetailChartPanel.Size = new Size(804, 431);
+      DetailChartPanel.Size = new Size(1000, 570);
       DetailChartPanel.TabIndex = 8;
       // 
       // DetailTextPanel
       // 
-      DetailTextPanel.Location = new Point(335, 449);
+      DetailTextPanel.Location = new Point(335, 590);
       DetailTextPanel.Name = "DetailTextPanel";
       DetailTextPanel.Padding = new Padding(10);
-      DetailTextPanel.Size = new Size(804, 149);
+      DetailTextPanel.Size = new Size(1000, 149);
       DetailTextPanel.TabIndex = 9;
       DetailTextPanel.Click += DetailTextPanel_Click;
       DetailTextPanel.Paint += DetailTextPanel_Paint;
@@ -151,7 +152,7 @@ namespace LoadMonitor
       // 
       // button1
       // 
-      button1.Location = new Point(823, 626);
+      button1.Location = new Point(819, 771);
       button1.Name = "button1";
       button1.Size = new Size(75, 23);
       button1.TabIndex = 0;
@@ -163,7 +164,7 @@ namespace LoadMonitor
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1151, 606);
+      ClientSize = new Size(1347, 746);
       Controls.Add(PartInfoPanel);
       Controls.Add(button1);
       Controls.Add(DetailTextPanel);
@@ -172,7 +173,7 @@ namespace LoadMonitor
       Controls.Add(panel3);
       Controls.Add(panel1);
       Name = "MainForm";
-      Text = "Form1";
+      Text = "GAM 330AT";
       panel1.ResumeLayout(false);
       PartInfoPanel.ResumeLayout(false);
       InfoPanel.ResumeLayout(false);

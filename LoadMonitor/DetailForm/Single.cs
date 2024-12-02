@@ -27,5 +27,7 @@ namespace LoadMonitor
       this.TopLevel = false;
       this.Dock = DockStyle.Fill;
     }
+
+
   }
 }

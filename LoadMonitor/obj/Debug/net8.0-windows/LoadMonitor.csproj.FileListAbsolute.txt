@@ -38,9 +38,14 @@ C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\Live
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\LiveCharts.Wpf.dll
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.ViewModel.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.MainForm.resources
-C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.AutoUpdatePanel.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.LeftOneRightTwo.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.LeftRight.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.Single.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.sourcelink.json
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.QuadGrid.resources
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\LoadMonitor.dll.config
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.TEST.TEST.resources
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.Components.TransferRack.resources
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.Components.Overview.resources
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.Components.Spindle.resources
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.TEST.PartBase.resources

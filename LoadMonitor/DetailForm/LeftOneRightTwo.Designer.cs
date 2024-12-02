@@ -35,30 +35,30 @@
       // 
       // panel1
       // 
-      panel1.Location = new Point(12, 12);
+      panel1.Location = new Point(5, 5);
       panel1.Name = "panel1";
-      panel1.Size = new Size(510, 426);
+      panel1.Size = new Size(697, 563);
       panel1.TabIndex = 0;
       // 
       // panel2
       // 
-      panel2.Location = new Point(528, 12);
+      panel2.Location = new Point(706, 5);
       panel2.Name = "panel2";
-      panel2.Size = new Size(260, 213);
+      panel2.Size = new Size(291, 278);
       panel2.TabIndex = 1;
       // 
       // panel3
       // 
-      panel3.Location = new Point(528, 231);
+      panel3.Location = new Point(705, 289);
       panel3.Name = "panel3";
-      panel3.Size = new Size(260, 207);
+      panel3.Size = new Size(291, 278);
       panel3.TabIndex = 2;
       // 
       // LeftOneRightTwo
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(800, 450);
+      ClientSize = new Size(1000, 570);
       Controls.Add(panel3);
       Controls.Add(panel2);
       Controls.Add(panel1);

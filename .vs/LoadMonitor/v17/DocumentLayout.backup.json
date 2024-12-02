@@ -3,32 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\LoadMonitor\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\components\\spindle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\spindle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\loadmonitor.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\loadmonitor.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\test\\autoupdatepanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\test\\autoupdatepanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\test\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\test\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\test\\democomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\test\\democomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\autoupdatepanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\autoupdatepanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\components\\cutmotor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\cutmotor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\components\\spindle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\spindle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|C:\\Users\\user\\source\\repos\\LoadMonitor\\loadmonitor\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\democomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\democomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\detailform\\leftonerighttwo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\detailform\\leftonerighttwo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\autoupdatepanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\autoupdatepanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,11 +46,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "MainForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\MainForm.cs",
               "RelativeDocumentMoniker": "LoadMonitor\\MainForm.cs",
@@ -55,16 +63,68 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "MainForm.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\MainForm.cs",
               "RelativeDocumentMoniker": "LoadMonitor\\MainForm.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\MainForm.cs",
               "RelativeToolTip": "LoadMonitor\\MainForm.cs",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAYwFsAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAiwC4AAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-29T00:52:45.044Z",
               "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LoadMonitor",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\LoadMonitor.csproj",
+              "RelativeDocumentMoniker": "LoadMonitor\\LoadMonitor.csproj",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\LoadMonitor.csproj",
+              "RelativeToolTip": "LoadMonitor\\LoadMonitor.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-12-02T08:34:08.296Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Form2.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\TEST\\Form2.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\TEST\\Form2.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\TEST\\Form2.cs",
+              "RelativeToolTip": "LoadMonitor\\TEST\\Form2.cs",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAUwHoAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T08:33:20.807Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DemoComponent.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\TEST\\DemoComponent.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\TEST\\DemoComponent.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\TEST\\DemoComponent.cs",
+              "RelativeToolTip": "LoadMonitor\\TEST\\DemoComponent.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAswFAAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T08:28:34.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CutMotor.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\CutMotor.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Components\\CutMotor.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\CutMotor.cs",
+              "RelativeToolTip": "LoadMonitor\\Components\\CutMotor.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAASwBwAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T08:25:58.468Z",
               "EditorCaption": ""
             },
             {
@@ -77,67 +137,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Form2.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Form2.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Form2.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Form2.cs",
-              "RelativeToolTip": "LoadMonitor\\Form2.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAIwEkAAAAXAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Spindle.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\Spindle.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Components\\Spindle.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\Spindle.cs",
+              "RelativeToolTip": "LoadMonitor\\Components\\Spindle.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAADwv20AAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T02:14:58.785Z",
+              "WhenOpened": "2024-12-02T08:23:02.332Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AutoUpdatePanel.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\AutoUpdatePanel.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\AutoUpdatePanel.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\AutoUpdatePanel.cs",
-              "RelativeToolTip": "LoadMonitor\\AutoUpdatePanel.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAmwDwAAAAiAAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "Spindle.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\Spindle.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Components\\Spindle.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\Spindle.cs [Design]",
+              "RelativeToolTip": "LoadMonitor\\Components\\Spindle.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T01:56:18.545Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DemoComponent.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\DemoComponent.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\DemoComponent.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\DemoComponent.cs",
-              "RelativeToolTip": "LoadMonitor\\DemoComponent.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAcwHIAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T01:55:12.475Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "LeftOneRightTwo.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\DetailForm\\LeftOneRightTwo.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\DetailForm\\LeftOneRightTwo.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\DetailForm\\LeftOneRightTwo.cs",
-              "RelativeToolTip": "LoadMonitor\\DetailForm\\LeftOneRightTwo.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAIAwwBMAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T01:53:07.805Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AutoUpdatePanel.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\AutoUpdatePanel.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\AutoUpdatePanel.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\AutoUpdatePanel.cs [Design]",
-              "RelativeToolTip": "LoadMonitor\\AutoUpdatePanel.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T02:15:36.24Z",
+              "WhenOpened": "2024-12-02T08:23:00.473Z",
               "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AutoUpdatePanel.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\TEST\\AutoUpdatePanel.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\TEST\\AutoUpdatePanel.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\TEST\\AutoUpdatePanel.cs",
+              "RelativeToolTip": "LoadMonitor\\TEST\\AutoUpdatePanel.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAiwEQAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T08:20:27.088Z",
+              "EditorCaption": ""
             }
           ]
         }

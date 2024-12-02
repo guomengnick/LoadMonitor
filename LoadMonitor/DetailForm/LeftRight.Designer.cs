@@ -34,23 +34,23 @@
       // 
       // panel1
       // 
-      panel1.Location = new Point(12, 12);
+      panel1.Location = new Point(2, 3);
       panel1.Name = "panel1";
-      panel1.Size = new Size(384, 426);
+      panel1.Size = new Size(495, 565);
       panel1.TabIndex = 0;
       // 
       // panel2
       // 
-      panel2.Location = new Point(402, 12);
+      panel2.Location = new Point(502, 2);
       panel2.Name = "panel2";
-      panel2.Size = new Size(386, 426);
+      panel2.Size = new Size(495, 565);
       panel2.TabIndex = 1;
       // 
       // LeftRight
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(800, 450);
+      ClientSize = new Size(1000, 570);
       Controls.Add(panel2);
       Controls.Add(panel1);
       FormBorderStyle = FormBorderStyle.None;

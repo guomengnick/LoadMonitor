@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LoadMonitor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6163edd54f2136c00b97001a6e138e5a3ecf19aa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9fe2a6196e0f3a750490965f643a230e5aebecf3")]
 [assembly: System.Reflection.AssemblyProductAttribute("LoadMonitor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LoadMonitor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

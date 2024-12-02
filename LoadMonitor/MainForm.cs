@@ -3,15 +3,12 @@ using LiveChartsCore;
 using LiveCharts.Wpf;
 using System;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Windows.Forms;
+using LoadMonitor.TEST;
+using LoadMonitor.Components;
 
 namespace LoadMonitor
 {
-  public enum DetailLayout
-  {
-    Single,        // 单图布局
-    LeftRight,     // 左右布局
-    LeftOneRightTwo // 左一右二布局
-  }
 
   public struct ComponentData
   {
@@ -20,8 +17,6 @@ namespace LoadMonitor
     public string SubTitle; // 副标题
     public string DetailInfo;     // 详细信息
     public Form Detail; // 詳細图像 
-
-    //public List<UserControl> Details; // 详细图像列表
 
     public ComponentData(UserControl thumbnail, string mainTitle, 
         string subTitle, string detailInfo, Form detail)
@@ -36,38 +31,102 @@ namespace LoadMonitor
 
 
 
-
-
   public partial class MainForm : Form
   {
-    private AutoUpdatePanel autoupdatepanel_; // 子窗體
-    private AngularGauge a;
-    private View view;
-
     private List<ComponentData> components_; // 用于保存组件数据
     public MainForm()
     {
       InitializeComponent();
-
       components_ = new List<ComponentData>(); // 初始化列表
-      //TESTAddCharts();
-      TESTAddPanel();
 
+      AddOverviewChart();
+      AddSpindle();
+      AddCutMotor();
+      AddTransferRackMotor();
+
+      //TESTAddCharts();
+      //TESTAddPanel();
+      //AddDemoQuadChart();
+      //AddDemo3Chart();
+    }
+
+    private void AddSpindle()
+    {
+      var cut_motor = new Components.Spindle("4033 Spindle");
+      var detail_string = $@"
+電流 : 0.135 A
+溫度 : 13%";
+      var componentdemo = new ComponentData(
+          cut_motor, "4033 Spindle", "14%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+    }
+
+    private void AddTransferRackMotor()
+    {
+      var cut_motor = new Components.TransferRack("TransferRack X1");
+      var detail_string = $@"
+電流 : 0.135 A
+附載 : 13%";
+      var componentdemo = new ComponentData(
+          cut_motor, "TransferRack X1", "14%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+
+      cut_motor = new Components.TransferRack("TransferRack Y1");
+      detail_string = $@"
+電流 : 0.175 A
+附載 : 16%";
+      componentdemo = new ComponentData(
+          cut_motor, "TransferRack Y1", "34%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+    }
+
+    private void AddCutMotor()
+    {
+      var cut_motor = new Components.CutMotor("Cutting X1");
+      var detail_string = $@"
+電流 : 0.135 A
+附載 : 13%";
+      var componentdemo = new ComponentData(
+          cut_motor, "Cutting X1", "2%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+
+      cut_motor = new Components.CutMotor("Cutting Y1");
+      detail_string = $@"
+電流 : 0.175 A
+附載 : 16%";
+      componentdemo = new ComponentData(
+          cut_motor, "Cutting Y1", "14%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+
+
+      cut_motor = new Components.CutMotor("Cutting Y2");
+      detail_string = $@"
+電流 : 0.235 A
+附載 : 33%";
+      componentdemo = new ComponentData(
+          cut_motor, "Cutting Y2", $"4%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
     }
 
     private void TESTAddPanel()
     {
       // 测试添加 10 个 PartInfoPanel
-      for (int i = 0; i < 3; i++)
+      for (int i = 0; i < 2; i++)
       {
         Random _random = new();
         var newValue = _random.Next(15, 25);
-        // 创建一个新的 AutoUpdatePanel
-        var autoUpdatePanel = new AutoUpdatePanel();
+        // 创建一个新的 PartBase
+        var autoUpdatePanel = new PartBase();
 
         // 创建一个新的 ComponentData
         var component = new ComponentData(
-            autoUpdatePanel, // 缩略图使用 AutoUpdatePanel
+            autoUpdatePanel, // 缩略图使用 PartBase
             $"主标题 {i + 1}",    // 示例主标题
             $"副标题 {i + 1}",     // 示例副标题
             $@"
@@ -83,14 +142,10 @@ Query Inverter Temperature: {25 + newValue / 15} °C
            autoUpdatePanel.GetDetailForm()  // 详细图像列表
         );
         // 将数据添加到保存列表
-        components_.Add(component);
         // 显示到界面
         AddComponentChart(component);
       }
 
-      AddDemoChart();
-      AddDemoQuadChart();
-      AddDemo3Chart();
     }
 
 
@@ -100,9 +155,9 @@ Query Inverter Temperature: {25 + newValue / 15} °C
       var newValuei = 123;
       var ii = 3;
       var componentdemo = new ComponentData(
-          demo_ui, // 缩略图使用 AutoUpdatePanel
-          $"主标题 {ii + 1}",    // 示例主标题
-          $"副标题 {ii + 1}",     // 示例副标题
+          demo_ui, // 缩略图使用 PartBase
+          $"主軸",    // 示例主标题
+          $"14% 37500rpm",     // 示例副标题
           $@"
 Query Speed: {newValuei + 1} RPM
 Query Status: Normal
@@ -116,7 +171,6 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
          demo_ui.GetDetailForm()  // 详细图像列表
       );
       // 将数据添加到保存列表
-      components_.Add(componentdemo);
       // 显示到界面
       AddComponentChart(componentdemo);
     }
@@ -125,11 +179,10 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
     {
       var demo_ui = new DemoComponentQuadGrid();
       var newValuei = 123;
-      var ii = 3;
       var componentdemo = new ComponentData(
-          demo_ui, // 缩略图使用 AutoUpdatePanel
-          $"主标题 {ii + 1}",    // 示例主标题
-          $"副标题 {ii + 1}",     // 示例副标题
+          demo_ui, // 缩略图使用 PartBase
+          $"Y1",    // 示例主标题
+          $"16% ",     // 示例副标题
           $@"
 Query Speed: {newValuei + 1} RPM
 Query Status: Normal
@@ -143,74 +196,37 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
          demo_ui.GetDetailForm()  // 详细图像列表
       );
       // 将数据添加到保存列表
-      components_.Add(componentdemo);
       // 显示到界面
       AddComponentChart(componentdemo);
     }
 
-    private void AddDemoChart()
+    private void AddOverviewChart()
     {
-      var demo_ui = new DemoComponent();
-      var newValuei = 123;
-      var ii = 3;
+      var overview_chart = new Components.Overview();
+      var detail_string = $@"
+電流 : 0.235 A
+附載 : 33%";
       var componentdemo = new ComponentData(
-          demo_ui, // 缩略图使用 AutoUpdatePanel
-          $"主标题 {ii + 1}",    // 示例主标题
-          $"副标题 {ii + 1}",     // 示例副标题
-          $@"
-Query Speed: {newValuei + 1} RPM
-Query Status: Normal
-Query Internal Status: OK
-Query Power: {newValuei * 1.2:F1} kW
-Query Bus Voltage: {newValuei * 2.3:F1} V
-Query Current: {newValuei * 0.8:F1} A
-Query Motor Temperature: {20 + newValuei / 10} °C
-Query Inverter Temperature: {25 + newValuei / 15} °C
-", // 详细文本
-         demo_ui.GetDetailForm()  // 详细图像列表
-      );
-      // 将数据添加到保存列表
-      components_.Add(componentdemo);
+          overview_chart, "Overview", $"4%", detail_string, overview_chart.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
     }
 
-
-
-    private Button AddHoverAnimation(ComponentData info)
+    private void AddOnClickEvent(ComponentData info, Panel partInfoPanel)
     {
-      // 创建一个透明的 Button，覆盖整个 PartInfoPanel
-      var hoverButton = new Button
+      // 按钮的点击事件
+      EventHandler callback = (object? sender, EventArgs e) =>
       {
-        Dock = DockStyle.Fill, // 填满整个 PartInfoPanel
-        BackColor = Color.Transparent, // 背景透明
-        FlatStyle = FlatStyle.Flat, // 去掉边框
-        Text = string.Empty, // 不显示文字
-        Cursor = Cursors.Hand, // 鼠标变为手型
-      };
-
-      // 去掉按钮的焦点和视觉效果
-      hoverButton.FlatAppearance.BorderSize = 0;
-      hoverButton.FlatAppearance.MouseDownBackColor = Color.DodgerBlue; // 点击时的背景颜色
-      hoverButton.FlatAppearance.MouseOverBackColor = Color.LightBlue; // Hover 时的背景颜色
-
-      // Button 的点击事件
-      hoverButton.Click += (object? sender, EventArgs e) =>
-      {
-
-        // 遍历 Detail 列表，将所有图像添加到 DetailChartPanel
         if (info.Detail != null) // 确保 Detail 列表不为空
         {
           info.Detail.TopLevel = false;
           info.Detail.Dock = DockStyle.Top; // 每个图像按照顶部对齐方式堆叠
-          //info.Detail.Height = 150; // 设置每个图像的高度（可根据需求调整）
           DetailChartPanel.Controls.Add(info.Detail);
-          // 显示 Form 内容
           info.Detail.Show();
         }
 
         // 将详细文本信息填入 DetailTextPanel
-        DetailTextPanel.Controls.Clear(); // 清空 DetailTextPanel 之前的内容
+        //DetailTextPanel.Controls.Clear(); // 清空 DetailTextPanel 之前的内容
         var detailLabel = new Label
         {
           Text = info.DetailInfo, // 显示详细信息
@@ -221,33 +237,49 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
           Padding = new Padding(10) // 添加一些内边距
         };
         DetailTextPanel.Controls.Add(detailLabel); // 添加 Label 到 DetailTextPanel
-
-
+        DetailTextPanel.Show();
       };
+      partInfoPanel.Click += callback;
 
-
-      return hoverButton;
+      // 初始化時執行顯示邏輯（判斷 DetailTextPanel 是否为空）
+      if (DetailTextPanel.Controls.Count == 0)
+      {
+        callback(null, EventArgs.Empty); // 调用回调函数直接显示内容
+      }
     }
-
 
     public void AddComponentChart(ComponentData info)
     {
+      components_.Add(info);
+
       // 创建一个新的 PartInfoPanel 容器
       var partInfoPanel = new Panel
       {
         Width = PartInfoPanel.Width, // 使用设计器中 PartInfoPanel 的宽度
         Height = PartInfoPanel.Height, // 使用设计器中 PartInfoPanel 的高度
-        Margin = new Padding(5),
-        BackColor = Color.Transparent // 背景透明
-      };
+        Margin = new Padding(0, 0, 0, 0), // 控制每个 Panel 的上下左右间距
+        Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
 
-      // *** 确保先添加 hoverButton ***
-      partInfoPanel.Controls.Add(AddHoverAnimation(info)); // 将 hoverButton 添加到 Panel 的最底层
+        BackColor = Color.Transparent, // 背景透明
+        //BorderStyle = BorderStyle.FixedSingle,
+      };
+      // 模拟 Button 的悬停效果
+      partInfoPanel.MouseEnter += (s, e) =>
+      {
+        partInfoPanel.BackColor = Color.LightBlue; // 鼠标进入时，设置背景颜色为浅蓝色
+      };
+      partInfoPanel.MouseLeave += (s, e) =>
+      {
+        partInfoPanel.BackColor = Color.Transparent; // 鼠标移开时，恢复背景透明
+      };
 
       // 创建一个新的 ThumbnailPanel
       var thumbnailPanel = new Panel
       {
         Width = ThumbnailPanel.Width, // 使用设计器中 ThumbnailPanel 的宽度
+        //Margin = new Padding(0,0,0,0), // 控制每个 Panel 的上下左右间距
+        Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+
         Dock = DockStyle.Left,
         BackColor = Color.Transparent // 避免覆盖 Panel 的透明背景
       };
@@ -260,7 +292,10 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
       var infoPanel = new Panel
       {
         Width = InfoPanel.Width, // 使用设计器中 InfoPanel 的宽度
-        Dock = DockStyle.Fill,
+        //Margin = new Padding(0,0,0,0), // 控制每个 Panel 的上下左右间距
+        //Padding = new Padding(0, 20, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+        Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+        Dock = DockStyle.Right,
         BackColor = Color.Transparent // 避免覆盖 Panel 的透明背景
       };
 
@@ -269,6 +304,9 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
       {
         Text = info.MainTitle, // 主标题内容
         Font = TitleLabel.Font, // 使用设计器中 TitleLabel 的字体
+        //Margin = new Padding(10, 20, 10, 0), // 增加顶部间距（第二个参数控制顶部间距）
+        Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+
         Dock = DockStyle.Top,
         TextAlign = TitleLabel.TextAlign, // 使用设计器中 TitleLabel 的对齐方式
         Height = TitleLabel.Height, // 使用设计器中 TitleLabel 的高度
@@ -280,43 +318,28 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
       {
         Text = info.SubTitle, // 副标题内容
         Font = SummaryLabel.Font, // 使用设计器中 SummaryLabel 的字体
+        //Margin = new Padding(10,10,0,0), // 控制每个 Panel 的上下左右间距
+        Padding = new Padding(0, 8, 0, 0), // 增加内部顶部间距，使内容整体向下移动
         Dock = DockStyle.Top,
         TextAlign = SummaryLabel.TextAlign, // 使用设计器中 SummaryLabel 的对齐方式
         AutoSize = true, // 设置自动调整大小
         MaximumSize = new Size(infoPanel.Width, 0), // 限制最大宽度，允许换行
       };
-      summaryLabel.Visible = true;
-
       // 将主标题和副标题添加到 InfoPanel
       infoPanel.Controls.Add(summaryLabel); // 添加副标题
       infoPanel.Controls.Add(titleLabel);   // 添加主标题
-      infoPanel.BringToFront();
       // 将 ThumbnailPanel 和 InfoPanel 添加到 PartInfoPanel
       partInfoPanel.Controls.Add(thumbnailPanel);
+      // *** 确保先添加 hoverButton ***
       partInfoPanel.Controls.Add(infoPanel);
+
+      // 添加透明的按钮到 PartInfoPanel 顶层
+      AddOnClickEvent(info, partInfoPanel);
+      flowLayoutPanel1.Padding = new Padding(0, 0, 0, 0);
       // 将 PartInfoPanel 添加到 FlowLayoutPanel
       flowLayoutPanel1.Controls.Add(partInfoPanel);
     }
 
-
-
-    private void TESTAddCharts()
-    {
-      // 創建並嵌入 AutoUpdateForm
-      autoupdatepanel_ = new AutoUpdatePanel
-      {
-        Dock = DockStyle.Fill // 填滿容器
-      };
-      panel1.Controls.Add(autoupdatepanel_); // 將子窗體添加到 panel1
-      autoupdatepanel_.Show(); // 顯示子窗體
-
-      view = new View()
-      {
-        Dock = DockStyle.Fill,
-      };
-
-      panel3.Controls.Add(view);
-    }
 
     private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
     {
@@ -352,6 +375,11 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
     {
 
       //this.BackColor = Color.LightGray;
+    }
+
+    private void SummaryLabel_Click(object sender, EventArgs e)
+    {
+
     }
   }
 
