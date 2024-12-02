@@ -1,6 +1,6 @@
 ﻿namespace LoadMonitor
 {
-  partial class LeftOneRightTwo
+  partial class QuadGrid
   {
     /// <summary>
     /// Required designer variable.
@@ -31,40 +31,49 @@
       panel1 = new Panel();
       panel2 = new Panel();
       panel3 = new Panel();
+      panel4 = new Panel();
       SuspendLayout();
       // 
       // panel1
       // 
       panel1.Location = new Point(12, 12);
       panel1.Name = "panel1";
-      panel1.Size = new Size(510, 426);
+      panel1.Size = new Size(400, 250);
       panel1.TabIndex = 0;
       // 
       // panel2
       // 
-      panel2.Location = new Point(528, 12);
+      panel2.Location = new Point(418, 12);
       panel2.Name = "panel2";
-      panel2.Size = new Size(260, 213);
+      panel2.Size = new Size(400, 250);
       panel2.TabIndex = 1;
       // 
       // panel3
       // 
-      panel3.Location = new Point(528, 231);
+      panel3.Location = new Point(12, 268);
       panel3.Name = "panel3";
-      panel3.Size = new Size(260, 207);
+      panel3.Size = new Size(400, 250);
       panel3.TabIndex = 2;
       // 
-      // LeftOneRightTwo
+      // panel4
+      // 
+      panel4.Location = new Point(418, 268);
+      panel4.Name = "panel4";
+      panel4.Size = new Size(400, 250);
+      panel4.TabIndex = 3;
+      // 
+      // QuadGrid
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(800, 450);
+      ClientSize = new Size(824, 522);
+      Controls.Add(panel4);
       Controls.Add(panel3);
       Controls.Add(panel2);
       Controls.Add(panel1);
       FormBorderStyle = FormBorderStyle.None;
-      Name = "LeftOneRightTwo";
-      Text = "TwoRow";
+      Name = "QuadGrid";
+      Text = "QuadGrid";
       ResumeLayout(false);
     }
 
@@ -73,5 +82,6 @@
     private Panel panel1;
     private Panel panel2;
     private Panel panel3;
+    private Panel panel4;
   }
 }

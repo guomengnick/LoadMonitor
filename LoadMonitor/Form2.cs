@@ -20,8 +20,6 @@ using FormsTimer = System.Windows.Forms.Timer;
 
 namespace LoadMonitor
 {
-
-
   public partial class ViewModel
   {
     private readonly Random _random = new();
@@ -72,10 +70,6 @@ namespace LoadMonitor
       series.MaxRadialColumnWidth = sectionsWidth;
     }
   }
-
-
-
-
 
   public partial class View : UserControl
   {

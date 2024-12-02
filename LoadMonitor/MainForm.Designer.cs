@@ -48,7 +48,6 @@ namespace LoadMonitor
       DetailTextPanel = new Panel();
       button1 = new Button();
       panel1.SuspendLayout();
-      flowLayoutPanel1.SuspendLayout();
       PartInfoPanel.SuspendLayout();
       InfoPanel.SuspendLayout();
       SuspendLayout();
@@ -80,7 +79,6 @@ namespace LoadMonitor
       // 
       flowLayoutPanel1.AutoScroll = true;
       flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
-      flowLayoutPanel1.Controls.Add(PartInfoPanel);
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
       flowLayoutPanel1.Location = new Point(12, 12);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -93,7 +91,7 @@ namespace LoadMonitor
       // 
       PartInfoPanel.Controls.Add(InfoPanel);
       PartInfoPanel.Controls.Add(ThumbnailPanel);
-      PartInfoPanel.Location = new Point(3, 3);
+      PartInfoPanel.Location = new Point(30, 642);
       PartInfoPanel.Name = "PartInfoPanel";
       PartInfoPanel.Size = new Size(269, 100);
       PartInfoPanel.TabIndex = 8;
@@ -165,7 +163,8 @@ namespace LoadMonitor
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1151, 601);
+      ClientSize = new Size(1151, 606);
+      Controls.Add(PartInfoPanel);
       Controls.Add(button1);
       Controls.Add(DetailTextPanel);
       Controls.Add(DetailChartPanel);
@@ -175,7 +174,6 @@ namespace LoadMonitor
       Name = "MainForm";
       Text = "Form1";
       panel1.ResumeLayout(false);
-      flowLayoutPanel1.ResumeLayout(false);
       PartInfoPanel.ResumeLayout(false);
       InfoPanel.ResumeLayout(false);
       ResumeLayout(false);

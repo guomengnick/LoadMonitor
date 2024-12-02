@@ -53,6 +53,7 @@
       ClientSize = new Size(800, 450);
       Controls.Add(panel2);
       Controls.Add(panel1);
+      FormBorderStyle = FormBorderStyle.None;
       Name = "LeftRight";
       Text = "LeftRight";
       ResumeLayout(false);

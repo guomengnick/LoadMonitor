@@ -17,11 +17,11 @@ namespace LoadMonitor
 {
   public class AutoUpdatePanel : UserControl
   {
-    private ObservableCollection<ObservableValue> data_;
-    private FormsTimer updateTimer_;
-    private string summary_; // 概要信息
-    private string detailInfo_; // 详细信息字符串
-    //private CartesianChart cartesianChart_;
+    protected ObservableCollection<ObservableValue> data_;
+    protected FormsTimer updateTimer_;
+    protected string summary_; // 概要信息
+    protected string detailInfo_; // 详细信息字符串
+    private CartesianChart cartesianChart_;
     public AutoUpdatePanel()
     {
 
@@ -35,7 +35,7 @@ namespace LoadMonitor
             };
 
       // 初始化图表
-      var cartesianChart_ = new CartesianChart
+      cartesianChart_ = new CartesianChart
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]
@@ -58,7 +58,7 @@ namespace LoadMonitor
         Legend = null,
       };
 
-      Controls.Add(cartesianChart_);
+      Controls.Add(cartesianChart_);//縮圖
 
       // 初始化定时器
       updateTimer_ = new FormsTimer
@@ -67,10 +67,9 @@ namespace LoadMonitor
       };
       updateTimer_.Tick += UpdateData;
       updateTimer_.Start();
-
     }
 
-    private void UpdateData(object sender, EventArgs e)
+    protected void UpdateData(object sender, EventArgs e)
     {
       // 随机生成一个新的数据点（模拟实时数据）
       var newValue = new Random().Next(0, 100); // 假设范围是 0~100
@@ -100,28 +99,16 @@ Query Inverter Temperature: {25 + newValue / 15} °C
 ";
     }
 
-    public Form GetDetailForm()
+
+
+    protected LeftOneRightTwo detail_form_;
+    // 詳細頁面
+    public virtual Form GetDetailForm()
     {
-      /*
-      var form = new Single();
+      detail_form_ = new LeftOneRightTwo();
 
       // 创建并配置要添加的 View 控件
-      var view = new View
-      {
-        Dock = DockStyle.Fill // 填充整个 Panel
-      };
-
-      //form.Controls.Add(new View());
-      form.AddToPanel(view);
-      return form;*/
-
-      var form = new LeftOneRightTwo();
-
-      // 创建并配置要添加的 View 控件
-      var view = new 
-      {
-        Dock = DockStyle.Fill // 填充整个 Panel
-      };
+      var view = cartesianChart_;
       // 创建并配置要添加的 View 控件
       var view1 = new View
       {
@@ -133,9 +120,8 @@ Query Inverter Temperature: {25 + newValue / 15} °C
         Dock = DockStyle.Fill // 填充整个 Panel
       };
 
-      //form.Controls.Add(new View());
-      form.AddToPanel(new CartesianChart(), view1, view2);
-      return form;
+      detail_form_.AddToPanel(cartesianChart_, view1, view2);
+      return detail_form_;
     }
 
 

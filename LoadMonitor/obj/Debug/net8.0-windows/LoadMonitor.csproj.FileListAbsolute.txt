@@ -42,3 +42,5 @@ C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\Load
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.LeftOneRightTwo.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.LeftRight.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.Single.resources
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.sourcelink.json
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.QuadGrid.resources

@@ -10,7 +10,6 @@ namespace LoadMonitor
   {
     Single,        // 单图布局
     LeftRight,     // 左右布局
-    TwoRow,        // 两行布局
     LeftOneRightTwo // 左一右二布局
   }
 
@@ -42,7 +41,6 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private AutoUpdatePanel autoupdatepanel_; // 子窗體
-    private Form2 f2; // 子窗體
     private AngularGauge a;
     private View view;
 
@@ -60,24 +58,12 @@ namespace LoadMonitor
     private void TESTAddPanel()
     {
       // 测试添加 10 个 PartInfoPanel
-      for (int i = 0; i < 5; i++)
+      for (int i = 0; i < 3; i++)
       {
         Random _random = new();
         var newValue = _random.Next(15, 25);
-
-        // 创建详细图像控件列表
-        var detailControls = new List<UserControl>
-{
-    new View { BackColor = Color.Red },    // 红色 View
-    new View { BackColor = Color.Green },  // 绿色 View
-    //new View { BackColor = Color.Blue },   // 蓝色 View
-};
-
         // 创建一个新的 AutoUpdatePanel
         var autoUpdatePanel = new AutoUpdatePanel();
-
-        // 调用 InitializeLayout 设置布局为 LeftOneRightTwo
-        //var detail_panel = autoUpdatePanel.InitializeLayout(DetailLayout.LeftRight, detailControls);
 
         // 创建一个新的 ComponentData
         var component = new ComponentData(
@@ -96,18 +82,100 @@ Query Inverter Temperature: {25 + newValue / 15} °C
 ", // 详细文本
            autoUpdatePanel.GetDetailForm()  // 详细图像列表
         );
-
         // 将数据添加到保存列表
         components_.Add(component);
-
         // 显示到界面
         AddComponentChart(component);
       }
 
-
-
-
+      AddDemoChart();
+      AddDemoQuadChart();
+      AddDemo3Chart();
     }
+
+
+    private void AddDemo3Chart()
+    {
+      var demo_ui = new DemoComponentLeftOneRightTwo();
+      var newValuei = 123;
+      var ii = 3;
+      var componentdemo = new ComponentData(
+          demo_ui, // 缩略图使用 AutoUpdatePanel
+          $"主标题 {ii + 1}",    // 示例主标题
+          $"副标题 {ii + 1}",     // 示例副标题
+          $@"
+Query Speed: {newValuei + 1} RPM
+Query Status: Normal
+Query Internal Status: OK
+Query Power: {newValuei * 1.2:F1} kW
+Query Bus Voltage: {newValuei * 2.3:F1} V
+Query Current: {newValuei * 0.8:F1} A
+Query Motor Temperature: {20 + newValuei / 10} °C
+Query Inverter Temperature: {25 + newValuei / 15} °C
+", // 详细文本
+         demo_ui.GetDetailForm()  // 详细图像列表
+      );
+      // 将数据添加到保存列表
+      components_.Add(componentdemo);
+      // 显示到界面
+      AddComponentChart(componentdemo);
+    }
+
+    private void AddDemoQuadChart()
+    {
+      var demo_ui = new DemoComponentQuadGrid();
+      var newValuei = 123;
+      var ii = 3;
+      var componentdemo = new ComponentData(
+          demo_ui, // 缩略图使用 AutoUpdatePanel
+          $"主标题 {ii + 1}",    // 示例主标题
+          $"副标题 {ii + 1}",     // 示例副标题
+          $@"
+Query Speed: {newValuei + 1} RPM
+Query Status: Normal
+Query Internal Status: OK
+Query Power: {newValuei * 1.2:F1} kW
+Query Bus Voltage: {newValuei * 2.3:F1} V
+Query Current: {newValuei * 0.8:F1} A
+Query Motor Temperature: {20 + newValuei / 10} °C
+Query Inverter Temperature: {25 + newValuei / 15} °C
+", // 详细文本
+         demo_ui.GetDetailForm()  // 详细图像列表
+      );
+      // 将数据添加到保存列表
+      components_.Add(componentdemo);
+      // 显示到界面
+      AddComponentChart(componentdemo);
+    }
+
+    private void AddDemoChart()
+    {
+      var demo_ui = new DemoComponent();
+      var newValuei = 123;
+      var ii = 3;
+      var componentdemo = new ComponentData(
+          demo_ui, // 缩略图使用 AutoUpdatePanel
+          $"主标题 {ii + 1}",    // 示例主标题
+          $"副标题 {ii + 1}",     // 示例副标题
+          $@"
+Query Speed: {newValuei + 1} RPM
+Query Status: Normal
+Query Internal Status: OK
+Query Power: {newValuei * 1.2:F1} kW
+Query Bus Voltage: {newValuei * 2.3:F1} V
+Query Current: {newValuei * 0.8:F1} A
+Query Motor Temperature: {20 + newValuei / 10} °C
+Query Inverter Temperature: {25 + newValuei / 15} °C
+", // 详细文本
+         demo_ui.GetDetailForm()  // 详细图像列表
+      );
+      // 将数据添加到保存列表
+      components_.Add(componentdemo);
+      // 显示到界面
+      AddComponentChart(componentdemo);
+    }
+
+
 
     private Button AddHoverAnimation(ComponentData info)
     {
