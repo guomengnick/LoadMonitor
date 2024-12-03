@@ -47,6 +47,8 @@ namespace LoadMonitor
       DetailChartPanel = new Panel();
       DetailTextPanel = new Panel();
       button1 = new Button();
+      checkBox1 = new CheckBox();
+      button2 = new Button();
       panel1.SuspendLayout();
       PartInfoPanel.SuspendLayout();
       InfoPanel.SuspendLayout();
@@ -160,11 +162,34 @@ namespace LoadMonitor
       button1.UseVisualStyleBackColor = true;
       button1.Click += button1_Click;
       // 
+      // checkBox1
+      // 
+      checkBox1.AutoSize = true;
+      checkBox1.Location = new Point(1016, 768);
+      checkBox1.Name = "checkBox1";
+      checkBox1.Size = new Size(71, 19);
+      checkBox1.TabIndex = 10;
+      checkBox1.Text = "讀取485";
+      checkBox1.UseVisualStyleBackColor = true;
+      checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+      // 
+      // button2
+      // 
+      button2.Location = new Point(935, 768);
+      button2.Name = "button2";
+      button2.Size = new Size(75, 23);
+      button2.TabIndex = 11;
+      button2.Text = "485頁面";
+      button2.UseVisualStyleBackColor = true;
+      button2.Click += button2_Click;
+      // 
       // MainForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 741);
+      ClientSize = new Size(1347, 825);
+      Controls.Add(button2);
+      Controls.Add(checkBox1);
       Controls.Add(PartInfoPanel);
       Controls.Add(button1);
       Controls.Add(DetailTextPanel);
@@ -180,6 +205,7 @@ namespace LoadMonitor
       PartInfoPanel.ResumeLayout(false);
       InfoPanel.ResumeLayout(false);
       ResumeLayout(false);
+      PerformLayout();
     }
     #endregion
 
@@ -195,6 +221,8 @@ namespace LoadMonitor
     private Label TitleLabel;
     private Label SummaryLabel;
     private Panel ThumbnailPanel;
+    private CheckBox checkBox1;
+    private Button button2;
   }
 
 }

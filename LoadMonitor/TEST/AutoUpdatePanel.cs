@@ -64,10 +64,22 @@ namespace LoadMonitor.TEST
       // 初始化定时器
       updateTimer_ = new FormsTimer
       {
-        Interval = 900
+        Interval = 1300
       };
       updateTimer_.Tick += UpdateData;
-      updateTimer_.Start();
+    }
+
+    public void Update(double motor_current)
+    {
+
+      // 随机生成一个新的数据点（模拟实时数据）
+      data_.Add(new ObservableValue(motor_current));
+      if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
+                                               // 更新概要信息
+      summary_ = $"当前负载: {motor_current}%";//TODO: FIX_BUG 這值不會在主畫面更新
+
+      // 更新详细信息
+      detailInfo_ = GenerateDetailInfo((int)motor_current);
     }
 
     protected void UpdateData(object sender, EventArgs e)
@@ -76,15 +88,7 @@ namespace LoadMonitor.TEST
       {
         return;
       }
-      // 随机生成一个新的数据点（模拟实时数据）
-      var newValue = new Random().Next(0, 100); // 假设范围是 0~100
-      data_.Add(new ObservableValue(newValue));
-      if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
-                                               // 更新概要信息
-      summary_ = $"当前负载: {newValue}%";//TODO: FIX_BUG 這值不會在主畫面更新
-
-      // 更新详细信息
-      detailInfo_ = GenerateDetailInfo(newValue);
+      Update(new Random().Next(0, 100));
     }
 
     private void InitializeComponent()

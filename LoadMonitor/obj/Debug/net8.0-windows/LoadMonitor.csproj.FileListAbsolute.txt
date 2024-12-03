@@ -50,7 +50,6 @@ C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\Load
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.Components.Spindle.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.TEST.PartBase.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\NModbus4.dll
-C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.SerialPortForm.resources
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\System.IO.Ports.dll
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\runtimes\android-arm\native\libSystem.IO.Ports.Native.so
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\runtimes\android-arm64\native\libSystem.IO.Ports.Native.so
@@ -71,3 +70,6 @@ C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\runt
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\runtimes\unix\lib\net8.0\System.IO.Ports.dll
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.IO.Ports.dll
 C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.Components.CutMotor.resources
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\obj\Debug\net8.0-windows\LoadMonitor.SerialPortFormTEST.resources
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\Serilog.dll
+C:\Users\user\source\repos\LoadMonitor\LoadMonitor\bin\Debug\net8.0-windows\Serilog.Sinks.File.dll

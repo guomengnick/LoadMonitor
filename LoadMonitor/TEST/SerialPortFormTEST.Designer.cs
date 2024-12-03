@@ -1,6 +1,6 @@
 ﻿namespace LoadMonitor
 {
-  partial class SerialPortForm
+  partial class SerialPortFormTEST
   {
     /// <summary>
     /// Required designer variable.

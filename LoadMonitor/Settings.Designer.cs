@@ -22,5 +22,17 @@ namespace LoadMonitor {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Machine330AT")]
+        public string MachineType {
+            get {
+                return ((string)(this["MachineType"]));
+            }
+            set {
+                this["MachineType"] = value;
+            }
+        }
     }
 }

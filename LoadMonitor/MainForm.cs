@@ -6,19 +6,32 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Windows.Forms;
 using LoadMonitor.TEST;
 using LoadMonitor.Components;
+using System.Timers;
+using System.ComponentModel;
+using Microsoft.VisualBasic.Logging;
+using Serilog;
 
+using Log = Serilog.Log;
 namespace LoadMonitor
 {
-
+  public enum MachineType
+  {
+    Unknown = 0,
+    Machine330AT,
+    Machine336AT,
+    Machine380AT,
+    Machine330,
+    Machine320
+  }
   public struct ComponentData
   {
-    public UserControl Thumbnail; // 缩图图像
+    public PartBase Thumbnail; // 缩图图像
     public string MainTitle; // 主标题
     public string SubTitle; // 副标题
     public string DetailInfo;     // 详细信息
     public Form Detail; // 詳細图像 
 
-    public ComponentData(UserControl thumbnail, string mainTitle, 
+    public ComponentData(PartBase thumbnail, string mainTitle,
         string subTitle, string detailInfo, Form detail)
     {
       Thumbnail = thumbnail;
@@ -31,24 +44,199 @@ namespace LoadMonitor
 
 
 
+
   public partial class MainForm : Form
   {
-    private List<ComponentData> components_; // 用于保存组件数据
+    private Dictionary<int, ComponentData> components_; // 用于保存组件数据
+
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
+    private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
+
     public MainForm()
     {
       InitializeComponent();
-      components_ = new List<ComponentData>(); // 初始化列表
+      components_ = new Dictionary<int, ComponentData>(); // 初始化列表
+      
+      //AddOverviewChart();
+      //AddSpindle();
+      //AddCutMotor();
+      //AddTransferRackMotor();
 
-      AddOverviewChart();
-      AddSpindle();
-      AddCutMotor();
-      AddTransferRackMotor();
+      CreateComponents();
+      // 初始化 Modbus 通信
+      modbusSerialPort_ = new ModbusSerialPort();
+      modbusSerialPort_.Initialize("COM7"); // 替換為實際的串口名稱
+      modbusSerialPort_.Open();
 
-      //TESTAddCharts();
-      //TESTAddPanel();
-      //AddDemoQuadChart();
-      //AddDemo3Chart();
+      read_current_timer_.Elapsed += ReadCurrent;
+      read_current_timer_.Start();
     }
+
+
+    private MachineType GetMachineTypeFromSettings()
+    {
+      try
+      {
+        string machineType = Settings.Default.MachineType; // 假設設定中有 MachineType
+        return Enum.TryParse(machineType, out MachineType type) ? type : MachineType.Unknown;
+      }
+      catch
+      {
+        return MachineType.Unknown;
+      }
+    }
+
+
+
+    private void CreateComponents()
+    {
+      // 從設定中讀取機型類型
+      MachineType type = GetMachineTypeFromSettings();
+
+      // 根據機型創建對應的 components_
+      switch (type)
+      {
+        case MachineType.Machine330AT:
+          Create330AT();
+          break;
+        //case MachineType.Machine336AT:
+        //  Create336AT();
+        //  break;
+        //case MachineType.Machine380AT:
+        //  Create380AT();
+        //  break;
+        //case MachineType.Machine330:
+        //  Create330();
+        //  break;
+        //case MachineType.Machine320:
+        //  Create320();
+        //  break;
+        default:
+          Console.WriteLine("Unknown machine type, cannot create components.");
+          break;
+      }
+    }
+
+
+    private void Create330AT()
+    {
+      components_ = new Dictionary<int, ComponentData>();
+
+      //移載
+      PartBase cut_motor = new Components.TransferRack("TransferRack X");
+      var detail_string = $@"
+電流 : 0.135 A
+附載 : 13%";
+      var componentdemo = new ComponentData(
+          cut_motor, "TransferRack X", "14%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+      components_[1] = componentdemo;
+
+
+      cut_motor = new Components.TransferRack("TransferRack Z");
+      detail_string = $@"
+電流 : 0.175 A
+附載 : 16%";
+      componentdemo = new ComponentData(
+          cut_motor, "TransferRack Z", "34%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+      components_[2] = componentdemo;
+
+
+
+      //切割軸
+      cut_motor = new Components.CutMotor("Cutting Y1");
+      detail_string = $@"
+電流 : 0.175 A
+附載 : 16%";
+      componentdemo = new ComponentData(
+          cut_motor, "Cutting Y1", "14%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+      components_[3] = componentdemo;
+
+
+      cut_motor = new Components.CutMotor("Cutting Y2");
+      detail_string = $@"
+電流 : 0.175 A
+附載 : 16%";
+      componentdemo = new ComponentData(
+          cut_motor, "Cutting Y2", "14%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+      components_[4] = componentdemo;
+
+
+      cut_motor = new Components.CutMotor("Cutting X1");
+      detail_string = $@"
+電流 : 0.135 A
+附載 : 13%";
+      componentdemo = new ComponentData(
+          cut_motor, "Cutting X1", "2%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+      components_[5] = componentdemo;
+
+      cut_motor = new Components.CutMotor("Cutting Z1");
+      detail_string = $@"
+電流 : 0.135 A
+附載 : 13%";
+      componentdemo = new ComponentData(
+          cut_motor, "Cutting Z1", "2%", detail_string, cut_motor.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+      components_[6] = componentdemo;
+
+
+
+      // 添加更多暫存器與組件...
+      Console.WriteLine("Components for 330AT created.");
+    }
+
+
+
+    private void ReadCurrent(object? sender, ElapsedEventArgs e)
+    {
+      if (modbusSerialPort_ == null || !modbusSerialPort_.IsConnected)
+      {
+        Console.WriteLine("Modbus serial port is not connected.");
+        return;
+      }
+
+      // 發送請求並解析數據
+      Dictionary<int, ushort> currents = modbusSerialPort_.ReadCurrents();
+      if (currents.Count == 0)
+      {
+        return;
+      }
+      if (currents.Count == 16)
+      {
+        string s = "";
+        foreach (var kvp in currents)
+        {
+          int registerIndex = kvp.Key; // 寄存器索引
+          ushort currentValue = kvp.Value; // 寄存器值
+          s += $"Register {registerIndex}: {currentValue}{Environment.NewLine}";
+        }
+        //Log.Information(s);
+        
+      }
+      //return;
+      // 更新组件数据
+      foreach (var component in components_)
+      {
+
+        // 判斷 `currents` 是否包含該鍵
+        if (currents.ContainsKey(component.Key) && component.Key >= 1 && component.Key <= 8)
+        {
+          component.Value.Thumbnail.Update(currents[component.Key]);
+        }
+      }
+      Console.WriteLine("Component data updated.");
+    }
+
 
     private void AddSpindle()
     {
@@ -114,91 +302,6 @@ namespace LoadMonitor
       AddComponentChart(componentdemo);
     }
 
-    private void TESTAddPanel()
-    {
-      // 测试添加 10 个 PartInfoPanel
-      for (int i = 0; i < 2; i++)
-      {
-        Random _random = new();
-        var newValue = _random.Next(15, 25);
-        // 创建一个新的 PartBase
-        var autoUpdatePanel = new PartBase();
-
-        // 创建一个新的 ComponentData
-        var component = new ComponentData(
-            autoUpdatePanel, // 缩略图使用 PartBase
-            $"主标题 {i + 1}",    // 示例主标题
-            $"副标题 {i + 1}",     // 示例副标题
-            $@"
-Query Speed: {newValue + 1} RPM
-Query Status: Normal
-Query Internal Status: OK
-Query Power: {newValue * 1.2:F1} kW
-Query Bus Voltage: {newValue * 2.3:F1} V
-Query Current: {newValue * 0.8:F1} A
-Query Motor Temperature: {20 + newValue / 10} °C
-Query Inverter Temperature: {25 + newValue / 15} °C
-", // 详细文本
-           autoUpdatePanel.GetDetailForm()  // 详细图像列表
-        );
-        // 将数据添加到保存列表
-        // 显示到界面
-        AddComponentChart(component);
-      }
-
-    }
-
-
-    private void AddDemo3Chart()
-    {
-      var demo_ui = new DemoComponentLeftOneRightTwo();
-      var newValuei = 123;
-      var ii = 3;
-      var componentdemo = new ComponentData(
-          demo_ui, // 缩略图使用 PartBase
-          $"主軸",    // 示例主标题
-          $"14% 37500rpm",     // 示例副标题
-          $@"
-Query Speed: {newValuei + 1} RPM
-Query Status: Normal
-Query Internal Status: OK
-Query Power: {newValuei * 1.2:F1} kW
-Query Bus Voltage: {newValuei * 2.3:F1} V
-Query Current: {newValuei * 0.8:F1} A
-Query Motor Temperature: {20 + newValuei / 10} °C
-Query Inverter Temperature: {25 + newValuei / 15} °C
-", // 详细文本
-         demo_ui.GetDetailForm()  // 详细图像列表
-      );
-      // 将数据添加到保存列表
-      // 显示到界面
-      AddComponentChart(componentdemo);
-    }
-
-    private void AddDemoQuadChart()
-    {
-      var demo_ui = new DemoComponentQuadGrid();
-      var newValuei = 123;
-      var componentdemo = new ComponentData(
-          demo_ui, // 缩略图使用 PartBase
-          $"Y1",    // 示例主标题
-          $"16% ",     // 示例副标题
-          $@"
-Query Speed: {newValuei + 1} RPM
-Query Status: Normal
-Query Internal Status: OK
-Query Power: {newValuei * 1.2:F1} kW
-Query Bus Voltage: {newValuei * 2.3:F1} V
-Query Current: {newValuei * 0.8:F1} A
-Query Motor Temperature: {20 + newValuei / 10} °C
-Query Inverter Temperature: {25 + newValuei / 15} °C
-", // 详细文本
-         demo_ui.GetDetailForm()  // 详细图像列表
-      );
-      // 将数据添加到保存列表
-      // 显示到界面
-      AddComponentChart(componentdemo);
-    }
 
     private void AddOverviewChart()
     {
@@ -250,8 +353,6 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
 
     public void AddComponentChart(ComponentData info)
     {
-      components_.Add(info);
-
       // 创建一个新的 PartInfoPanel 容器
       var partInfoPanel = new Panel
       {
@@ -261,7 +362,7 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
         Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
 
         BackColor = Color.Transparent, // 背景透明
-        //BorderStyle = BorderStyle.FixedSingle,
+                                       //BorderStyle = BorderStyle.FixedSingle,
       };
       // 模拟 Button 的悬停效果
       partInfoPanel.MouseEnter += (s, e) =>
@@ -277,7 +378,7 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
       var thumbnailPanel = new Panel
       {
         Width = ThumbnailPanel.Width, // 使用设计器中 ThumbnailPanel 的宽度
-        //Margin = new Padding(0,0,0,0), // 控制每个 Panel 的上下左右间距
+                                      //Margin = new Padding(0,0,0,0), // 控制每个 Panel 的上下左右间距
         Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
 
         Dock = DockStyle.Left,
@@ -292,8 +393,8 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
       var infoPanel = new Panel
       {
         Width = InfoPanel.Width, // 使用设计器中 InfoPanel 的宽度
-        //Margin = new Padding(0,0,0,0), // 控制每个 Panel 的上下左右间距
-        //Padding = new Padding(0, 20, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+                                 //Margin = new Padding(0,0,0,0), // 控制每个 Panel 的上下左右间距
+                                 //Padding = new Padding(0, 20, 0, 0), // 增加内部顶部间距，使内容整体向下移动
         Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
         Dock = DockStyle.Right,
         BackColor = Color.Transparent // 避免覆盖 Panel 的透明背景
@@ -304,7 +405,7 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
       {
         Text = info.MainTitle, // 主标题内容
         Font = TitleLabel.Font, // 使用设计器中 TitleLabel 的字体
-        //Margin = new Padding(10, 20, 10, 0), // 增加顶部间距（第二个参数控制顶部间距）
+                                //Margin = new Padding(10, 20, 10, 0), // 增加顶部间距（第二个参数控制顶部间距）
         Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
 
         Dock = DockStyle.Top,
@@ -318,7 +419,7 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
       {
         Text = info.SubTitle, // 副标题内容
         Font = SummaryLabel.Font, // 使用设计器中 SummaryLabel 的字体
-        //Margin = new Padding(10,10,0,0), // 控制每个 Panel 的上下左右间距
+                                  //Margin = new Padding(10,10,0,0), // 控制每个 Panel 的上下左右间距
         Padding = new Padding(0, 8, 0, 0), // 增加内部顶部间距，使内容整体向下移动
         Dock = DockStyle.Top,
         TextAlign = SummaryLabel.TextAlign, // 使用设计器中 SummaryLabel 的对齐方式
@@ -328,7 +429,7 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
       // 将主标题和副标题添加到 InfoPanel
       infoPanel.Controls.Add(summaryLabel); // 添加副标题
       infoPanel.Controls.Add(titleLabel);   // 添加主标题
-      // 将 ThumbnailPanel 和 InfoPanel 添加到 PartInfoPanel
+                                            // 将 ThumbnailPanel 和 InfoPanel 添加到 PartInfoPanel
       partInfoPanel.Controls.Add(thumbnailPanel);
       // *** 确保先添加 hoverButton ***
       partInfoPanel.Controls.Add(infoPanel);
@@ -380,6 +481,27 @@ Query Inverter Temperature: {25 + newValuei / 15} °C
     private void SummaryLabel_Click(object sender, EventArgs e)
     {
 
+    }
+
+    private void checkBox1_CheckedChanged(object sender, EventArgs e)
+    {
+      if (this.checkBox1.Checked)
+      {
+        read_current_timer_.Start();
+      }
+      else
+      {
+        read_current_timer_.Stop();
+      }
+
+    }
+
+
+    private SerialPortFormTEST TEST_form_;
+    private void button2_Click(object sender, EventArgs e)
+    {
+      TEST_form_ = new SerialPortFormTEST();
+      TEST_form_.Show();
     }
   }
 
