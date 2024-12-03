@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using LiveChartsCore.SkiaSharpView.Drawing;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using LoadMonitor.TEST;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LoadMonitor.Components
 {
@@ -23,7 +24,8 @@ namespace LoadMonitor.Components
         private string motor_name_;
         public CutMotor(string motor_name)
         {
-            motor_name_ = motor_name;
+      //data_ = new System.Collections.ObjectModel.ObservableCollection<ObservableValue> ();
+      motor_name_ = motor_name;
             TEST.TEST.Add60EmptyData(data_);
         }
         public override Form GetDetailForm()

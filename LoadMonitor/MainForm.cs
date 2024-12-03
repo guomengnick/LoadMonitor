@@ -73,12 +73,12 @@ namespace LoadMonitor
       // 显示到界面
       AddComponentChart(componentdemo);
 
-      cut_motor = new Components.TransferRack("TransferRack Y1");
+      cut_motor = new Components.TransferRack("TransferRack Z");
       detail_string = $@"
 電流 : 0.175 A
 附載 : 16%";
       componentdemo = new ComponentData(
-          cut_motor, "TransferRack Y1", "34%", detail_string, cut_motor.GetDetailForm());
+          cut_motor, "TransferRack Z", "34%", detail_string, cut_motor.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
     }

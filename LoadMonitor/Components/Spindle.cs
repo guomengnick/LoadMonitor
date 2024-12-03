@@ -22,6 +22,7 @@ namespace LoadMonitor.Components
     public Spindle(string motor_name)
     {
       motor_name_ = motor_name;
+      //data_ = new System.Collections.ObjectModel.ObservableCollection<ObservableValue> ();
       TEST.TEST.Add60EmptyData(data_);
     }
 

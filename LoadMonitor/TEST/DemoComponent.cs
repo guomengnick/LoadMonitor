@@ -46,6 +46,7 @@ namespace LoadMonitor.TEST
   {
     public DemoComponent()
     {
+      data_ = new System.Collections.ObjectModel.ObservableCollection<ObservableValue> ();
       TEST.AddData(data_);
     }
     public override Form GetDetailForm()
@@ -128,6 +129,7 @@ namespace LoadMonitor.TEST
   {
     public DemoComponentQuadGrid()
     {
+      data_ = new System.Collections.ObjectModel.ObservableCollection<ObservableValue> ();
       TEST.AddData(data_);
     }
 
@@ -183,6 +185,7 @@ namespace LoadMonitor.TEST
   {
     public DemoComponentLeftOneRightTwo()
     {
+      data_ = new System.Collections.ObjectModel.ObservableCollection<ObservableValue> ();
       TEST.AddData(data_);
     }
 

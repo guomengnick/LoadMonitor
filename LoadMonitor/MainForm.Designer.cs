@@ -164,7 +164,7 @@ namespace LoadMonitor
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 746);
+      ClientSize = new Size(1347, 741);
       Controls.Add(PartInfoPanel);
       Controls.Add(button1);
       Controls.Add(DetailTextPanel);
@@ -172,7 +172,9 @@ namespace LoadMonitor
       Controls.Add(flowLayoutPanel1);
       Controls.Add(panel3);
       Controls.Add(panel1);
+      Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold);
       Name = "MainForm";
+      StartPosition = FormStartPosition.CenterScreen;
       Text = "GAM 330AT";
       panel1.ResumeLayout(false);
       PartInfoPanel.ResumeLayout(false);
