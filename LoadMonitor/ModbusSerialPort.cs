@@ -30,11 +30,11 @@ namespace LoadMonitor
           ReadTimeout = 3000,
           WriteTimeout = 1000
         };
-        Console.WriteLine("Serial port initialized.");
+        Log.Information("Serial port initialized.");
       }
       catch (Exception ex)
       {
-        Console.WriteLine($"Error initializing serial port: {ex.Message}");
+        Log.Error($"Error initializing serial port: {ex.Message}");
       }
     }
 
@@ -49,11 +49,11 @@ namespace LoadMonitor
         }
 
         serial_port_.Open();
-        Console.WriteLine("Serial port opened.");
+        Log.Warning("Serial port opened.");
       }
       catch (Exception ex)
       {
-        Console.WriteLine($"Error opening serial port: {ex.Message}");
+        Log.Error($"Error opening serial port: {ex.Message}");
       }
     }
 
@@ -72,9 +72,9 @@ namespace LoadMonitor
     }
 
     // 發送 Modbus 請求並讀取回應
-    public Dictionary<int, ushort> ReadCurrents()
+    public Dictionary<int, double> ReadCurrents()
     {
-      Dictionary<int, ushort> currents = new Dictionary<int, ushort>();
+      Dictionary<int, double> currents = new Dictionary<int, double>();
       try
       {
         if (serial_port_ == null || !serial_port_.IsOpen)
@@ -94,15 +94,40 @@ namespace LoadMonitor
                     68, // CRC 低字節 (0x44)
                     6   // CRC 高字節 (0x06)
         };// 發送請求幀
+        // 實際發送的數據: 0x0103000000104406
+        //                            ^ 10 代表要收16個byte, 1個通道用2個byte表示
         serial_port_.Write(requestFrame, 0, requestFrame.Length);
-        Console.WriteLine("Request sent.");
+
+
+
+        /// 模擬接收到的數據幀///
+        //byte[] responseFrame = new byte[]
+        //{
+        //    0x01, 0x03, 0x20, 0x00, 0x87, 0x00, 0x12, 0x00, 0x1E, 0x00, 0x00, 0x00, 0x23, 0x00, 0x4E, 0x00,
+        //    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        //    0x00, 0x00, 0x00, 0x8D, 0x0E
+        //};
+        //int bytesRead = 37;
+        //實際收到的數據: 01032000000000000000000000000A000000000000000000000000000000000000000038D0
+        //                   ^ 數據有0x20個(共32 個)byte, 一個通道用2個byte表示
+        //                     ^ 0x0000表示第一個通道的值 比如0xFFFF 為 65535/100 = 65.535A 
+        /// 模擬接收到的數據幀///
+
+
         // 接收數據幀
         byte[] responseFrame = new byte[37]; // 根據您提供的範例數據，應有 37 字節
-        int bytesRead = serial_port_.Read(responseFrame, 0, responseFrame.Length);
+        int bytesRead = serial_port_.Read(responseFrame, 0, responseFrame.Length);// 打印接收到的數據幀到日誌
+        var hexResponse = BitConverter.ToString(responseFrame).Replace("-", " ");
+        Log.Information($"Received Response Frame: {hexResponse}");
+
 
         if (bytesRead < 5) // 最少要有頭部（3字節）和校驗碼（2字節）
         {
-          //Log.Warning("Response too short or invalid.");
+          Log.Warning("Response too short or invalid.");
+          return currents;
+        }
+        if (responseFrame[0] != 0x01 || responseFrame[1] != 0x03 || responseFrame[2] != 0x20)
+        {
           return currents;
         }
 
@@ -110,29 +135,35 @@ namespace LoadMonitor
         int dataLength = bytesRead - 5;
         if (dataLength != 32) // 確保數據區域是 32 字節（16 通道，每通道 2 字節）
         {
-          //Log.Warning("Invalid data length.");
+          Log.Warning("Invalid data length.");
           return currents;
         }
         var s = "";
-        for (int i = 0; i < 16; i++) // 每個通道 2 字節，解析 16 次
+        double sum_current = 0;
+
+        for (int i = 1; i <= 16; i++) // 從 1 開始，解析 16 次
         {
-          int dataIndex = 3 + i * 2; // 數據區起始於索引 3，每通道占 2 字節
+          int dataIndex = 3 + (i - 1) * 2; // 索引需要調整，i-1 對應原始的 0~15
           ushort registerValue = (ushort)((responseFrame[dataIndex] << 8) | responseFrame[dataIndex + 1]);
-          currents[i] = registerValue;
 
           // 計算實際電流值（寄存器值 / 100.0）
           double currentValue = registerValue / 100.0;
+          currents[i] = currentValue; // 字典的鍵值對應通道號（從1開始）
+          sum_current += currentValue;
 
           // 記錄到日誌
-          s += $"通道{i + 1}電流: {currentValue:00.00} A\n";
+          s += $"通道{i}: {currentValue:00.00} A\n";
         }
-        Log.Information(s + "\n\n");
+        currents[0/*0 用來裝總電流*/] = sum_current;
+
+        Log.Information($"總電流:{sum_current} A\n" + s + "\n\n");
       }
       catch (Exception ex)
       {
-        Console.WriteLine($"Error during Modbus communication: {ex.Message}");
+        Log.Error($"Error during Modbus communication: {ex.Message}");
       }
       return currents;
     }
+
   }
 }

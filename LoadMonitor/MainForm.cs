@@ -11,9 +11,13 @@ using System.ComponentModel;
 using Microsoft.VisualBasic.Logging;
 using Serilog;
 
-using Log = Serilog.Log;
 namespace LoadMonitor
 {
+  using Log = Serilog.Log;
+  using ThreadTimer = System.Timers.Timer;
+  using Timer = System.Windows.Forms.Timer;
+
+
   public enum MachineType
   {
     Unknown = 0,
@@ -49,7 +53,7 @@ namespace LoadMonitor
   {
     private Dictionary<int, ComponentData> components_; // 用于保存组件数据
 
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1300);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
 
     public MainForm()
@@ -57,7 +61,6 @@ namespace LoadMonitor
       InitializeComponent();
       components_ = new Dictionary<int, ComponentData>(); // 初始化列表
       
-      //AddOverviewChart();
       //AddSpindle();
       //AddCutMotor();
       //AddTransferRackMotor();
@@ -115,6 +118,9 @@ namespace LoadMonitor
           Console.WriteLine("Unknown machine type, cannot create components.");
           break;
       }
+
+      AddOverviewChart();
+
     }
 
 
@@ -123,23 +129,23 @@ namespace LoadMonitor
       components_ = new Dictionary<int, ComponentData>();
 
       //移載
-      PartBase cut_motor = new Components.TransferRack("TransferRack X");
+      PartBase component = new Components.TransferRack("TransferRack X");
       var detail_string = $@"
 電流 : 0.135 A
 附載 : 13%";
       var componentdemo = new ComponentData(
-          cut_motor, "TransferRack X", "14%", detail_string, cut_motor.GetDetailForm());
+          component, "TransferRack X", "14%", detail_string, component.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
       components_[1] = componentdemo;
 
 
-      cut_motor = new Components.TransferRack("TransferRack Z");
+      component = new Components.TransferRack("TransferRack Z");
       detail_string = $@"
 電流 : 0.175 A
 附載 : 16%";
       componentdemo = new ComponentData(
-          cut_motor, "TransferRack Z", "34%", detail_string, cut_motor.GetDetailForm());
+          component, "TransferRack Z", "34%", detail_string, component.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
       components_[2] = componentdemo;
@@ -147,53 +153,62 @@ namespace LoadMonitor
 
 
       //切割軸
-      cut_motor = new Components.CutMotor("Cutting Y1");
+      component = new Components.CutMotor("Cutting Y1");
       detail_string = $@"
 電流 : 0.175 A
 附載 : 16%";
       componentdemo = new ComponentData(
-          cut_motor, "Cutting Y1", "14%", detail_string, cut_motor.GetDetailForm());
+          component, "Cutting Y1", "14%", detail_string, component.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
       components_[3] = componentdemo;
 
 
-      cut_motor = new Components.CutMotor("Cutting Y2");
+      component = new Components.CutMotor("Cutting Y2");
       detail_string = $@"
 電流 : 0.175 A
 附載 : 16%";
       componentdemo = new ComponentData(
-          cut_motor, "Cutting Y2", "14%", detail_string, cut_motor.GetDetailForm());
+          component, "Cutting Y2", "14%", detail_string, component.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
       components_[4] = componentdemo;
 
 
-      cut_motor = new Components.CutMotor("Cutting X1");
+      component = new Components.CutMotor("Cutting X1");
       detail_string = $@"
 電流 : 0.135 A
 附載 : 13%";
       componentdemo = new ComponentData(
-          cut_motor, "Cutting X1", "2%", detail_string, cut_motor.GetDetailForm());
+          component, "Cutting X1", "2%", detail_string, component.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
       components_[5] = componentdemo;
 
-      cut_motor = new Components.CutMotor("Cutting Z1");
+      component = new Components.CutMotor("Cutting Z1");
       detail_string = $@"
 電流 : 0.135 A
 附載 : 13%";
       componentdemo = new ComponentData(
-          cut_motor, "Cutting Z1", "2%", detail_string, cut_motor.GetDetailForm());
+          component, "Cutting Z1", "2%", detail_string, component.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
       components_[6] = componentdemo;
 
 
 
-      // 添加更多暫存器與組件...
-      Console.WriteLine("Components for 330AT created.");
+      component = new Components.Spindle("主軸");
+      detail_string = $@"
+電流 : 0.135 A
+附載 : 13%";
+      componentdemo = new ComponentData(
+          component, "主軸", "2%", detail_string, component.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+      components_[17/*主軸key*/] = componentdemo;
+
     }
+
 
 
 
@@ -206,7 +221,7 @@ namespace LoadMonitor
       }
 
       // 發送請求並解析數據
-      Dictionary<int, ushort> currents = modbusSerialPort_.ReadCurrents();
+      Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();
       if (currents.Count == 0)
       {
         return;
@@ -217,13 +232,10 @@ namespace LoadMonitor
         foreach (var kvp in currents)
         {
           int registerIndex = kvp.Key; // 寄存器索引
-          ushort currentValue = kvp.Value; // 寄存器值
+          var currentValue = kvp.Value; // 寄存器值
           s += $"Register {registerIndex}: {currentValue}{Environment.NewLine}";
         }
-        //Log.Information(s);
-        
       }
-      //return;
       // 更新组件数据
       foreach (var component in components_)
       {
@@ -234,7 +246,10 @@ namespace LoadMonitor
           component.Value.Thumbnail.Update(currents[component.Key]);
         }
       }
-      Console.WriteLine("Component data updated.");
+
+      
+
+
     }
 
 
@@ -311,8 +326,9 @@ namespace LoadMonitor
 附載 : 33%";
       var componentdemo = new ComponentData(
           overview_chart, "Overview", $"4%", detail_string, overview_chart.GetDetailForm());
-      // 显示到界面
       AddComponentChart(componentdemo);
+
+      components_[0/*0 是加總電流*/] = componentdemo;
     }
 
     private void AddOnClickEvent(ComponentData info, Panel partInfoPanel)

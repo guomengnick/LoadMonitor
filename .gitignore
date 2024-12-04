@@ -3,3 +3,8 @@
 **.bin
 **.dll
 **.cache
+**.json
+**.suo
+**.txt
+**bin/
+**Debug/

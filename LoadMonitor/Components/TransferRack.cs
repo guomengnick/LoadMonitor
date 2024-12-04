@@ -54,7 +54,7 @@ namespace LoadMonitor.Components
             MinLimit = 0, // 最小值（秒）
             MaxLimit = 60, // 最大值（秒）
             UnitWidth = 30,
-            Labeler = value => $"{60 - value:F0}秒", // 顯示反向標籤（60秒到0秒）
+            Labeler = value => $"{60 - value:F0} s", // 顯示反向標籤（60秒到0秒）
             LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
             SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
         }
@@ -65,7 +65,7 @@ namespace LoadMonitor.Components
         new Axis
         {
             MinLimit = 0, // 最小值（安培）
-            MaxLimit = 5, // 最大值（安培）
+            //MaxLimit = 5, // 最大值（安培）
             Labeler = value => $"{value:F1} A", // 格式化為 0.0 A
             LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
             SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色

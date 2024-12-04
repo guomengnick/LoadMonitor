@@ -187,7 +187,7 @@ namespace LoadMonitor
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 825);
+      ClientSize = new Size(1347, 745);
       Controls.Add(button2);
       Controls.Add(checkBox1);
       Controls.Add(PartInfoPanel);
