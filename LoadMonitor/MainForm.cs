@@ -53,14 +53,14 @@ namespace LoadMonitor
   {
     private Dictionary<int, ComponentData> components_; // 用于保存组件数据
 
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1300);
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
 
     public MainForm()
     {
       InitializeComponent();
       components_ = new Dictionary<int, ComponentData>(); // 初始化列表
-      
+
       //AddSpindle();
       //AddCutMotor();
       //AddTransferRackMotor();
@@ -71,7 +71,7 @@ namespace LoadMonitor
       modbusSerialPort_.Initialize("COM7"); // 替換為實際的串口名稱
       modbusSerialPort_.Open();
 
-      read_current_timer_.Elapsed += ReadCurrent;
+      read_current_timer_.Elapsed += Update;
       read_current_timer_.Start();
     }
 
@@ -94,6 +94,8 @@ namespace LoadMonitor
     private void CreateComponents()
     {
       // 從設定中讀取機型類型
+      AddOverviewChart();
+
       MachineType type = GetMachineTypeFromSettings();
 
       // 根據機型創建對應的 components_
@@ -119,8 +121,6 @@ namespace LoadMonitor
           break;
       }
 
-      AddOverviewChart();
-
     }
 
 
@@ -128,13 +128,25 @@ namespace LoadMonitor
     {
       components_ = new Dictionary<int, ComponentData>();
 
-      //移載
-      PartBase component = new Components.TransferRack("TransferRack X");
+      // 主軸
+      PartBase component = new Components.Spindle("主軸");
       var detail_string = $@"
 電流 : 0.135 A
 附載 : 13%";
       var componentdemo = new ComponentData(
-          component, "TransferRack X", "14%", detail_string, component.GetDetailForm());
+          component, "主軸", "2%", detail_string, component.GetDetailForm());
+      // 显示到界面
+      AddComponentChart(componentdemo);
+      components_[17/*主軸key*/] = componentdemo;
+
+
+      //移載
+      component = new Components.TransferRack("TransferRack X");
+      detail_string = $@"
+電流 : 0.135 A
+附載 : 13%";
+      componentdemo = new ComponentData(
+         component, "TransferRack X", "14%", detail_string, component.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
       components_[1] = componentdemo;
@@ -197,22 +209,12 @@ namespace LoadMonitor
 
 
 
-      component = new Components.Spindle("主軸");
-      detail_string = $@"
-電流 : 0.135 A
-附載 : 13%";
-      componentdemo = new ComponentData(
-          component, "主軸", "2%", detail_string, component.GetDetailForm());
-      // 显示到界面
-      AddComponentChart(componentdemo);
-      components_[17/*主軸key*/] = componentdemo;
 
     }
 
 
 
-
-    private void ReadCurrent(object? sender, ElapsedEventArgs e)
+    private void Update(object? sender, ElapsedEventArgs e)
     {
       if (modbusSerialPort_ == null || !modbusSerialPort_.IsConnected)
       {
@@ -237,19 +239,73 @@ namespace LoadMonitor
         }
       }
       // 更新组件数据
-      foreach (var component in components_)
+      foreach (var key in components_.Keys.ToList()) // 使用 ToList() 遍历，避免修改集合时出错
       {
-
         // 判斷 `currents` 是否包含該鍵
-        if (currents.ContainsKey(component.Key) && component.Key >= 1 && component.Key <= 8)
+        if (currents.ContainsKey(key) && key >= 1 && key <= 8)
         {
-          component.Value.Thumbnail.Update(currents[component.Key]);
+          // 获取当前组件数据
+          var componentData = components_[key];
+          componentData.Thumbnail.Update(currents[key]);
+          (string Summary, string DetailInfo) texts = componentData.Thumbnail.GetText();
+          componentData.SubTitle = texts.Summary;
+          componentData.DetailInfo = texts.DetailInfo;
+
+
+          // 确保在 UI 线程中更新主画面内容
+          if (InvokeRequired)
+          {
+            Invoke(new Action(() => UpdateMainFormUI(componentData)));
+          }
+          else
+          {
+            UpdateMainFormUI(componentData);
+          }
+
+
+        }
+      }
+    }
+
+
+
+
+    // 更新主画面 DetailTextPanel 和摘要
+    private void UpdateMainFormUI(ComponentData info)
+    {
+      // 更新摘要信息
+      foreach (Control control in flowLayoutPanel1.Controls)
+      {
+        if (control is Panel partInfoPanel && partInfoPanel.Controls.Count > 0)
+        {
+          var infoPanel = partInfoPanel.Controls
+              .OfType<Panel>()
+              .FirstOrDefault(p => p.Controls.OfType<Label>().Any(l => l.Text == info.MainTitle));
+
+          if (infoPanel != null)
+          {
+            var summaryLabel = infoPanel.Controls.OfType<Label>().FirstOrDefault();
+            if (summaryLabel != null)
+            {
+              summaryLabel.Text = info.SubTitle; // 更新副标题
+            }
+          }
         }
       }
 
-      
-
-
+      // 清空并更新 DetailTextPanel 的详细信息
+      DetailTextPanel.Controls.Clear();
+      var detailLabel = new Label
+      {
+        Text = info.DetailInfo,
+        Font = new Font("Arial", 12),
+        Dock = DockStyle.Fill,
+        TextAlign = ContentAlignment.MiddleLeft,
+        AutoSize = false,
+        Padding = new Padding(10)
+      };
+      DetailTextPanel.Controls.Add(detailLabel);
+      DetailTextPanel.Show();
     }
 
 
@@ -344,8 +400,6 @@ namespace LoadMonitor
           info.Detail.Show();
         }
 
-        // 将详细文本信息填入 DetailTextPanel
-        //DetailTextPanel.Controls.Clear(); // 清空 DetailTextPanel 之前的内容
         var detailLabel = new Label
         {
           Text = info.DetailInfo, // 显示详细信息
@@ -355,12 +409,12 @@ namespace LoadMonitor
           AutoSize = false,
           Padding = new Padding(10) // 添加一些内边距
         };
-        DetailTextPanel.Controls.Add(detailLabel); // 添加 Label 到 DetailTextPanel
+        DetailTextPanel.Controls.Add(detailLabel); // 添加 Label 
         DetailTextPanel.Show();
       };
       partInfoPanel.Click += callback;
 
-      // 初始化時執行顯示邏輯（判斷 DetailTextPanel 是否为空）
+      // 初始化時執行顯示邏輯
       if (DetailTextPanel.Controls.Count == 0)
       {
         callback(null, EventArgs.Empty); // 调用回调函数直接显示内容

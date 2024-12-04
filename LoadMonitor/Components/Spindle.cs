@@ -23,6 +23,10 @@ using System.Timers;
 
 using ThreadTimer = System.Timers.Timer;
 using Log = Serilog.Log;
+using static SkiaSharp.HarfBuzz.SKShaper;
+using CommunityToolkit.Mvvm.ComponentModel;
+using LiveCharts.Wpf.Charts.Base;
+
 
 namespace LoadMonitor.Components
 {
@@ -31,77 +35,55 @@ namespace LoadMonitor.Components
     private string motor_name_;
     private string ini_path_ = "spindle_info.ini";
     protected ObservableCollection<ObservableValue>? motor_temperature_data_;
+
+    protected AngularGauge power_;
+    protected AngularGauge rpm_;
     private ThreadTimer timer_ = new ThreadTimer(1000);
-    public Spindle(string motor_name)
+    public Spindle(string motor_name) : base(2.0) // 主轴最大负载值为 10A
     {
       motor_name_ = motor_name;
       TEST.TEST.Add60EmptyData(data_);
 
       motor_temperature_data_ = new ObservableCollection<ObservableValue>();
+      power_ = new AngularGauge("kW 功率(Watt)")
+      {
+        Dock = DockStyle.Fill,
+      };
+      rpm_ = new AngularGauge("x10000rpm")
+      {
+        Dock = DockStyle.Fill,
+      };
 
       timer_.Elapsed += TimerElapsed;
       timer_.Start();
     }
 
+
+
+
     private UserControl RPM()
     {
-      var rpm_chart = new CartesianChart
-      {
-        Dock = DockStyle.Fill, // 填满 Panel
-        Series = new ISeries[]{new LineSeries<ObservableValue>{
-            Values = data_,
-            Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
-            GeometrySize = 0, // 无点标记
-            Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
-            LineSmoothness = 0, // 无弧度
-          },
-        },
-      };
-
-      rpm_chart.Title = new LabelVisual
-      {
-        Text = "RPM (Radius per minute)",
-        TextSize = 16,
-        Paint = new SolidColorPaint(SKColors.Black),
-      };
-      return rpm_chart;
+      return rpm_;
     }
-
-
-    private UserControl Voltage()
+    private UserControl Power()
     {
-      return new View()
-      {
-        Dock = DockStyle.Fill,
-      };
-      var rpm_chart = new CartesianChart
-      {
-        Dock = DockStyle.Fill, // 填满 Panel
-        Series = new ISeries[]{new LineSeries<ObservableValue>{
-            Values = data_,
-            Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
-            GeometrySize = 0, // 无点标记
-            Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
-            LineSmoothness = 0, // 无弧度
-          },
-        },
-      };
-
-      rpm_chart.Title = new LabelVisual
-      {
-        Text = "Voltage (V)",
-        TextSize = 16,
-        Paint = new SolidColorPaint(SKColors.Black),
-      };
-      return rpm_chart;
+      return power_;
     }
-
-
     private UserControl MotorTemperature()
     {
-
-      var rpm_chart = new CartesianChart
+      return new CartesianChart
       {
+        /// 如果圖表要設定中文, 需要以下這樣設定才行
+        //XAxes = new Axis[]{
+        //  new Axis{
+        //    Name = "Salesman/woman",
+        //    Labels = new string[] { "主軸", "赵", "张" },
+        //    LabelsPaint = new SolidColorPaint(SKColors.Black){
+        //        SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+        //    },
+        //  }
+        //},
+        /// 如果圖表要設定中文, 需要以下這樣設定才行
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]{new LineSeries<ObservableValue>{
             Values = motor_temperature_data_,
@@ -109,28 +91,23 @@ namespace LoadMonitor.Components
             GeometrySize = 0, // 无点标记
             Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
             LineSmoothness = 0, // 无弧度
+        },
+        },
+        Title = new LabelVisual
+        {
+          Text = "馬達溫度 (° C)",
+          TextSize = 16,
+          Paint = new SolidColorPaint(SKColors.Black)
+          {
+            SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
           },
         },
       };
 
-      rpm_chart.Title = new LabelVisual
-      {
-        Text = "Motor Temperature (° C)",
-        TextSize = 16,
-        Paint = new SolidColorPaint(SKColors.Black),
-      };
-      return rpm_chart;
     }
-
-
-
-    private UserControl MotorLoading()
+    private UserControl MotorCurrent()
     {
-      return new View()
-      {
-        Dock = DockStyle.Fill,
-      };
-      var rpm_chart = new CartesianChart
+      return new CartesianChart
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]{new LineSeries<ObservableValue>{
@@ -141,23 +118,24 @@ namespace LoadMonitor.Components
             LineSmoothness = 0, // 无弧度
           },
         },
+        Title = new LabelVisual
+        {
+          Text = "主軸附載 (%)",
+          TextSize = 16,
+          Paint = new SolidColorPaint(SKColors.Black)
+          {
+            SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+          },
+        }
       };
-
-      rpm_chart.Title = new LabelVisual
-      {
-        Text = "Motor Loading (%)",
-        TextSize = 16,
-        Paint = new SolidColorPaint(SKColors.Black),
-      };
-      return rpm_chart;
     }
 
     public override Form GetDetailForm()
     {
       QuadGrid quad_grid_form = new QuadGrid();
 
-      // 创建并配置要添加的 View 控件
-      quad_grid_form.AddToPanel(RPM(), Voltage(), MotorTemperature(), MotorLoading());
+      // 创建并配置要添加的 AngularGauge 控件
+      quad_grid_form.AddToPanel(MotorCurrent(), RPM(), MotorTemperature(), Power());
       return quad_grid_form;
     }
 
@@ -167,7 +145,7 @@ namespace LoadMonitor.Components
       try
       {
         // 使用 FileStream 以只讀模式打開文件
-        using (var fileStream = new FileStream(ini_path_, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        using (var fileStream = new FileStream("spindle_info.ini", FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite))
         using (var reader = new StreamReader(fileStream))
         {
           IniData data = new FileIniDataParser().ReadData(reader);
@@ -176,9 +154,14 @@ namespace LoadMonitor.Components
           string currentStr = data["Spindle"]["Current"];
           string motorTempStr = data["Spindle"]["MotorTemperature"];
           string speed = data["Spindle"]["Speed"];
+          detailInfo_ = speed;
+          double speedValue = int.TryParse(speed, out int rpm) ? rpm : 0;
+
           string status = data["Spindle"]["Status"];
           string internalStatus = data["Spindle"]["InternalStatus"];
           string power = data["Spindle"]["Power"];
+          double powerValue = double.TryParse(power, out double value) ? value : 0.0;
+
           string busVoltage = data["Spindle"]["BusVoltage"];
           string inverterTemp = data["Spindle"]["InverterTemperature"];
 
@@ -193,6 +176,8 @@ namespace LoadMonitor.Components
             // 更新圖表數據
             data_.Add(new ObservableValue(motor_current));
             motor_temperature_data_.Add(new ObservableValue(motor_temperature));
+            rpm_.UpdateValue(rpm / 10000);
+            power_.UpdateValue(value / 1000);
 
             // 保持數據點數量不超過 60
             if (data_.Count > 60) data_.RemoveAt(0);

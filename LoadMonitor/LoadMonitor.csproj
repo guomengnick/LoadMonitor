@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion> <!-- 确保语言版本支持预览功能 -->
+    <EnablePreviewFeatures>true</EnablePreviewFeatures> <!-- 开启预览功能 -->
   </PropertyGroup>
 
   <ItemGroup>

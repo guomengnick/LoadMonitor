@@ -22,7 +22,7 @@ namespace LoadMonitor.Components
   internal class CutMotor : PartBase
   {
     private string motor_name_;
-    public CutMotor(string motor_name)
+    public CutMotor(string motor_name) : base(1) // 主轴最大负载值为 10A
     {
       motor_name_ = motor_name;
       TEST.TEST.Add60EmptyData(data_);
@@ -31,7 +31,7 @@ namespace LoadMonitor.Components
     {
 
       Single single_form = new Single();
-      // 创建并配置要添加的 View 控件
+      // 创建并配置要添加的 AngularGauge 控件
 
       CartesianChart cartesianChart_ = new CartesianChart
       {
@@ -88,6 +88,20 @@ namespace LoadMonitor.Components
       return single_form;
     }
 
+
+    //public override (string Summary, string DetailInfo) GetText()
+    //{
+    //  if (data_ == null || data_.Count == 0)
+    //    return ("No Data", "No data available for calculation.");
+
+    //  double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
+    //  double loading = CalculateLoading(latestValue); // 计算负载百分比
+
+    //  string summary = $"Load: {latestValue:F1} A";
+    //  string detailInfo = $"Current Load: {loading:F1}%";
+
+    //  return (summary, detailInfo);
+    //}
 
 
   }

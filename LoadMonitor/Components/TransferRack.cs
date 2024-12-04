@@ -19,7 +19,7 @@ namespace LoadMonitor.Components
   {
     private string motor_name_;
 
-    public TransferRack(string motor_name)
+    public TransferRack(string motor_name) : base(0.4) // 主轴最大负载值为 10A
     {
       motor_name_ = motor_name;
       TEST.TEST.Add60EmptyData(data_);
@@ -28,7 +28,7 @@ namespace LoadMonitor.Components
     public override Form GetDetailForm()
     {
       Single single_form = new Single();
-      // 创建并配置要添加的 View 控件
+      // 创建并配置要添加的 AngularGauge 控件
 
       CartesianChart cartesianChart_ = new CartesianChart
       {

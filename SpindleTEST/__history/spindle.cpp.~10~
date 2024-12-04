@@ -1,0 +1,104 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#include <IniFiles.hpp>
+#include <random>
+#include <ctime>
+#pragma hdrstop
+
+#include "spindle.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+
+	UpdateTimer->Interval = 1000; // 設定為 1000ms
+	UpdateTimer->OnTimer = UpdateSpindleInfo; // 設定 Timer 的觸發函數
+
+}
+//---------------------------------------------------------------------------
+
+
+
+int GenerateRandomInt(int base, int range)
+{
+	return base + (std::rand() % (2 * range + 1)) - range;
+}
+
+double GenerateRandomDouble(double base, double range)
+{
+	double scale = static_cast<double>(std::rand()) / RAND_MAX;
+	return base - range + scale * (2 * range);
+}
+
+
+String GenerateRandomStatus()
+{
+	int index = std::rand() % 3;
+	switch (index)
+	{
+	case 0:
+		return L"運轉";
+	case 1:
+		return L"怠速";
+	case 2:
+		return L"停止";
+	}
+}
+
+
+
+void __fastcall TForm1::UpdateSpindleInfo(TObject *Sender)
+{
+	// 設定 INI 檔案的路徑
+	String iniFilePath = ExtractFilePath(Application->ExeName) + "spindle_info.ini";
+  		std::unique_ptr<TMemIniFile>ini(new TMemIniFile(iniFilePath, TEncoding::UTF8));
+
+	try
+	{
+		// 隨機生成數值
+		int speed = GenerateRandomInt(37500, 3000); // Speed
+		String status = GenerateRandomStatus(); // Status
+		String internalStatus = GenerateRandomStatus(); // InternalStatus
+		int power = GenerateRandomInt(500, 1000); // Power
+		double busVoltage = GenerateRandomDouble(48.0, 1.0); // BusVoltage
+		double current = GenerateRandomDouble(3.0, 2.0); // Current
+		int motorTemperature = GenerateRandomInt(40, 10); // MotorTemperature
+		double inverterTemperature = GenerateRandomDouble(30.4, 5.0); // InverterTemperature
+
+		// 更新 INI 檔案
+		ini->WriteInteger("SpindleInfo", "Speed", speed);
+		ini->WriteString("SpindleInfo", "Status", status);
+		ini->WriteString("SpindleInfo", "InternalStatus", internalStatus);
+		ini->WriteInteger("SpindleInfo", "Power", power);
+		ini->WriteFloat("SpindleInfo", "BusVoltage", busVoltage);
+		ini->WriteFloat("SpindleInfo", "Current", current);
+		ini->WriteInteger("SpindleInfo", "MotorTemperature", motorTemperature);
+		ini->WriteFloat("SpindleInfo", "InverterTemperature", inverterTemperature);
+    ini->UpdateFile();
+	}
+	__finally
+	{
+	}
+}
+
+
+
+void __fastcall TForm1::CheckBox_UpdateSpindleInfoClick(TObject *Sender)
+{
+
+
+	if (CheckBox_UpdateSpindleInfo->Checked)
+	{
+		UpdateTimer->Enabled = true; // 開啟 Timer
+	}
+	else
+	{
+		UpdateTimer->Enabled = false; // 關閉 Timer
+	}
+}
+//---------------------------------------------------------------------------

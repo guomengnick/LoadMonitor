@@ -18,11 +18,31 @@ namespace LoadMonitor.TEST
 {
   public class PartBase : UserControl
   {
+
+    // 最大负载值
+    public double MaxLoadingValue { get; protected set; }
+    // 获取加载百分比
+    protected double CalculateLoading(double currentValue)
+    {
+      if (MaxLoadingValue <= 0)
+        throw new InvalidOperationException("MaxLoadingValue must be greater than 0.");
+
+      return (currentValue / MaxLoadingValue) * 100.0; // 返回百分比
+    }
+
     protected ObservableCollection<ObservableValue>? data_;
     protected FormsTimer updateTimer_;
-    protected string summary_; // 概要信息
-    protected string detailInfo_; // 详细信息字符串
+    public virtual string summary_ { get; protected set; } = "Default Overview";
+    public virtual string detailInfo_ { get; protected set; } = "Default Details";
 
+    public virtual (string Summary, string DetailInfo) GetText()
+    {
+      double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
+      double loading = CalculateLoading(latestValue); // 计算负载百分比
+      string summary = $"{loading:F1} %";
+      string detailInfo = $"當前附載: {loading:F1} % \n馬達電流: {latestValue} A";
+      return (summary, detailInfo);
+    }
 
     virtual protected CartesianChart CreateThumbnail()
     {
@@ -55,8 +75,12 @@ namespace LoadMonitor.TEST
       return cartesianChart_;
     }
 
-    public PartBase()
+    public PartBase(double maxLoadingValue)
     {
+      if (maxLoadingValue <= 0)
+        throw new ArgumentException("MaxLoadingValue must be greater than 0.");
+      MaxLoadingValue = maxLoadingValue;
+
       detailInfo_ = string.Empty;
       summary_ = string.Empty;
       Controls.Add(CreateThumbnail());//縮圖
@@ -71,15 +95,13 @@ namespace LoadMonitor.TEST
 
     public void Update(double motor_current)
     {
-
       // 随机生成一个新的数据点（模拟实时数据）
       data_.Add(new ObservableValue(motor_current));
       if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
                                                // 更新概要信息
-      summary_ = $"当前负载: {motor_current}%";//TODO: FIX_BUG 這值不會在主畫面更新
-
       // 更新详细信息
       detailInfo_ = GenerateDetailInfo((int)motor_current);
+
     }
 
     protected void UpdateData(object sender, EventArgs e)
@@ -119,7 +141,7 @@ Query Inverter Temperature: {25 + newValue / 15} °C
     {
       Single s = new Single();
 
-      // 创建并配置要添加的 View 控件
+      // 创建并配置要添加的 AngularGauge 控件
       // 初始化图表
       var detail_cartesianChart_ = new CartesianChart
       {
@@ -140,13 +162,13 @@ Query Inverter Temperature: {25 + newValue / 15} °C
         Margin = new Padding(0), // 移除外部边距
         Legend = null,
       };
-      // 创建并配置要添加的 View 控件
-      var view1 = new View
+      // 创建并配置要添加的 AngularGauge 控件
+      var view1 = new AngularGauge
       {
         Dock = DockStyle.Fill // 填充整个 Panel
       };
-      // 创建并配置要添加的 View 控件
-      var view2 = new View
+      // 创建并配置要添加的 AngularGauge 控件
+      var view2 = new AngularGauge
       {
         Dock = DockStyle.Fill // 填充整个 Panel
       };

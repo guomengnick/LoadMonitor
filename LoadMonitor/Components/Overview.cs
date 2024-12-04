@@ -19,10 +19,12 @@ namespace LoadMonitor.Components
 {
   internal class Overview : PartBase
   {
-    public Overview()
+    public Overview() : base(3)
     {
       TEST.TEST.Add60EmptyData(data_);
     }
+
+
 
     private UserControl OverviewLoadingChart()
     {
@@ -66,7 +68,7 @@ namespace LoadMonitor.Components
         TextSize = 16,
         Paint = new SolidColorPaint(SKColors.Black),
       };
-      var guage = new View()
+      var guage = new AngularGauge()
       {
 
         Dock = DockStyle.Fill,
@@ -78,7 +80,7 @@ namespace LoadMonitor.Components
     private UserControl AverageWattPerMonthChart()
     {
 
-      var guage = new View() {
+      var guage = new AngularGauge() {
 
         Dock = DockStyle.Fill,
       };
