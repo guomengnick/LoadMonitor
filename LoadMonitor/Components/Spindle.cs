@@ -40,7 +40,7 @@ namespace LoadMonitor.Components
     public Spindle(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) : 
       base(mainTitle, subTitle, detailInfo, 2.0, DetailChartPanel) // 主轴最大负载值为 10A
     {
-      power_ = new AngularGauge("kW 功率(Watt)")
+      power_ = new AngularGauge("功率(kW)")
       {
         Dock = DockStyle.Fill,
       };

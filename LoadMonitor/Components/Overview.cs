@@ -80,9 +80,12 @@ namespace LoadMonitor.Components
       };
       overview_chart.Title = new LabelVisual
       {
-        Text = "Overview",
+        Text = "整機",
         TextSize = 20,
-        Paint = new SolidColorPaint(SKColors.Black),
+        Paint = new SolidColorPaint(SKColors.Black)
+        {
+          SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+        }, // 標籤顏色
       };
       return overview_chart;
     }

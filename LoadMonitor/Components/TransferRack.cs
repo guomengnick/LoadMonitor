@@ -74,7 +74,10 @@ namespace LoadMonitor.Components
       {
         Text = MainTitle,
         TextSize = 24,
-        Paint = new SolidColorPaint(SKColors.Black),
+        Paint = new SolidColorPaint(SKColors.Black)
+        {
+          SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+        },
       };
       single_form.AddToPanel(cartesianChart_);
 

@@ -16,25 +16,25 @@
     <Compile Update="Components\CutMotor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="DetailForm\Single.cs">
+    <Compile Update="Form\Single.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="DetailForm\LeftRight.cs">
+    <Compile Update="Form\LeftRight.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="MainForm.cs">
+    <Compile Update="Form\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="DetailForm\LeftOneRightTwo.cs">
+    <Compile Update="Form\LeftOneRightTwo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="DetailForm\QuadGrid.cs">
+    <Compile Update="Form\QuadGrid.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Components\TransferRack.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Thumbnail.cs">
+    <Compile Update="Form\Thumbnail.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

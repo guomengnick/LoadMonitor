@@ -37,10 +37,6 @@ namespace LoadMonitor
     {
       flowLayoutPanel1 = new FlowLayoutPanel();
       PartInfoPanel = new Panel();
-      InfoPanel = new Panel();
-      TitleLabel = new Label();
-      SummaryLabel = new Label();
-      ThumbnailPanel = new Panel();
       DetailChartPanel = new Panel();
       DetailTextPanel = new Panel();
       TextBoxDetailInfo = new TextBox();
@@ -48,8 +44,6 @@ namespace LoadMonitor
       panel1 = new Panel();
       label1 = new Label();
       flowLayoutPanel1.SuspendLayout();
-      PartInfoPanel.SuspendLayout();
-      InfoPanel.SuspendLayout();
       DetailTextPanel.SuspendLayout();
       panel1.SuspendLayout();
       SuspendLayout();
@@ -69,45 +63,10 @@ namespace LoadMonitor
       // 
       // PartInfoPanel
       // 
-      PartInfoPanel.Controls.Add(InfoPanel);
-      PartInfoPanel.Controls.Add(ThumbnailPanel);
       PartInfoPanel.Location = new Point(3, 3);
       PartInfoPanel.Name = "PartInfoPanel";
-      PartInfoPanel.Size = new Size(269, 100);
+      PartInfoPanel.Size = new Size(269, 10);
       PartInfoPanel.TabIndex = 8;
-      // 
-      // InfoPanel
-      // 
-      InfoPanel.Controls.Add(TitleLabel);
-      InfoPanel.Controls.Add(SummaryLabel);
-      InfoPanel.Location = new Point(117, 3);
-      InfoPanel.Name = "InfoPanel";
-      InfoPanel.Size = new Size(148, 79);
-      InfoPanel.TabIndex = 1;
-      // 
-      // TitleLabel
-      // 
-      TitleLabel.Font = new Font("Microsoft JhengHei UI", 14F);
-      TitleLabel.Location = new Point(3, 9);
-      TitleLabel.Name = "TitleLabel";
-      TitleLabel.Size = new Size(100, 29);
-      TitleLabel.TabIndex = 2;
-      TitleLabel.Text = "主軸";
-      // 
-      // SummaryLabel
-      // 
-      SummaryLabel.Location = new Point(18, 38);
-      SummaryLabel.Name = "SummaryLabel";
-      SummaryLabel.Size = new Size(127, 32);
-      SummaryLabel.TabIndex = 1;
-      SummaryLabel.Text = "轉速 : 37000 rmp\r\n溫度 : 35 度\r\n";
-      // 
-      // ThumbnailPanel
-      // 
-      ThumbnailPanel.Location = new Point(3, 3);
-      ThumbnailPanel.Name = "ThumbnailPanel";
-      ThumbnailPanel.Size = new Size(108, 97);
-      ThumbnailPanel.TabIndex = 0;
       // 
       // DetailChartPanel
       // 
@@ -156,8 +115,6 @@ namespace LoadMonitor
       panel1.Name = "panel1";
       panel1.Size = new Size(341, 100);
       panel1.TabIndex = 10;
-      panel1.MouseEnter += panel1_MouseEnter;
-      panel1.MouseHover += panel1_MouseHover;
       // 
       // label1
       // 
@@ -173,7 +130,7 @@ namespace LoadMonitor
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 913);
+      ClientSize = new Size(1347, 746);
       Controls.Add(panel1);
       Controls.Add(radioButton1);
       Controls.Add(DetailTextPanel);
@@ -183,11 +140,7 @@ namespace LoadMonitor
       Name = "MainForm";
       StartPosition = FormStartPosition.CenterScreen;
       Text = "GAM 330AT";
-      MouseEnter += MainForm_MouseEnter;
-      MouseLeave += MainForm_MouseLeave;
       flowLayoutPanel1.ResumeLayout(false);
-      PartInfoPanel.ResumeLayout(false);
-      InfoPanel.ResumeLayout(false);
       DetailTextPanel.ResumeLayout(false);
       DetailTextPanel.PerformLayout();
       panel1.ResumeLayout(false);
@@ -201,10 +154,6 @@ namespace LoadMonitor
     private Panel DetailChartPanel;
     private Panel DetailTextPanel;
     private Panel PartInfoPanel;
-    private Panel InfoPanel;
-    private Label TitleLabel;
-    private Label SummaryLabel;
-    private Panel ThumbnailPanel;
     private TextBox TextBoxDetailInfo;
     private RadioButton radioButton1;
     private Panel panel1;

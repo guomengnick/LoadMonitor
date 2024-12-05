@@ -17,10 +17,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LoadMonitor.Components
 {
-    // 切割軸XYZ 馬達
-    internal class CutMotor : PartBase
+  // 切割軸XYZ 馬達
+  internal class CutMotor : PartBase
   {
-    public CutMotor(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) : 
+    public CutMotor(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) :
       base(mainTitle, subTitle, detailInfo, 1, DetailChartPanel) // 主轴最大负载值为 10A
     {
     }
@@ -69,7 +69,10 @@ namespace LoadMonitor.Components
                 //UnitWidth = 1,
 
                 Labeler = value => $"{value:F1} A", // 格式化為 0.0 A
-                LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
+                LabelsPaint = new SolidColorPaint(SKColors.Black)
+                {
+                  SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+                }, // 標籤顏色
                 SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
             }
         }
@@ -78,7 +81,10 @@ namespace LoadMonitor.Components
       {
         Text = MainTitle,
         TextSize = 24,
-        Paint = new SolidColorPaint(SKColors.Black),
+        Paint = new SolidColorPaint(SKColors.Black)
+        {
+          SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+        }, // 標籤顏色
       };
       single_form.AddToPanel(cartesianChart_);
 
