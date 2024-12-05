@@ -73,45 +73,41 @@ namespace LoadMonitor
       {
         return;
       }
-      if (currents.Count == 16)
+      //因為主軸的電流是另外計算,不來自rs485，這邊另外計算
+      if (components_.ContainsKey(0/*總覽的key*/) && components_.ContainsKey(17/*主軸的key*/))
       {
-        string s = "";
-        foreach (var kvp in currents)
-        {
-          int registerIndex = kvp.Key; // 寄存器索引
-          var currentValue = kvp.Value; // 寄存器值
-          s += $"Register {registerIndex}: {currentValue}{Environment.NewLine}";
-        }
+        var motors_current = currents[0];//除主軸外, 量測模組量到的電流加總
+        var spindle_current = components_[17].GetCurrentLoad();
+        currents[0] = motors_current + spindle_current;
       }
+
       // 更新组件数据
       foreach (var key in components_.Keys.ToList()) // 使用 ToList() 遍历，避免修改集合时出错
       {
         // 判斷 `currents` 是否包含該鍵
-        if (currents.ContainsKey(key))
+        if (!currents.ContainsKey(key))
         {
-          // 获取当前组件数据
-          var componentData = components_[key];
-          componentData.Update(currents[key]);
-          (string Summary, string DetailInfo) texts = componentData.GetText();
-          Log.Information($"key{key} 遍歷 PartBase 名稱{components_[key].ToString()}\tIsActive:{componentData.IsSelected}");
-          Log.Information($"摘要{texts.Summary}\n詳細:{texts.DetailInfo}");
+          continue;
+        }
+        // 获取当前组件数据
+        var componentData = components_[key];
+        componentData.Update(currents[key]);//更新圖表
+        (string Summary, string DetailInfo) texts = componentData.GetText();
+        Log.Information($"key{key} 遍歷 PartBase 名稱{components_[key].ToString()}\tIsActive:{componentData.IsSelected}");
+        Log.Information($"摘要{texts.Summary}\n詳細:{texts.DetailInfo}");
 
-          componentData.SubTitle = texts.Summary;
-          componentData.DetailInfo = texts.DetailInfo;
-
-          if (!componentData.IsSelected)
-          {
-            continue;
-          }
-          // 确保在 UI 线程中更新主画面内容
-          if (InvokeRequired)
-          {
-            Invoke(new Action(() => UpdateMainFormUI(componentData)));
-          }
-          else
-          {
-            UpdateMainFormUI(componentData);
-          }
+        if (!componentData.IsSelected)
+        {
+          continue;
+        }
+        // 确保在 UI 线程中更新主画面内容
+        if (InvokeRequired)
+        {
+          Invoke(new Action(() => UpdateMainFormUI(componentData)));
+        }
+        else
+        {
+          UpdateMainFormUI(componentData);
         }
       }
     }
@@ -122,22 +118,36 @@ namespace LoadMonitor
       // 更新摘要信息
       foreach (Control control in flowLayoutPanel1.Controls)
       {
-        if (control is Panel partInfoPanel && partInfoPanel.Controls.Count > 0)
+        // 如果不是 Panel 或者 Panel 没有子控件，直接跳过
+        if (!(control is Panel partInfoPanel) || partInfoPanel.Controls.Count == 0)
         {
-          var infoPanel = partInfoPanel.Controls
-              .OfType<Panel>()
-              .FirstOrDefault(p => p.Controls.OfType<Label>().Any(l => l.Text == info.MainTitle));
-
-          if (infoPanel != null)
-          {
-            var summaryLabel = infoPanel.Controls.OfType<Label>().FirstOrDefault();
-            if (summaryLabel != null)
-            {
-              summaryLabel.Text = info.SubTitle; // 更新副标题
-            }
-          }
+          continue;
         }
+
+        // 查找 infoPanel
+        var infoPanel = partInfoPanel.Controls
+            .OfType<Panel>()
+            .FirstOrDefault(p => p.Controls.OfType<Label>().Any(l => l.Text == info.MainTitle));
+
+        // 如果没有找到 infoPanel，跳过
+        if (infoPanel == null)
+        {
+          continue;
+        }
+
+        // 查找 summaryLabel
+        var summaryLabel = infoPanel.Controls.OfType<Label>().FirstOrDefault();
+
+        // 如果没有找到 summaryLabel，跳过
+        if (summaryLabel == null)
+        {
+          continue;
+        }
+
+        // 更新副标题
+        summaryLabel.Text = info.SubTitle;
       }
+
 
       // 更新縮圖的顏色
       //info.Thumbnail.Highlight(); // 假設 Highlight 方法將縮圖變色
@@ -157,6 +167,8 @@ namespace LoadMonitor
       DetailTextPanel.Controls.Add(detailTextBox);
       DetailTextPanel.Show();
     }
+    private bool isFirstComponentAdded = true; // 用於判斷是否為第一個加入的部件
+
 
     private void AddOnClickEvent(PartBase info, Panel partInfoPanel)
     {
@@ -165,7 +177,6 @@ namespace LoadMonitor
       {
         if (info.DetailForm == null) // 确保 DetailForm 不为空
         {
-          Log.Error("詳細頁面不可為空");
           throw new InvalidOperationException("詳細頁面不可為空");
         }
 
@@ -173,20 +184,8 @@ namespace LoadMonitor
         info.DetailForm.Dock = DockStyle.Top; // 每个图像按照顶部对齐方式堆叠
         DetailChartPanel.Controls.Add(info.DetailForm);
         info.DetailForm.Show();
-
-        var detailLabel = new Label
-        {
-          Text = info.DetailInfo, // 显示详细信息
-          Font = new Font("Arial", 18), // 设置字体
-          Dock = DockStyle.Fill,
-          TextAlign = ContentAlignment.MiddleLeft, // 左对齐
-          AutoSize = true,
-          Padding = new Padding(10), // 添加一些内边距
-          
-          MaximumSize = new Size(DetailTextPanel.Width - 20, 0), // 限制宽度，允许多行显示
-        };
-        DetailTextPanel.Controls.Add(detailLabel); // 添加 Label 
-        DetailTextPanel.Show();
+        (string Summary, string DetailInfo) texts = info.GetText();
+        TextBoxDetailInfo.Text = texts.DetailInfo;
 
         if (currentActiveComponent != null)
         {
@@ -198,14 +197,11 @@ namespace LoadMonitor
       };
       partInfoPanel.Click += callback;
 
-      // 初始化时执行显示逻辑
-      if (DetailTextPanel.Controls.Count == 0)
+      // 如果是第一個加入的部件，直接執行回調
+      if (isFirstComponentAdded)
       {
-        callback(null, EventArgs.Empty); // 调用回调函数直接显示内容
-        Log.Information($"顯示的Class :{info.MainTitle} IsSelected: true");
-        info.IsSelected = true;
-        currentActiveComponent = info;
-        callback(null, new EventArgs());
+        isFirstComponentAdded = false; // 更新標誌，確保只執行一次
+        callback(null, EventArgs.Empty); // 直接觸發回調函數顯示詳細頁面
       }
     }
 

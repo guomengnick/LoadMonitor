@@ -78,12 +78,15 @@ namespace LoadMonitor.Components
     public virtual string summary_ { get; protected set; } = "Default Overview";
     public virtual string detailInfo_ { get; protected set; } = "Default Details";
 
+    public double GetCurrentLoad() { return data_.Last().Value ?? 0.0; }
+
+
     public virtual (string Summary, string DetailInfo) GetText()
     {
       double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
       double loading = CalculateLoading(latestValue); // 计算负载百分比
       string summary = $"{loading:F1} %";
-      string detailInfo = $"{MainTitle}附載: {loading:F1} % \r\n 馬達電流: {latestValue} A";
+      string detailInfo = $"{MainTitle} 附載: {loading:F1} % \r\n電流: {latestValue} A";
       return (summary, detailInfo);
     }
 

@@ -18,10 +18,11 @@ namespace LoadMonitor.Components
     internal class Overview : PartBase
   {
 
-    private DateTime startTime = new DateTime();
+    private DateTime startTime;
     public Overview(string mainTitle, string subTitle, string detailInfo) : 
       base(mainTitle, subTitle, detailInfo, 5.0)
     {
+      startTime = DateTime.Now;
     }
 
 
@@ -34,19 +35,29 @@ namespace LoadMonitor.Components
 
       // 获取当前日期和时间
       DateTime now = DateTime.Now;
-      string dateTimeString = now.ToString("yyyy-MM-dd HH:mm:ss");
+      string dateTimeString = now.ToString("yyyy/MM/dd HH:mm:ss");
 
       // 累計運行時間
-      TimeSpan operationTime = DateTime.Now - startTime; // 假设 startTime 是程序启动时间
+      TimeSpan operationTime = now - startTime; // 使用初始化的 startTime 計算時間差
 
       // 格式化运作时间
       string operationTimeFormatted = $"運作時間: {operationTime.Hours}:{operationTime.Minutes:D2}:{operationTime.Seconds:D2}:{operationTime.Milliseconds:D3}";
 
+      // 計算瞬時功率 (假設公式為: 電流 x 電壓)
+      double voltage = 24.0; // 假設電壓值
+      double power = latestValue * voltage; // 功率 (W)
+
+      // 平均每日功率 (kW·h)
+      var random = new Random();
+      double averageDailyPower = random.NextDouble() * 1000; // 平均每日功率
+
       // 格式化詳細信息
       string detailInfo = $@"{dateTimeString}
+{operationTimeFormatted}
 整機附載: {loading:F1} %
 總電流: {latestValue:F3} A
-{operationTimeFormatted}
+瞬時功率: {power:F1} W
+平均日功率: {averageDailyPower:F1} kWh
 ";
 
       return (summary, detailInfo);

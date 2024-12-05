@@ -57,14 +57,14 @@ namespace LoadMonitor
     {
       var componentConfigs = new (string Type, string Name, string SubTitle, string DetailInfo, int Key)[]
       {
-        ("Overview", "Overview", "4%", "電流 : 0.235 A\n附載 : 33%", 0), // 加總電流
+        ("Overview", "總覽", "4%", "電流 : 0.235 A\n附載 : 33%", 0), // 加總電流
         ("Spindle", "主軸", "2%", "電流 : 0.135 A\n附載 : 13%", 17),
-        ("TransferRack", "TransferRack X", "14%", "電流 : 0.135 A\n附載 : 13%", 1),
-        ("TransferRack", "TransferRack Z", "34%", "電流 : 0.175 A\n附載 : 16%", 2),
-        ("CutMotor", "Cutting Y1", "14%", "電流 : 0.175 A\n附載 : 16%", 3),
-        ("CutMotor", "Cutting Y2", "14%", "電流 : 0.175 A\n附載 : 16%", 4),
-        ("CutMotor", "Cutting X1", "2%", "電流 : 0.135 A\n附載 : 13%", 5),
-        ("CutMotor", "Cutting Z1", "2%", "電流 : 0.135 A\n附載 : 13%", 6)
+        ("TransferRack", "移載X", "14%", "電流 : 0.135 A\n附載 : 13%", 1),
+        ("TransferRack", "移載Z", "34%", "電流 : 0.175 A\n附載 : 16%", 2),
+        ("CutMotor", "切割Y1", "14%", "電流 : 0.175 A\n附載 : 16%", 3),
+        ("CutMotor", "切割Y2", "14%", "電流 : 0.175 A\n附載 : 16%", 4),
+        ("CutMotor", "切割X1", "2%", "電流 : 0.135 A\n附載 : 13%", 5),
+        ("CutMotor", "切割Z1", "2%", "電流 : 0.135 A\n附載 : 13%", 6)
       };
 
       // 使用工廠類創建部件

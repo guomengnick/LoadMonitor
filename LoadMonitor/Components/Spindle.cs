@@ -53,6 +53,14 @@ namespace LoadMonitor.Components
       timer_.Start();
     }
 
+
+    public override (string Summary, string DetailInfo) GetText()
+    {
+      return (SubTitle, DetailInfo);
+    }
+
+
+
     private UserControl RPM()
     {
       return rpm_;
@@ -156,6 +164,13 @@ namespace LoadMonitor.Components
 
           string busVoltage = data["Spindle"]["BusVoltage"];
           string inverterTemp = data["Spindle"]["InverterTemperature"];
+          // 尝试解析 busVoltage 和 inverterTemp 为浮点数
+          double busVoltageValue = double.TryParse(busVoltage, out double bv) ? bv : 0.0;
+          double inverterTempValue = double.TryParse(inverterTemp, out double it) ? it : 0.0;
+
+          // 嘗試解析數據
+          double motorCurrent = double.TryParse(currentStr, out double current) ? current : 0.0;
+          double motorTemperature = double.TryParse(motorTempStr, out double temperature) ? temperature : 0.0;
 
           // 記錄所有值到一行日誌
           Log.Information("Current: {Current}\tMotor Temperature: {MotorTemperature}\tSpeed: {Speed}\tStatus: {Status}\tInternal Status: {InternalStatus}\tPower: {Power}\tBus Voltage: {BusVoltage}\tInverter Temperature: {InverterTemperature}",
@@ -174,6 +189,20 @@ namespace LoadMonitor.Components
             // 保持數據點數量不超過 60
             if (data_.Count > 60) data_.RemoveAt(0);
             if (motor_temperature_data_.Count > 60) motor_temperature_data_.RemoveAt(0);
+            DetailInfo = $@"轉速:         {speedValue,6:F0} RPM    
+電流:          {motorCurrent.ToString("F1"),6} A
+馬達溫度:     {motorTemperature.ToString("F1"),6} °C
+功率:         {powerValue.ToString("F1"),6} kW
+匯流排電壓:   {busVoltageValue.ToString("F1"),6} V    
+變頻器溫度:   {busVoltageValue.ToString("F1"),6} °C
+";
+
+
+            // 更新 SubTitle
+            double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
+            double loading = CalculateLoading(latestValue); // 计算负载百分比
+            SubTitle = $"{loading:F1} % | {speedValue:F0} RPM";
+
           }
         }
       }

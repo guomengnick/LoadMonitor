@@ -43,8 +43,10 @@ namespace LoadMonitor
       ThumbnailPanel = new Panel();
       DetailChartPanel = new Panel();
       DetailTextPanel = new Panel();
+      TextBoxDetailInfo = new TextBox();
       PartInfoPanel.SuspendLayout();
       InfoPanel.SuspendLayout();
+      DetailTextPanel.SuspendLayout();
       SuspendLayout();
       // 
       // flowLayoutPanel1
@@ -103,6 +105,7 @@ namespace LoadMonitor
       // 
       // DetailChartPanel
       // 
+      DetailChartPanel.BackColor = Color.Transparent;
       DetailChartPanel.Location = new Point(335, 12);
       DetailChartPanel.Name = "DetailChartPanel";
       DetailChartPanel.Size = new Size(1000, 570);
@@ -110,12 +113,24 @@ namespace LoadMonitor
       // 
       // DetailTextPanel
       // 
-      DetailTextPanel.BorderStyle = BorderStyle.FixedSingle;
+      DetailTextPanel.Controls.Add(TextBoxDetailInfo);
       DetailTextPanel.Location = new Point(335, 590);
       DetailTextPanel.Name = "DetailTextPanel";
       DetailTextPanel.Padding = new Padding(10);
-      DetailTextPanel.Size = new Size(1000, 149);
+      DetailTextPanel.Size = new Size(1000, 150);
       DetailTextPanel.TabIndex = 9;
+      // 
+      // TextBoxDetailInfo
+      // 
+      TextBoxDetailInfo.BackColor = SystemColors.ButtonFace;
+      TextBoxDetailInfo.BorderStyle = BorderStyle.None;
+      TextBoxDetailInfo.Font = new Font("Microsoft JhengHei", 13F, FontStyle.Regular, GraphicsUnit.Point, 136);
+      TextBoxDetailInfo.Location = new Point(13, 5);
+      TextBoxDetailInfo.Multiline = true;
+      TextBoxDetailInfo.Name = "TextBoxDetailInfo";
+      TextBoxDetailInfo.Size = new Size(883, 137);
+      TextBoxDetailInfo.TabIndex = 0;
+      TextBoxDetailInfo.Text = "預設部件的附載甚麼的\r\n都顯示在這裡\r\n大約預計\r\n是有 6 行\r\n比如電流、電壓、附載\r\n之類什麼的\r\n";
       // 
       // MainForm
       // 
@@ -132,6 +147,8 @@ namespace LoadMonitor
       Text = "GAM 330AT";
       PartInfoPanel.ResumeLayout(false);
       InfoPanel.ResumeLayout(false);
+      DetailTextPanel.ResumeLayout(false);
+      DetailTextPanel.PerformLayout();
       ResumeLayout(false);
     }
 
@@ -144,6 +161,7 @@ namespace LoadMonitor
     private Label TitleLabel;
     private Label SummaryLabel;
     private Panel ThumbnailPanel;
+    private TextBox TextBoxDetailInfo;
   }
 
 }
