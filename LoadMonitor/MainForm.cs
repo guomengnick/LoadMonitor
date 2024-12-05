@@ -34,6 +34,7 @@ namespace LoadMonitor
     public string SubTitle; // 副标题
     public string DetailInfo;     // 详细信息
     public Form Detail; // 詳細图像 
+    public bool IsActive; // 用來標記當前顯示是否為活動狀態
 
     public ComponentData(PartBase thumbnail, string mainTitle,
         string subTitle, string detailInfo, Form detail)
@@ -43,6 +44,7 @@ namespace LoadMonitor
       SubTitle = subTitle;
       DetailInfo = detailInfo;
       Detail = detail;
+      IsActive = false;
     }
   }
 
@@ -52,13 +54,15 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private Dictionary<int, ComponentData> components_; // 用于保存组件数据
+    private ComponentData currentActiveComponent; // 追踪當前顯示的部件
 
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1200);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
 
     public MainForm()
     {
       InitializeComponent();
+      this.FormClosed += MainFormClose;
       components_ = new Dictionary<int, ComponentData>(); // 初始化列表
 
       //AddSpindle();
@@ -75,6 +79,14 @@ namespace LoadMonitor
       read_current_timer_.Start();
     }
 
+    private void MainFormClose(object? sender, FormClosedEventArgs e)
+    {
+      read_current_timer_.Stop();
+      if (modbusSerialPort_ != null && modbusSerialPort_.IsConnected)
+      {
+        modbusSerialPort_.Close();
+      }
+    }
 
     private MachineType GetMachineTypeFromSettings()
     {
@@ -125,15 +137,17 @@ namespace LoadMonitor
 
 
     private void Create330AT()
-    {
-      components_ = new Dictionary<int, ComponentData>();
+    { 
+      PartBase component;
+      string detail_string = "";
+      ComponentData componentdemo;
 
       // 主軸
-      PartBase component = new Components.Spindle("主軸");
-      var detail_string = $@"
+      component = new Components.Spindle("主軸");
+      detail_string = $@"
 電流 : 0.135 A
 附載 : 13%";
-      var componentdemo = new ComponentData(
+      componentdemo = new ComponentData(
           component, "主軸", "2%", detail_string, component.GetDetailForm());
       // 显示到界面
       AddComponentChart(componentdemo);
@@ -242,15 +256,22 @@ namespace LoadMonitor
       foreach (var key in components_.Keys.ToList()) // 使用 ToList() 遍历，避免修改集合时出错
       {
         // 判斷 `currents` 是否包含該鍵
-        if (currents.ContainsKey(key) && key >= 1 && key <= 8)
+        if (currents.ContainsKey(key))
         {
           // 获取当前组件数据
           var componentData = components_[key];
           componentData.Thumbnail.Update(currents[key]);
           (string Summary, string DetailInfo) texts = componentData.Thumbnail.GetText();
+          Log.Information($"key{key} 遍歷 PartBase 名稱{components_[key].Thumbnail.ToString()}\tIsActive:{componentData.IsActive}");
+          Log.Information($"摘要{texts.Summary}\n詳細:{texts.DetailInfo}");
+
           componentData.SubTitle = texts.Summary;
           componentData.DetailInfo = texts.DetailInfo;
 
+          if (!componentData.IsActive)
+          {
+            continue;
+          }
 
           // 确保在 UI 线程中更新主画面内容
           if (InvokeRequired)
@@ -261,16 +282,11 @@ namespace LoadMonitor
           {
             UpdateMainFormUI(componentData);
           }
-
-
         }
       }
     }
 
 
-
-
-    // 更新主画面 DetailTextPanel 和摘要
     private void UpdateMainFormUI(ComponentData info)
     {
       // 更新摘要信息
@@ -293,21 +309,24 @@ namespace LoadMonitor
         }
       }
 
+      // 更新縮圖的顏色
+      //info.Thumbnail.Highlight(); // 假設 Highlight 方法將縮圖變色
+
       // 清空并更新 DetailTextPanel 的详细信息
       DetailTextPanel.Controls.Clear();
-      var detailLabel = new Label
+      var detailTextBox = new TextBox
       {
         Text = info.DetailInfo,
         Font = new Font("Arial", 12),
         Dock = DockStyle.Fill,
-        TextAlign = ContentAlignment.MiddleLeft,
-        AutoSize = false,
-        Padding = new Padding(10)
+        Multiline = true,
+        ReadOnly = true,
+        ScrollBars = ScrollBars.Vertical, // 添加滾動條（若內容過多）
+        BorderStyle = BorderStyle.None
       };
-      DetailTextPanel.Controls.Add(detailLabel);
+      DetailTextPanel.Controls.Add(detailTextBox);
       DetailTextPanel.Show();
     }
-
 
     private void AddSpindle()
     {
@@ -411,6 +430,13 @@ namespace LoadMonitor
         };
         DetailTextPanel.Controls.Add(detailLabel); // 添加 Label 
         DetailTextPanel.Show();
+        if(currentActiveComponent.IsActive)
+        {
+          currentActiveComponent.IsActive = false;
+        }
+        currentActiveComponent = info;// 更新當前最新被點擊的
+        info.IsActive = true;//標記為顯示
+
       };
       partInfoPanel.Click += callback;
 
@@ -418,6 +444,9 @@ namespace LoadMonitor
       if (DetailTextPanel.Controls.Count == 0)
       {
         callback(null, EventArgs.Empty); // 调用回调函数直接显示内容
+        Log.Information($"顯示的Class :{info.Thumbnail.ToString()}Isactive  true");
+        info.IsActive = true;
+        currentActiveComponent = info;
       }
     }
 
@@ -512,74 +541,6 @@ namespace LoadMonitor
     }
 
 
-    private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-    {
 
-    }
-
-    private void PartInfoPanel_MouseEnter(object sender, EventArgs e)
-    {
-
-    }
-
-    private void button1_Click(object sender, EventArgs e)
-    {
-    }
-
-    private void DetailTextPanel_Paint(object sender, PaintEventArgs e)
-    {
-
-    }
-
-    private void DetailTextPanel_Click(object sender, EventArgs e)
-    {
-
-      MessageBox.Show("CLICK");
-    }
-
-    private void DetailTextPanel_MouseHover(object sender, EventArgs e)
-    {
-      //this.BackColor = Color.LightBlue;
-    }
-
-    private void DetailTextPanel_MouseLeave(object sender, EventArgs e)
-    {
-
-      //this.BackColor = Color.LightGray;
-    }
-
-    private void SummaryLabel_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    private void checkBox1_CheckedChanged(object sender, EventArgs e)
-    {
-      if (this.checkBox1.Checked)
-      {
-        read_current_timer_.Start();
-      }
-      else
-      {
-        read_current_timer_.Stop();
-      }
-
-    }
-
-
-    private SerialPortFormTEST TEST_form_;
-    private void button2_Click(object sender, EventArgs e)
-    {
-      TEST_form_ = new SerialPortFormTEST();
-      TEST_form_.Show();
-    }
   }
-
-
-
-
-
-
-
-
 }

@@ -35,9 +35,6 @@ namespace LoadMonitor
     /// </summary>
     private void InitializeComponent()
     {
-      panel1 = new Panel();
-      panel2 = new Panel();
-      panel3 = new Panel();
       flowLayoutPanel1 = new FlowLayoutPanel();
       PartInfoPanel = new Panel();
       InfoPanel = new Panel();
@@ -46,36 +43,9 @@ namespace LoadMonitor
       ThumbnailPanel = new Panel();
       DetailChartPanel = new Panel();
       DetailTextPanel = new Panel();
-      button1 = new Button();
-      checkBox1 = new CheckBox();
-      button2 = new Button();
-      panel1.SuspendLayout();
       PartInfoPanel.SuspendLayout();
       InfoPanel.SuspendLayout();
       SuspendLayout();
-      // 
-      // panel1
-      // 
-      panel1.BorderStyle = BorderStyle.FixedSingle;
-      panel1.Controls.Add(panel2);
-      panel1.Location = new Point(705, 762);
-      panel1.Name = "panel1";
-      panel1.Size = new Size(92, 59);
-      panel1.TabIndex = 0;
-      // 
-      // panel2
-      // 
-      panel2.Location = new Point(408, 171);
-      panel2.Name = "panel2";
-      panel2.Size = new Size(351, 238);
-      panel2.TabIndex = 1;
-      // 
-      // panel3
-      // 
-      panel3.Location = new Point(318, 759);
-      panel3.Name = "panel3";
-      panel3.Size = new Size(371, 219);
-      panel3.TabIndex = 2;
       // 
       // flowLayoutPanel1
       // 
@@ -88,7 +58,6 @@ namespace LoadMonitor
       flowLayoutPanel1.Size = new Size(307, 727);
       flowLayoutPanel1.TabIndex = 3;
       flowLayoutPanel1.WrapContents = false;
-      flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
       // 
       // PartInfoPanel
       // 
@@ -124,7 +93,6 @@ namespace LoadMonitor
       SummaryLabel.Size = new Size(127, 32);
       SummaryLabel.TabIndex = 1;
       SummaryLabel.Text = "轉速 : 37000 rmp\r\n溫度 : 35 度\r\n";
-      SummaryLabel.Click += SummaryLabel_Click;
       // 
       // ThumbnailPanel
       // 
@@ -147,82 +115,34 @@ namespace LoadMonitor
       DetailTextPanel.Padding = new Padding(10);
       DetailTextPanel.Size = new Size(1000, 149);
       DetailTextPanel.TabIndex = 9;
-      DetailTextPanel.Click += DetailTextPanel_Click;
-      DetailTextPanel.Paint += DetailTextPanel_Paint;
-      DetailTextPanel.MouseLeave += DetailTextPanel_MouseLeave;
-      DetailTextPanel.MouseHover += DetailTextPanel_MouseHover;
-      // 
-      // button1
-      // 
-      button1.Location = new Point(819, 771);
-      button1.Name = "button1";
-      button1.Size = new Size(75, 23);
-      button1.TabIndex = 0;
-      button1.Text = "點擊測試";
-      button1.UseVisualStyleBackColor = true;
-      button1.Click += button1_Click;
-      // 
-      // checkBox1
-      // 
-      checkBox1.AutoSize = true;
-      checkBox1.Location = new Point(1016, 768);
-      checkBox1.Name = "checkBox1";
-      checkBox1.Size = new Size(71, 19);
-      checkBox1.TabIndex = 10;
-      checkBox1.Text = "讀取485";
-      checkBox1.UseVisualStyleBackColor = true;
-      checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-      // 
-      // button2
-      // 
-      button2.Location = new Point(935, 768);
-      button2.Name = "button2";
-      button2.Size = new Size(75, 23);
-      button2.TabIndex = 11;
-      button2.Text = "485頁面";
-      button2.UseVisualStyleBackColor = true;
-      button2.Click += button2_Click;
       // 
       // MainForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 745);
-      Controls.Add(button2);
-      Controls.Add(checkBox1);
+      ClientSize = new Size(1347, 911);
       Controls.Add(PartInfoPanel);
-      Controls.Add(button1);
       Controls.Add(DetailTextPanel);
       Controls.Add(DetailChartPanel);
       Controls.Add(flowLayoutPanel1);
-      Controls.Add(panel3);
-      Controls.Add(panel1);
       Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold);
       Name = "MainForm";
       StartPosition = FormStartPosition.CenterScreen;
       Text = "GAM 330AT";
-      panel1.ResumeLayout(false);
       PartInfoPanel.ResumeLayout(false);
       InfoPanel.ResumeLayout(false);
       ResumeLayout(false);
-      PerformLayout();
     }
-    #endregion
 
-    private Panel panel1;
-    private Panel panel2;
-    private Panel panel3;
+    #endregion
     private FlowLayoutPanel flowLayoutPanel1;
     private Panel DetailChartPanel;
     private Panel DetailTextPanel;
-    private Button button1;
     private Panel PartInfoPanel;
     private Panel InfoPanel;
     private Label TitleLabel;
     private Label SummaryLabel;
     private Panel ThumbnailPanel;
-    private CheckBox checkBox1;
-    private Button button2;
   }
 
 }

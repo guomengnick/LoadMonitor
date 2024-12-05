@@ -12,6 +12,9 @@ namespace LoadMonitor
     [STAThread]
     static void Main()
     {
+      // 註冊全域退出事件
+      //Application.ApplicationExit += Application_Exit;
+
       // 初始化 Serilog，僅輸出到 Log 資料夾下的文件
       Log.Logger = new LoggerConfiguration()
           .WriteTo.File("Log\\application.log", // 日誌文件路徑
