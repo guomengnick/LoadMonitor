@@ -110,6 +110,7 @@ namespace LoadMonitor
       // 
       // DetailTextPanel
       // 
+      DetailTextPanel.BorderStyle = BorderStyle.FixedSingle;
       DetailTextPanel.Location = new Point(335, 590);
       DetailTextPanel.Name = "DetailTextPanel";
       DetailTextPanel.Padding = new Padding(10);
@@ -120,7 +121,7 @@ namespace LoadMonitor
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 911);
+      ClientSize = new Size(1347, 748);
       Controls.Add(PartInfoPanel);
       Controls.Add(DetailTextPanel);
       Controls.Add(DetailChartPanel);

@@ -1,7 +1,6 @@
 ﻿using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore;
-using LoadMonitor.TEST;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView.WinForms;
 using LiveChartsCore.SkiaSharpView.VisualElements;
@@ -17,11 +16,10 @@ namespace LoadMonitor.Components
 {
   internal class TransferRack : PartBase
   {
-    private string motor_name_;
 
-    public TransferRack(string motor_name) : base(0.4) // 主轴最大负载值为 10A
+    public TransferRack(string mainTitle, string subTitle, string detailInfo) : 
+      base(mainTitle, subTitle, detailInfo, 0.4) // 主轴最大负载值为 10A
     {
-      motor_name_ = motor_name;
       TEST.TEST.Add60EmptyData(data_);
     }
 
@@ -74,7 +72,7 @@ namespace LoadMonitor.Components
       };
       cartesianChart_.Title = new LabelVisual
       {
-        Text = motor_name_,
+        Text = MainTitle,
         TextSize = 24,
         Paint = new SolidColorPaint(SKColors.Black),
       };

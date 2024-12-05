@@ -6,8 +6,6 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.WinForms;
 using LiveChartsCore.SkiaSharpView.VisualElements;
-
-using LoadMonitor.TEST;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -17,15 +15,15 @@ using System.Threading.Tasks;
 
 namespace LoadMonitor.Components
 {
-  internal class Overview : PartBase
+    internal class Overview : PartBase
   {
 
-    private TimeSpan operationTime; // 模拟运作时间的属性
-    public Overview() : base(1.5)
+    private DateTime startTime = new DateTime();
+    public Overview(string mainTitle, string subTitle, string detailInfo) : 
+      base(mainTitle, subTitle, detailInfo, 5.0)
     {
-      TEST.TEST.Add60EmptyData(data_);
-      operationTime = new TimeSpan(); // 初始化运作时间
     }
+
 
     public override (string Summary, string DetailInfo) GetText()
     {
@@ -33,11 +31,28 @@ namespace LoadMonitor.Components
       double loading = CalculateLoading(latestValue); // 计算负载百分比
 
       string summary = $"{loading:F1} %";
-      // 格式化运作时间为 0:01:06:28 的形式
-      string operation_time = $"運作時間: {operationTime.Hours}:{operationTime.Minutes:D2}:{operationTime.Seconds:D2}:{operationTime.Milliseconds:D3}";
-      string detailInfo = $"當前附載: {loading:F1} % \n整機電流: {latestValue} A\n{operation_time}";
+
+      // 获取当前日期和时间
+      DateTime now = DateTime.Now;
+      string dateTimeString = now.ToString("yyyy-MM-dd HH:mm:ss");
+
+      // 累計運行時間
+      TimeSpan operationTime = DateTime.Now - startTime; // 假设 startTime 是程序启动时间
+
+      // 格式化运作时间
+      string operationTimeFormatted = $"運作時間: {operationTime.Hours}:{operationTime.Minutes:D2}:{operationTime.Seconds:D2}:{operationTime.Milliseconds:D3}";
+
+      // 格式化詳細信息
+      string detailInfo = $@"{dateTimeString}
+整機附載: {loading:F1} %
+總電流: {latestValue:F3} A
+{operationTimeFormatted}
+";
+
       return (summary, detailInfo);
     }
+
+
 
     private UserControl OverviewLoadingChart()
     {
@@ -87,7 +102,6 @@ namespace LoadMonitor.Components
         Dock = DockStyle.Fill,
       }; ;
       return guage;
-      return overview_chart;
     }
 
     private UserControl AverageWattPerMonthChart()
@@ -98,24 +112,6 @@ namespace LoadMonitor.Components
         Dock = DockStyle.Fill,
       };
       return guage;
-      var overview_chart = new CartesianChart
-      {
-        Dock = DockStyle.Fill, // 填满 Panel
-        Series = new ISeries[]{new LineSeries<ObservableValue>{
-            Values = data_, Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
-            GeometrySize = 0, // 无点标记
-            Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
-            LineSmoothness = 0, // 无弧度
-          },
-        },
-      };
-      overview_chart.Title = new LabelVisual
-      {
-        Text = "kWh / month",
-        TextSize = 16,
-        Paint = new SolidColorPaint(SKColors.Black),
-      };
-      return overview_chart;
     }
 
 

@@ -13,19 +13,16 @@ using System.Text;
 using System.Threading.Tasks;
 using LiveChartsCore.SkiaSharpView.Drawing;
 using LiveChartsCore.SkiaSharpView.VisualElements;
-using LoadMonitor.TEST;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LoadMonitor.Components
 {
-  // 切割軸XYZ 馬達
-  internal class CutMotor : PartBase
+    // 切割軸XYZ 馬達
+    internal class CutMotor : PartBase
   {
-    private string motor_name_;
-    public CutMotor(string motor_name) : base(1) // 主轴最大负载值为 10A
+    public CutMotor(string mainTitle, string subTitle, string detailInfo) : 
+      base(mainTitle, subTitle, detailInfo, 1) // 主轴最大负载值为 10A
     {
-      motor_name_ = motor_name;
-      TEST.TEST.Add60EmptyData(data_);
     }
     public override Form GetDetailForm()
     {
@@ -64,22 +61,22 @@ namespace LoadMonitor.Components
     },
         // 設置 Y 軸
         YAxes = new Axis[]
-    {
-        new Axis
         {
-            MinLimit = 0, // 最小值（安培）
-            //MaxLimit = 5, // 最大值（安培）
-            //UnitWidth = 1,
+            new Axis
+            {
+                MinLimit = 0, // 最小值（安培）
+                //MaxLimit = 5, // 最大值（安培）
+                //UnitWidth = 1,
 
-            Labeler = value => $"{value:F1} A", // 格式化為 0.0 A
-            LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
+                Labeler = value => $"{value:F1} A", // 格式化為 0.0 A
+                LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
+                SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
+            }
         }
-    }
       };
       cartesianChart_.Title = new LabelVisual
       {
-        Text = motor_name_,
+        Text = MainTitle,
         TextSize = 24,
         Paint = new SolidColorPaint(SKColors.Black),
       };

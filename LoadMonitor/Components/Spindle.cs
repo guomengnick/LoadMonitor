@@ -1,7 +1,6 @@
 ﻿using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore;
-using LoadMonitor.TEST;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView.WinForms;
 using LiveChartsCore.SkiaSharpView.VisualElements;
@@ -30,21 +29,17 @@ using LiveCharts.Wpf.Charts.Base;
 
 namespace LoadMonitor.Components
 {
-  internal class Spindle : PartBase
+    internal class Spindle : PartBase
   {
-    private string motor_name_;
     private string ini_path_ = "spindle_info.ini";
-    protected ObservableCollection<ObservableValue>? motor_temperature_data_;
+    protected ObservableCollection<ObservableValue> motor_temperature_data_ = new ObservableCollection<ObservableValue>();
 
     protected AngularGauge power_;
     protected AngularGauge rpm_;
     private ThreadTimer timer_ = new ThreadTimer(1000);
-    public Spindle(string motor_name) : base(2.0) // 主轴最大负载值为 10A
+    public Spindle(string mainTitle, string subTitle, string detailInfo) : 
+      base(mainTitle, subTitle, detailInfo, 2.0) // 主轴最大负载值为 10A
     {
-      motor_name_ = motor_name;
-      TEST.TEST.Add60EmptyData(data_);
-
-      motor_temperature_data_ = new ObservableCollection<ObservableValue>();
       power_ = new AngularGauge("kW 功率(Watt)")
       {
         Dock = DockStyle.Fill,
@@ -57,9 +52,6 @@ namespace LoadMonitor.Components
       timer_.Elapsed += TimerElapsed;
       timer_.Start();
     }
-
-
-
 
     private UserControl RPM()
     {
