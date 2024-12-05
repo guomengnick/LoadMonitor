@@ -7,6 +7,9 @@
     <Compile Update="Components\Spindle.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="DetailTextForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="TEST\SerialPortFormTEST.cs">
       <SubType>Form</SubType>
     </Compile>

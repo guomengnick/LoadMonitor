@@ -192,9 +192,17 @@ namespace LoadMonitor
     }
     private bool isFirstComponentAdded = true; // 用於判斷是否為第一個加入的部件
 
-    private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-    {
 
+
+    //取消前一個被點擊的縮圖
+    private void DeactivateCurrentComponent()
+    {
+      if (currentActiveComponent != null)
+      {
+        currentActiveComponent.thumbnail_.BackColor = Color.White; // 恢復背景顏色
+        currentActiveComponent = null;
+      }
     }
+
   }
 }

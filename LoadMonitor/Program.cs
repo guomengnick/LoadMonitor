@@ -1,6 +1,7 @@
-using Serilog;
+ï»¿using Serilog;
 using Serilog.Sinks.File;
 using Serilog;
+using System.Windows.Forms;
 
 namespace LoadMonitor
 {
@@ -12,35 +13,35 @@ namespace LoadMonitor
     [STAThread]
     static void Main()
     {
-      // µù¥U¥ş°ì°h¥X¨Æ¥ó
+      // è¨»å†Šå…¨åŸŸé€€å‡ºäº‹ä»¶
       //Application.ApplicationExit += Application_Exit;
 
-      // ªì©l¤Æ Serilog¡A¶È¿é¥X¨ì Log ¸ê®Æ§¨¤Uªº¤å¥ó
+      // åˆå§‹åŒ– Serilogï¼Œåƒ…è¼¸å‡ºåˆ° Log è³‡æ–™å¤¾ä¸‹çš„æ–‡ä»¶
       Log.Logger = new LoggerConfiguration()
-          .WriteTo.File("Log\\application.log", // ¤é»x¤å¥ó¸ô®|
-                        rollingInterval: RollingInterval.Day, // ¨C¤éºu°Ê·s¤å¥ó
-                        retainedFileCountLimit: 7, // «O¯d³Ìªñ 7 ¤Ñªº¤é»x¤å¥ó
-                        fileSizeLimitBytes: 10 * 1024 * 1024, // ³æ­Ó¤é»x¤å¥ó¤j¤p­­¨î¡]10 MB¡^
-                        rollOnFileSizeLimit: true) // ¤å¥ó¹L¤j®Éºu°Ê
+          .WriteTo.File("Log\\application.log", // æ—¥èªŒæ–‡ä»¶è·¯å¾‘
+                        rollingInterval: RollingInterval.Day, // æ¯æ—¥æ»¾å‹•æ–°æ–‡ä»¶
+                        retainedFileCountLimit: 7, // ä¿ç•™æœ€è¿‘ 7 å¤©çš„æ—¥èªŒæ–‡ä»¶
+                        fileSizeLimitBytes: 10 * 1024 * 1024, // å–®å€‹æ—¥èªŒæ–‡ä»¶å¤§å°é™åˆ¶ï¼ˆ10 MBï¼‰
+                        rollOnFileSizeLimit: true) // æ–‡ä»¶éå¤§æ™‚æ»¾å‹•
           .CreateLogger();
 
       try
       {
         Log.Information("Application is starting...");
 
-        // ªì©l¤ÆÀ³¥Îµ{§Ç
+        // åˆå§‹åŒ–æ‡‰ç”¨ç¨‹åº
         ApplicationConfiguration.Initialize();
         Application.Run(new MainForm());
         //Application.Run(new SerialPortFormTEST());
       }
       catch (Exception ex)
       {
-        // ®·®»¨Ã°O¿ı¥¼³B²zªº²§±`
+        // æ•æ‰ä¸¦è¨˜éŒ„æœªè™•ç†çš„ç•°å¸¸
         Log.Fatal(ex, "The application failed to start correctly.");
       }
       finally
       {
-        // ½T«O¤é»x½w½Ä°Ï¤º®e¼g¤J¤å¥ó
+        // ç¢ºä¿æ—¥èªŒç·©è¡å€å…§å®¹å¯«å…¥æ–‡ä»¶
         Log.CloseAndFlush();
       }
     }
