@@ -19,8 +19,8 @@ namespace LoadMonitor.Components
   {
 
     private DateTime startTime;
-    public Overview(string mainTitle, string subTitle, string detailInfo) : 
-      base(mainTitle, subTitle, detailInfo, 5.0)
+    public Overview(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) : 
+      base(mainTitle, subTitle, detailInfo, 5.0, DetailChartPanel)
     {
       startTime = DateTime.Now;
     }

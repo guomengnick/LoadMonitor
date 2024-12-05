@@ -38,5 +38,39 @@ namespace LoadMonitor.TEST
         data.Add(new ObservableValue(0));
       }
     }
+
+
+
+    public static CartesianChart CreateThumbnailTEST()
+    {
+      ObservableCollection<ObservableValue> data = new ObservableCollection<ObservableValue>();
+      AddData(data);
+    // 初始化图表
+    CartesianChart cartesianChart_ = new CartesianChart
+      {
+        Dock = DockStyle.Fill, // 填满 Panel
+        Series = new ISeries[]
+                {
+                    new LineSeries<ObservableValue>
+                    {
+                        Values = data,
+                        Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
+                        GeometrySize = 0, // 无点标记
+                        Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
+                        LineSmoothness = 0, // 无弧度
+                    },
+                },
+        XAxes = new[] { new Axis { IsVisible = false, SeparatorsPaint = null } }, // 隐藏 X 轴
+        YAxes = new[] { new Axis { IsVisible = false, SeparatorsPaint = null } }, // 隐藏 Y 轴
+        DrawMargin = null, // 移除绘图区域边距
+        Padding = new Padding(0), // 移除内部边距
+        Margin = new Padding(0), // 移除外部边距
+        LegendPosition = LiveChartsCore.Measure.LegendPosition.Hidden, // 移除图例
+        Legend = null,
+      };
+      return cartesianChart_;
+    }
+
+
   }
 }

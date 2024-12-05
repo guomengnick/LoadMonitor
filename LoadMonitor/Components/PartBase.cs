@@ -19,9 +19,12 @@ namespace LoadMonitor.Components
 {
   public abstract class PartBase : UserControl
   {
+
     public string MainTitle { get; set; } // 主標題
     public string SubTitle { get; set; }  // 副標題
     public string DetailInfo { get; set; } // 詳細信息
+
+    public Thumbnail thumbnail_;
 
     private Form detailForm_; // 延遲初始化字段
     public Form DetailForm
@@ -38,21 +41,27 @@ namespace LoadMonitor.Components
     }
     public bool IsSelected { get; set; }  // 是否被選中
 
-    public static PartBase Create(string type, string name, string subTitle, string detailInfo)
+    public Panel DetailChartPanel;
+
+    public static PartBase Create(string type, string name, string subTitle, 
+        string detailInfo, Panel DetailChartPanel)
     {
       return type switch
       {
-        "Spindle" => new Spindle(name, subTitle, detailInfo),
-        "CutMotor" => new CutMotor(name, subTitle, detailInfo),
-        "TransferRack" => new TransferRack(name, subTitle, detailInfo),
-        "Overview" => new Overview(name, subTitle, detailInfo),
+        "Spindle" => new Spindle(name, subTitle, detailInfo, DetailChartPanel),
+        "CutMotor" => new CutMotor(name, subTitle, detailInfo, DetailChartPanel),
+        "TransferRack" => new TransferRack(name, subTitle, detailInfo, DetailChartPanel),
+        "Overview" => new Overview(name, subTitle, detailInfo, DetailChartPanel),
         _ => throw new ArgumentException($"Unknown component type: {type}")
       };
     }
     public PartBase(string mainTitle, string subTitle, string detailInfo,
-        double maxLoadingValue)
+        double maxLoadingValue, Panel DetailChartPanel)
     {
-      TEST.TEST.Add60EmptyData(data_);
+      this.DetailChartPanel = DetailChartPanel;
+      thumbnail_ = new Thumbnail(CreateThumbnail(), this, mainTitle, subTitle);//對縮圖賦值
+      //TEST.TEST.Add60EmptyData(data_);
+      TEST.TEST.AddData(data_);
 
       MainTitle = mainTitle;
       SubTitle = subTitle;
@@ -126,7 +135,10 @@ namespace LoadMonitor.Components
 
       detailInfo_ = string.Empty;
       summary_ = string.Empty;
-      Controls.Add(CreateThumbnail());//縮圖
+
+      //Controls.Add(CreateThumbnail());//縮圖
+      //Controls.Add(thumbnail_);//縮圖
+      
 
       // 初始化定时器
       updateTimer_ = new FormsTimer

@@ -22,6 +22,17 @@ namespace LoadMonitor
     private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1200);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
 
+
+    private void AddThumbnailToPanel(Thumbnail thumbnail)
+    {
+      thumbnail.TopLevel = false;         // 設置為非頂層窗口
+      thumbnail.FormBorderStyle = FormBorderStyle.None; // 移除邊框，讓它像一個控件
+      thumbnail.Dock = DockStyle.Top;    // 填充容器
+      thumbnail.Show();                  // 顯示 Form
+      flowLayoutPanel1.Controls.Add(thumbnail); // 加入到 flowLayoutPanel1
+    }
+
+
     public MainForm()
     {
       InitializeComponent();
@@ -34,13 +45,13 @@ namespace LoadMonitor
       modbusSerialPort_.Open();
 
       read_current_timer_.Elapsed += Update;
-      read_current_timer_.Start();
+      //read_current_timer_.Start();
     }
 
     private void InitializePart()
     {
       var factory = new Factory();
-      components_ = factory.CreateComponents();
+      components_ = factory.CreateComponents(DetailChartPanel);
 
       // 將部件添加到界面
       foreach (var component in components_.Values)
@@ -148,10 +159,6 @@ namespace LoadMonitor
         summaryLabel.Text = info.SubTitle;
       }
 
-
-      // 更新縮圖的顏色
-      //info.Thumbnail.Highlight(); // 假設 Highlight 方法將縮圖變色
-
       // 清空并更新 DetailTextPanel 的详细信息
       DetailTextPanel.Controls.Clear();
       var detailTextBox = new TextBox
@@ -208,88 +215,128 @@ namespace LoadMonitor
     public void AddComponentChart(PartBase info)
     {
       // 创建一个新的 PartInfoPanel 容器
-      var partInfoPanel = new Panel
-      {
-        Width = PartInfoPanel.Width, // 使用设计器中 PartInfoPanel 的宽度
-        Height = PartInfoPanel.Height, // 使用设计器中 PartInfoPanel 的高度
-        Margin = new Padding(0, 0, 0, 0), // 控制每个 Panel 的上下左右间距
-        Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
-        BackColor = Color.Transparent // 背景透明
-      };
+      //var partInfoPanel = new Panel
+      //{
+      //  Width = PartInfoPanel.Width, // 使用设计器中 PartInfoPanel 的宽度
+      //  Height = PartInfoPanel.Height, // 使用设计器中 PartInfoPanel 的高度
+      //  Margin = new Padding(0, 0, 0, 0), // 控制每个 Panel 的上下左右间距
+      //  Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+      //  BackColor = Color.Transparent // 背景透明
+      //};
 
-      // 模拟 Button 的悬停效果
-      partInfoPanel.MouseEnter += (s, e) =>
-      {
-        partInfoPanel.BackColor = Color.LightBlue; // 鼠标进入时，设置背景颜色为浅蓝色
-      };
-      partInfoPanel.MouseLeave += (s, e) =>
-      {
-        partInfoPanel.BackColor = Color.Transparent; // 鼠标移开时，恢复背景透明
-      };
+      //// 模拟 Button 的悬停效果
+      //partInfoPanel.MouseEnter += (s, e) =>
+      //{
+      //  partInfoPanel.BackColor = Color.LightBlue; // 鼠标进入时，设置背景颜色为浅蓝色
+      //};
+      //partInfoPanel.MouseLeave += (s, e) =>
+      //{
+      //  partInfoPanel.BackColor = Color.Transparent; // 鼠标移开时，恢复背景透明
+      //};
 
-      // 创建一个新的 ThumbnailPanel
-      var thumbnailPanel = new Panel
-      {
-        Width = ThumbnailPanel.Width, // 使用设计器中 ThumbnailPanel 的宽度
-        Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
-        Dock = DockStyle.Left,
-        BackColor = Color.Transparent // 避免覆盖 Panel 的透明背景
-      };
+      //// 创建一个新的 ThumbnailPanel
+      //var thumbnailPanel = new Panel
+      //{
+      //  Width = ThumbnailPanel.Width, // 使用设计器中 ThumbnailPanel 的宽度
+      //  Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+      //  Dock = DockStyle.Left,
+      //  BackColor = Color.Transparent // 避免覆盖 Panel 的透明背景
+      //};
 
-      // 将 UserControl (Thumbnail) 添加到 ThumbnailPanel
-      info.Dock = DockStyle.Fill; // 填满 ThumbnailPanel
-      thumbnailPanel.Controls.Add(info);
+      //// 将 UserControl (Thumbnail) 添加到 ThumbnailPanel
+      //info.Dock = DockStyle.Fill; // 填满 ThumbnailPanel
+      //thumbnailPanel.Controls.Add(info);
 
-      // 创建一个新的 InfoPanel
-      var infoPanel = new Panel
-      {
-        Width = InfoPanel.Width, // 使用设计器中 InfoPanel 的宽度
-        Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
-        Dock = DockStyle.Right,
-        BackColor = Color.Transparent // 避免覆盖 Panel 的透明背景
-      };
+      //// 创建一个新的 InfoPanel
+      //var infoPanel = new Panel
+      //{
+      //  Width = InfoPanel.Width, // 使用设计器中 InfoPanel 的宽度
+      //  Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+      //  Dock = DockStyle.Right,
+      //  BackColor = Color.Transparent // 避免覆盖 Panel 的透明背景
+      //};
 
-      // 添加主标题 Label
-      var titleLabel = new Label
-      {
-        Text = info.MainTitle, // 主标题内容
-        Font = TitleLabel.Font, // 使用设计器中 TitleLabel 的字体
-        Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
-        Dock = DockStyle.Top,
-        TextAlign = TitleLabel.TextAlign, // 使用设计器中 TitleLabel 的对齐方式
-        Height = TitleLabel.Height, // 使用设计器中 TitleLabel 的高度
-        AutoSize = false,
-      };
+      //// 添加主标题 Label
+      //var titleLabel = new Label
+      //{
+      //  Text = info.MainTitle, // 主标题内容
+      //  Font = TitleLabel.Font, // 使用设计器中 TitleLabel 的字体
+      //  Padding = new Padding(0, 0, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+      //  Dock = DockStyle.Top,
+      //  TextAlign = TitleLabel.TextAlign, // 使用设计器中 TitleLabel 的对齐方式
+      //  Height = TitleLabel.Height, // 使用设计器中 TitleLabel 的高度
+      //  AutoSize = false,
+      //};
 
-      // 添加副标题 Label
-      var summaryLabel = new Label
-      {
-        Text = info.SubTitle, // 副标题内容
-        Font = SummaryLabel.Font, // 使用设计器中 SummaryLabel 的字体
-        Padding = new Padding(0, 8, 0, 0), // 增加内部顶部间距，使内容整体向下移动
-        Dock = DockStyle.Top,
-        TextAlign = SummaryLabel.TextAlign, // 使用设计器中 SummaryLabel 的对齐方式
-        AutoSize = true, // 设置自动调整大小
-        MaximumSize = new Size(infoPanel.Width, 0), // 限制最大宽度，允许换行
-      };
+      //// 添加副标题 Label
+      //var summaryLabel = new Label
+      //{
+      //  Text = info.SubTitle, // 副标题内容
+      //  Font = SummaryLabel.Font, // 使用设计器中 SummaryLabel 的字体
+      //  Padding = new Padding(0, 8, 0, 0), // 增加内部顶部间距，使内容整体向下移动
+      //  Dock = DockStyle.Top,
+      //  TextAlign = SummaryLabel.TextAlign, // 使用设计器中 SummaryLabel 的对齐方式
+      //  AutoSize = true, // 设置自动调整大小
+      //  MaximumSize = new Size(infoPanel.Width, 0), // 限制最大宽度，允许换行
+      //};
 
-      // 将主标题和副标题添加到 InfoPanel
-      infoPanel.Controls.Add(summaryLabel); // 添加副标题
-      infoPanel.Controls.Add(titleLabel);   // 添加主标题
+      //// 将主标题和副标题添加到 InfoPanel
+      //infoPanel.Controls.Add(summaryLabel); // 添加副标题
+      //infoPanel.Controls.Add(titleLabel);   // 添加主标题
 
-      // 将 ThumbnailPanel 和 InfoPanel 添加到 PartInfoPanel
-      partInfoPanel.Controls.Add(thumbnailPanel);
-      partInfoPanel.Controls.Add(infoPanel);
+      //// 将 ThumbnailPanel 和 InfoPanel 添加到 PartInfoPanel
+      //partInfoPanel.Controls.Add(thumbnailPanel);
+      //partInfoPanel.Controls.Add(infoPanel);
 
-      // 添加透明的按钮到 PartInfoPanel 顶层
-      AddOnClickEvent(info, partInfoPanel);
-      flowLayoutPanel1.Padding = new Padding(0, 0, 0, 0);
+      //// 添加透明的按钮到 PartInfoPanel 顶层
+      //AddOnClickEvent(info, partInfoPanel);
+      //flowLayoutPanel1.Padding = new Padding(0, 0, 0, 0);
 
+      info.thumbnail_.TopLevel = false;         // 設置為非頂層窗口
+      info.thumbnail_.FormBorderStyle = FormBorderStyle.None; // 移除邊框，讓它像一個控件
+      info.thumbnail_.Dock = DockStyle.Top;    // 填充容器
+      info.thumbnail_.Show();                  // 顯示 Form
       // 将 PartInfoPanel 添加到 FlowLayoutPanel
-      flowLayoutPanel1.Controls.Add(partInfoPanel);
+      flowLayoutPanel1.Controls.Add(info.thumbnail_);
+
     }
 
+    private void MainForm_MouseEnter(object sender, EventArgs e)
+    {
+      //Log.Information("ENTER");
+      //this.BackColor = Color.Blue;
+    }
 
+    private void MainForm_MouseLeave(object sender, EventArgs e)
+    {
+      //Log.Information("LeavE");
+      //this.BackColor = Color.Wheat;
+    }
 
+    private void panel1_Paint(object sender, PaintEventArgs e)
+    {
+    }
+
+    private void panel1_MouseEnter(object sender, EventArgs e)
+    {
+      // 滑鼠進入時變色
+      var panel = sender as Panel;
+      if (panel != null)
+      {
+        panel.BackColor = Color.Blue;
+        Log.Information("Mouse Enter: Panel color changed to Blue.");
+      }
+    }
+
+    private void panel1_MouseHover(object sender, EventArgs e)
+    {
+      // 滑鼠移出時恢復顏色
+      var panel = sender as Panel;
+      if (panel != null)
+      {
+        panel.BackColor = Color.LightBlue;
+        Log.Information("Mouse Leave: Panel color changed to Wheat.");
+      }
+    }
   }
 }

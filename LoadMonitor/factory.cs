@@ -21,7 +21,7 @@ namespace LoadMonitor
   internal class Factory
   {
     // 提供給外部使用的創建方法，根據機型返回部件字典
-    public Dictionary<int, PartBase> CreateComponents()
+    public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel)
     {
       // 從設定中讀取機型類型
       MachineType type = GetMachineTypeFromSettings();
@@ -29,7 +29,7 @@ namespace LoadMonitor
       // 根據機型創建對應的部件字典
       return type switch
       {
-        MachineType.Machine330AT => Create330AT(),
+        MachineType.Machine330AT => Create330AT(DetailChartPanel),
         // MachineType.Machine336AT => Create336AT(),
         // MachineType.Machine380AT => Create380AT(),
         // MachineType.Machine330 => Create330(),
@@ -53,7 +53,7 @@ namespace LoadMonitor
     }
 
     // 創建 Machine330AT 的部件
-    private Dictionary<int, PartBase> Create330AT()
+    private Dictionary<int, PartBase> Create330AT(Panel DetailChartPanel)
     {
       var componentConfigs = new (string Type, string Name, string SubTitle, string DetailInfo, int Key)[]
       {
@@ -71,7 +71,8 @@ namespace LoadMonitor
       var components = new Dictionary<int, PartBase>();
       foreach (var config in componentConfigs)
       {
-        var component = PartBase.Create(config.Type, config.Name, config.SubTitle, config.DetailInfo);
+        var component = PartBase.Create(config.Type, config.Name, 
+            config.SubTitle, config.DetailInfo, DetailChartPanel);
         components[config.Key] = component;
       }
 

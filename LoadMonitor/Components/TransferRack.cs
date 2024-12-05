@@ -17,8 +17,8 @@ namespace LoadMonitor.Components
   internal class TransferRack : PartBase
   {
 
-    public TransferRack(string mainTitle, string subTitle, string detailInfo) : 
-      base(mainTitle, subTitle, detailInfo, 0.4) // 主轴最大负载值为 10A
+    public TransferRack(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) : 
+      base(mainTitle, subTitle, detailInfo, 0.4, DetailChartPanel) // 主轴最大负载值为 10A
     {
       TEST.TEST.Add60EmptyData(data_);
     }

@@ -20,8 +20,8 @@ namespace LoadMonitor.Components
     // 切割軸XYZ 馬達
     internal class CutMotor : PartBase
   {
-    public CutMotor(string mainTitle, string subTitle, string detailInfo) : 
-      base(mainTitle, subTitle, detailInfo, 1) // 主轴最大负载值为 10A
+    public CutMotor(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) : 
+      base(mainTitle, subTitle, detailInfo, 1, DetailChartPanel) // 主轴最大负载值为 10A
     {
     }
     public override Form GetDetailForm()

@@ -44,15 +44,21 @@ namespace LoadMonitor
       DetailChartPanel = new Panel();
       DetailTextPanel = new Panel();
       TextBoxDetailInfo = new TextBox();
+      radioButton1 = new RadioButton();
+      panel1 = new Panel();
+      label1 = new Label();
+      flowLayoutPanel1.SuspendLayout();
       PartInfoPanel.SuspendLayout();
       InfoPanel.SuspendLayout();
       DetailTextPanel.SuspendLayout();
+      panel1.SuspendLayout();
       SuspendLayout();
       // 
       // flowLayoutPanel1
       // 
       flowLayoutPanel1.AutoScroll = true;
       flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
+      flowLayoutPanel1.Controls.Add(PartInfoPanel);
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
       flowLayoutPanel1.Location = new Point(12, 12);
       flowLayoutPanel1.Margin = new Padding(0);
@@ -65,7 +71,7 @@ namespace LoadMonitor
       // 
       PartInfoPanel.Controls.Add(InfoPanel);
       PartInfoPanel.Controls.Add(ThumbnailPanel);
-      PartInfoPanel.Location = new Point(8, 749);
+      PartInfoPanel.Location = new Point(3, 3);
       PartInfoPanel.Name = "PartInfoPanel";
       PartInfoPanel.Size = new Size(269, 100);
       PartInfoPanel.TabIndex = 8;
@@ -84,7 +90,7 @@ namespace LoadMonitor
       TitleLabel.Font = new Font("Microsoft JhengHei UI", 14F);
       TitleLabel.Location = new Point(3, 9);
       TitleLabel.Name = "TitleLabel";
-      TitleLabel.Size = new Size(100, 33);
+      TitleLabel.Size = new Size(100, 29);
       TitleLabel.TabIndex = 2;
       TitleLabel.Text = "主軸";
       // 
@@ -132,12 +138,44 @@ namespace LoadMonitor
       TextBoxDetailInfo.TabIndex = 0;
       TextBoxDetailInfo.Text = "預設部件的附載甚麼的\r\n都顯示在這裡\r\n大約預計\r\n是有 6 行\r\n比如電流、電壓、附載\r\n之類什麼的\r\n";
       // 
+      // radioButton1
+      // 
+      radioButton1.AutoSize = true;
+      radioButton1.Location = new Point(335, 788);
+      radioButton1.Name = "radioButton1";
+      radioButton1.Size = new Size(105, 19);
+      radioButton1.TabIndex = 3;
+      radioButton1.TabStop = true;
+      radioButton1.Text = "radioButton1";
+      radioButton1.UseVisualStyleBackColor = true;
+      // 
+      // panel1
+      // 
+      panel1.Controls.Add(label1);
+      panel1.Location = new Point(510, 810);
+      panel1.Name = "panel1";
+      panel1.Size = new Size(341, 100);
+      panel1.TabIndex = 10;
+      panel1.MouseEnter += panel1_MouseEnter;
+      panel1.MouseHover += panel1_MouseHover;
+      // 
+      // label1
+      // 
+      label1.AutoSize = true;
+      label1.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Bold);
+      label1.Location = new Point(123, 9);
+      label1.Name = "label1";
+      label1.Size = new Size(204, 30);
+      label1.TabIndex = 0;
+      label1.Text = "label1一歇歇的自";
+      // 
       // MainForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 748);
-      Controls.Add(PartInfoPanel);
+      ClientSize = new Size(1347, 913);
+      Controls.Add(panel1);
+      Controls.Add(radioButton1);
       Controls.Add(DetailTextPanel);
       Controls.Add(DetailChartPanel);
       Controls.Add(flowLayoutPanel1);
@@ -145,11 +183,17 @@ namespace LoadMonitor
       Name = "MainForm";
       StartPosition = FormStartPosition.CenterScreen;
       Text = "GAM 330AT";
+      MouseEnter += MainForm_MouseEnter;
+      MouseLeave += MainForm_MouseLeave;
+      flowLayoutPanel1.ResumeLayout(false);
       PartInfoPanel.ResumeLayout(false);
       InfoPanel.ResumeLayout(false);
       DetailTextPanel.ResumeLayout(false);
       DetailTextPanel.PerformLayout();
+      panel1.ResumeLayout(false);
+      panel1.PerformLayout();
       ResumeLayout(false);
+      PerformLayout();
     }
 
     #endregion
@@ -162,6 +206,9 @@ namespace LoadMonitor
     private Label SummaryLabel;
     private Panel ThumbnailPanel;
     private TextBox TextBoxDetailInfo;
+    private RadioButton radioButton1;
+    private Panel panel1;
+    private Label label1;
   }
 
 }

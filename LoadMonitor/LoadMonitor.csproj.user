@@ -34,5 +34,8 @@
     <Compile Update="Components\TransferRack.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Thumbnail.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
