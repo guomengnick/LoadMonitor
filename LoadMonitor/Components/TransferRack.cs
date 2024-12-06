@@ -21,11 +21,25 @@ namespace LoadMonitor.Components
       base(mainTitle, subTitle, detailInfo, 0.4, DetailChartPanel) // 主轴最大负载值为 10A
     {
       TEST.TEST.Add60EmptyData(data_);
+      single_form_ = new Single();
     }
+      private Single single_form_;
+
+
+    public override (string Summary, string DetailInfo) GetText()
+    {
+      double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
+      double loading = CalculateLoading(latestValue); // 计算负载百分比
+      string summary = $"{loading:F1} %";
+      string detailInfo = $"{MainTitle} 附載: {loading:F1} % \r\n電流: {latestValue} A";
+      single_form_.UpdateText(detailInfo, "");
+      return (summary, detailInfo);
+    }
+
+
 
     public override Form GetDetailForm()
     {
-      Single single_form = new Single();
       // 创建并配置要添加的 AngularGauge 控件
 
       CartesianChart cartesianChart_ = new CartesianChart
@@ -79,9 +93,9 @@ namespace LoadMonitor.Components
           SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
         },
       };
-      single_form.AddToPanel(cartesianChart_);
+      single_form_.AddToPanel(cartesianChart_, base.DetailInfo, "");
 
-      return single_form;
+      return single_form_;
     }
   }
 }

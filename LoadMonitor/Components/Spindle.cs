@@ -40,6 +40,9 @@ namespace LoadMonitor.Components
     public Spindle(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) : 
       base(mainTitle, subTitle, detailInfo, 2.0, DetailChartPanel) // 主轴最大负载值为 10A
     {
+
+      quad_grid_form_ = new QuadGrid();
+
       power_ = new AngularGauge("功率(kW)")
       {
         Dock = DockStyle.Fill,
@@ -56,10 +59,9 @@ namespace LoadMonitor.Components
 
     public override (string Summary, string DetailInfo) GetText()
     {
+      quad_grid_form_.UpdateText(DetailInfo, "");
       return (SubTitle, DetailInfo);
     }
-
-
 
     private UserControl RPM()
     {
@@ -129,14 +131,12 @@ namespace LoadMonitor.Components
         }
       };
     }
-
+    private QuadGrid quad_grid_form_;
     public override Form GetDetailForm()
     {
-      QuadGrid quad_grid_form = new QuadGrid();
-
       // 创建并配置要添加的 AngularGauge 控件
-      quad_grid_form.AddToPanel(MotorCurrent(), RPM(), MotorTemperature(), Power());
-      return quad_grid_form;
+      quad_grid_form_.AddToPanel(MotorCurrent(), RPM(), MotorTemperature(), Power(), DetailInfo, "");
+      return quad_grid_form_;
     }
 
 
@@ -197,6 +197,7 @@ namespace LoadMonitor.Components
 變頻器溫度:   {busVoltageValue.ToString("F1"),6} °C
 ";
 
+            quad_grid_form_.UpdateText(DetailInfo, "");
 
             // 更新 SubTitle
             double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据

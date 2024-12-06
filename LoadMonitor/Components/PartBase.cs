@@ -133,12 +133,8 @@ namespace LoadMonitor.Components
         throw new ArgumentException("MaxLoadingValue must be greater than 0.");
       MaxLoadingValue = maxLoadingValue;
 
-      detailInfo_ = string.Empty;
+      detailInfo_ = string.Empty;//TODO 移除
       summary_ = string.Empty;
-
-      //Controls.Add(CreateThumbnail());//縮圖
-      //Controls.Add(thumbnail_);//縮圖
-      
 
       // 初始化定时器
       updateTimer_ = new FormsTimer
@@ -153,9 +149,8 @@ namespace LoadMonitor.Components
       // 随机生成一个新的数据点（模拟实时数据）
       data_.Add(new ObservableValue(motor_current));
       if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
-                                               // 更新概要信息
-                                               // 更新详细信息
       detailInfo_ = GenerateDetailInfo((int)motor_current);
+      
     }
 
     protected void UpdateData(object sender, EventArgs e)

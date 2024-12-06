@@ -32,6 +32,10 @@
       panel2 = new Panel();
       panel3 = new Panel();
       panel4 = new Panel();
+      PanelText = new Panel();
+      LeftTextBoxDetail = new TextBox();
+      RightTextBoxDetail = new TextBox();
+      PanelText.SuspendLayout();
       SuspendLayout();
       // 
       // panel1
@@ -62,11 +66,45 @@
       panel4.Size = new Size(480, 280);
       panel4.TabIndex = 3;
       // 
+      // PanelText
+      // 
+      PanelText.Controls.Add(LeftTextBoxDetail);
+      PanelText.Controls.Add(RightTextBoxDetail);
+      PanelText.Location = new Point(5, 570);
+      PanelText.Name = "PanelText";
+      PanelText.Size = new Size(990, 151);
+      PanelText.TabIndex = 6;
+      // 
+      // LeftTextBoxDetail
+      // 
+      LeftTextBoxDetail.BackColor = SystemColors.Control;
+      LeftTextBoxDetail.BorderStyle = BorderStyle.None;
+      LeftTextBoxDetail.Font = new Font("Microsoft JhengHei UI", 14F);
+      LeftTextBoxDetail.Location = new Point(7, 7);
+      LeftTextBoxDetail.Multiline = true;
+      LeftTextBoxDetail.Name = "LeftTextBoxDetail";
+      LeftTextBoxDetail.Size = new Size(484, 140);
+      LeftTextBoxDetail.TabIndex = 3;
+      LeftTextBoxDetail.Text = "aaaaaaaaaaaaaaaaaaa\r\niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii\r\nBBBBBBBB\r\nCCCCCCC\r\nDDDDDD\r\nEEEEEE\r\nFFFFF";
+      // 
+      // RightTextBoxDetail
+      // 
+      RightTextBoxDetail.BackColor = SystemColors.Control;
+      RightTextBoxDetail.BorderStyle = BorderStyle.None;
+      RightTextBoxDetail.Font = new Font("Microsoft JhengHei UI", 14F);
+      RightTextBoxDetail.Location = new Point(497, 7);
+      RightTextBoxDetail.Multiline = true;
+      RightTextBoxDetail.Name = "RightTextBoxDetail";
+      RightTextBoxDetail.Size = new Size(490, 140);
+      RightTextBoxDetail.TabIndex = 4;
+      RightTextBoxDetail.Text = "RRRRR\r\nIIIII\r\nGGGGG\r\nHHHH\r\nTTTTT\r\nGGGGG";
+      // 
       // QuadGrid
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1000, 574);
+      ClientSize = new Size(1000, 720);
+      Controls.Add(PanelText);
       Controls.Add(panel4);
       Controls.Add(panel3);
       Controls.Add(panel2);
@@ -74,6 +112,8 @@
       FormBorderStyle = FormBorderStyle.None;
       Name = "QuadGrid";
       Text = "QuadGrid";
+      PanelText.ResumeLayout(false);
+      PanelText.PerformLayout();
       ResumeLayout(false);
     }
 
@@ -83,5 +123,8 @@
     private Panel panel2;
     private Panel panel3;
     private Panel panel4;
+    private Panel PanelText;
+    private TextBox LeftTextBoxDetail;
+    private TextBox RightTextBoxDetail;
   }
 }

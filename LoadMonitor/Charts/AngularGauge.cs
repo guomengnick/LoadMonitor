@@ -68,7 +68,7 @@ namespace LoadMonitor
                SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字型
             }, // 文本顏色
             LocationUnit = LiveChartsCore.Measure.MeasureUnit.Pixels, // 使用像素單位
-            X = 215, // 水平居中
+            X = 125, // 水平居中
             Y = 190  // 垂直居中
         }
       ];

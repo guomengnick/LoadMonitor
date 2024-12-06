@@ -121,88 +121,9 @@ namespace LoadMonitor
         var componentData = components_[key];
         componentData.Update(currents[key]);//更新圖表
         (string Summary, string DetailInfo) texts = componentData.GetText();
-        Log.Information($"key{key} 遍歷 PartBase 名稱{components_[key].ToString()}\tIsActive:{componentData.IsSelected}");
-        Log.Information($"摘要{texts.Summary}\n詳細:{texts.DetailInfo}");
-
-        if (!componentData.IsSelected)
-        {
-          continue;
-        }
-        // 确保在 UI 线程中更新主画面内容
-        if (InvokeRequired)
-        {
-          Invoke(new Action(() => UpdateMainFormUI(componentData)));
-        }
-        else
-        {
-          UpdateMainFormUI(componentData);
-        }
       }
     }
 
-    private void UpdateMainFormUI(PartBase info)
-    {
-      // 更新摘要信息
-      foreach (Control control in flowLayoutPanel1.Controls)
-      {
-        // 如果不是 Panel 或者 Panel 没有子控件，直接跳过
-        if (!(control is Panel partInfoPanel) || partInfoPanel.Controls.Count == 0)
-        {
-          continue;
-        }
-
-        // 查找 infoPanel
-        var infoPanel = partInfoPanel.Controls
-            .OfType<Panel>()
-            .FirstOrDefault(p => p.Controls.OfType<Label>().Any(l => l.Text == info.MainTitle));
-
-        // 如果没有找到 infoPanel，跳过
-        if (infoPanel == null)
-        {
-          continue;
-        }
-
-        // 查找 summaryLabel
-        var summaryLabel = infoPanel.Controls.OfType<Label>().FirstOrDefault();
-
-        // 如果没有找到 summaryLabel，跳过
-        if (summaryLabel == null)
-        {
-          continue;
-        }
-
-        // 更新副标题
-        summaryLabel.Text = info.SubTitle;
-      }
-
-      // 清空并更新 DetailTextPanel 的详细信息
-      DetailTextPanel.Controls.Clear();
-      var detailTextBox = new TextBox
-      {
-        Text = info.DetailInfo,
-        Font = new Font("Arial", 12),
-        Dock = DockStyle.Fill,
-        Multiline = true,
-        ReadOnly = true,
-        ScrollBars = ScrollBars.Vertical, // 添加滾動條（若內容過多）
-        BorderStyle = BorderStyle.None
-      };
-      DetailTextPanel.Controls.Add(detailTextBox);
-      DetailTextPanel.Show();
-    }
-    private bool isFirstComponentAdded = true; // 用於判斷是否為第一個加入的部件
-
-
-
-    //取消前一個被點擊的縮圖
-    private void DeactivateCurrentComponent()
-    {
-      if (currentActiveComponent != null)
-      {
-        currentActiveComponent.thumbnail_.BackColor = Color.White; // 恢復背景顏色
-        currentActiveComponent = null;
-      }
-    }
 
   }
 }

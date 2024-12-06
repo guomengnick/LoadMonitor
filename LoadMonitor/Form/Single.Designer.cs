@@ -29,6 +29,10 @@
     private void InitializeComponent()
     {
       panel1 = new Panel();
+      PanelText = new Panel();
+      LeftTextBoxDetail = new TextBox();
+      RightTextBoxDetail = new TextBox();
+      PanelText.SuspendLayout();
       SuspendLayout();
       // 
       // panel1
@@ -38,20 +42,59 @@
       panel1.Size = new Size(999, 565);
       panel1.TabIndex = 0;
       // 
+      // PanelText
+      // 
+      PanelText.Controls.Add(LeftTextBoxDetail);
+      PanelText.Controls.Add(RightTextBoxDetail);
+      PanelText.Location = new Point(5, 568);
+      PanelText.Name = "PanelText";
+      PanelText.Size = new Size(990, 151);
+      PanelText.TabIndex = 7;
+      // 
+      // LeftTextBoxDetail
+      // 
+      LeftTextBoxDetail.BackColor = SystemColors.Control;
+      LeftTextBoxDetail.BorderStyle = BorderStyle.None;
+      LeftTextBoxDetail.Font = new Font("Microsoft JhengHei UI", 14F);
+      LeftTextBoxDetail.Location = new Point(7, 7);
+      LeftTextBoxDetail.Multiline = true;
+      LeftTextBoxDetail.Name = "LeftTextBoxDetail";
+      LeftTextBoxDetail.Size = new Size(484, 140);
+      LeftTextBoxDetail.TabIndex = 3;
+      LeftTextBoxDetail.Text = "aaaaaaaaaaaaaaaaaaa\r\niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii\r\nBBBBBBBB\r\nCCCCCCC\r\nDDDDDD\r\nEEEEEE\r\nFFFFF";
+      // 
+      // RightTextBoxDetail
+      // 
+      RightTextBoxDetail.BackColor = SystemColors.Control;
+      RightTextBoxDetail.BorderStyle = BorderStyle.None;
+      RightTextBoxDetail.Font = new Font("Microsoft JhengHei UI", 14F);
+      RightTextBoxDetail.Location = new Point(497, 7);
+      RightTextBoxDetail.Multiline = true;
+      RightTextBoxDetail.Name = "RightTextBoxDetail";
+      RightTextBoxDetail.Size = new Size(490, 140);
+      RightTextBoxDetail.TabIndex = 4;
+      RightTextBoxDetail.Text = "RRRRR\r\nIIIII\r\nGGGGG\r\nHHHH\r\nTTTTT\r\nGGGGG";
+      // 
       // Single
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1000, 570);
+      ClientSize = new Size(1000, 720);
+      Controls.Add(PanelText);
       Controls.Add(panel1);
       FormBorderStyle = FormBorderStyle.None;
       Name = "Single";
       Text = "BaseDetailForm";
+      PanelText.ResumeLayout(false);
+      PanelText.PerformLayout();
       ResumeLayout(false);
     }
 
     #endregion
 
     private Panel panel1;
+    private Panel PanelText;
+    private TextBox LeftTextBoxDetail;
+    private TextBox RightTextBoxDetail;
   }
 }

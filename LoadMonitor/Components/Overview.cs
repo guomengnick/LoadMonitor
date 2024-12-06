@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LoadMonitor.Components
 {
@@ -56,9 +57,18 @@ namespace LoadMonitor.Components
 {operationTimeFormatted}
 整機附載: {loading:F1} %
 總電流: {latestValue:F3} A
-瞬時功率: {power:F1} W
-平均日功率: {averageDailyPower:F1} kWh
 ";
+
+      var right_text = $@"瞬時功率: {power:F1} W
+
+
+
+平均日功率: {averageDailyPower:F1} kWh";
+
+      base.DetailInfo = detailInfo;
+      current_watt_.UpdateValue(power);
+      daily_average_watt_.UpdateValue(averageDailyPower);
+      form_3.UpdateText(detailInfo, right_text);
 
       return (summary, detailInfo);
     }
@@ -90,50 +100,37 @@ namespace LoadMonitor.Components
       return overview_chart;
     }
 
-
+    private AngularGauge current_watt_;
     private UserControl AverageWattPerWeekChart()
     {
-      var overview_chart = new CartesianChart
+      current_watt_ = new AngularGauge("當前功率(kWh)")//TODO 給單位
       {
-        Dock = DockStyle.Fill, // 填满 Panel
-        Series = new ISeries[]{new LineSeries<ObservableValue>{
-            Values = data_, Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
-            GeometrySize = 0, // 无点标记
-            Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
-            LineSmoothness = 0, // 无弧度
-          },
-        },
-      };
-      overview_chart.Title = new LabelVisual
-      {
-        Text = "kWh / week",
-        TextSize = 16,
-        Paint = new SolidColorPaint(SKColors.Black),
-      };
-      var guage = new AngularGauge()
-      {
-
         Dock = DockStyle.Fill,
-      }; ;
-      return guage;
+      };
+      return current_watt_;
     }
+
+    private AngularGauge daily_average_watt_;
 
     private UserControl AverageWattPerMonthChart()
     {
-
-      var guage = new AngularGauge() {
+      daily_average_watt_ = new AngularGauge("日功率(kWh)") {//TODO 給單位
 
         Dock = DockStyle.Fill,
       };
-      return guage;
+      return daily_average_watt_;
     }
 
+    private LeftOneRightTwo form_3;
 
     public override Form GetDetailForm()
     {
+      form_3 = new LeftOneRightTwo();
+      var left_text = base.DetailInfo;
+      var right_text = "";//右邊給空
 
-      LeftOneRightTwo form_3 = new LeftOneRightTwo();
-      form_3.AddToPanel(OverviewLoadingChart(), AverageWattPerWeekChart(), AverageWattPerMonthChart());
+      form_3.AddToPanel(OverviewLoadingChart(), AverageWattPerWeekChart(), 
+          AverageWattPerMonthChart(), left_text, right_text);
       return form_3;
     }
 

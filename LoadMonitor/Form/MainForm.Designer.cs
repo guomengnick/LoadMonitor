@@ -36,15 +36,12 @@ namespace LoadMonitor
     private void InitializeComponent()
     {
       flowLayoutPanel1 = new FlowLayoutPanel();
-      PartInfoPanel = new Panel();
+      DummyPanel = new Panel();
       DetailChartPanel = new Panel();
-      DetailTextPanel = new Panel();
-      TextBoxDetailInfo = new TextBox();
       radioButton1 = new RadioButton();
       panel1 = new Panel();
       label1 = new Label();
       flowLayoutPanel1.SuspendLayout();
-      DetailTextPanel.SuspendLayout();
       panel1.SuspendLayout();
       SuspendLayout();
       // 
@@ -52,7 +49,7 @@ namespace LoadMonitor
       // 
       flowLayoutPanel1.AutoScroll = true;
       flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
-      flowLayoutPanel1.Controls.Add(PartInfoPanel);
+      flowLayoutPanel1.Controls.Add(DummyPanel);
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
       flowLayoutPanel1.Location = new Point(12, 12);
       flowLayoutPanel1.Margin = new Padding(0);
@@ -61,41 +58,20 @@ namespace LoadMonitor
       flowLayoutPanel1.TabIndex = 3;
       flowLayoutPanel1.WrapContents = false;
       // 
-      // PartInfoPanel
+      // DummyPanel
       // 
-      PartInfoPanel.Location = new Point(3, 3);
-      PartInfoPanel.Name = "PartInfoPanel";
-      PartInfoPanel.Size = new Size(269, 10);
-      PartInfoPanel.TabIndex = 8;
+      DummyPanel.Location = new Point(3, 3);
+      DummyPanel.Name = "DummyPanel";
+      DummyPanel.Size = new Size(269, 10);
+      DummyPanel.TabIndex = 8;
       // 
       // DetailChartPanel
       // 
       DetailChartPanel.BackColor = Color.Transparent;
       DetailChartPanel.Location = new Point(335, 12);
       DetailChartPanel.Name = "DetailChartPanel";
-      DetailChartPanel.Size = new Size(1000, 570);
+      DetailChartPanel.Size = new Size(1000, 727);
       DetailChartPanel.TabIndex = 8;
-      // 
-      // DetailTextPanel
-      // 
-      DetailTextPanel.Controls.Add(TextBoxDetailInfo);
-      DetailTextPanel.Location = new Point(335, 590);
-      DetailTextPanel.Name = "DetailTextPanel";
-      DetailTextPanel.Padding = new Padding(10);
-      DetailTextPanel.Size = new Size(1000, 150);
-      DetailTextPanel.TabIndex = 9;
-      // 
-      // TextBoxDetailInfo
-      // 
-      TextBoxDetailInfo.BackColor = SystemColors.ButtonFace;
-      TextBoxDetailInfo.BorderStyle = BorderStyle.None;
-      TextBoxDetailInfo.Font = new Font("Microsoft JhengHei", 13F, FontStyle.Regular, GraphicsUnit.Point, 136);
-      TextBoxDetailInfo.Location = new Point(13, 5);
-      TextBoxDetailInfo.Multiline = true;
-      TextBoxDetailInfo.Name = "TextBoxDetailInfo";
-      TextBoxDetailInfo.Size = new Size(883, 137);
-      TextBoxDetailInfo.TabIndex = 0;
-      TextBoxDetailInfo.Text = "預設部件的附載甚麼的\r\n都顯示在這裡\r\n大約預計\r\n是有 6 行\r\n比如電流、電壓、附載\r\n之類什麼的\r\n";
       // 
       // radioButton1
       // 
@@ -133,7 +109,6 @@ namespace LoadMonitor
       ClientSize = new Size(1347, 746);
       Controls.Add(panel1);
       Controls.Add(radioButton1);
-      Controls.Add(DetailTextPanel);
       Controls.Add(DetailChartPanel);
       Controls.Add(flowLayoutPanel1);
       Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold);
@@ -141,8 +116,6 @@ namespace LoadMonitor
       StartPosition = FormStartPosition.CenterScreen;
       Text = "GAM 330AT";
       flowLayoutPanel1.ResumeLayout(false);
-      DetailTextPanel.ResumeLayout(false);
-      DetailTextPanel.PerformLayout();
       panel1.ResumeLayout(false);
       panel1.PerformLayout();
       ResumeLayout(false);
@@ -152,8 +125,7 @@ namespace LoadMonitor
     #endregion
     private FlowLayoutPanel flowLayoutPanel1;
     private Panel DetailChartPanel;
-    private Panel DetailTextPanel;
-    private Panel PartInfoPanel;
+    private Panel DummyPanel;
     private TextBox TextBoxDetailInfo;
     private RadioButton radioButton1;
     private Panel panel1;
