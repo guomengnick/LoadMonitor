@@ -71,7 +71,7 @@ void __fastcall TForm1::UpdateSpindleInfo(TObject *Sender)
 		String internalStatus = GenerateRandomStatus(); // InternalStatus
 		int power = GenerateRandomInt(5000, 1000); // Power
 		double busVoltage = GenerateRandomDouble(48.0, 1.0); // BusVoltage
-		double current = GenerateRandomDouble(1.0, 0.15); // Current
+		double current = GenerateRandomDouble(3.0, 2.0); // Current
 		int motorTemperature = GenerateRandomInt(40, 10); // MotorTemperature
 		double inverterTemperature = GenerateRandomDouble(30.4, 5.0); // InverterTemperature
 

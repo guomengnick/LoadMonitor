@@ -6,27 +6,24 @@ using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.WinForms;
-
-
-using FormsTimer = System.Windows.Forms.Timer;
-using ThreadingTimer = System.Threading.Timer;
 using SkiaSharp;
-using System.Diagnostics;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace LoadMonitor.Components
 {
   public abstract class PartBase : UserControl
   {
-
     public string MainTitle { get; set; } // 主標題
     public string SubTitle { get; set; }  // 副標題
     public string DetailInfo { get; set; } // 詳細信息
+    public bool IsSelected { get; set; }  // 是否被選中
+    public double MaxLoadingValue { get; protected set; }// 最大负载值
 
     public Thumbnail thumbnail_;
 
     private Form detailForm_; // 延遲初始化字段
+
+    private Action<string, string> updateDetailTextAction_;
     public Form DetailForm
     {
       get
@@ -39,29 +36,31 @@ namespace LoadMonitor.Components
         return detailForm_;
       }
     }
-    public bool IsSelected { get; set; }  // 是否被選中
 
     public Panel DetailChartPanel;
 
+    protected ObservableCollection<ObservableValue> data_ = new ObservableCollection<ObservableValue>();
+
     public static PartBase Create(string type, string name, string subTitle, 
-        string detailInfo, Panel DetailChartPanel)
+        string detailInfo, Panel DetailChartPanel, double max_current_value)
     {
       return type switch
       {
-        "Spindle" => new Spindle(name, subTitle, detailInfo, DetailChartPanel),
-        "CutMotor" => new CutMotor(name, subTitle, detailInfo, DetailChartPanel),
-        "TransferRack" => new TransferRack(name, subTitle, detailInfo, DetailChartPanel),
-        "Overview" => new Overview(name, subTitle, detailInfo, DetailChartPanel),
+        "Spindle" => new Spindle(name, subTitle, detailInfo, DetailChartPanel, max_current_value),
+        "CutMotor" => new CutMotor(name, subTitle, detailInfo, DetailChartPanel, max_current_value),
+        "TransferRack" => new TransferRack(name, subTitle, detailInfo, DetailChartPanel, max_current_value),
+        "Overview" => new Overview(name, subTitle, detailInfo, DetailChartPanel, max_current_value),
         _ => throw new ArgumentException($"Unknown component type: {type}")
       };
     }
+
     public PartBase(string mainTitle, string subTitle, string detailInfo,
         double maxLoadingValue, Panel DetailChartPanel)
     {
       this.DetailChartPanel = DetailChartPanel;
       thumbnail_ = new Thumbnail(CreateThumbnail(), this, mainTitle, subTitle);//對縮圖賦值
-      //TEST.TEST.Add60EmptyData(data_);
-      TEST.TEST.AddData(data_);
+      TEST.TEST.Add60EmptyData(data_);
+      //TEST.TEST.AddData(data_);
 
       MainTitle = mainTitle;
       SubTitle = subTitle;
@@ -71,8 +70,7 @@ namespace LoadMonitor.Components
       Initialize(maxLoadingValue);
     }
 
-    // 最大负载值
-    public double MaxLoadingValue { get; protected set; }
+    
     // 获取加载百分比
     protected double CalculateLoading(double currentValue)
     {
@@ -81,14 +79,8 @@ namespace LoadMonitor.Components
 
       return currentValue / MaxLoadingValue * 100.0; // 返回百分比
     }
-    protected ObservableCollection<ObservableValue> data_ = new ObservableCollection<ObservableValue>();
-
-    protected FormsTimer updateTimer_;
-    public virtual string summary_ { get; protected set; } = "Default Overview";
-    public virtual string detailInfo_ { get; protected set; } = "Default Details";
 
     public double GetCurrentLoad() { return data_.Last().Value ?? 0.0; }
-
 
     public virtual (string Summary, string DetailInfo) GetText()
     {
@@ -99,6 +91,7 @@ namespace LoadMonitor.Components
       return (summary, detailInfo);
     }
 
+    // 縮圖由基類創建，讓縮圖都長一樣
     virtual protected CartesianChart CreateThumbnail()
     {
       // 初始化图表
@@ -117,7 +110,8 @@ namespace LoadMonitor.Components
                     },
                 },
         XAxes = new[] { new Axis { IsVisible = false, SeparatorsPaint = null } }, // 隐藏 X 轴
-        YAxes = new[] { new Axis { IsVisible = false, SeparatorsPaint = null } }, // 隐藏 Y 轴
+        YAxes = new[] { new Axis { IsVisible = false, 
+          SeparatorsPaint = null, MinLimit = 0, MaxLimit = 1, } }, // 隐藏 Y 轴
         DrawMargin = null, // 移除绘图区域边距
         Padding = new Padding(0), // 移除内部边距
         Margin = new Padding(0), // 移除外部边距
@@ -132,59 +126,36 @@ namespace LoadMonitor.Components
       if (maxLoadingValue <= 0)
         throw new ArgumentException("MaxLoadingValue must be greater than 0.");
       MaxLoadingValue = maxLoadingValue;
-
-      detailInfo_ = string.Empty;//TODO 移除
-      summary_ = string.Empty;
-
-      // 初始化定时器
-      updateTimer_ = new FormsTimer
-      {
-        Interval = 1300
-      };
-      updateTimer_.Tick += UpdateData;
     }
 
+
+    /// <summary>
+    /// 更新組件數據，並通知派生類更新詳細頁面
+    /// </summary>
     public void Update(double motor_current)
     {
-      // 随机生成一个新的数据点（模拟实时数据）
       data_.Add(new ObservableValue(motor_current));
       if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
-      detailInfo_ = GenerateDetailInfo((int)motor_current);
-      
-    }
 
-    protected void UpdateData(object sender, EventArgs e)
-    {
-      if (data_ == null)
-      {
-        return;
-      }
-      Update(new Random().Next(0, 100));
-    }
-
-    private void InitializeComponent()
-    {
-
+      //(string summary, string detailInfo) = UpdateDetailData();
+      //updateDetailTextAction_?.Invoke(summary, detailInfo);
     }
 
 
-    // 生成详细信息的方法
-    private string GenerateDetailInfo(int newValue)
-    {
-      return $@"
-Query Speed: {newValue + 1} RPM
-Query Status: Normal
-Query Internal Status: OK
-Query Power: {newValue * 1.2:F1} kW
-Query Bus Voltage: {newValue * 2.3:F1} V
-Query Current: {newValue * 0.8:F1} A
-Query Motor Temperature: {20 + newValue / 10} °C
-Query Inverter Temperature: {25 + newValue / 15} °C
-";
-    }
-
-    // 詳細頁面
+    /// <summary>
+    /// 派生類需實現的方法，用於創建對應的詳細頁面
+    /// </summary>
     public abstract Form GetDetailForm();
+
+    /// <summary>
+    /// 派生類需實現的方法，用於更新數據
+    /// </summary>
+    //protected abstract (string Summary, string DetailInfo) UpdateDetailData();
+
+    /// <summary>
+    /// 配置詳細頁面文本更新的行為（抽象方法，強制派生類實作）
+    /// </summary>
+    //public abstract void ConfigureDetailTextUpdater(Action<string, string> updateAction);
   }
 
 }

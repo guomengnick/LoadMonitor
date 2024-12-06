@@ -20,14 +20,30 @@ namespace LoadMonitor.Components
   // 切割軸XYZ 馬達
   internal class CutMotor : PartBase
   {
-    public CutMotor(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) :
-      base(mainTitle, subTitle, detailInfo, 1, DetailChartPanel) // 主轴最大负载值为 10A
+    private Single single_form_;
+    public CutMotor(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel, double max_current) :
+      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel) // 主轴最大负载值为 10A
     {
       single_form_ = new Single();
+      //ConfigureDetailTextUpdater();
     }
 
-    private Single single_form_;
 
+    //protected override (string Summary, string DetailInfo) UpdateDetailData()
+    //{
+    //  string summary = "切割馬達更新";
+    //  string detailInfo = "詳細馬達信息";
+    //  return (summary, detailInfo);
+    //}
+
+    //public override void ConfigureDetailTextUpdater(Action<string, string> updateAction)
+    //{
+    //  // 配置詳細頁面文本更新的行為
+    //  ConfigureDetailTextUpdater((summary, detailInfo) =>
+    //  {
+    //    single_form_.UpdateText(summary, detailInfo);
+    //  });
+    //}
 
     public override (string Summary, string DetailInfo) GetText()
     {
@@ -78,10 +94,9 @@ namespace LoadMonitor.Components
             new Axis
             {
                 MinLimit = 0, // 最小值（安培）
-                //MaxLimit = 5, // 最大值（安培）
-                //UnitWidth = 1,
-
-                Labeler = value => $"{value:F1} A", // 格式化為 0.0 A
+                MaxLimit = 3, // 最大值（安培）
+                Labels = new[] { "0", "1", "2" , "3" }, // 僅顯示 0, 1, 2
+                Labeler = value => $"{value:F0} A", // 格式化為 0 A, 1 A, 2 A
                 LabelsPaint = new SolidColorPaint(SKColors.Black)
                 {
                   SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
@@ -105,19 +120,8 @@ namespace LoadMonitor.Components
     }
 
 
-    //public override (string Summary, string DetailInfo) GetText()
-    //{
-    //  if (data_ == null || data_.Count == 0)
-    //    return ("No Data", "No data available for calculation.");
 
-    //  double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
-    //  double loading = CalculateLoading(latestValue); // 计算负载百分比
 
-    //  string summary = $"Load: {latestValue:F1} A";
-    //  string detailInfo = $"Current Load: {loading:F1}%";
-
-    //  return (summary, detailInfo);
-    //}
 
 
   }

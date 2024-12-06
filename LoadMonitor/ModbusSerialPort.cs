@@ -12,12 +12,19 @@ namespace LoadMonitor
 {
   internal class ModbusSerialPort
   {
+    public ModbusSerialPort(string portName)
+    {
+      Initialize(portName);
+      Open();
+    }
+
+
     private SerialPort serial_port_;
 
     public bool IsConnected => serial_port_?.IsOpen ?? false;
 
     // 初始化串口
-    public void Initialize(string portName)
+    private void Initialize(string portName)
     {
       int baudRate = 9600, dataBits = 8;
       Parity parity = Parity.None;
@@ -39,7 +46,7 @@ namespace LoadMonitor
     }
 
     // 打開串口
-    public void Open()
+    private void Open()
     {
       try
       {
@@ -90,7 +97,6 @@ namespace LoadMonitor
     // 發送 Modbus 請求並讀取回應
     public Dictionary<int, double> ReadCurrents()
     {
-      Dictionary<int, double> currents = new Dictionary<int, double>();
       if (serial_port_ == null || !serial_port_.IsOpen)
       {
         throw new InvalidOperationException("Serial port is not open.");
@@ -99,14 +105,14 @@ namespace LoadMonitor
       // 構造 Modbus 請求幀
       byte[] requestFrame = new byte[]
       {
-                    1,  // 地址碼 (0x01)
-                    3,  // 功能碼 (0x03)
-                    0,  // 寄存器起始地址高字節 (0x00)
-                    0,  // 寄存器起始地址低字節 (0x00)
-                    0,  // 寄存器長度高字節 (0x00)
-                    16, // 寄存器長度低字節 (0x10)
-                    68, // CRC 低字節 (0x44)
-                    6   // CRC 高字節 (0x06)
+                    0x01,  // 地址碼 (0x01)
+                    0x03,  // 功能碼 (0x03)
+                    0x00,  // 寄存器起始地址高字節 (0x00)
+                    0x00,  // 寄存器起始地址低字節 (0x00)
+                    0x00,  // 寄存器長度高字節 (0x00)
+                    0x10, // 寄存器長度低字節 (0x10)
+                    0x44, // CRC 低字節 (0x44)
+                    0x06   // CRC 高字節 (0x06)
       };// 發送請求幀
         // 實際發送的數據: 0x0103000000104406
         //                            ^ 10 代表要收16個byte, 1個通道用2個byte表示
@@ -134,12 +140,14 @@ namespace LoadMonitor
       /// 模擬接收到的數據幀///
 
 
+      Dictionary<int, double> currents = new Dictionary<int, double>();
       // 接收數據幀
       byte[] responseFrame = new byte[37]; // 根據您提供的範例數據，應有 37 字節
       int bytesRead = 0;
       try
       {
         bytesRead = serial_port_.Read(responseFrame, 0, responseFrame.Length);// 打印接收到的數據幀到日誌
+
       }
       catch (TimeoutException)
       {
@@ -157,12 +165,13 @@ namespace LoadMonitor
 
       if (bytesRead < 5) // 最少要有頭部（3字節）和校驗碼（2字節）
       {
-        Log.Warning("Response too short or invalid.");
+        //Log.Warning("Response too short or invalid.");
         return currents;
       }
+      
       if (responseFrame[0] != 0x01 || responseFrame[1] != 0x03 || responseFrame[2] != 0x20)
       {
-        return currents;
+        return currents;//TODO: 有時候第0個值會跑到最後一位，全部的數據往前一格
       }
 
       // 提取數據區域：去掉報文頭 (3字節) 和校驗碼 (2字節)
@@ -190,7 +199,11 @@ namespace LoadMonitor
       }
       currents[0/*0 用來裝總電流*/] = sum_current;
 
-      Log.Information($"總電流:{sum_current} A\n" + s + "\n\n");
+      //Log.Information($"總電流:{sum_current} A\n" + s + "\n\n");
+
+      // 最後清空緩衝區
+      //serial_port_.DiscardInBuffer();
+      //serial_port_.DiscardOutBuffer();
       return currents;
     }
 

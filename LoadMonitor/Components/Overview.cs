@@ -16,12 +16,12 @@ using System.Windows.Forms;
 
 namespace LoadMonitor.Components
 {
-    internal class Overview : PartBase
+  internal class Overview : PartBase
   {
 
     private DateTime startTime;
-    public Overview(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) : 
-      base(mainTitle, subTitle, detailInfo, 5.0, DetailChartPanel)
+    public Overview(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel, double max_current) :
+      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel)
     {
       startTime = DateTime.Now;
     }
@@ -34,19 +34,17 @@ namespace LoadMonitor.Components
 
       string summary = $"{loading:F1} %";
 
-      // 获取当前日期和时间
-      DateTime now = DateTime.Now;
+      DateTime now = DateTime.Now;// 获取当前日期和时间
       string dateTimeString = now.ToString("yyyy/MM/dd HH:mm:ss");
-
-      // 累計運行時間
-      TimeSpan operationTime = now - startTime; // 使用初始化的 startTime 計算時間差
+      
+      TimeSpan operationTime = now - startTime;// 累計運行時間
 
       // 格式化运作时间
       string operationTimeFormatted = $"運作時間: {operationTime.Hours}:{operationTime.Minutes:D2}:{operationTime.Seconds:D2}:{operationTime.Milliseconds:D3}";
 
       // 計算瞬時功率 (假設公式為: 電流 x 電壓)
-      double voltage = 24.0; // 假設電壓值
-      double power = latestValue * voltage; // 功率 (W)
+      double voltage = 220.0; // 假設電壓值
+      double power = latestValue * voltage / 1000; // 功率 (kW)
 
       // 平均每日功率 (kW·h)
       var random = new Random();
@@ -59,7 +57,7 @@ namespace LoadMonitor.Components
 總電流: {latestValue:F3} A
 ";
 
-      var right_text = $@"瞬時功率: {power:F1} W
+      var right_text = $@"瞬時功率: {power:F1} kW
 
 
 
@@ -87,6 +85,20 @@ namespace LoadMonitor.Components
             LineSmoothness = 0, // 无弧度
           },
         },
+        // 設置 Y 軸
+        YAxes = new Axis[]
+        {
+          new Axis
+          {
+            MinLimit = 0, // 最小值（安培）
+            MaxLimit = 3, // 最大值（安培）
+
+            Labels = new[] { "0", "1", "2", "3" }, // 僅顯示 0, 1, 2
+            Labeler = value => $"{value:F0} A", // 格式化為 0 A, 1 A, 2 A
+            LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
+          }
+        }
       };
       overview_chart.Title = new LabelVisual
       {
@@ -107,6 +119,7 @@ namespace LoadMonitor.Components
       {
         Dock = DockStyle.Fill,
       };
+
       return current_watt_;
     }
 
@@ -114,7 +127,8 @@ namespace LoadMonitor.Components
 
     private UserControl AverageWattPerMonthChart()
     {
-      daily_average_watt_ = new AngularGauge("日功率(kWh)") {//TODO 給單位
+      daily_average_watt_ = new AngularGauge("日功率(kWh)")
+      {//TODO 給單位
 
         Dock = DockStyle.Fill,
       };
@@ -129,7 +143,7 @@ namespace LoadMonitor.Components
       var left_text = base.DetailInfo;
       var right_text = "";//右邊給空
 
-      form_3.AddToPanel(OverviewLoadingChart(), AverageWattPerWeekChart(), 
+      form_3.AddToPanel(OverviewLoadingChart(), AverageWattPerWeekChart(),
           AverageWattPerMonthChart(), left_text, right_text);
       return form_3;
     }

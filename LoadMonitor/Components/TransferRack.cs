@@ -17,13 +17,13 @@ namespace LoadMonitor.Components
   internal class TransferRack : PartBase
   {
 
-    public TransferRack(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) : 
-      base(mainTitle, subTitle, detailInfo, 0.4, DetailChartPanel) // 主轴最大负载值为 10A
+    public TransferRack(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel, double max_current) :
+      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel) // 主轴最大负载值为 10A
     {
       TEST.TEST.Add60EmptyData(data_);
       single_form_ = new Single();
     }
-      private Single single_form_;
+    private Single single_form_;
 
 
     public override (string Summary, string DetailInfo) GetText()
@@ -59,30 +59,31 @@ namespace LoadMonitor.Components
                 },
         // 設置 X 軸
         XAxes = new Axis[]
-    {
-        new Axis
         {
-            Labels = null, // 自動生成標籤
-            MinLimit = 0, // 最小值（秒）
-            MaxLimit = 60, // 最大值（秒）
-            UnitWidth = 30,
-            Labeler = value => $"{60 - value:F0} s", // 顯示反向標籤（60秒到0秒）
-            LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
-        }
-    },
+          new Axis
+          {
+              Labels = null, // 自動生成標籤
+              MinLimit = 0, // 最小值（秒）
+              MaxLimit = 60, // 最大值（秒）
+              UnitWidth = 30,
+              Labeler = value => $"{60 - value:F0} s", // 顯示反向標籤（60秒到0秒）
+              LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
+              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
+          }
+        },
         // 設置 Y 軸
         YAxes = new Axis[]
-    {
-        new Axis
         {
-            MinLimit = 0, // 最小值（安培）
-            //MaxLimit = 5, // 最大值（安培）
-            Labeler = value => $"{value:F1} A", // 格式化為 0.0 A
-            LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
+          new Axis
+          {
+              MinLimit = 0, // 最小值（安培）
+              MaxLimit = base.MaxLoadingValue, // 最大值（安培）
+              Labels = new[] { "0", "1", "2" , "3" }, // 僅顯示 0, 1, 2
+              Labeler = value => $"{value:F0} A", // 格式化為 0 A, 1 A, 2 A
+              LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
+              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
+          }
         }
-    }
       };
       cartesianChart_.Title = new LabelVisual
       {

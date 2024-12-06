@@ -19,6 +19,7 @@ namespace LoadMonitor.Components
 
     internal class Factory
     {
+        private const double kSafetyFactor = 2.0;
         // 提供給外部使用的創建方法，根據機型返回部件字典
         public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel)
         {
@@ -54,24 +55,25 @@ namespace LoadMonitor.Components
         // 創建 Machine330AT 的部件
         private Dictionary<int, PartBase> Create330AT(Panel DetailChartPanel)
         {
-            var componentConfigs = new (string Type, string Name, string SubTitle, string DetailInfo, int Key)[]
+            var componentConfigs = new (string Type, string Name, 
+          string SubTitle, string DetailInfo, int Key, double max_current_value)[]
             {
-        ("Overview", "總覽", "4%", "電流 : 0.235 A\n附載 : 33%", 0), // 加總電流
-        ("Spindle", "主軸", "2%", "電流 : 0.135 A\n附載 : 13%", 17),
-        ("TransferRack", "移載X", "14%", "電流 : 0.135 A\n附載 : 13%", 1),
-        ("TransferRack", "移載Z", "34%", "電流 : 0.175 A\n附載 : 16%", 2),
-        ("CutMotor", "切割Y1", "14%", "電流 : 0.175 A\n附載 : 16%", 3),
-        ("CutMotor", "切割Y2", "14%", "電流 : 0.175 A\n附載 : 16%", 4),
-        ("CutMotor", "切割X1", "2%", "電流 : 0.135 A\n附載 : 13%", 5),
-        ("CutMotor", "切割Z1", "2%", "電流 : 0.135 A\n附載 : 13%", 6)
+        ("Overview", "總覽", "4%", "電流 : 0.235 A\n附載 : 33%", 0, 5), // 加總電流
+        ("Spindle", "主軸", "2%", "電流 : 0.135 A\n附載 : 13%", 17, 2),
+        ("TransferRack", "移載X", "14%", "電流 : 0.135 A\n附載 : 13%", 1, 1.5),
+        ("TransferRack", "移載Z", "34%", "電流 : 0.175 A\n附載 : 16%", 2, 0.4),
+        ("CutMotor", "切割Y1", "14%", "電流 : 0.175 A\n附載 : 16%", 3, 1.8),
+        ("CutMotor", "切割Y2", "14%", "電流 : 0.175 A\n附載 : 16%", 4, 1.8),
+        ("CutMotor", "切割X1", "2%", "電流 : 0.135 A\n附載 : 13%", 5, 1.9),
+        ("CutMotor", "切割Z1", "2%", "電流 : 0.135 A\n附載 : 13%", 6, 0.5)
             };
 
             // 使用工廠類創建部件
             var components = new Dictionary<int, PartBase>();
             foreach (var config in componentConfigs)
             {
-                var component = PartBase.Create(config.Type, config.Name,
-                    config.SubTitle, config.DetailInfo, DetailChartPanel);
+                var component = PartBase.Create(config.Type, config.Name, config.SubTitle, 
+                  config.DetailInfo, DetailChartPanel, config.max_current_value * kSafetyFactor);
                 components[config.Key] = component;
             }
 

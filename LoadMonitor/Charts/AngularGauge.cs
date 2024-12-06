@@ -24,7 +24,7 @@ using LiveChartsCore.Drawing;
 namespace LoadMonitor
 {
   // 定義僅在本文件可見的 ViewModel(只給下方的類用)
-  internal partial class ViewModel
+  public partial class ViewModel
   {
 
     private readonly Random _random = new();
@@ -61,7 +61,7 @@ namespace LoadMonitor
         // 添加居中文本
         new LabelVisual
         {
-            Text = text, // 要顯示的文本
+            Text = text, // 要顯示的文本 TODO:FIX_BUG 不能基於Panel 像素, 位置會因為上層部件大小 跑掉
             TextSize = 14, // 字體大小
             
             Paint = new SolidColorPaint(SkiaSharp.SKColors.Black){
@@ -95,7 +95,7 @@ namespace LoadMonitor
   public partial class AngularGauge : UserControl
   {
     private readonly LiveChartsCore.SkiaSharpView.WinForms.PieChart pieChart;
-    private ViewModel viewModel_ = new ViewModel();
+    public ViewModel viewModel_ = new ViewModel();
     public AngularGauge(string text = "")
     {
 

@@ -1,8 +1,4 @@
-﻿using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore;
-using LiveCharts.Wpf;
-using System;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+﻿using System;
 using System.Windows.Forms;
 using LoadMonitor.Components;
 using System.Timers;
@@ -17,36 +13,17 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
-    private PartBase currentActiveComponent; // 追踪當前顯示的部件
-
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1200);
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
-
-
-    private void AddThumbnailToPanel(Thumbnail thumbnail)
-    {
-      thumbnail.TopLevel = false;         // 設置為非頂層窗口
-      thumbnail.FormBorderStyle = FormBorderStyle.None; // 移除邊框，讓它像一個控件
-      thumbnail.Dock = DockStyle.Top;    // 填充容器
-      thumbnail.Show();                  // 顯示 Form
-      flowLayoutPanel1.Controls.Add(thumbnail); // 加入到 flowLayoutPanel1
-    }
-
 
     public MainForm()
     {
       InitializeComponent();
       this.FormClosed += MainFormClose;
-      //flowLayoutPanel1.Controls.Remove(PartInfoPanel);
-      flowLayoutPanel1.PerformLayout(); // 刷新布局
-
 
       InitializePart();
 
-      // 初始化 Modbus 通信
-      modbusSerialPort_ = new ModbusSerialPort();
-      modbusSerialPort_.Initialize("COM7"); // 替換為實際的串口名稱
-      modbusSerialPort_.Open();
+      modbusSerialPort_ = new ModbusSerialPort("COM7");// 初始化 Modbus 通信
 
       read_current_timer_.Elapsed += Update;//更新畫面
       read_current_timer_.Start();
@@ -91,7 +68,7 @@ namespace LoadMonitor
     {
       if (modbusSerialPort_ == null || !modbusSerialPort_.IsConnected)
       {
-        Console.WriteLine("Modbus serial port is not connected.");
+        Log.Warning("Modbus serial port is not connected.");
         return;
       }
 
@@ -99,26 +76,28 @@ namespace LoadMonitor
       Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();
       if (currents.Count == 0)
       {
+        Log.Warning("Modbus serial port 收到的值為空");
         return;
       }
+
       //因為主軸的電流是另外計算,不來自rs485，這邊另外計算
       if (components_.ContainsKey(0/*總覽的key*/) && components_.ContainsKey(17/*主軸的key*/))
       {
         var motors_current = currents[0];//除主軸外, 量測模組量到的電流加總
         var spindle_current = components_[17].GetCurrentLoad();
-        currents[0] = motors_current + spindle_current;
+        currents[17/*主軸*/] = spindle_current;
+        //currents[0] = motors_current + spindle_current;
       }
 
       // 更新组件数据
       foreach (var key in components_.Keys.ToList()) // 使用 ToList() 遍历，避免修改集合时出错
       {
-        // 判斷 `currents` 是否包含該鍵
         if (!currents.ContainsKey(key))
-        {
+        {// 判斷 `currents` 是否包含該鍵
           continue;
         }
-        // 获取当前组件数据
-        var componentData = components_[key];
+
+        var componentData = components_[key];// 获取当前组件数据
         componentData.Update(currents[key]);//更新圖表
         (string Summary, string DetailInfo) texts = componentData.GetText();
       }

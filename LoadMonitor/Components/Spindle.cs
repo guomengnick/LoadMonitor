@@ -37,8 +37,8 @@ namespace LoadMonitor.Components
     protected AngularGauge power_;
     protected AngularGauge rpm_;
     private ThreadTimer timer_ = new ThreadTimer(1000);
-    public Spindle(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel) : 
-      base(mainTitle, subTitle, detailInfo, 2.0, DetailChartPanel) // 主轴最大负载值为 10A
+    public Spindle(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel, double max_current) : 
+      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel) // 主轴最大负载值为 10A
     {
 
       quad_grid_form_ = new QuadGrid();
@@ -71,6 +71,18 @@ namespace LoadMonitor.Components
     {
       return power_;
     }
+
+
+    protected override CartesianChart CreateThumbnail()
+    {
+      var chart = base.CreateThumbnail();//用基類製作一個出來
+      if (chart.YAxes?.FirstOrDefault() is Axis yAxis)
+      {
+        yAxis.MaxLimit = 6; // 修改 MaxLimit 属性
+      }
+      return chart;
+    }
+
     private UserControl MotorTemperature()
     {
       return new CartesianChart
@@ -154,7 +166,6 @@ namespace LoadMonitor.Components
           string currentStr = data["Spindle"]["Current"];
           string motorTempStr = data["Spindle"]["MotorTemperature"];
           string speed = data["Spindle"]["Speed"];
-          detailInfo_ = speed;
           double speedValue = int.TryParse(speed, out int rpm) ? rpm : 0;
 
           string status = data["Spindle"]["Status"];
@@ -173,8 +184,8 @@ namespace LoadMonitor.Components
           double motorTemperature = double.TryParse(motorTempStr, out double temperature) ? temperature : 0.0;
 
           // 記錄所有值到一行日誌
-          Log.Information("Current: {Current}\tMotor Temperature: {MotorTemperature}\tSpeed: {Speed}\tStatus: {Status}\tInternal Status: {InternalStatus}\tPower: {Power}\tBus Voltage: {BusVoltage}\tInverter Temperature: {InverterTemperature}",
-              currentStr, motorTempStr, speed, status, internalStatus, power, busVoltage, inverterTemp);
+          //Log.Information("Current: {Current}\tMotor Temperature: {MotorTemperature}\tSpeed: {Speed}\tStatus: {Status}\tInternal Status: {InternalStatus}\tPower: {Power}\tBus Voltage: {BusVoltage}\tInverter Temperature: {InverterTemperature}",
+          //    currentStr, motorTempStr, speed, status, internalStatus, power, busVoltage, inverterTemp);
 
           // 解析數據
           if (double.TryParse(currentStr, out double motor_current) &&
