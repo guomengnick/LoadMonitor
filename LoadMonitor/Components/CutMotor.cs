@@ -51,7 +51,7 @@ namespace LoadMonitor.Components
       double loading = CalculateLoading(latestValue); // 计算负载百分比
       string summary = $"{loading:F1} %";
       string detailInfo = $"{MainTitle} 附載: {loading:F1} % \r\n電流: {latestValue} A";
-      single_form_.UpdateText(detailInfo, "");
+      single_form_.UpdateText(detailInfo, GetLoadSummary());
       return (summary, detailInfo);
     }
 

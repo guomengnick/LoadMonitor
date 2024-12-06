@@ -59,7 +59,7 @@ namespace LoadMonitor.Components
 
     public override (string Summary, string DetailInfo) GetText()
     {
-      quad_grid_form_.UpdateText(DetailInfo, "");
+      quad_grid_form_.UpdateText(DetailInfo, GetLoadSummary());
       return (SubTitle, DetailInfo);
     }
 
@@ -107,6 +107,14 @@ namespace LoadMonitor.Components
             LineSmoothness = 0, // 无弧度
         },
         },
+        YAxes = new Axis[]
+        {
+          new Axis()
+          {
+            MinLimit = 0,
+            MaxLimit = 100,
+          },
+        },
         Title = new LabelVisual
         {
           Text = "馬達溫度 (° C)",
@@ -130,6 +138,14 @@ namespace LoadMonitor.Components
             GeometrySize = 0, // 无点标记
             Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
             LineSmoothness = 0, // 无弧度
+          },
+        },
+        YAxes = new Axis[]
+        {
+          new Axis()
+          {
+            MinLimit = 0,
+            MaxLimit = base.MaxLoadingValue,
           },
         },
         Title = new LabelVisual

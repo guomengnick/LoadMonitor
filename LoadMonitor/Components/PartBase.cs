@@ -7,6 +7,7 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.WinForms;
 using SkiaSharp;
+using static LoadMonitor.HistoryData;
 
 
 namespace LoadMonitor.Components
@@ -24,6 +25,9 @@ namespace LoadMonitor.Components
     private Form detailForm_; // 延遲初始化字段
 
     private Action<string, string> updateDetailTextAction_;
+
+    public HistoryData history_data_ = new HistoryData();
+
     public Form DetailForm
     {
       get
@@ -70,7 +74,19 @@ namespace LoadMonitor.Components
       Initialize(maxLoadingValue);
     }
 
-    
+
+
+    // 获取小时和 6 小时的平均负载信息
+    public string GetLoadSummary()
+    {
+      double oneHourAverage = history_data_.GetAverage(TimeUnit.OneHour);
+      double sixHoursAverage = history_data_.GetAverage(TimeUnit.SixHours);
+
+      return $"1小時 平均附載 : {oneHourAverage:F2}% \r\n\r\n6小時平均附載 : {sixHoursAverage:F2}%";
+      //return $"{MainTitle}: {oneHourAverage:F2}% /1Hr, {sixHoursAverage:F2}% /6Hr";
+    }
+
+
     // 获取加载百分比
     protected double CalculateLoading(double currentValue)
     {
@@ -132,10 +148,14 @@ namespace LoadMonitor.Components
     /// <summary>
     /// 更新組件數據，並通知派生類更新詳細頁面
     /// </summary>
-    public void Update(double motor_current)
+    virtual public void Update(double motor_current)
     {
       data_.Add(new ObservableValue(motor_current));
+      history_data_.AddDataPoint(motor_current);
+      var average_data = history_data_.GetDataPoints();
+
       if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
+
 
       //(string summary, string detailInfo) = UpdateDetailData();
       //updateDetailTextAction_?.Invoke(summary, detailInfo);

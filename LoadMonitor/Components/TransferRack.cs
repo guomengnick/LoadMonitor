@@ -32,7 +32,8 @@ namespace LoadMonitor.Components
       double loading = CalculateLoading(latestValue); // 计算负载百分比
       string summary = $"{loading:F1} %";
       string detailInfo = $"{MainTitle} 附載: {loading:F1} % \r\n電流: {latestValue} A";
-      single_form_.UpdateText(detailInfo, "");
+
+      single_form_.UpdateText(detailInfo, GetLoadSummary());
       return (summary, detailInfo);
     }
 
@@ -77,7 +78,7 @@ namespace LoadMonitor.Components
           new Axis
           {
               MinLimit = 0, // 最小值（安培）
-              MaxLimit = base.MaxLoadingValue, // 最大值（安培）
+              MaxLimit = Math.Ceiling(base.MaxLoadingValue), // 最大值（安培）
               Labels = new[] { "0", "1", "2" , "3" }, // 僅顯示 0, 1, 2
               Labeler = value => $"{value:F0} A", // 格式化為 0 A, 1 A, 2 A
               LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色

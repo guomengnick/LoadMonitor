@@ -13,8 +13,9 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1500);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
+    private Overview overview_;
 
     public MainForm()
     {
@@ -33,6 +34,17 @@ namespace LoadMonitor
     {
       var factory = new Factory();
       components_ = factory.CreateComponents(DetailChartPanel);
+      if (components_[0] is Overview overview)
+      {
+        overview_ = overview;
+        overview_.AddAllParts(components_);
+      }
+      else
+      {
+        throw new InvalidOperationException("components_[0] is not of type Overview.");
+      }
+
+
       // 將部件添加到界面
       bool add_first_detail_form = true;
       foreach (var component in components_.Values)

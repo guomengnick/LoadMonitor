@@ -13,11 +13,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static LoadMonitor.HistoryData;
+
+using Log = Serilog.Log;
 
 namespace LoadMonitor.Components
 {
   internal class Overview : PartBase
   {
+    private Dictionary<int, PartBase> components_; // 用于保存组件数据
 
     private DateTime startTime;
     public Overview(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel, double max_current) :
@@ -26,6 +30,10 @@ namespace LoadMonitor.Components
       startTime = DateTime.Now;
     }
 
+    public void AddAllParts(Dictionary<int, PartBase> components)
+    {
+      components_ = components;
+    }
 
     public override (string Summary, string DetailInfo) GetText()
     {
@@ -36,7 +44,7 @@ namespace LoadMonitor.Components
 
       DateTime now = DateTime.Now;// 获取当前日期和时间
       string dateTimeString = now.ToString("yyyy/MM/dd HH:mm:ss");
-      
+
       TimeSpan operationTime = now - startTime;// 累計運行時間
 
       // 格式化运作时间
@@ -55,23 +63,56 @@ namespace LoadMonitor.Components
 {operationTimeFormatted}
 整機附載: {loading:F1} %
 總電流: {latestValue:F3} A
+瞬時功率: {power:F1} kW
+平均日功率: {averageDailyPower:F1} kWh
 ";
 
-      var right_text = $@"瞬時功率: {power:F1} kW
-
-
-
-平均日功率: {averageDailyPower:F1} kWh";
 
       base.DetailInfo = detailInfo;
       current_watt_.UpdateValue(power);
       daily_average_watt_.UpdateValue(averageDailyPower);
+
+      var right_text = "";//DisplayLoadSummary();
+
       form_3.UpdateText(detailInfo, right_text);
 
       return (summary, detailInfo);
     }
 
 
+    // 获取所有部件的负载信息
+    public string DisplayLoadSummary()
+    {
+      StringBuilder summaryBuilder = new StringBuilder();
+
+      // 添加表头
+      summaryBuilder.AppendLine(string.Format("{0,-8} | {1,10} | {2,10}", "部件名稱", "1Hr 負載", "6Hr 負載"));
+      summaryBuilder.AppendLine(new string('-', 35));
+
+      // 遍历组件获取负载信息
+      foreach (var component in components_.Values)
+      {
+        double oneHourAverage = component.history_data_.GetAverage(TimeUnit.OneHour);
+        double sixHourAverage = component.history_data_.GetAverage(TimeUnit.SixHours);
+
+        // 添加到字符串构建器
+        summaryBuilder.AppendLine(string.Format("{0,-8} | {1,10:F2}% | {2,10:F2}%",
+                                                component.MainTitle, oneHourAverage, sixHourAverage));
+      }
+
+      string result = summaryBuilder.ToString();
+
+      // 同时记录日志
+      Log.Information("\n" + result);
+
+      return result;
+
+    }
+
+    public override void Update(double motor_current)
+    {
+      base.Update(motor_current);//要計算整機的電流
+    }
 
     private UserControl OverviewLoadingChart()
     {
