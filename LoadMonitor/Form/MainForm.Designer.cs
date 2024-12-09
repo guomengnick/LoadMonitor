@@ -35,6 +35,7 @@ namespace LoadMonitor
     /// </summary>
     private void InitializeComponent()
     {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       flowLayoutPanel1 = new FlowLayoutPanel();
       DummyPanel = new Panel();
       DetailChartPanel = new Panel();
@@ -54,7 +55,7 @@ namespace LoadMonitor
       flowLayoutPanel1.Location = new Point(12, 12);
       flowLayoutPanel1.Margin = new Padding(0);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
-      flowLayoutPanel1.Size = new Size(307, 727);
+      flowLayoutPanel1.Size = new Size(306, 727);
       flowLayoutPanel1.TabIndex = 3;
       flowLayoutPanel1.WrapContents = false;
       // 
@@ -62,7 +63,7 @@ namespace LoadMonitor
       // 
       DummyPanel.Location = new Point(3, 3);
       DummyPanel.Name = "DummyPanel";
-      DummyPanel.Size = new Size(269, 10);
+      DummyPanel.Size = new Size(280, 10);
       DummyPanel.TabIndex = 8;
       // 
       // DetailChartPanel
@@ -112,6 +113,7 @@ namespace LoadMonitor
       Controls.Add(DetailChartPanel);
       Controls.Add(flowLayoutPanel1);
       Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold);
+      Icon = (Icon)resources.GetObject("$this.Icon");
       Name = "MainForm";
       StartPosition = FormStartPosition.CenterScreen;
       Text = "GAM 330AT";

@@ -8,6 +8,7 @@ using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.WinForms;
 using SkiaSharp;
 using static LoadMonitor.HistoryData;
+using Serilog;
 
 
 namespace LoadMonitor.Components
@@ -26,7 +27,7 @@ namespace LoadMonitor.Components
 
     private Action<string, string> updateDetailTextAction_;
 
-    public HistoryData history_data_ = new HistoryData();
+    public HistoryData history_data_;
 
     public Form DetailForm
     {
@@ -71,7 +72,9 @@ namespace LoadMonitor.Components
       DetailInfo = detailInfo;
 
       IsSelected = false;
+
       Initialize(maxLoadingValue);
+      history_data_ = new HistoryData(maxLoadingValue, 3/*每個部件都預設取3筆就好*/);
     }
 
 
@@ -81,7 +84,8 @@ namespace LoadMonitor.Components
     {
       double oneHourAverage = history_data_.GetAverage(TimeUnit.OneHour);
       double sixHoursAverage = history_data_.GetAverage(TimeUnit.SixHours);
-
+      var is_overloading = history_data_.IsExceedingMax();
+      Serilog.Log.Information($"{MainTitle}: 是否超出附載{is_overloading}");
       return $"1小時 平均附載 : {oneHourAverage:F2}% \r\n\r\n6小時平均附載 : {sixHoursAverage:F2}%";
       //return $"{MainTitle}: {oneHourAverage:F2}% /1Hr, {sixHoursAverage:F2}% /6Hr";
     }
@@ -127,7 +131,7 @@ namespace LoadMonitor.Components
                 },
         XAxes = new[] { new Axis { IsVisible = false, SeparatorsPaint = null } }, // 隐藏 X 轴
         YAxes = new[] { new Axis { IsVisible = false, 
-          SeparatorsPaint = null, MinLimit = 0, MaxLimit = 1, } }, // 隐藏 Y 轴
+          SeparatorsPaint = null, MinLimit = 0, MaxLimit = 5, } }, // 隐藏 Y 轴
         DrawMargin = null, // 移除绘图区域边距
         Padding = new Padding(0), // 移除内部边距
         Margin = new Padding(0), // 移除外部边距
@@ -144,6 +148,12 @@ namespace LoadMonitor.Components
       MaxLoadingValue = maxLoadingValue;
     }
 
+
+    //點擊了提醒鈴鐺
+    public virtual void OnReminderBellClick()
+    {
+      Log.Information($"{MainTitle} 電機負載異常，請檢查該電機相關部件及保養。");
+    }
 
     /// <summary>
     /// 更新組件數據，並通知派生類更新詳細頁面

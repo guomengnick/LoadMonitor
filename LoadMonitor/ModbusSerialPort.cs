@@ -146,8 +146,7 @@ namespace LoadMonitor
       int bytesRead = 0;
       try
       {
-        bytesRead = serial_port_.Read(responseFrame, 0, responseFrame.Length);// 打印接收到的數據幀到日誌
-
+        bytesRead = serial_port_.Read(responseFrame, 0, 37);// 打印接收到的數據幀到日誌
       }
       catch (TimeoutException)
       {
@@ -168,7 +167,19 @@ namespace LoadMonitor
         //Log.Warning("Response too short or invalid.");
         return currents;
       }
-      
+      if (responseFrame[0] == 0x03 && responseFrame[1] == 0x20)
+      {
+        // 將數據向後移動一位（從末尾開始防止覆蓋）
+        for (int i = responseFrame.Length - 1; i > 0; i--)
+        {
+          responseFrame[i] = responseFrame[i - 1];
+        }
+
+        // 設置第一個字節為 0x01
+        responseFrame[0] = 0x01;
+      }
+
+
       if (responseFrame[0] != 0x01 || responseFrame[1] != 0x03 || responseFrame[2] != 0x20)
       {
         return currents;//TODO: 有時候第0個值會跑到最後一位，全部的數據往前一格
@@ -178,7 +189,7 @@ namespace LoadMonitor
       int dataLength = bytesRead - 5;
       if (dataLength != 32) // 確保數據區域是 32 字節（16 通道，每通道 2 字節）
       {
-        Log.Warning("Invalid data length.");
+        //Log.Warning("Invalid data length.");
         return currents;
       }
       var s = "";
@@ -190,16 +201,19 @@ namespace LoadMonitor
         ushort registerValue = (ushort)((responseFrame[dataIndex] << 8) | responseFrame[dataIndex + 1]);
 
         // 計算實際電流值（寄存器值 / 100.0）
-        double currentValue = registerValue / 1000.0;
+        double currentValue = registerValue / 100.0;
         currents[i] = currentValue; // 字典的鍵值對應通道號（從1開始）
         sum_current += currentValue;
 
         // 記錄到日誌
-        s += $"通道{i}: {currentValue:00.00} A\n";
+        if(i <= 8)
+        {
+          s += $"通道{i}: {currentValue:00.00} A\n";
+        }
       }
       currents[0/*0 用來裝總電流*/] = sum_current;
 
-      //Log.Information($"總電流:{sum_current} A\n" + s + "\n\n");
+      Log.Information($"總電流:{sum_current} A\n" + s + "\n\n");
 
       // 最後清空緩衝區
       //serial_port_.DiscardInBuffer();

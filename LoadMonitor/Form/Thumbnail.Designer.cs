@@ -28,15 +28,17 @@
     /// </summary>
     private void InitializeComponent()
     {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Thumbnail));
       PanelThumbnail = new Panel();
       LabelTitle = new Label();
       Labelsummary = new Label();
+      button1 = new Button();
       SuspendLayout();
       // 
       // PanelThumbnail
       // 
       PanelThumbnail.BackColor = SystemColors.Control;
-      PanelThumbnail.Location = new Point(2, 2);
+      PanelThumbnail.Location = new Point(2, 13);
       PanelThumbnail.Margin = new Padding(0);
       PanelThumbnail.Name = "PanelThumbnail";
       PanelThumbnail.Size = new Size(118, 90);
@@ -46,7 +48,7 @@
       // 
       LabelTitle.AutoSize = true;
       LabelTitle.Font = new Font("Microsoft JhengHei UI", 14F);
-      LabelTitle.Location = new Point(123, 6);
+      LabelTitle.Location = new Point(123, 17);
       LabelTitle.Name = "LabelTitle";
       LabelTitle.Size = new Size(71, 24);
       LabelTitle.TabIndex = 3;
@@ -55,17 +57,35 @@
       // Labelsummary
       // 
       Labelsummary.AutoSize = true;
-      Labelsummary.Location = new Point(126, 31);
+      Labelsummary.Location = new Point(126, 42);
       Labelsummary.Name = "Labelsummary";
       Labelsummary.Size = new Size(73, 15);
       Labelsummary.TabIndex = 4;
       Labelsummary.Text = "15%  10.2%";
       // 
+      // button1
+      // 
+      button1.BackColor = Color.Transparent;
+      button1.FlatAppearance.BorderColor = Color.Silver;
+      button1.FlatAppearance.BorderSize = 0;
+      button1.FlatAppearance.MouseDownBackColor = Color.Transparent;
+      button1.FlatAppearance.MouseOverBackColor = Color.Transparent;
+      button1.FlatStyle = FlatStyle.Flat;
+      button1.ForeColor = Color.Transparent;
+      button1.Image = (Image)resources.GetObject("button1.Image");
+      button1.Location = new Point(250, 3);
+      button1.Name = "button1";
+      button1.Size = new Size(29, 37);
+      button1.TabIndex = 5;
+      button1.UseVisualStyleBackColor = false;
+      button1.MouseClick += button1_MouseClick;
+      // 
       // Thumbnail
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(280, 93);
+      ClientSize = new Size(288, 106);
+      Controls.Add(button1);
       Controls.Add(Labelsummary);
       Controls.Add(LabelTitle);
       Controls.Add(PanelThumbnail);
@@ -82,5 +102,6 @@
     private Panel PanelThumbnail;
     private Label LabelTitle;
     private Label Labelsummary;
+    private Button button1;
   }
 }

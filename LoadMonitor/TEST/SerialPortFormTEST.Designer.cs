@@ -39,20 +39,20 @@
       textBoxOutput.Location = new Point(12, 12);
       textBoxOutput.Multiline = true;
       textBoxOutput.Name = "textBoxOutput";
-      textBoxOutput.Size = new Size(543, 382);
+      textBoxOutput.Size = new Size(1065, 382);
       textBoxOutput.TabIndex = 0;
       // 
       // comboBoxPorts
       // 
       comboBoxPorts.FormattingEnabled = true;
-      comboBoxPorts.Location = new Point(686, 12);
+      comboBoxPorts.Location = new Point(733, 415);
       comboBoxPorts.Name = "comboBoxPorts";
       comboBoxPorts.Size = new Size(121, 23);
       comboBoxPorts.TabIndex = 1;
       // 
       // buttonConnect
       // 
-      buttonConnect.Location = new Point(575, 12);
+      buttonConnect.Location = new Point(622, 415);
       buttonConnect.Name = "buttonConnect";
       buttonConnect.Size = new Size(105, 23);
       buttonConnect.TabIndex = 2;
@@ -62,7 +62,7 @@
       // 
       // buttonRead
       // 
-      buttonRead.Location = new Point(586, 63);
+      buttonRead.Location = new Point(873, 415);
       buttonRead.Name = "buttonRead";
       buttonRead.Size = new Size(94, 23);
       buttonRead.TabIndex = 3;
@@ -70,16 +70,16 @@
       buttonRead.UseVisualStyleBackColor = true;
       buttonRead.Click += buttonRead_Click_1;
       // 
-      // SerialPortForm
+      // SerialPortFormTEST
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(878, 450);
+      ClientSize = new Size(1089, 513);
       Controls.Add(buttonRead);
       Controls.Add(buttonConnect);
       Controls.Add(comboBoxPorts);
       Controls.Add(textBoxOutput);
-      Name = "SerialPortForm";
+      Name = "SerialPortFormTEST";
       Text = "SerialPortForm";
       ResumeLayout(false);
       PerformLayout();

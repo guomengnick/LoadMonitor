@@ -23,7 +23,7 @@ namespace LoadMonitor
   public partial class Thumbnail : Form
   {
     private PartBase part_base_;
-    
+
     public Thumbnail(CartesianChart thumbnail_chart, PartBase part_base, string mainTitle, string subTitle)
     {
       InitializeComponent();
@@ -125,6 +125,11 @@ namespace LoadMonitor
       part_base_.DetailForm.Dock = DockStyle.Fill; // 填充父控件
       part_base_.DetailForm.Show(); // 顯示詳細信息
       part_base_.DetailChartPanel.Controls.Add(part_base_.DetailForm);
+    }
+
+    private void button1_MouseClick(object sender, MouseEventArgs e)
+    {
+      part_base_.OnReminderBellClick();
     }
   }
 }
