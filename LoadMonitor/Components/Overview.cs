@@ -132,10 +132,10 @@ namespace LoadMonitor.Components
           new Axis
           {
             MinLimit = 0, // 最小值（安培）
-            MaxLimit = 3, // 最大值（安培）
-
-            Labels = new[] { "0", "1", "2", "3" }, // 僅顯示 0, 1, 2
-            Labeler = value => $"{value:F0} A", // 格式化為 0 A, 1 A, 2 A
+            MaxLimit = base.MaxLoadingValue, // 最大值（安培）
+            UnitWidth = base.MaxLoadingValue/5,
+            Labels = new[] { "0","", "", "", "", "5", "", "", "", "", "10" }, // 僅顯示 0, 1, 2
+            //Labeler = value => $"{value:F0} A", // 格式化為 0 A, 1 A, 2 A
             LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
             SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
           }

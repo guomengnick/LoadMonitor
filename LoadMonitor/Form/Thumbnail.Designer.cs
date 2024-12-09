@@ -32,7 +32,7 @@
       PanelThumbnail = new Panel();
       LabelTitle = new Label();
       Labelsummary = new Label();
-      button1 = new Button();
+      ButtonRemindBell = new Button();
       SuspendLayout();
       // 
       // PanelThumbnail
@@ -63,29 +63,30 @@
       Labelsummary.TabIndex = 4;
       Labelsummary.Text = "15%  10.2%";
       // 
-      // button1
+      // ButtonRemindBell
       // 
-      button1.BackColor = Color.Transparent;
-      button1.FlatAppearance.BorderColor = Color.Silver;
-      button1.FlatAppearance.BorderSize = 0;
-      button1.FlatAppearance.MouseDownBackColor = Color.Transparent;
-      button1.FlatAppearance.MouseOverBackColor = Color.Transparent;
-      button1.FlatStyle = FlatStyle.Flat;
-      button1.ForeColor = Color.Transparent;
-      button1.Image = (Image)resources.GetObject("button1.Image");
-      button1.Location = new Point(250, 3);
-      button1.Name = "button1";
-      button1.Size = new Size(29, 37);
-      button1.TabIndex = 5;
-      button1.UseVisualStyleBackColor = false;
-      button1.MouseClick += button1_MouseClick;
+      ButtonRemindBell.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+      ButtonRemindBell.BackColor = Color.Transparent;
+      ButtonRemindBell.FlatAppearance.BorderColor = Color.Silver;
+      ButtonRemindBell.FlatAppearance.BorderSize = 0;
+      ButtonRemindBell.FlatAppearance.MouseDownBackColor = Color.Transparent;
+      ButtonRemindBell.FlatAppearance.MouseOverBackColor = Color.Transparent;
+      ButtonRemindBell.FlatStyle = FlatStyle.Flat;
+      ButtonRemindBell.ForeColor = Color.Transparent;
+      ButtonRemindBell.Image = (Image)resources.GetObject("ButtonRemindBell.Image");
+      ButtonRemindBell.Location = new Point(248, 0);
+      ButtonRemindBell.Name = "ButtonRemindBell";
+      ButtonRemindBell.Size = new Size(31, 37);
+      ButtonRemindBell.TabIndex = 5;
+      ButtonRemindBell.UseVisualStyleBackColor = false;
+      ButtonRemindBell.MouseClick += ButtonRemindBellClick;
       // 
       // Thumbnail
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(288, 106);
-      Controls.Add(button1);
+      ClientSize = new Size(295, 109);
+      Controls.Add(ButtonRemindBell);
       Controls.Add(Labelsummary);
       Controls.Add(LabelTitle);
       Controls.Add(PanelThumbnail);
@@ -102,6 +103,6 @@
     private Panel PanelThumbnail;
     private Label LabelTitle;
     private Label Labelsummary;
-    private Button button1;
+    private Button ButtonRemindBell;
   }
 }

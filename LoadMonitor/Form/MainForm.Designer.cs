@@ -52,7 +52,7 @@ namespace LoadMonitor
       flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
       flowLayoutPanel1.Controls.Add(DummyPanel);
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-      flowLayoutPanel1.Location = new Point(12, 12);
+      flowLayoutPanel1.Location = new Point(12, 39);
       flowLayoutPanel1.Margin = new Padding(0);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
       flowLayoutPanel1.Size = new Size(306, 727);
@@ -69,7 +69,7 @@ namespace LoadMonitor
       // DetailChartPanel
       // 
       DetailChartPanel.BackColor = Color.Transparent;
-      DetailChartPanel.Location = new Point(335, 12);
+      DetailChartPanel.Location = new Point(335, 39);
       DetailChartPanel.Name = "DetailChartPanel";
       DetailChartPanel.Size = new Size(1000, 727);
       DetailChartPanel.TabIndex = 8;
@@ -107,7 +107,7 @@ namespace LoadMonitor
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 746);
+      ClientSize = new Size(1347, 787);
       Controls.Add(panel1);
       Controls.Add(radioButton1);
       Controls.Add(DetailChartPanel);

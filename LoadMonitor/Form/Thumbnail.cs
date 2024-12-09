@@ -127,8 +127,13 @@ namespace LoadMonitor
       part_base_.DetailChartPanel.Controls.Add(part_base_.DetailForm);
     }
 
-    private void button1_MouseClick(object sender, MouseEventArgs e)
+    public void ShowRemindBell()
     {
+      this.ButtonRemindBell.Visible = true;
+    }
+    private void ButtonRemindBellClick(object sender, MouseEventArgs e)
+    {
+      this.ButtonRemindBell.Visible = false;
       part_base_.OnReminderBellClick();
     }
   }

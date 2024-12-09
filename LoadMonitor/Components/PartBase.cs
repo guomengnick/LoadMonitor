@@ -46,7 +46,7 @@ namespace LoadMonitor.Components
 
     protected ObservableCollection<ObservableValue> data_ = new ObservableCollection<ObservableValue>();
 
-    public static PartBase Create(string type, string name, string subTitle, 
+    public static PartBase Create(string type, string name, string subTitle,
         string detailInfo, Panel DetailChartPanel, double max_current_value)
     {
       return type switch
@@ -62,6 +62,7 @@ namespace LoadMonitor.Components
     public PartBase(string mainTitle, string subTitle, string detailInfo,
         double maxLoadingValue, Panel DetailChartPanel)
     {
+      MaxLoadingValue = maxLoadingValue;
       this.DetailChartPanel = DetailChartPanel;
       thumbnail_ = new Thumbnail(CreateThumbnail(), this, mainTitle, subTitle);//對縮圖賦值
       TEST.TEST.Add60EmptyData(data_);
@@ -82,11 +83,11 @@ namespace LoadMonitor.Components
     // 获取小时和 6 小时的平均负载信息
     public string GetLoadSummary()
     {
-      double oneHourAverage = history_data_.GetAverage(TimeUnit.OneHour);
-      double sixHoursAverage = history_data_.GetAverage(TimeUnit.SixHours);
+      double oneHourAverage = Math.Ceiling(history_data_.GetAverage(TimeUnit.OneHour));
+      double sixHoursAverage = Math.Ceiling(history_data_.GetAverage(TimeUnit.SixHours));
       var is_overloading = history_data_.IsExceedingMax();
       Serilog.Log.Information($"{MainTitle}: 是否超出附載{is_overloading}");
-      return $"1小時 平均附載 : {oneHourAverage:F2}% \r\n\r\n6小時平均附載 : {sixHoursAverage:F2}%";
+      return $"1小時 平均附載 : {oneHourAverage:F0}% \r\n\r\n6小時平均附載 : {sixHoursAverage:F0}%";
       //return $"{MainTitle}: {oneHourAverage:F2}% /1Hr, {sixHoursAverage:F2}% /6Hr";
     }
 
@@ -130,8 +131,8 @@ namespace LoadMonitor.Components
                     },
                 },
         XAxes = new[] { new Axis { IsVisible = false, SeparatorsPaint = null } }, // 隐藏 X 轴
-        YAxes = new[] { new Axis { IsVisible = false, 
-          SeparatorsPaint = null, MinLimit = 0, MaxLimit = 5, } }, // 隐藏 Y 轴
+        YAxes = new[] { new Axis { IsVisible = false,
+          SeparatorsPaint = null, MinLimit = 0, MaxLimit = Math.Ceiling(MaxLoadingValue * 3), } }, // 隐藏 Y 轴
         DrawMargin = null, // 移除绘图区域边距
         Padding = new Padding(0), // 移除内部边距
         Margin = new Padding(0), // 移除外部边距
