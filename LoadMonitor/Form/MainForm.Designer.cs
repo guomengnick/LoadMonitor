@@ -42,8 +42,14 @@ namespace LoadMonitor
       radioButton1 = new RadioButton();
       panel1 = new Panel();
       label1 = new Label();
+      menuStrip1 = new MenuStrip();
+      toolStripMenuItem1 = new ToolStripMenuItem();
+      toolStripMenuItem2 = new ToolStripMenuItem();
+      ddadasToolStripMenuItem = new ToolStripMenuItem();
+      dasdasdToolStripMenuItem = new ToolStripMenuItem();
       flowLayoutPanel1.SuspendLayout();
       panel1.SuspendLayout();
+      menuStrip1.SuspendLayout();
       SuspendLayout();
       // 
       // flowLayoutPanel1
@@ -52,7 +58,7 @@ namespace LoadMonitor
       flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
       flowLayoutPanel1.Controls.Add(DummyPanel);
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-      flowLayoutPanel1.Location = new Point(12, 39);
+      flowLayoutPanel1.Location = new Point(12, 42);
       flowLayoutPanel1.Margin = new Padding(0);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
       flowLayoutPanel1.Size = new Size(306, 727);
@@ -69,7 +75,7 @@ namespace LoadMonitor
       // DetailChartPanel
       // 
       DetailChartPanel.BackColor = Color.Transparent;
-      DetailChartPanel.Location = new Point(335, 39);
+      DetailChartPanel.Location = new Point(335, 42);
       DetailChartPanel.Name = "DetailChartPanel";
       DetailChartPanel.Size = new Size(1000, 727);
       DetailChartPanel.TabIndex = 8;
@@ -103,6 +109,42 @@ namespace LoadMonitor
       label1.TabIndex = 0;
       label1.Text = "label1一歇歇的自";
       // 
+      // menuStrip1
+      // 
+      menuStrip1.ImageScalingSize = new Size(25, 25);
+      menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2 });
+      menuStrip1.Location = new Point(0, 0);
+      menuStrip1.Name = "menuStrip1";
+      menuStrip1.ShowItemToolTips = true;
+      menuStrip1.Size = new Size(1347, 33);
+      menuStrip1.TabIndex = 11;
+      menuStrip1.Text = "menuStrip1";
+      // 
+      // toolStripMenuItem1
+      // 
+      toolStripMenuItem1.Name = "toolStripMenuItem1";
+      toolStripMenuItem1.Size = new Size(12, 29);
+      // 
+      // toolStripMenuItem2
+      // 
+      toolStripMenuItem2.DropDownItems.AddRange(new ToolStripItem[] { ddadasToolStripMenuItem, dasdasdToolStripMenuItem });
+      toolStripMenuItem2.Image = (Image)resources.GetObject("toolStripMenuItem2.Image");
+      toolStripMenuItem2.Name = "toolStripMenuItem2";
+      toolStripMenuItem2.Size = new Size(53, 29);
+      toolStripMenuItem2.Text = "   ";
+      // 
+      // ddadasToolStripMenuItem
+      // 
+      ddadasToolStripMenuItem.Name = "ddadasToolStripMenuItem";
+      ddadasToolStripMenuItem.Size = new Size(180, 22);
+      ddadasToolStripMenuItem.Text = "語言";
+      // 
+      // dasdasdToolStripMenuItem
+      // 
+      dasdasdToolStripMenuItem.Name = "dasdasdToolStripMenuItem";
+      dasdasdToolStripMenuItem.Size = new Size(180, 22);
+      dasdasdToolStripMenuItem.Text = "設置";
+      // 
       // MainForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
@@ -112,14 +154,18 @@ namespace LoadMonitor
       Controls.Add(radioButton1);
       Controls.Add(DetailChartPanel);
       Controls.Add(flowLayoutPanel1);
+      Controls.Add(menuStrip1);
       Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold);
       Icon = (Icon)resources.GetObject("$this.Icon");
+      MainMenuStrip = menuStrip1;
       Name = "MainForm";
       StartPosition = FormStartPosition.CenterScreen;
       Text = "GAM 330AT";
       flowLayoutPanel1.ResumeLayout(false);
       panel1.ResumeLayout(false);
       panel1.PerformLayout();
+      menuStrip1.ResumeLayout(false);
+      menuStrip1.PerformLayout();
       ResumeLayout(false);
       PerformLayout();
     }
@@ -132,6 +178,11 @@ namespace LoadMonitor
     private RadioButton radioButton1;
     private Panel panel1;
     private Label label1;
+    private MenuStrip menuStrip1;
+    private ToolStripMenuItem toolStripMenuItem1;
+    private ToolStripMenuItem toolStripMenuItem2;
+    private ToolStripMenuItem ddadasToolStripMenuItem;
+    private ToolStripMenuItem dasdasdToolStripMenuItem;
   }
 
 }

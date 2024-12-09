@@ -151,9 +151,9 @@ namespace LoadMonitor.Components
 
 
     //點擊了提醒鈴鐺
-    public virtual void OnReminderBellClick()
+    public virtual string OnReminderBellClick()
     {
-      Log.Information($"{MainTitle} 電機負載異常，請檢查該電機相關部件及保養。");
+      return $"{MainTitle} 電機負載異常，請檢查該電機相關部件及保養。";
     }
 
     /// <summary>

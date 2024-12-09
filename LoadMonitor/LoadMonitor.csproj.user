@@ -10,6 +10,9 @@
     <Compile Update="Form\DetailTextForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Form\RemindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="TEST\SerialPortFormTEST.cs">
       <SubType>Form</SubType>
     </Compile>

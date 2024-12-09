@@ -134,7 +134,19 @@ namespace LoadMonitor
     private void ButtonRemindBellClick(object sender, MouseEventArgs e)
     {
       this.ButtonRemindBell.Visible = false;
-      part_base_.OnReminderBellClick();
+      var text = part_base_.OnReminderBellClick();
+      var form = new RemindForm(text);
+      
+      form.ShowDialog();
+    }
+
+    private void ButtonRemindBell_Click(object sender, EventArgs e)
+    {
+    }
+
+    private void ButtonRemindBell_Click_1(object sender, EventArgs e)
+    {
+
     }
   }
 }

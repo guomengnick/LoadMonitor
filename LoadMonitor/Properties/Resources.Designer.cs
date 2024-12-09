@@ -73,6 +73,16 @@ namespace LoadMonitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap images__1_ {
+            get {
+                object obj = ResourceManager.GetObject("images (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap reminder_32png {
             get {
                 object obj = ResourceManager.GetObject("reminder_32png", resourceCulture);
@@ -86,6 +96,16 @@ namespace LoadMonitor.Properties {
         internal static System.Drawing.Bitmap reminder_50png {
             get {
                 object obj = ResourceManager.GetObject("reminder_50png", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SETT26472 {
+            get {
+                object obj = ResourceManager.GetObject("SETT26472", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
