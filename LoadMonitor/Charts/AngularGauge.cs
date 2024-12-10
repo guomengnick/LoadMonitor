@@ -79,14 +79,15 @@ namespace LoadMonitor
         // 添加居中文本
         new LabelVisual
         {
-            Text = text, // 要顯示的文本 TODO:FIX_BUG 不能基於Panel 像素, 位置會因為上層部件大小 跑掉
-            TextSize = 14, // 字體大小
-            Paint = new SolidColorPaint(SkiaSharp.SKColors.Black){
-               SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字型
-            }, // 文本顏色
-            LocationUnit = LiveChartsCore.Measure.MeasureUnit.Pixels, // 使用像素單位
-            X = 125, // 水平居中
-            Y = 190  // 垂直居中
+            //Text = text, // 要顯示的文本 TODO:FIX_BUG 不能基於Panel 像素, 位置會因為上層部件大小 跑掉
+            //TextSize = 14, // 字體大小
+            //Paint = new SolidColorPaint(SkiaSharp.SKColors.Black){
+            //   SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字型
+            //}, // 文本顏色
+            //LocationUnit = LiveChartsCore.Measure.MeasureUnit.Pixels, // 使用像素單位
+            
+            //X = 100, // 水平居中
+            //Y = 100  // 垂直居中
             //LocationUnit = LiveChartsCore.Measure.MeasureUnit.ChartValues, // 使用相對單位
             //X = 5,  // 水平相對位置 (0.5 表示中心)
             //Y = 9   // 垂直相對位置 (0.9 表示靠近底部)
@@ -133,6 +134,16 @@ namespace LoadMonitor
 
       pie_chart_ = new LiveChartsCore.SkiaSharpView.WinForms.PieChart
       {
+        Title = new LabelVisual
+        {
+          Text = text,
+          TextSize = 15,
+          Paint = new SolidColorPaint(SkiaSharp.SKColors.Black)
+          {
+            SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字型
+            SKFontStyle = SKFontStyle.Bold,
+          }, // 文本顏色
+        },
         LegendTextPaint = textPaint,
         TooltipTextPaint = textPaint,
         Series = viewModel_.Series,
@@ -143,13 +154,15 @@ namespace LoadMonitor
         MaxValue = 100,
         //AnimationsSpeed = TimeSpan.Zero,
         // out of livecharts properties...
-        Location = new System.Drawing.Point(0, 0),
+        //Location = new System.Drawing.Point(0, 0),
         Size = new System.Drawing.Size(10, 10),
         Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom
       };
-
+      //pie_chart_.VisualElements.
       Controls.Add(pie_chart_);
 
+      var panelWidth = pie_chart_.Width; // 獲取 Panel 的寬度
+      var panelHeight = pie_chart_.Height; // 獲取 Panel 的高度
       // 初始化定时器
       var updateTimer_ = new FormsTimer
       {

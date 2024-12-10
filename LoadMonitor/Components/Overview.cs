@@ -58,7 +58,7 @@ namespace LoadMonitor.Components
 
       // 平均每日功率 (kW·h)
       var random = new Random();
-      double averageDailyPower = random.NextDouble() * 15 + power; // 平均每日功率
+      double averageDailyPower = random.NextDouble() * 0.1 + power; // 平均每日功率
 
       // 格式化詳細信息
       string detailInfo = $@"{dateTimeString}
@@ -128,6 +128,30 @@ namespace LoadMonitor.Components
             LineSmoothness = 0, // 无弧度
           },
         },
+        // 設置 X 軸
+        XAxes = new Axis[]
+        {
+            new Axis
+            {
+                MinLimit = 0,
+                MaxLimit = 60,
+                UnitWidth = 30,
+                Labeler = value =>
+                {
+                  if (value == 0)return "60秒";
+                  else if (value == 60)return "0";
+                  return ""; // 其他值不顯示
+                },
+                LabelsPaint = new SolidColorPaint(SKColors.Black)
+                {
+                  SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字體
+                },
+                SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+                {
+                  StrokeThickness = 1 // 分隔線的寬度
+                }
+            }
+        },
         // 設置 Y 軸
         YAxes = new Axis[]
         {
@@ -135,9 +159,17 @@ namespace LoadMonitor.Components
           {
             MinLimit = 0, // 最小值（安培）
             MaxLimit = base.MaxLoadingValue, // 最大值（安培）
-            UnitWidth = base.MaxLoadingValue/5,
-            Labels = new[] { "0","", "", "", "", "5", "", "", "", "", "10" }, // 僅顯示 0, 1, 2
-            //Labeler = value => $"{value:F0} A", // 格式化為 0 A, 1 A, 2 A
+            UnitWidth = 2,
+            
+            //Labels = new[] { "0","", "", "", "", "5", "", "", "", "", "10" }, // 僅顯示 0, 1, 2
+            Labeler = value =>
+            {
+              if (value == base.MaxLoadingValue)
+              {
+                return base.MaxLoadingValue.ToString() + " A";
+              }
+              return "";
+            }, // 格式化為 0 A, 1 A, 2 A
             LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
             SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
           }
