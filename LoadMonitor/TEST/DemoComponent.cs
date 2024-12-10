@@ -23,7 +23,7 @@ namespace LoadMonitor.TEST
       Random random = new Random(); // 在循环外创建 Random 实例
       for (int i = 0; i < 59; i++)
       {
-        var newValue = random.Next(0, 100); // 假设范围是 0~100
+        var newValue = random.Next(0, 3); // 假设范围是 0~100
         data.Add(new ObservableValue(newValue));
       }
 
@@ -54,7 +54,7 @@ namespace LoadMonitor.TEST
                     new LineSeries<ObservableValue>
                     {
                         Values = data,
-                        Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
+                       Fill = new SolidColorPaint(0x556eddff), // 填充颜色
                         GeometrySize = 0, // 无点标记
                         Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
                         LineSmoothness = 0, // 无弧度

@@ -66,10 +66,10 @@ void __fastcall TForm1::UpdateSpindleInfo(TObject *Sender)
 	try
 	{
 		// 隨機生成數值
-		int speed = GenerateRandomInt(37500, 15000); // Speed
+		int speed = GenerateRandomInt(37500, 300); // Speed
 		String status = GenerateRandomStatus(); // Status
 		String internalStatus = GenerateRandomStatus(); // InternalStatus
-		int power = GenerateRandomInt(5000, 1000); // Power
+		int power = GenerateRandomInt(500, 60); // Power
 		double busVoltage = GenerateRandomDouble(48.0, 1.0); // BusVoltage
 		double current = GenerateRandomDouble(1.0, 0.15); // Current
 		int motorTemperature = GenerateRandomInt(40, 10); // MotorTemperature

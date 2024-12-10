@@ -25,8 +25,9 @@ namespace LoadMonitor.Components
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
 
     private DateTime startTime;
-    public Overview(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel, double max_current) :
-      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel)
+    public Overview(string mainTitle, string subTitle, string detailInfo, 
+        Panel DetailChartPanel, double max_current, SKColor color) :
+      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, color)
     {
       startTime = DateTime.Now;
       GetDetailForm();
@@ -122,9 +123,9 @@ namespace LoadMonitor.Components
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]{new LineSeries<ObservableValue>{
-            Values = data_, Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
+            Values = data_,Fill = new SolidColorPaint(0x556eddff), // 填充颜色
             GeometrySize = 0, // 无点标记
-            Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
+            Stroke = new SolidColorPaint(0xff3a7ec7, 1), // 线条颜色和粗细
             LineSmoothness = 0, // 无弧度
           },
         },
@@ -135,7 +136,7 @@ namespace LoadMonitor.Components
             {
                 MinLimit = 0,
                 MaxLimit = 60,
-                UnitWidth = 30,
+                UnitWidth = 60,
                 Labeler = value =>
                 {
                   if (value == 0)return "60秒";
@@ -204,7 +205,7 @@ namespace LoadMonitor.Components
     private UserControl AverageWattPerMonthChart()
     {
       daily_average_watt_ = new AngularGauge("日功率(kWh)")
-      {//TODO 給單位
+      {
 
         Dock = DockStyle.Fill,
       };

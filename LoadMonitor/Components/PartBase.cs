@@ -29,6 +29,8 @@ namespace LoadMonitor.Components
 
     public HistoryData history_data_;
 
+    readonly protected SKColor line_color_;
+    readonly protected SKColor fill_color_;
     public Form DetailForm
     {
       get
@@ -47,26 +49,30 @@ namespace LoadMonitor.Components
     protected ObservableCollection<ObservableValue> data_ = new ObservableCollection<ObservableValue>();
 
     public static PartBase Create(string type, string name, string subTitle,
-        string detailInfo, Panel DetailChartPanel, double max_current_value)
+        string detailInfo, Panel DetailChartPanel, double max_current_value, SKColor color)
     {
       return type switch
       {
-        "Spindle" => new Spindle(name, subTitle, detailInfo, DetailChartPanel, max_current_value),
-        "CutMotor" => new CutMotor(name, subTitle, detailInfo, DetailChartPanel, max_current_value),
-        "TransferRack" => new TransferRack(name, subTitle, detailInfo, DetailChartPanel, max_current_value),
-        "Overview" => new Overview(name, subTitle, detailInfo, DetailChartPanel, max_current_value),
+        "Spindle" => new Spindle(name, subTitle, detailInfo, DetailChartPanel, max_current_value, color),
+        "CutMotor" => new CutMotor(name, subTitle, detailInfo, DetailChartPanel, max_current_value, color),
+        "TransferRack" => new TransferRack(name, subTitle, detailInfo, DetailChartPanel, max_current_value, color),
+        "Overview" => new Overview(name, subTitle, detailInfo, DetailChartPanel, max_current_value, color),
         _ => throw new ArgumentException($"Unknown component type: {type}")
       };
     }
 
     public PartBase(string mainTitle, string subTitle, string detailInfo,
-        double maxLoadingValue, Panel DetailChartPanel)
+        double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color)
     {
       MaxLoadingValue = maxLoadingValue;
       this.DetailChartPanel = DetailChartPanel;
+
+      line_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0xee);
+      fill_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0x30);
+
       thumbnail_ = new Thumbnail(CreateThumbnail(), this, mainTitle, subTitle);//對縮圖賦值
-      TEST.TEST.Add60EmptyData(data_);
-      //TEST.TEST.AddData(data_);
+      //TEST.TEST.Add60EmptyData(data_);
+      TEST.TEST.AddData(data_);
 
       MainTitle = mainTitle;
       SubTitle = subTitle;
@@ -76,6 +82,7 @@ namespace LoadMonitor.Components
 
       Initialize(maxLoadingValue);
       history_data_ = new HistoryData(maxLoadingValue, 3/*每個部件都預設取3筆就好*/);
+      //對此部件更新色彩
     }
 
 
@@ -120,16 +127,16 @@ namespace LoadMonitor.Components
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]
-                {
-                    new LineSeries<ObservableValue>
-                    {
-                        Values = data_,
-                        Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
-                        GeometrySize = 0, // 无点标记
-                        Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
-                        LineSmoothness = 0, // 无弧度
-                    },
-                },
+          {
+            new LineSeries<ObservableValue>
+            {
+              Values = data_,
+              Fill = new SolidColorPaint(fill_color_), // 填充颜色
+              GeometrySize = 0, // 无点标记
+              Stroke = new SolidColorPaint(line_color_, 1), // 线条颜色和粗细
+              LineSmoothness = 0, // 无弧度
+            },
+          },
         XAxes = new[] { new Axis { IsVisible = false, SeparatorsPaint = null } }, // 隐藏 X 轴
         YAxes = new[] { new Axis { IsVisible = false,
           SeparatorsPaint = null, MinLimit = 0, MaxLimit = Math.Ceiling(MaxLoadingValue * 3), } }, // 隐藏 Y 轴

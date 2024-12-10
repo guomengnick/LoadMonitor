@@ -29,7 +29,7 @@ using LiveCharts.Wpf.Charts.Base;
 
 namespace LoadMonitor.Components
 {
-    internal class Spindle : PartBase
+  internal class Spindle : PartBase
   {
     private string ini_path_ = "spindle_info.ini";
     protected ObservableCollection<ObservableValue> motor_temperature_data_ = new ObservableCollection<ObservableValue>();
@@ -37,17 +37,19 @@ namespace LoadMonitor.Components
     protected AngularGauge power_;
     protected AngularGauge rpm_;
     private ThreadTimer timer_ = new ThreadTimer(1000);
-    public Spindle(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel, double max_current) : 
-      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel) // 主轴最大负载值为 10A
+    public Spindle(string mainTitle, string subTitle, string detailInfo, 
+        Panel DetailChartPanel, double max_current, SKColor chart_color) :
+      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
     {
-
+      TEST.TEST.Add60EmptyData(motor_temperature_data_);
       quad_grid_form_ = new QuadGrid();
 
-      power_ = new AngularGauge("功率(kW)")
+      rpm_ = new AngularGauge("x10000rpm")
       {
         Dock = DockStyle.Fill,
       };
-      rpm_ = new AngularGauge("x10000rpm")
+
+      power_ = new AngularGauge("功率(kW)")
       {
         Dock = DockStyle.Fill,
       };
@@ -65,10 +67,14 @@ namespace LoadMonitor.Components
 
     private UserControl RPM()
     {
+      rpm_.SetGaugeMaxValue(10);
+      rpm_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(3.0);
       return rpm_;
     }
     private UserControl Power()
     {
+      power_.SetGaugeMaxValue(1);
+      power_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(2.0);
       return power_;
     }
 
@@ -83,38 +89,68 @@ namespace LoadMonitor.Components
       return chart;
     }
 
+
     private UserControl MotorTemperature()
     {
+      // 創建 CartesianChart
+      var temperature = 100;
       return new CartesianChart
       {
-        /// 如果圖表要設定中文, 需要以下這樣設定才行
-        //XAxes = new Axis[]{
-        //  new Axis{
-        //    Name = "Salesman/woman",
-        //    Labels = new string[] { "主軸", "赵", "张" },
-        //    LabelsPaint = new SolidColorPaint(SKColors.Black){
-        //        SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
-        //    },
-        //  }
-        //},
-        /// 如果圖表要設定中文, 需要以下這樣設定才行
-        Dock = DockStyle.Fill, // 填满 Panel
-        Series = new ISeries[]{new LineSeries<ObservableValue>{
-            Values = motor_temperature_data_,
-            Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
-            GeometrySize = 0, // 无点标记
-            Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
-            LineSmoothness = 0, // 无弧度
-        },
+        Dock = DockStyle.Fill, 
+        Height = 300,
+        XAxes = new Axis[]
+        {
+          new Axis
+          {
+              MinLimit = 0,
+              MaxLimit = 60,
+              //UnitWidth = 60,
+              Labeler = value =>
+              {
+                  if (value == 0) return "60秒";
+                  else if (value == 60) return "0";
+                  return ""; // 其他值不顯示
+              },
+              LabelsPaint = new SolidColorPaint(SKColors.Black)
+              {
+                  SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字體
+              },
+              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+              {
+                  StrokeThickness = 1 // 分隔線的寬度
+              }
+          }
         },
         YAxes = new Axis[]
         {
-          new Axis()
+          new Axis
           {
-            MinLimit = 0,
-            MaxLimit = 100,
-          },
+              MinLimit = 0,
+              MaxLimit = temperature,
+              //UnitWidth = 2,
+              Labeler = value =>
+              {
+                  if (value == temperature)
+                  {
+                      return temperature.ToString() + "°C";
+                  }
+                  return "";
+              },
+              LabelsPaint = new SolidColorPaint(SKColors.Black),
+              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+          }
         },
+        Series = new ISeries[]
+          {
+            new LineSeries<ObservableValue>
+            {
+                Values = motor_temperature_data_,
+                Fill = new SolidColorPaint(0x257002b0),
+                GeometrySize = 0,
+                Stroke = new SolidColorPaint(0xff7002b0, 1),
+                LineSmoothness = 0
+            }
+          },
         Title = new LabelVisual
         {
           Text = "馬達溫度 (° C)",
@@ -122,11 +158,13 @@ namespace LoadMonitor.Components
           Paint = new SolidColorPaint(SKColors.Black)
           {
             SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
-          },
-        },
+          }
+        }
       };
-
     }
+
+
+
     private UserControl MotorCurrent()
     {
       return new CartesianChart
@@ -134,19 +172,53 @@ namespace LoadMonitor.Components
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]{new LineSeries<ObservableValue>{
             Values = data_,
-            Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
+            Fill = new SolidColorPaint(0x257002b0), // 填充颜色
             GeometrySize = 0, // 无点标记
-            Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
+            Stroke = new SolidColorPaint(0xff7002b0, 1), // 线条颜色和粗细
             LineSmoothness = 0, // 无弧度
           },
         },
+        XAxes = new Axis[]
+        {
+          new Axis
+          {
+              MinLimit = 0,
+              MaxLimit = 60,
+              UnitWidth = 60,
+              Labeler = value =>
+              {
+                  if (value == 0) return "60秒";
+                  else if (value == 60) return "0";
+                  return ""; // 其他值不顯示
+              },
+              LabelsPaint = new SolidColorPaint(SKColors.Black)
+              {
+                  SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字體
+              },
+              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+              {
+                  StrokeThickness = 1 // 分隔線的寬度
+              }
+          }
+        },
         YAxes = new Axis[]
         {
-          new Axis()
+          new Axis
           {
-            MinLimit = 0,
-            MaxLimit = base.MaxLoadingValue,
-          },
+              MinLimit = 0,
+              MaxLimit = base.MaxLoadingValue,
+              //UnitWidth = 2,
+              Labeler = value =>
+              {
+                  if (value == base.MaxLoadingValue)
+                  {
+                      return base.MaxLoadingValue.ToString() + " A";
+                  }
+                  return "";
+              },
+              LabelsPaint = new SolidColorPaint(SKColors.Black),
+              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+          }
         },
         Title = new LabelVisual
         {
@@ -211,8 +283,7 @@ namespace LoadMonitor.Components
             data_.Add(new ObservableValue(motor_current));
             motor_temperature_data_.Add(new ObservableValue(motor_temperature));
             rpm_.UpdateValue(rpm / 10000);
-            power_.UpdateValue(value / 1000);
-
+            power_.UpdateValue(powerValue / 1000);
             // 保持數據點數量不超過 60
             if (data_.Count > 60) data_.RemoveAt(0);
             if (motor_temperature_data_.Count > 60) motor_temperature_data_.RemoveAt(0);

@@ -20,6 +20,7 @@ using System.Drawing;
 
 using FormsTimer = System.Windows.Forms.Timer;
 using LiveChartsCore.Drawing;
+using Log = Serilog.Log;
 
 namespace LoadMonitor
 {
@@ -74,7 +75,7 @@ namespace LoadMonitor
         TicksLength = 10//刻度的長度就是 那個'''|''''|''''
       };
 
-      VisualElements =[angularTicksVisual_,
+      VisualElements = [angularTicksVisual_,
         Needle,
         // 添加居中文本
         new LabelVisual
@@ -192,6 +193,17 @@ namespace LoadMonitor
       pie_chart_.MaxValue = max_index;
       viewModel_.angularTicksVisual_.Labeler = value =>
       {
+
+        const double epsilon = 1e-9; // 定義容差
+        if (max_index <= 1)
+        {
+          // 使用 Math.Abs 判斷是否接近 0.2 的倍數
+          bool isCloseToStep = Math.Abs(value % 0.2) < epsilon || Math.Abs(value % 0.2 - 0.2) < epsilon;
+
+          Log.Information($"value {value}, isCloseToStep: {isCloseToStep}, return: {(isCloseToStep ? value.ToString("0.0") : "*")}");
+
+          return isCloseToStep ? value.ToString("0.0") : "";
+        }
         return value % 1 == 0 && value >= 0 && value <= max_index ? value.ToString() : "";
       };
 

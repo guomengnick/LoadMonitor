@@ -17,10 +17,11 @@ namespace LoadMonitor.Components
   internal class TransferRack : PartBase
   {
 
-    public TransferRack(string mainTitle, string subTitle, string detailInfo, Panel DetailChartPanel, double max_current) :
-      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel) // 主轴最大负载值为 10A
+    public TransferRack(string mainTitle, string subTitle, string detailInfo, 
+        Panel DetailChartPanel, double max_current, SKColor chart_color) :
+      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
     {
-      TEST.TEST.Add60EmptyData(data_);
+      //TEST.TEST.Add60EmptyData(data_);
       single_form_ = new Single();
     }
     private Single single_form_;
@@ -51,9 +52,9 @@ namespace LoadMonitor.Components
                     new LineSeries<ObservableValue>
                     {
                         Values = data_,
-                        Fill = new SolidColorPaint(SKColors.LightBlue), // 填充颜色
+                       Fill = new SolidColorPaint(base.fill_color_), // 填充颜色
                         GeometrySize = 0, // 无点标记
-                        Stroke = new SolidColorPaint(SKColors.Blue, 1), // 线条颜色和粗细
+                        Stroke = new SolidColorPaint(base.line_color_, 1), // 线条颜色和粗细
                         LineSmoothness = 0, // 无弧度
                         
                     },

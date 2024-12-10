@@ -42,54 +42,77 @@ String GenerateRandomStatus()
 
 	if (randomValue < 5)
 	{
-		return L"停止"; // 停止機率為 5%
+		return "STOP";//L"停止"; // 停止機率為 5%
 	}
 	else if (randomValue < 55)
 	{
-		return L"怠速"; // 怠速機率為 50%
+		return "Idle";//L"怠速"; // 怠速機率為 50%
 	}
 	else
 	{
-		return L"運轉"; // 運轉機率為 45%
+		return "Run";//L"運轉"; // 運轉機率為 45%
 	}
 }
-
 
 
 void __fastcall TForm1::UpdateSpindleInfo(TObject *Sender)
 {
 	// 設定 INI 檔案的路徑
 	String iniFilePath = ExtractFilePath(Application->ExeName) + "spindle_info.ini";
-	std::unique_ptr<TMemIniFile>ini(new TMemIniFile(iniFilePath, TEncoding::UTF8));
+
+	// 建立 TMemIniFile，這裡不直接指定編碼
+	std::unique_ptr<TMemIniFile>ini(new TMemIniFile(iniFilePath));
 
 	try
 	{
 		// 隨機生成數值
-		int speed = GenerateRandomInt(37500, 3000); // Speed
+		int speed = GenerateRandomInt(37500, 15000); // Speed
 		String status = GenerateRandomStatus(); // Status
 		String internalStatus = GenerateRandomStatus(); // InternalStatus
-		int power = GenerateRandomInt(500, 1000); // Power
+		int power = GenerateRandomInt(5000, 1000); // Power
 		double busVoltage = GenerateRandomDouble(48.0, 1.0); // BusVoltage
-		double current = GenerateRandomDouble(3.0, 2.0); // Current
+		double current = GenerateRandomDouble(1.0, 0.15); // Current
 		int motorTemperature = GenerateRandomInt(40, 10); // MotorTemperature
 		double inverterTemperature = GenerateRandomDouble(30.4, 5.0); // InverterTemperature
 
-		// 更新 INI 檔案
-		ini->WriteInteger("SpindleInfo", "Speed", speed);
-		ini->WriteString("SpindleInfo", "Status", status);
-		ini->WriteString("SpindleInfo", "InternalStatus", internalStatus);
-		ini->WriteInteger("SpindleInfo", "Power", power);
-		ini->WriteFloat("SpindleInfo", "BusVoltage", busVoltage);
-		ini->WriteFloat("SpindleInfo", "Current", current);
-		ini->WriteInteger("SpindleInfo", "MotorTemperature", motorTemperature);
-		ini->WriteFloat("SpindleInfo", "InverterTemperature", inverterTemperature);
-		ini->UpdateFile();
+		// 更新 INI 檔案內容（存儲到記憶體）
+		ini->WriteInteger("Spindle", "Speed", speed);
+		ini->WriteString("Spindle", "Status", status);
+		ini->WriteString("Spindle", "InternalStatus", internalStatus);
+		ini->WriteInteger("Spindle", "Power", power);
+		ini->WriteFloat("Spindle", "BusVoltage", busVoltage);
+		ini->WriteFloat("Spindle", "Current", current);
+		ini->WriteInteger("Spindle", "MotorTemperature", motorTemperature);
+		ini->WriteFloat("Spindle", "InverterTemperature", inverterTemperature);
+
+		// 將記憶體內容保存到檔案（共享模式）
+		TStringList *iniContent = new TStringList();
+		try
+		{
+			// 將 TMemIniFile 的內容導出到 TStringList
+			ini->GetStrings(iniContent);
+
+			// 寫入檔案時使用共享模式
+			TFileStream *fileStream = new TFileStream(iniFilePath, fmCreate | fmShareDenyNone);
+			try
+			{
+				iniContent->SaveToStream(fileStream);
+			}
+			__finally
+			{
+				delete fileStream;
+			}
+		}
+		__finally
+		{
+			delete iniContent;
+		}
 	}
 	__finally
 	{
+		// 保證不留下任何未釋放的資源
 	}
 }
-
 
 
 void __fastcall TForm1::CheckBox_UpdateSpindleInfoClick(TObject *Sender)
