@@ -28,6 +28,7 @@ namespace LoadMonitor.Components
       base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel)
     {
       startTime = DateTime.Now;
+      GetDetailForm();
     }
 
     public void AddAllParts(Dictionary<int, PartBase> components)
@@ -56,7 +57,7 @@ namespace LoadMonitor.Components
 
       // 平均每日功率 (kW·h)
       var random = new Random();
-      double averageDailyPower = random.NextDouble() * 1000; // 平均每日功率
+      double averageDailyPower = random.NextDouble() * 10 + power; // 平均每日功率
 
       // 格式化詳細信息
       string detailInfo = $@"{dateTimeString}
@@ -160,7 +161,12 @@ namespace LoadMonitor.Components
       {
         Dock = DockStyle.Fill,
       };
-
+      var max = 100;
+      //current_watt_.pie_chart_.MaxValue = max;
+      //current_watt_.viewModel_.angularTicksVisual_.Labeler = value =>
+      //{
+      //  return value % 1 == 0 && value >= 0 && value <= max ? value.ToString() : "";
+      //};
       return current_watt_;
     }
 
@@ -173,6 +179,7 @@ namespace LoadMonitor.Components
 
         Dock = DockStyle.Fill,
       };
+      //daily_average_watt_.pie_chart_.MaxValue = 10;
       return daily_average_watt_;
     }
 

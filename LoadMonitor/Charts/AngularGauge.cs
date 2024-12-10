@@ -31,11 +31,12 @@ namespace LoadMonitor
     public IEnumerable<ISeries> Series { get; set; }
     public IEnumerable<VisualElement<SkiaSharpDrawingContext>> VisualElements { get; set; }
     public NeedleVisual Needle { get; set; }
+    public AngularTicksVisual angularTicksVisual_ { get; set; }
 
     public ViewModel(string text = "")
     {
-      var sectionsOuter = 130;
-      var sectionsWidth = 20;
+      var sectionsOuter = 0;
+      var sectionsWidth = 7;
 
       Needle = new NeedleVisual
       {
@@ -43,33 +44,52 @@ namespace LoadMonitor
       };
 
       Series = GaugeGenerator.BuildAngularGaugeSections(
-          new GaugeItem(60, s => SetStyle(sectionsOuter, sectionsWidth, s)),
-          new GaugeItem(30, s => SetStyle(sectionsOuter, sectionsWidth, s)),
-          new GaugeItem(10, s => SetStyle(sectionsOuter, sectionsWidth, s)));
+        new GaugeItem(50, s =>
+        {
+          s.Fill = new SolidColorPaint(0xf012ff75); // 藍色
+          SetStyle(sectionsOuter, sectionsWidth, s);
+        }),
+        new GaugeItem(30, s =>
+        {
+          s.Fill = new SolidColorPaint(0xf0fafa20); // 紅色
+          SetStyle(sectionsOuter, sectionsWidth, s);
+        }),
+        new GaugeItem(20, s =>
+        {
+          s.Fill = new SolidColorPaint(0xf0f75273); // 紅色
+          SetStyle(sectionsOuter, sectionsWidth, s);
+        }));
 
-      VisualElements =
-      [
-          new AngularTicksVisual
-            {
-                Labeler = value => value.ToString("N0"), // "N0" 格式為帶千分位的整數
-                LabelsSize = 16,
-                LabelsOuterOffset = 15,
-                OuterOffset = 65,
-                TicksLength = 20
-            },
-            Needle,
+      angularTicksVisual_ = new AngularTicksVisual
+      {
+        Labeler = value => value.ToString("N0"), // "N0" 格式為帶千分位的整數
+        //Labeler = value =>
+        //{
+        //  // 顯示整數刻度 0, 1, 2, 3
+        //  return value % 1 == 0 && value >= 0 && value <= 3 ? value.ToString() : "";
+        //},
+        LabelsSize = 12,//儀表上的文字
+        LabelsOuterOffset = 30,//儀表上的文字 會往內多少
+        OuterOffset = 18,//一整個刻度會往內多少
+        TicksLength = 10//刻度的長度就是 那個'''|''''|''''
+      };
+
+      VisualElements =[angularTicksVisual_,
+        Needle,
         // 添加居中文本
         new LabelVisual
         {
             Text = text, // 要顯示的文本 TODO:FIX_BUG 不能基於Panel 像素, 位置會因為上層部件大小 跑掉
             TextSize = 14, // 字體大小
-            
             Paint = new SolidColorPaint(SkiaSharp.SKColors.Black){
                SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字型
             }, // 文本顏色
             LocationUnit = LiveChartsCore.Measure.MeasureUnit.Pixels, // 使用像素單位
             X = 125, // 水平居中
             Y = 190  // 垂直居中
+            //LocationUnit = LiveChartsCore.Measure.MeasureUnit.ChartValues, // 使用相對單位
+            //X = 5,  // 水平相對位置 (0.5 表示中心)
+            //Y = 9   // 垂直相對位置 (0.9 表示靠近底部)
         }
       ];
     }
@@ -94,8 +114,11 @@ namespace LoadMonitor
 
   public partial class AngularGauge : UserControl
   {
-    private readonly LiveChartsCore.SkiaSharpView.WinForms.PieChart pieChart;
     public ViewModel viewModel_ = new ViewModel();
+    public LiveChartsCore.SkiaSharpView.WinForms.PieChart pie_chart_;
+
+    public ViewModel GetAngularGauge() { return viewModel_; }
+
     public AngularGauge(string text = "")
     {
 
@@ -108,7 +131,7 @@ namespace LoadMonitor
         SKTypeface = SKFontManager.Default.MatchCharacter('汉')
       };
 
-      pieChart = new LiveChartsCore.SkiaSharpView.WinForms.PieChart
+      pie_chart_ = new LiveChartsCore.SkiaSharpView.WinForms.PieChart
       {
         LegendTextPaint = textPaint,
         TooltipTextPaint = textPaint,
@@ -118,14 +141,14 @@ namespace LoadMonitor
         MaxAngle = 270,
         MinValue = 0,
         MaxValue = 100,
-
+        //AnimationsSpeed = TimeSpan.Zero,
         // out of livecharts properties...
         Location = new System.Drawing.Point(0, 0),
         Size = new System.Drawing.Size(10, 10),
         Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom
       };
 
-      Controls.Add(pieChart);
+      Controls.Add(pie_chart_);
 
       // 初始化定时器
       var updateTimer_ = new FormsTimer

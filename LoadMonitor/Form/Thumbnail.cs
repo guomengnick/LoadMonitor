@@ -140,13 +140,5 @@ namespace LoadMonitor
       form.ShowDialog();
     }
 
-    private void ButtonRemindBell_Click(object sender, EventArgs e)
-    {
-    }
-
-    private void ButtonRemindBell_Click_1(object sender, EventArgs e)
-    {
-
-    }
   }
 }

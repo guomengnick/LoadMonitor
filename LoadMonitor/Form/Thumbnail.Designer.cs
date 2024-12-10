@@ -79,7 +79,7 @@
       ButtonRemindBell.Size = new Size(31, 37);
       ButtonRemindBell.TabIndex = 5;
       ButtonRemindBell.UseVisualStyleBackColor = false;
-      ButtonRemindBell.Click += ButtonRemindBell_Click_1;
+      ButtonRemindBell.Visible = false;
       ButtonRemindBell.MouseClick += ButtonRemindBellClick;
       // 
       // Thumbnail
