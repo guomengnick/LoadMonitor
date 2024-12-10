@@ -3,24 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\LoadMonitor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\charts\\angulargauge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\charts\\angulargauge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\components\\partbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\partbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\components\\overview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\overview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\form\\thumbnail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\thumbnail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\charts\\angulargauge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\charts\\angulargauge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\components\\partbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\partbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,16 +22,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -55,53 +39,35 @@
               "EditorCaption": ""
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AngularGauge.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Charts\\AngularGauge.cs",
               "RelativeDocumentMoniker": "LoadMonitor\\Charts\\AngularGauge.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Charts\\AngularGauge.cs*",
-              "RelativeToolTip": "LoadMonitor\\Charts\\AngularGauge.cs*",
-              "ViewState": "AgIAADMAAAAAAAAAAAAQwEgAAAAYAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Charts\\AngularGauge.cs",
+              "RelativeToolTip": "LoadMonitor\\Charts\\AngularGauge.cs",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAAAK8AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-09T09:30:35.886Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Thumbnail.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Form\\Thumbnail.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Form\\Thumbnail.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Form\\Thumbnail.cs",
-              "RelativeToolTip": "LoadMonitor\\Form\\Thumbnail.cs",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAEwIQAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-09T09:26:00.107Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainForm.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Form\\MainForm.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
-              "RelativeToolTip": "LoadMonitor\\Form\\MainForm.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAADwvzoAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-09T09:23:30.627Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Overview.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\Overview.cs",
               "RelativeDocumentMoniker": "LoadMonitor\\Components\\Overview.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\Overview.cs",
               "RelativeToolTip": "LoadMonitor\\Components\\Overview.cs",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAnwJ8AAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAHQAAAAAAAAAAAApwKcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-09T09:13:12.836Z",
               "EditorCaption": ""

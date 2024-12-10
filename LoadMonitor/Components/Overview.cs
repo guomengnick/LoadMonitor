@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using static LoadMonitor.HistoryData;
 
 using Log = Serilog.Log;
+using LiveChartsCore.SkiaSharpView.Extensions;
 
 namespace LoadMonitor.Components
 {
@@ -57,7 +58,7 @@ namespace LoadMonitor.Components
 
       // 平均每日功率 (kW·h)
       var random = new Random();
-      double averageDailyPower = random.NextDouble() * 10 + power; // 平均每日功率
+      double averageDailyPower = random.NextDouble() * 15 + power; // 平均每日功率
 
       // 格式化詳細信息
       string detailInfo = $@"{dateTimeString}
@@ -157,18 +158,14 @@ namespace LoadMonitor.Components
     private AngularGauge current_watt_;
     private UserControl AverageWattPerWeekChart()
     {
-      current_watt_ = new AngularGauge("當前功率(kWh)")//TODO 給單位
+      current_watt_ = new AngularGauge("當前功率(kWh)") // TODO: 給單位
       {
         Dock = DockStyle.Fill,
       };
-      var max = 100;
-      //current_watt_.pie_chart_.MaxValue = max;
-      //current_watt_.viewModel_.angularTicksVisual_.Labeler = value =>
-      //{
-      //  return value % 1 == 0 && value >= 0 && value <= max ? value.ToString() : "";
-      //};
+      current_watt_.SetGaugeMaxValue(3);
       return current_watt_;
     }
+
 
     private AngularGauge daily_average_watt_;
 
@@ -179,7 +176,7 @@ namespace LoadMonitor.Components
 
         Dock = DockStyle.Fill,
       };
-      //daily_average_watt_.pie_chart_.MaxValue = 10;
+      daily_average_watt_.SetGaugeMaxValue(3);
       return daily_average_watt_;
     }
 

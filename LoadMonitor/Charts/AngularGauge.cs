@@ -23,7 +23,6 @@ using LiveChartsCore.Drawing;
 
 namespace LoadMonitor
 {
-  // 定義僅在本文件可見的 ViewModel(只給下方的類用)
   public partial class ViewModel
   {
 
@@ -40,7 +39,8 @@ namespace LoadMonitor
 
       Needle = new NeedleVisual
       {
-        Value = 45
+        Value = 0,
+        Fill = new SolidColorPaint(0xf0302f29)
       };
 
       Series = GaugeGenerator.BuildAngularGaugeSections(
@@ -103,7 +103,7 @@ namespace LoadMonitor
       // 手動刷新圖表
     }
 
-    private static void SetStyle(
+    public static void SetStyle(
         double sectionsOuter, double sectionsWidth, PieSeries<ObservableValue> series)
     {
       series.OuterRadiusOffset = sectionsOuter;
@@ -171,6 +171,42 @@ namespace LoadMonitor
       {
         viewModel_.DoRandomChange(value);
       }
+    }
+
+    public void SetGaugeMaxValue(int max_index)
+    {
+
+      pie_chart_.MaxValue = max_index;
+      viewModel_.angularTicksVisual_.Labeler = value =>
+      {
+        return value % 1 == 0 && value >= 0 && value <= max_index ? value.ToString() : "";
+      };
+
+
+      var sectionsOuter = 0;//顏色固定的寬度
+      var sectionsWidth = 7;
+
+      // 計算每個區域的比例值
+      viewModel_.Series = GaugeGenerator.BuildAngularGaugeSections(
+          new GaugeItem(max_index * 0.6, s => // 60% 的範圍 (3/5 * max_index)
+          {
+            s.Fill = new SolidColorPaint(0xf012ff75); // 藍色
+            ViewModel.SetStyle(sectionsOuter, sectionsWidth, s);
+          }),
+          new GaugeItem(max_index * 0.2, s => // 20% 的範圍 (1/5 * max_index)
+          {
+            s.Fill = new SolidColorPaint(0xf0fafa20); // 紅色
+            ViewModel.SetStyle(sectionsOuter, sectionsWidth, s);
+          }),
+          new GaugeItem(max_index * 0.2, s => // 20% 的範圍 (1/5 * max)
+          {
+            s.Fill = new SolidColorPaint(0xf0f75273); // 紅色
+            ViewModel.SetStyle(sectionsOuter, sectionsWidth, s);
+          })
+      );
+
+      pie_chart_.Series = viewModel_.Series;
+
     }
 
   }
