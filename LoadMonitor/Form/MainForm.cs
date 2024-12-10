@@ -76,6 +76,8 @@ namespace LoadMonitor
       }
     }
 
+
+    //因為有讀取rs485, 以下除了更新UI外，都在子線程執行
     private void Update(object? sender, ElapsedEventArgs e)
     {
       if (modbusSerialPort_ == null || !modbusSerialPort_.IsConnected)
@@ -85,7 +87,7 @@ namespace LoadMonitor
       }
 
       // 發送請求並解析數據
-      Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();
+      Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();//較耗時, 在子線程執行
       if (currents.Count == 0)
       {
         Log.Warning("Modbus serial port 收到的值為空");
@@ -98,20 +100,18 @@ namespace LoadMonitor
         var motors_current = currents[0];//除主軸外, 量測模組量到的電流加總
         var spindle_current = components_[17].GetCurrentLoad();
         currents[17/*主軸*/] = spindle_current;
-        //currents[0] = motors_current + spindle_current;
+        //currents[0] = motors_current + spindle_current;//TODO:目前主軸為測試值
       }
 
       // 更新组件数据
       foreach (var key in components_.Keys.ToList()) // 使用 ToList() 遍历，避免修改集合时出错
       {
-        if (!currents.ContainsKey(key))
-        {// 判斷 `currents` 是否包含該鍵
-          continue;
-        }
+        if (!currents.ContainsKey(key)) continue;
 
-        var componentData = components_[key];// 获取当前组件数据
-        componentData.Update(currents[key]);//更新圖表
-        (string Summary, string DetailInfo) texts = componentData.GetText();
+        this.Invoke(new Action(() =>//在主線程執行
+        {
+          components_[key]?.Update(currents[key]);
+        }));
       }
     }
 

@@ -16,6 +16,7 @@ namespace LoadMonitor
     {
       InitializeComponent();
       this.TextBoxRemindInfo.Text = warnning_info;
+      Show();// 確保調用此form時, 不發生"視窗控制代碼建立後才能呼叫控制項上"
     }
 
     private void RemindForm_Load(object sender, EventArgs e)

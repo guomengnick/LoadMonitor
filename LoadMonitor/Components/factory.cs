@@ -59,10 +59,16 @@ namespace LoadMonitor.Components
             var componentConfigs = new (string Type, string Name, 
           string SubTitle, string DetailInfo, int Key, double max_current_value, SKColor color)[]
             {
-        ("Overview", "總覽", "4%", "電流 : 0.235 A\n附載 : 33%", 0, 5, new SKColor(0x6eddff)), // 加總電流
-        ("Spindle", "主軸", "2%", "電流 : 0.135 A\n附載 : 13%", 17, 2, new SKColor(0x7002b0)),
-        ("CutMotor", "切割X1", "2%", "電流 : 0.135 A\n附載 : 13%", 5, 1.9, new SKColor(0x3cc402)),
-        ("CutMotor", "切割Y1", "14%", "電流 : 0.175 A\n附載 : 16%", 3, 1.8, new SKColor(0x3cc402)),
+              //1.是類別, 可能可以改成直接傳類進去
+              //2. 必須傳，
+              //3 4. 不用傳
+              //5 要改成枚舉, dict 的key ,不會重複
+              //6.最大的報警電流
+              //7. 部件主題顏色
+        ("Overview", "總覽", "4%", "電流 : 0.235 A\n附載 : 33%", 0, 5, new SKColor(0x0a5591)), // 加總電流
+        ("Spindle", "主軸", "-2%", "電流 : 0.135 A\n附載 : 13%", 17, 2, new SKColor(0x7002b0)),
+        ("CutMotor", "切割X1", "***2%", "電流 : 0.135 A\n附載 : 13%", 5, 1.9, new SKColor(0x3cc402)),
+        ("CutMotor", "切割Y1", "(((14%", "電流 : 0.175 A\n附載 : 16%", 3, 1.8, new SKColor(0x3cc402)),
         ("CutMotor", "切割Y2", "14%", "電流 : 0.175 A\n附載 : 16%", 4, 1.8, new SKColor(0x3cc402)),
         ("CutMotor", "切割Z1", "2%", "電流 : 0.135 A\n附載 : 13%", 6, 0.5, new SKColor(0x3cc402)),
         ("TransferRack", "移載X", "14%", "電流 : 0.135 A\n附載 : 13%", 1, 1.5, new SKColor(0xa14808)),

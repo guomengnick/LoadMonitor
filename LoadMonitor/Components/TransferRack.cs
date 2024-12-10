@@ -22,10 +22,18 @@ namespace LoadMonitor.Components
       base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
     {
       //TEST.TEST.Add60EmptyData(data_);
-      single_form_ = new Single();
     }
-    private Single single_form_;
+    private Single single_form_ = new Single();
 
+
+    protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
+    {
+      if (!single_form_.IsHandleCreated)
+      {
+        single_form_.Show(); // 強制創建 Handle
+      }
+      single_form_.Invoke(new Action(() => single_form_.UpdateText(leftText, rightText)));
+    };
 
     public override (string Summary, string DetailInfo) GetText()
     {
@@ -100,5 +108,11 @@ namespace LoadMonitor.Components
 
       return single_form_;
     }
+
+    protected override (string LeftText, string RightInfo) UpdateDetailData()
+    {
+      return base.GetText();
+    }
+
   }
 }

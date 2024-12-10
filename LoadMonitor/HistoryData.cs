@@ -11,6 +11,7 @@ namespace LoadMonitor
   {
     public enum TimeUnit
     {
+      Seconds,
       OneHour,
       SixHours
     }
@@ -31,6 +32,7 @@ namespace LoadMonitor
 
       one_hour_data_ = new Queue<double>(one_hour_capacity_);
       six_hour_data_ = new Queue<double>(six_hour_capacity_);
+
     }
 
     // 添加新的数据点
@@ -76,6 +78,11 @@ namespace LoadMonitor
     // 使用枚举获取平均值
     public double GetAverage(TimeUnit timeUnit)
     {
+      if (timeUnit == TimeUnit.Seconds)
+      {
+        double lastest_value = one_hour_data_.LastOrDefault(0.0);
+        return lastest_value / max_value_;//返回最新的負載率
+      }
       var dataQueue = timeUnit switch
       {
         TimeUnit.OneHour => one_hour_data_,

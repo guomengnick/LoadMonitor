@@ -42,7 +42,7 @@ namespace LoadMonitor.Components
       base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
     {
       TEST.TEST.Add60EmptyData(motor_temperature_data_);
-      quad_grid_form_ = new QuadGrid();
+      
 
       rpm_ = new AngularGauge("x10000rpm")
       {
@@ -58,7 +58,17 @@ namespace LoadMonitor.Components
       timer_.Start();
     }
 
+    private QuadGrid quad_grid_form_ = new QuadGrid();
 
+    protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
+    {
+
+      if (!quad_grid_form_.IsHandleCreated)
+      {
+        quad_grid_form_.Show(); // 強制創建 Handle
+      }
+      quad_grid_form_.Invoke(new Action(() => quad_grid_form_.UpdateText(leftText, rightText)));
+    };
     public override (string Summary, string DetailInfo) GetText()
     {
       quad_grid_form_.UpdateText(DetailInfo, GetLoadSummary());
@@ -67,14 +77,30 @@ namespace LoadMonitor.Components
 
     private UserControl RPM()
     {
-      rpm_.SetGaugeMaxValue(10);
-      rpm_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(3.0);
+      // 如果 rpm_ 為空，則初始化
+      if (rpm_ == null)
+      {
+        rpm_ = new AngularGauge("x10000rpm")
+        {
+          Dock = DockStyle.Fill,
+        };
+        rpm_.SetGaugeMaxValue(10);
+        rpm_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(3.0);
+      }
       return rpm_;
     }
     private UserControl Power()
     {
-      power_.SetGaugeMaxValue(1);
-      power_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(2.0);
+      // 如果 rpm_ 為空，則初始化
+      if (power_ == null)
+      {
+        power_ = new AngularGauge("x10000rpm")
+        {
+          Dock = DockStyle.Fill,
+        };
+        power_.SetGaugeMaxValue(10);
+        power_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(3.0);
+      }
       return power_;
     }
 
@@ -231,7 +257,6 @@ namespace LoadMonitor.Components
         }
       };
     }
-    private QuadGrid quad_grid_form_;
     public override Form GetDetailForm()
     {
       // 创建并配置要添加的 AngularGauge 控件
@@ -312,6 +337,12 @@ namespace LoadMonitor.Components
       }
     }
 
+
+
+    protected override (string LeftText, string RightInfo) UpdateDetailData()
+    {
+      return base.GetText();
+    }
 
   }
 }

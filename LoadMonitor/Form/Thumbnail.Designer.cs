@@ -39,10 +39,10 @@
       // 
       PanelThumbnail.BackColor = SystemColors.Control;
       PanelThumbnail.BorderStyle = BorderStyle.FixedSingle;
-      PanelThumbnail.Location = new Point(2, 13);
+      PanelThumbnail.Location = new Point(12, 11);
       PanelThumbnail.Margin = new Padding(0);
       PanelThumbnail.Name = "PanelThumbnail";
-      PanelThumbnail.Size = new Size(118, 90);
+      PanelThumbnail.Size = new Size(105, 86);
       PanelThumbnail.TabIndex = 2;
       // 
       // LabelTitle
@@ -60,9 +60,9 @@
       Labelsummary.AutoSize = true;
       Labelsummary.Location = new Point(126, 42);
       Labelsummary.Name = "Labelsummary";
-      Labelsummary.Size = new Size(73, 15);
+      Labelsummary.Size = new Size(25, 15);
       Labelsummary.TabIndex = 4;
-      Labelsummary.Text = "15%  10.2%";
+      Labelsummary.Text = "5%";
       // 
       // ButtonRemindBell
       // 

@@ -68,13 +68,14 @@ namespace LoadMonitor.Components
       this.DetailChartPanel = DetailChartPanel;
 
       line_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0xee);
-      fill_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0x30);
-
-      thumbnail_ = new Thumbnail(CreateThumbnail(), this, mainTitle, subTitle);//對縮圖賦值
-      //TEST.TEST.Add60EmptyData(data_);
-      TEST.TEST.AddData(data_);
+      fill_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0x20);
 
       MainTitle = mainTitle;
+      thumbnail_ = new Thumbnail(CreateThumbnail(), this);//對縮圖賦值
+
+      TEST.TEST.Add60EmptyData(data_);
+      //TEST.TEST.AddData(data_);
+
       SubTitle = subTitle;
       DetailInfo = detailInfo;
 
@@ -83,6 +84,7 @@ namespace LoadMonitor.Components
       Initialize(maxLoadingValue);
       history_data_ = new HistoryData(maxLoadingValue, 3/*每個部件都預設取3筆就好*/);
       //對此部件更新色彩
+      GetDetailForm();
     }
 
 
@@ -95,7 +97,6 @@ namespace LoadMonitor.Components
       var is_overloading = history_data_.IsExceedingMax();
       Serilog.Log.Information($"{MainTitle}: 是否超出附載{is_overloading}");
       return $"1小時 平均附載 : {oneHourAverage:F0}% \r\n\r\n6小時平均附載 : {sixHoursAverage:F0}%";
-      //return $"{MainTitle}: {oneHourAverage:F2}% /1Hr, {sixHoursAverage:F2}% /6Hr";
     }
 
 
@@ -113,9 +114,9 @@ namespace LoadMonitor.Components
     public virtual (string Summary, string DetailInfo) GetText()
     {
       double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
-      double loading = CalculateLoading(latestValue); // 计算负载百分比
-      string summary = $"{loading:F1} %";
-      string detailInfo = $"{MainTitle} 附載: {loading:F1} % \r\n電流: {latestValue} A";
+      double current_loading = CalculateLoading(latestValue); // 计算负载百分比
+      string summary = $"{(int)(current_loading * 100)} %";
+      string detailInfo = $"{MainTitle} 附載: {summary:F1} % \r\n電流: {latestValue} A";
       return (summary, detailInfo);
     }
 
@@ -174,14 +175,17 @@ namespace LoadMonitor.Components
     virtual public void Update(double motor_current)
     {
       data_.Add(new ObservableValue(motor_current));
-      history_data_.AddDataPoint(motor_current);
-      var average_data = history_data_.GetDataPoints();
-
       if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
 
+      history_data_.AddDataPoint(motor_current);
+      var current_loading = history_data_.GetAverage(TimeUnit.Seconds);
+      var average_data = history_data_.GetDataPoints();
 
-      //(string summary, string detailInfo) = UpdateDetailData();
-      //updateDetailTextAction_?.Invoke(summary, detailInfo);
+      thumbnail_.UpdateSummary($"{(int)(current_loading * 100)} %");
+
+      var detail_texts = UpdateDetailData();
+      Log.Information($"detail_texts:{detail_texts}");
+      DetailFormUpdater(detail_texts.LeftText, detail_texts.RightInfo);
     }
 
 
@@ -193,12 +197,9 @@ namespace LoadMonitor.Components
     /// <summary>
     /// 派生類需實現的方法，用於更新數據
     /// </summary>
-    //protected abstract (string Summary, string DetailInfo) UpdateDetailData();
+    protected abstract (string LeftText, string RightInfo) UpdateDetailData();
 
-    /// <summary>
-    /// 配置詳細頁面文本更新的行為（抽象方法，強制派生類實作）
-    /// </summary>
-    //public abstract void ConfigureDetailTextUpdater(Action<string, string> updateAction);
+    protected abstract Action<string, string> DetailFormUpdater { get; }
   }
 
 }

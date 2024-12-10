@@ -30,58 +30,22 @@ namespace LoadMonitor.Components
       base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, color)
     {
       startTime = DateTime.Now;
-      GetDetailForm();
     }
+    private LeftOneRightTwo form_3;
+
+    protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
+    {
+      if (!form_3.IsHandleCreated)
+      {
+        form_3.Show(); // 強制創建 Handle
+      }
+      form_3.Invoke(new Action(() => form_3.UpdateText(leftText, rightText)));
+    };
 
     public void AddAllParts(Dictionary<int, PartBase> components)
     {
       components_ = components;
     }
-
-    public override (string Summary, string DetailInfo) GetText()
-    {
-      double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
-      double loading = CalculateLoading(latestValue); // 计算负载百分比
-
-      string summary = $"{loading:F1} %";
-
-      DateTime now = DateTime.Now;// 获取当前日期和时间
-      string dateTimeString = now.ToString("yyyy/MM/dd HH:mm:ss");
-
-      TimeSpan operationTime = now - startTime;// 累計運行時間
-
-      // 格式化运作时间
-      string operationTimeFormatted = $"運作時間: {operationTime.Hours}:{operationTime.Minutes:D2}:{operationTime.Seconds:D2}:{operationTime.Milliseconds:D3}";
-
-      // 計算瞬時功率 (假設公式為: 電流 x 電壓)
-      double voltage = 220.0; // 假設電壓值
-      double power = latestValue * voltage / 1000; // 功率 (kW)
-
-      // 平均每日功率 (kW·h)
-      var random = new Random();
-      double averageDailyPower = random.NextDouble() * 0.1 + power; // 平均每日功率
-
-      // 格式化詳細信息
-      string detailInfo = $@"{dateTimeString}
-{operationTimeFormatted}
-整機附載: {loading:F1} %
-總電流: {latestValue:F3} A
-瞬時功率: {power:F1} kW
-平均日功率: {averageDailyPower:F1} kWh
-";
-
-
-      base.DetailInfo = detailInfo;
-      current_watt_.UpdateValue(power);
-      daily_average_watt_.UpdateValue(averageDailyPower);
-
-      var right_text = "";//DisplayLoadSummary();
-
-      form_3.UpdateText(detailInfo, right_text);
-
-      return (summary, detailInfo);
-    }
-
 
     // 获取所有部件的负载信息
     public string DisplayLoadSummary()
@@ -213,7 +177,6 @@ namespace LoadMonitor.Components
       return daily_average_watt_;
     }
 
-    private LeftOneRightTwo form_3;
 
     public override Form GetDetailForm()
     {
@@ -224,6 +187,52 @@ namespace LoadMonitor.Components
       form_3.AddToPanel(OverviewLoadingChart(), AverageWattPerWeekChart(),
           AverageWattPerMonthChart(), left_text, right_text);
       return form_3;
+    }
+
+
+
+    protected override (string LeftText, string RightInfo) UpdateDetailData()
+    {
+      double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
+      double loading = CalculateLoading(latestValue); // 计算负载百分比
+
+      string summary = $"{loading:F1} %";
+
+      DateTime now = DateTime.Now;// 获取当前日期和时间
+      string dateTimeString = now.ToString("yyyy/MM/dd HH:mm:ss");
+
+      TimeSpan operationTime = now - startTime;// 累計運行時間
+
+      // 格式化运作时间
+      string operationTimeFormatted = $"運作時間: {operationTime.Hours}:{operationTime.Minutes:D2}:{operationTime.Seconds:D2}:{operationTime.Milliseconds:D3}";
+
+      // 計算瞬時功率 (假設公式為: 電流 x 電壓)
+      double voltage = 220.0; // 假設電壓值
+      double power = latestValue * voltage / 1000; // 功率 (kW)
+
+      // 平均每日功率 (kW·h)
+      var random = new Random();
+      double averageDailyPower = random.NextDouble() * 0.1 + power; // 平均每日功率
+
+      // 格式化詳細信息
+      string detailInfo = $@"{dateTimeString}
+{operationTimeFormatted}
+整機附載: {loading:F1} %
+總電流: {latestValue:F3} A
+瞬時功率: {power:F1} kW
+平均日功率: {averageDailyPower:F1} kWh
+";
+
+
+      base.DetailInfo = detailInfo;
+      current_watt_.UpdateValue(power);
+      daily_average_watt_.UpdateValue(averageDailyPower);
+
+      var right_text = "";//DisplayLoadSummary();
+
+      form_3.UpdateText(detailInfo, right_text);
+
+      return (summary, detailInfo);
     }
 
   }

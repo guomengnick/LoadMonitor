@@ -15,11 +15,16 @@ namespace LoadMonitor
     public Single()
     {
       InitializeComponent();
-
+      //Show();// 確保調用此form時, 不發生"視窗控制代碼建立後才能呼叫控制項上"
     }
-    
+
     public void AddToPanel(UserControl form, string left_text, string right_text)
     {
+
+      if (!IsHandleCreated)
+      {
+        CreateControl();
+      }
       // 清空 panel1 的内容，避免控件叠加
       panel1.Controls.Clear();
       panel1.Controls.Add(form);

@@ -24,12 +24,11 @@ namespace LoadMonitor
   {
     private PartBase part_base_;
 
-    public Thumbnail(CartesianChart thumbnail_chart, PartBase part_base, string mainTitle, string subTitle)
+    public Thumbnail(CartesianChart thumbnail_chart, PartBase part_base)
     {
       InitializeComponent();
       RegisterMouseEvents(this); // 為所有子元件註冊事件
-      LabelTitle.Text = mainTitle;
-      Labelsummary.Text = subTitle;
+      LabelTitle.Text = part_base.MainTitle;
       PanelThumbnail.Controls.Clear();
       thumbnail_chart.Dock = DockStyle.Fill; // 確保圖表填滿 Panel
       PanelThumbnail.Controls.Add(thumbnail_chart);
@@ -54,6 +53,13 @@ namespace LoadMonitor
       //read_current_timer_.Start();
       unactive_color_ = this.BackColor;
     }
+      
+    public void UpdateSummary(string text)
+    {
+      Labelsummary.Invoke(new Action(() => Labelsummary.Text = text));
+    }
+
+
     private Color unactive_color_;
     private bool is_showing = false;
     private void Thumbnail_Load(object sender, EventArgs e)
@@ -97,8 +103,6 @@ namespace LoadMonitor
       }
     }
 
-
-
     private void Thumbnail_Click(object sender, EventArgs e)
     {
 
@@ -131,6 +135,7 @@ namespace LoadMonitor
     {
       this.ButtonRemindBell.Visible = true;
     }
+
     private void ButtonRemindBellClick(object sender, MouseEventArgs e)
     {
       this.ButtonRemindBell.Visible = false;
@@ -139,6 +144,9 @@ namespace LoadMonitor
       
       form.ShowDialog();
     }
+
+
+
 
   }
 }

@@ -20,31 +20,21 @@ namespace LoadMonitor.Components
   // 切割軸XYZ 馬達
   internal class CutMotor : PartBase
   {
-    private Single single_form_;
+    private Single single_form_ = new Single();
     public CutMotor(string mainTitle, string subTitle, string detailInfo,
         Panel DetailChartPanel, double max_current, SKColor chart_color) :
       base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
     {
-      single_form_ = new Single();
-      //ConfigureDetailTextUpdater();
     }
 
-
-    //protected override (string Summary, string DetailInfo) UpdateDetailData()
-    //{
-    //  string summary = "切割馬達更新";
-    //  string detailInfo = "詳細馬達信息";
-    //  return (summary, detailInfo);
-    //}
-
-    //public override void ConfigureDetailTextUpdater(Action<string, string> updateAction)
-    //{
-    //  // 配置詳細頁面文本更新的行為
-    //  ConfigureDetailTextUpdater((summary, detailInfo) =>
-    //  {
-    //    single_form_.UpdateText(summary, detailInfo);
-    //  });
-    //}
+    protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
+    {
+      if (!single_form_.IsHandleCreated)
+      {
+        single_form_.Show(); // 強制創建 Handle
+      }
+      single_form_.Invoke(new Action(() => single_form_.UpdateText(leftText, rightText)));
+    };
 
     public override (string Summary, string DetailInfo) GetText()
     {
@@ -121,6 +111,10 @@ namespace LoadMonitor.Components
     }
 
 
+    protected override (string LeftText, string RightInfo) UpdateDetailData()
+    {
+      return base.GetText();
+    }
 
 
 
