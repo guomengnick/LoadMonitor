@@ -137,13 +137,18 @@ namespace LoadMonitor.Components
               LineSmoothness = 0, // 无弧度
             },
           },
-        XAxes = new[] { new Axis { IsVisible = false, SeparatorsPaint = null } }, // 隐藏 X 轴
+        XAxes = new[] {
+          new Axis { 
+            MinLimit = 0,
+            MaxLimit = 60,
+            IsVisible = false, 
+          } 
+        }, // 隐藏 X 轴
         YAxes = new[] { new Axis { IsVisible = false,
           SeparatorsPaint = null, MinLimit = 0, MaxLimit = Math.Ceiling(MaxLoadingValue * 3), } }, // 隐藏 Y 轴
-        DrawMargin = null, // 移除绘图区域边距
         Padding = new Padding(0), // 移除内部边距
         Margin = new Padding(0), // 移除外部边距
-        LegendPosition = LiveChartsCore.Measure.LegendPosition.Hidden, // 移除图例
+        LegendPosition = LiveChartsCore.Measure.LegendPosition.Hidden,
         Legend = null,
       };
       return cartesianChart_;

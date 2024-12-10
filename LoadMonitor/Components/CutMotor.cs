@@ -77,9 +77,9 @@ namespace LoadMonitor.Components
                 },
         // 設置 X 軸
         XAxes = new Axis[]
-    {
-        new Axis
         {
+          new Axis
+          {
             Labels = null, // 自動生成標籤
             MinLimit = 0, // 最小值（秒）
             MaxLimit = 60, // 最大值（秒）
@@ -87,8 +87,8 @@ namespace LoadMonitor.Components
             Labeler = value => $"{60 - value:F0} s", // 顯示反向標籤（60秒到0秒）
             LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
             SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
-        }
-    },
+          }
+        },
         // 設置 Y 軸
         YAxes = new Axis[]
         {

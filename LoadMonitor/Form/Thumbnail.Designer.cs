@@ -38,6 +38,7 @@
       // PanelThumbnail
       // 
       PanelThumbnail.BackColor = SystemColors.Control;
+      PanelThumbnail.BorderStyle = BorderStyle.FixedSingle;
       PanelThumbnail.Location = new Point(2, 13);
       PanelThumbnail.Margin = new Padding(0);
       PanelThumbnail.Name = "PanelThumbnail";
