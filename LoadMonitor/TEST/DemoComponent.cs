@@ -35,7 +35,7 @@ namespace LoadMonitor.TEST
       Random random = new Random(); // 在循环外创建 Random 实例
       for (int i = 0; i < 59; i++)
       {
-        data.Add(new ObservableValue(0));
+        data.Add(new ObservableValue(0.1));
       }
     }
 

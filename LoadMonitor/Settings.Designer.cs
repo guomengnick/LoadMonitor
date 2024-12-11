@@ -25,7 +25,7 @@ namespace LoadMonitor {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Machine330AT")]
+        [global::System.Configuration.DefaultSettingValueAttribute("GAM330AT")]
         public string MachineType {
             get {
                 return ((string)(this["MachineType"]));

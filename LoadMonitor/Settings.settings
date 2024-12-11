@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="MachineType" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Machine330AT</Value>
+      <Value Profile="(Default)">GAM330AT</Value>
     </Setting>
   </Settings>
 </SettingsFile>

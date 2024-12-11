@@ -43,10 +43,10 @@ namespace LoadMonitor
       panel1 = new Panel();
       label1 = new Label();
       menuStrip1 = new MenuStrip();
-      toolStripMenuItem1 = new ToolStripMenuItem();
       toolStripMenuItem2 = new ToolStripMenuItem();
       ddadasToolStripMenuItem = new ToolStripMenuItem();
       dasdasdToolStripMenuItem = new ToolStripMenuItem();
+      LabelMachineType = new Label();
       flowLayoutPanel1.SuspendLayout();
       panel1.SuspendLayout();
       menuStrip1.SuspendLayout();
@@ -58,10 +58,10 @@ namespace LoadMonitor
       flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
       flowLayoutPanel1.Controls.Add(DummyPanel);
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-      flowLayoutPanel1.Location = new Point(12, 42);
+      flowLayoutPanel1.Location = new Point(9, 4);
       flowLayoutPanel1.Margin = new Padding(0);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
-      flowLayoutPanel1.Size = new Size(306, 727);
+      flowLayoutPanel1.Size = new Size(306, 765);
       flowLayoutPanel1.TabIndex = 3;
       flowLayoutPanel1.WrapContents = false;
       // 
@@ -111,19 +111,16 @@ namespace LoadMonitor
       // 
       // menuStrip1
       // 
+      menuStrip1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+      menuStrip1.Dock = DockStyle.None;
       menuStrip1.ImageScalingSize = new Size(25, 25);
-      menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2 });
-      menuStrip1.Location = new Point(0, 0);
+      menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
+      menuStrip1.Location = new Point(1277, 6);
       menuStrip1.Name = "menuStrip1";
       menuStrip1.ShowItemToolTips = true;
-      menuStrip1.Size = new Size(1347, 33);
+      menuStrip1.Size = new Size(61, 33);
       menuStrip1.TabIndex = 11;
       menuStrip1.Text = "menuStrip1";
-      // 
-      // toolStripMenuItem1
-      // 
-      toolStripMenuItem1.Name = "toolStripMenuItem1";
-      toolStripMenuItem1.Size = new Size(12, 29);
       // 
       // toolStripMenuItem2
       // 
@@ -145,11 +142,24 @@ namespace LoadMonitor
       dasdasdToolStripMenuItem.Size = new Size(180, 22);
       dasdasdToolStripMenuItem.Text = "設置";
       // 
+      // LabelMachineType
+      // 
+      LabelMachineType.Anchor = AnchorStyles.Top;
+      LabelMachineType.AutoSize = true;
+      LabelMachineType.BackColor = Color.Transparent;
+      LabelMachineType.Font = new Font("Microsoft JhengHei UI", 20F, FontStyle.Bold);
+      LabelMachineType.Location = new Point(592, 4);
+      LabelMachineType.Name = "LabelMachineType";
+      LabelMachineType.Size = new Size(171, 35);
+      LabelMachineType.TabIndex = 0;
+      LabelMachineType.Text = "GAM 330AT";
+      // 
       // MainForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       ClientSize = new Size(1347, 787);
+      Controls.Add(LabelMachineType);
       Controls.Add(panel1);
       Controls.Add(radioButton1);
       Controls.Add(DetailChartPanel);
@@ -179,10 +189,10 @@ namespace LoadMonitor
     private Panel panel1;
     private Label label1;
     private MenuStrip menuStrip1;
-    private ToolStripMenuItem toolStripMenuItem1;
     private ToolStripMenuItem toolStripMenuItem2;
     private ToolStripMenuItem ddadasToolStripMenuItem;
     private ToolStripMenuItem dasdasdToolStripMenuItem;
+    private Label LabelMachineType;
   }
 
 }

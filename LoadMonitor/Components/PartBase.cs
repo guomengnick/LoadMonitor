@@ -15,6 +15,7 @@ namespace LoadMonitor.Components
 {
   public abstract class PartBase : UserControl
   {
+
     public string MainTitle { get; set; } // 主標題
     public string SubTitle { get; set; }  // 副標題
     public string DetailInfo { get; set; } // 詳細信息

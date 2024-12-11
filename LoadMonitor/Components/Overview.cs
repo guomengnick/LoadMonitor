@@ -142,7 +142,7 @@ namespace LoadMonitor.Components
       };
       overview_chart.Title = new LabelVisual
       {
-        Text = "整機",
+        Text = "總覽",
         TextSize = 20,
         Paint = new SolidColorPaint(SKColors.Black)
         {
