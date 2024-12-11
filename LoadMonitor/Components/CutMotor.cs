@@ -21,31 +21,20 @@ namespace LoadMonitor.Components
   internal class CutMotor : PartBase
   {
     private Single single_form_ = new Single();
-    public CutMotor(string mainTitle, string subTitle, string detailInfo,
-        Panel DetailChartPanel, double max_current, SKColor chart_color) :
-      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
+    public CutMotor(string name,
+      Panel DetailChartPanel, double max_current, SKColor chart_color) :
+      base(name, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
     {
     }
 
     protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
     {
-      if (!single_form_.IsHandleCreated)
-      {
-        single_form_.Show(); // 強制創建 Handle
-      }
+      //if (!single_form_.IsHandleCreated)
+      //{
+      //  single_form_.Show(); // 強制創建 Handle
+      //}
       single_form_.Invoke(new Action(() => single_form_.UpdateText(leftText, rightText)));
     };
-
-    public override (string Summary, string DetailInfo) GetText()
-    {
-      double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
-      double loading = CalculateLoading(latestValue); // 计算负载百分比
-      string summary = $"{loading:F1} %";
-      string detailInfo = $"{MainTitle} 附載: {loading:F1} % \r\n電流: {latestValue} A";
-      single_form_.UpdateText(detailInfo, GetLoadSummary());
-      return (summary, detailInfo);
-    }
-
 
     public override Form GetDetailForm()
     {

@@ -25,9 +25,9 @@ namespace LoadMonitor.Components
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
 
     private DateTime startTime;
-    public Overview(string mainTitle, string subTitle, string detailInfo, 
-        Panel DetailChartPanel, double max_current, SKColor color) :
-      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, color)
+    public Overview(string name,
+      Panel DetailChartPanel, double max_current, SKColor color) :
+      base(name, max_current, DetailChartPanel, color)
     {
       startTime = DateTime.Now;
     }
@@ -35,10 +35,10 @@ namespace LoadMonitor.Components
 
     protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
     {
-      if (!form_3.IsHandleCreated)
-      {
-        form_3.Show(); // 強制創建 Handle
-      }
+      //if (!form_3.IsHandleCreated)
+      //{
+      //  form_3.Show(); // 強制創建 Handle
+      //}
       form_3.Invoke(new Action(() => form_3.UpdateText(leftText, rightText)));
     };
 
@@ -230,9 +230,7 @@ namespace LoadMonitor.Components
 
       var right_text = "";//DisplayLoadSummary();
 
-      form_3.UpdateText(detailInfo, right_text);
-
-      return (summary, detailInfo);
+      return (detailInfo, right_text);
     }
 
   }

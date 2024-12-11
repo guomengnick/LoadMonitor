@@ -15,7 +15,8 @@ namespace LoadMonitor
     public LeftRight()
     {
       InitializeComponent();
-      //Show();// 確保調用此form時, 不發生"視窗控制代碼建立後才能呼叫控制項上"
+      Show();// 確保調用此form時, 不發生"視窗控制代碼建立後才能呼叫控制項上"
+      Hide();
     }
 
     // 提供更新 TextBox 内容的方法

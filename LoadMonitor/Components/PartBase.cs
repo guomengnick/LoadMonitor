@@ -48,20 +48,20 @@ namespace LoadMonitor.Components
 
     protected ObservableCollection<ObservableValue> data_ = new ObservableCollection<ObservableValue>();
 
-    public static PartBase Create(string type, string name, string subTitle,
-        string detailInfo, Panel DetailChartPanel, double max_current_value, SKColor color)
+    public static PartBase Create(string type, string name,
+        Panel DetailChartPanel, double max_current_value, SKColor color)
     {
       return type switch
       {
-        "Spindle" => new Spindle(name, subTitle, detailInfo, DetailChartPanel, max_current_value, color),
-        "CutMotor" => new CutMotor(name, subTitle, detailInfo, DetailChartPanel, max_current_value, color),
-        "TransferRack" => new TransferRack(name, subTitle, detailInfo, DetailChartPanel, max_current_value, color),
-        "Overview" => new Overview(name, subTitle, detailInfo, DetailChartPanel, max_current_value, color),
+        "Spindle" => new Spindle(name, DetailChartPanel, max_current_value, color),
+        "CutMotor" => new CutMotor(name, DetailChartPanel, max_current_value, color),
+        "TransferRack" => new TransferRack(name, DetailChartPanel, max_current_value, color),
+        "Overview" => new Overview(name, DetailChartPanel, max_current_value, color),
         _ => throw new ArgumentException($"Unknown component type: {type}")
       };
     }
 
-    public PartBase(string mainTitle, string subTitle, string detailInfo,
+    public PartBase(string name,
         double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color)
     {
       MaxLoadingValue = maxLoadingValue;
@@ -70,14 +70,11 @@ namespace LoadMonitor.Components
       line_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0xee);
       fill_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0x20);
 
-      MainTitle = mainTitle;
+      MainTitle = name;
       thumbnail_ = new Thumbnail(CreateThumbnail(), this);//對縮圖賦值
 
       TEST.TEST.Add60EmptyData(data_);
       //TEST.TEST.AddData(data_);
-
-      SubTitle = subTitle;
-      DetailInfo = detailInfo;
 
       IsSelected = false;
 
@@ -109,14 +106,15 @@ namespace LoadMonitor.Components
       return currentValue / MaxLoadingValue * 100.0; // 返回百分比
     }
 
-    public double GetCurrentLoad() { return data_.Last().Value ?? 0.0; }
+    public double GetCurrentLoad() { return history_data_.GetAverage(TimeUnit.Seconds); }
 
     public virtual (string Summary, string DetailInfo) GetText()
     {
-      double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
-      double current_loading = CalculateLoading(latestValue); // 计算负载百分比
-      string summary = $"{(int)(current_loading * 100)} %";
-      string detailInfo = $"{MainTitle} 附載: {summary:F1} % \r\n電流: {latestValue} A";
+      double current_loading = history_data_.GetAverage(TimeUnit.Seconds);
+      string summary = $"{Math.Round(current_loading * 100)}%";
+
+
+      string detailInfo = $"電流: {current_loading} A";
       return (summary, detailInfo);
     }
 
@@ -124,7 +122,7 @@ namespace LoadMonitor.Components
     virtual protected CartesianChart CreateThumbnail()
     {
       // 初始化图表
-      CartesianChart cartesianChart_ = new CartesianChart
+      return new CartesianChart
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]
@@ -152,7 +150,6 @@ namespace LoadMonitor.Components
         LegendPosition = LiveChartsCore.Measure.LegendPosition.Hidden,
         Legend = null,
       };
-      return cartesianChart_;
     }
 
     private void Initialize(double maxLoadingValue)
@@ -179,9 +176,11 @@ namespace LoadMonitor.Components
 
       history_data_.AddDataPoint(motor_current);
       var current_loading = history_data_.GetAverage(TimeUnit.Seconds);
+      string summary = $"{Math.Round(current_loading * 100)}%";
+
       var average_data = history_data_.GetDataPoints();
 
-      thumbnail_.UpdateSummary($"{(int)(current_loading * 100)} %");
+      thumbnail_.UpdateSummary(summary);
 
       var detail_texts = UpdateDetailData();
       Log.Information($"detail_texts:{detail_texts}");

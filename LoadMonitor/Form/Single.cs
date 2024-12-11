@@ -15,7 +15,8 @@ namespace LoadMonitor
     public Single()
     {
       InitializeComponent();
-      //Show();// 確保調用此form時, 不發生"視窗控制代碼建立後才能呼叫控制項上"
+      Show();// 確保調用此form時, 不發生"視窗控制代碼建立後才能呼叫控制項上"
+      Hide();
     }
 
     public void AddToPanel(UserControl form, string left_text, string right_text)

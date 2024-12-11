@@ -36,10 +36,10 @@ namespace LoadMonitor.Components
 
     protected AngularGauge power_;
     protected AngularGauge rpm_;
-    private ThreadTimer timer_ = new ThreadTimer(1000);
-    public Spindle(string mainTitle, string subTitle, string detailInfo, 
-        Panel DetailChartPanel, double max_current, SKColor chart_color) :
-      base(mainTitle, subTitle, detailInfo, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
+    private ThreadTimer timer_ = new ThreadTimer(3000);
+    public Spindle(string name, 
+      Panel DetailChartPanel, double max_current, SKColor chart_color) :
+      base(name, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
     {
       TEST.TEST.Add60EmptyData(motor_temperature_data_);
       
@@ -63,17 +63,12 @@ namespace LoadMonitor.Components
     protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
     {
 
-      if (!quad_grid_form_.IsHandleCreated)
-      {
-        quad_grid_form_.Show(); // 強制創建 Handle
-      }
+      //if (!quad_grid_form_.IsHandleCreated)
+      //{
+      //  quad_grid_form_.Show(); // 強制創建 Handle
+      //}
       quad_grid_form_.Invoke(new Action(() => quad_grid_form_.UpdateText(leftText, rightText)));
     };
-    public override (string Summary, string DetailInfo) GetText()
-    {
-      quad_grid_form_.UpdateText(DetailInfo, GetLoadSummary());
-      return (SubTitle, DetailInfo);
-    }
 
     private UserControl RPM()
     {
