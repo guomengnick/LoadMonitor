@@ -114,9 +114,9 @@ namespace LoadMonitor
                     0x00,  // 寄存器起始地址高字節 (0x00)
                     0x00,  // 寄存器起始地址低字節 (0x00)
                     0x00,  // 寄存器長度高字節 (0x00)
-                    0x10, // 寄存器長度低字節 (0x10)
+                    0x08,   // 0x10, // 寄存器長度低字節 (0x10:收16個通道  0x08:收8個通道) 
                     0x44, // CRC 低字節 (0x44)
-                    0x06   // CRC 高字節 (0x06)
+                    0x0C   // CRC 高字節 (0x06收16個通道  0x0C:收8個通道)
       };// 發送請求幀
         // 實際發送的數據: 0x0103000000104406
         //                            ^ 10 代表要收16個byte, 1個通道用2個byte表示
@@ -124,7 +124,7 @@ namespace LoadMonitor
       {
         serial_port_.Write(requestFrame, 0, requestFrame.Length);
         System.Threading.Thread.Sleep(50);
-        Log.Information("寫入寄存器");
+        //Log.Information("寫入寄存器");
       }
       catch (Exception ex)
       {
@@ -152,7 +152,7 @@ namespace LoadMonitor
       int bytesRead = 0;
       try
       {
-        bytesRead = serial_port_.Read(responseFrame, 0, 37);// 打印接收到的數據幀到日誌
+        bytesRead = serial_port_.Read(responseFrame, 0, 255);// 打印接收到的數據幀到日誌
       }
       catch (TimeoutException)
       {
