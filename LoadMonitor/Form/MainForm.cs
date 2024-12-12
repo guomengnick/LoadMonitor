@@ -13,7 +13,7 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1500);
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1300);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
     private Overview overview_;
 
@@ -21,10 +21,12 @@ namespace LoadMonitor
     {
       InitializeComponent();
       this.FormClosed += MainFormClose;
+      
 
       InitializePart();
+      LabelMachineType.Text = Settings.Default.MachineType;
 
-      modbusSerialPort_ = new ModbusSerialPort("COM7");// 初始化 Modbus 通信
+      modbusSerialPort_ = new ModbusSerialPort(Settings.Default.ComPort);// 初始化 Modbus 通信
 
       read_current_timer_.Elapsed += Update;//更新畫面
       read_current_timer_.Start();
@@ -34,14 +36,10 @@ namespace LoadMonitor
     {
       var factory = new Factory();
       components_ = factory.CreateComponents(DetailChartPanel);
-      if (components_[0] is Overview overview)
+      if (components_.ContainsKey(0) && components_[0] is Overview overview)
       {
         overview_ = overview;
         overview_.AddAllParts(components_);
-      }
-      else
-      {
-        throw new InvalidOperationException("components_[0] is not of type Overview.");
       }
 
 
@@ -90,7 +88,7 @@ namespace LoadMonitor
       Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();//較耗時, 在子線程執行
       if (currents.Count == 0)
       {
-        Log.Warning("Modbus serial port 收到的值為空");
+        //Log.Warning("Modbus serial port 收到的值為空");
         return;
       }
 
@@ -110,7 +108,7 @@ namespace LoadMonitor
 
         this.Invoke(new Action(() =>//在主線程執行
         {
-          components_[key]?.Update(currents[key]);
+          components_[key]?.Update(currents[key]/* + 3*/);
         }));
       }
     }

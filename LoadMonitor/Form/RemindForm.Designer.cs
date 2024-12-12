@@ -34,21 +34,23 @@
       label1 = new Label();
       pictureBox1 = new PictureBox();
       label2 = new Label();
+      ButtonResetRemind = new Button();
       ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
       SuspendLayout();
       // 
       // OKButton
       // 
+      OKButton.Anchor = AnchorStyles.Bottom;
       OKButton.BackColor = SystemColors.Highlight;
       OKButton.FlatAppearance.BorderSize = 0;
       OKButton.FlatStyle = FlatStyle.Flat;
       OKButton.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold);
       OKButton.ForeColor = SystemColors.Info;
-      OKButton.Location = new Point(218, 227);
+      OKButton.Location = new Point(97, 227);
       OKButton.Name = "OKButton";
-      OKButton.Size = new Size(95, 32);
+      OKButton.Size = new Size(146, 32);
       OKButton.TabIndex = 0;
-      OKButton.Text = "OK";
+      OKButton.Text = "關閉";
       OKButton.UseVisualStyleBackColor = false;
       OKButton.Click += OKButton_Click;
       // 
@@ -63,7 +65,6 @@
       TextBoxRemindInfo.Name = "TextBoxRemindInfo";
       TextBoxRemindInfo.Size = new Size(471, 156);
       TextBoxRemindInfo.TabIndex = 1;
-      TextBoxRemindInfo.TextChanged += TextBoxRemindInfo_TextChanged;
       // 
       // label1
       // 
@@ -95,12 +96,29 @@
       label2.Text = "Warnning";
       label2.Click += label2_Click;
       // 
+      // ButtonResetRemind
+      // 
+      ButtonResetRemind.Anchor = AnchorStyles.Bottom;
+      ButtonResetRemind.BackColor = SystemColors.Highlight;
+      ButtonResetRemind.FlatAppearance.BorderSize = 0;
+      ButtonResetRemind.FlatStyle = FlatStyle.Flat;
+      ButtonResetRemind.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold);
+      ButtonResetRemind.ForeColor = SystemColors.ButtonHighlight;
+      ButtonResetRemind.Location = new Point(276, 227);
+      ButtonResetRemind.Name = "ButtonResetRemind";
+      ButtonResetRemind.Size = new Size(146, 32);
+      ButtonResetRemind.TabIndex = 5;
+      ButtonResetRemind.Text = "清除警示並關閉";
+      ButtonResetRemind.UseVisualStyleBackColor = false;
+      ButtonResetRemind.Click += ButtonResetRemindClick;
+      // 
       // RemindForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       BackColor = Color.FromArgb(64, 64, 64);
       ClientSize = new Size(520, 266);
+      Controls.Add(ButtonResetRemind);
       Controls.Add(label2);
       Controls.Add(pictureBox1);
       Controls.Add(label1);
@@ -123,5 +141,6 @@
     private Label label1;
     private PictureBox pictureBox1;
     private Label label2;
+    private Button ButtonResetRemind;
   }
 }

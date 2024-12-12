@@ -260,6 +260,15 @@ namespace LoadMonitor.Components
     }
 
 
+    /// <summary>
+    /// 因為主軸不透過
+    /// </summary>
+    /// <param name="motor_current"></param>
+    override public void Update(double motor_current)
+    {
+
+    }
+
     private void TimerElapsed(object sender, ElapsedEventArgs e)
     {
       try
@@ -315,7 +324,9 @@ namespace LoadMonitor.Components
 變頻器溫度:   {busVoltageValue.ToString("F1"),6} °C
 ";
 
-            quad_grid_form_.UpdateText(DetailInfo, "");
+            var right_text = $@"匯流排電壓:   {busVoltageValue.ToString("F1"),6} V 
+變頻器溫度:   {busVoltageValue.ToString("F1"),6} °C";
+            quad_grid_form_.UpdateText(DetailInfo, right_text);
 
             // 更新 SubTitle
             double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据

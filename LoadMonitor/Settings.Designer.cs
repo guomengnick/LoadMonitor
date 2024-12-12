@@ -34,5 +34,17 @@ namespace LoadMonitor {
                 this["MachineType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM7")]
+        public string ComPort {
+            get {
+                return ((string)(this["ComPort"]));
+            }
+            set {
+                this["ComPort"] = value;
+            }
+        }
     }
 }

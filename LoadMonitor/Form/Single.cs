@@ -40,7 +40,6 @@ namespace LoadMonitor
     // 提供更新 TextBox 内容的方法
     public void UpdateText(string left_text, string right_text)
     {
-
       // 使用 Invoke 確保在主線程更新 UI
       if (LeftTextBoxDetail.InvokeRequired)
       {

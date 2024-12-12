@@ -29,10 +29,6 @@ namespace LoadMonitor.Components
 
     protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
     {
-      //if (!single_form_.IsHandleCreated)
-      //{
-      //  single_form_.Show(); // 強制創建 Handle
-      //}
       single_form_.Invoke(new Action(() => single_form_.UpdateText(leftText, rightText)));
     };
 

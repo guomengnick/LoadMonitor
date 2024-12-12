@@ -92,8 +92,13 @@ namespace LoadMonitor.Components
     {
       double oneHourAverage = Math.Ceiling(history_data_.GetAverage(TimeUnit.OneHour));
       double sixHoursAverage = Math.Ceiling(history_data_.GetAverage(TimeUnit.SixHours));
-      var is_overloading = history_data_.IsExceedingMax();
-      Serilog.Log.Information($"{MainTitle}: 是否超出附載{is_overloading}");
+
+      if (history_data_.IsExceedingMax())
+      {
+        Serilog.Log.Information($"{MainTitle} : 超出附載");
+        thumbnail_.ShowRemindBell();
+      }
+
       return $"1小時 平均附載 : {oneHourAverage:F0}% \r\n\r\n6小時平均附載 : {sixHoursAverage:F0}%";
     }
 
@@ -107,7 +112,9 @@ namespace LoadMonitor.Components
       return currentValue / MaxLoadingValue * 100.0; // 返回百分比
     }
 
-    public double GetCurrentLoad() { return history_data_.GetAverage(TimeUnit.Seconds); }
+    public double GetCurrentLoad() {
+      return data_.LastOrDefault()?.Value ?? 0.0; 
+    }
 
     public virtual (string Summary, string DetailInfo) GetText()
     {
@@ -115,7 +122,10 @@ namespace LoadMonitor.Components
       string summary = $"{Math.Round(current_loading * 100)}%";
 
 
-      string detailInfo = $"電流: {current_loading} A";
+      string detailInfo = $"電流: {current_loading:F1} A";
+      //Log.Information($"基類:{this.GetType().Name} 更新電流");
+
+
       return (summary, detailInfo);
     }
 
@@ -179,12 +189,12 @@ namespace LoadMonitor.Components
       var current_loading = history_data_.GetAverage(TimeUnit.Seconds);
       string summary = $"{Math.Round(current_loading * 100)}%";
 
-      var average_data = history_data_.GetDataPoints();
+      GetLoadSummary();
 
       thumbnail_.UpdateSummary(summary);
 
       var detail_texts = UpdateDetailData();
-      Log.Information($"detail_texts:{detail_texts}");
+      //Log.Information($"detail_texts:{detail_texts}");
       DetailFormUpdater(detail_texts.LeftText, detail_texts.RightInfo);
     }
 

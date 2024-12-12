@@ -39,16 +39,15 @@ namespace LoadMonitor
       flowLayoutPanel1 = new FlowLayoutPanel();
       DummyPanel = new Panel();
       DetailChartPanel = new Panel();
-      radioButton1 = new RadioButton();
-      panel1 = new Panel();
-      label1 = new Label();
       menuStrip1 = new MenuStrip();
       toolStripMenuItem2 = new ToolStripMenuItem();
-      ddadasToolStripMenuItem = new ToolStripMenuItem();
-      dasdasdToolStripMenuItem = new ToolStripMenuItem();
+      ToolStripMenuItemLanguege = new ToolStripMenuItem();
+      簡體中文ToolStripMenuItem = new ToolStripMenuItem();
+      繁體中文ToolStripMenuItem = new ToolStripMenuItem();
+      englishToolStripMenuItem = new ToolStripMenuItem();
+      ToolStripMenuItemSetting = new ToolStripMenuItem();
       LabelMachineType = new Label();
       flowLayoutPanel1.SuspendLayout();
-      panel1.SuspendLayout();
       menuStrip1.SuspendLayout();
       SuspendLayout();
       // 
@@ -80,67 +79,57 @@ namespace LoadMonitor
       DetailChartPanel.Size = new Size(1000, 727);
       DetailChartPanel.TabIndex = 8;
       // 
-      // radioButton1
-      // 
-      radioButton1.AutoSize = true;
-      radioButton1.Location = new Point(335, 788);
-      radioButton1.Name = "radioButton1";
-      radioButton1.Size = new Size(105, 19);
-      radioButton1.TabIndex = 3;
-      radioButton1.TabStop = true;
-      radioButton1.Text = "radioButton1";
-      radioButton1.UseVisualStyleBackColor = true;
-      // 
-      // panel1
-      // 
-      panel1.Controls.Add(label1);
-      panel1.Location = new Point(510, 810);
-      panel1.Name = "panel1";
-      panel1.Size = new Size(341, 100);
-      panel1.TabIndex = 10;
-      // 
-      // label1
-      // 
-      label1.AutoSize = true;
-      label1.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Bold);
-      label1.Location = new Point(123, 9);
-      label1.Name = "label1";
-      label1.Size = new Size(204, 30);
-      label1.TabIndex = 0;
-      label1.Text = "label1一歇歇的自";
-      // 
       // menuStrip1
       // 
       menuStrip1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
       menuStrip1.Dock = DockStyle.None;
       menuStrip1.ImageScalingSize = new Size(25, 25);
       menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
-      menuStrip1.Location = new Point(1277, 6);
+      menuStrip1.Location = new Point(1283, 6);
       menuStrip1.Name = "menuStrip1";
       menuStrip1.ShowItemToolTips = true;
-      menuStrip1.Size = new Size(61, 33);
+      menuStrip1.Size = new Size(55, 33);
       menuStrip1.TabIndex = 11;
       menuStrip1.Text = "menuStrip1";
       // 
       // toolStripMenuItem2
       // 
-      toolStripMenuItem2.DropDownItems.AddRange(new ToolStripItem[] { ddadasToolStripMenuItem, dasdasdToolStripMenuItem });
+      toolStripMenuItem2.DropDownItems.AddRange(new ToolStripItem[] { ToolStripMenuItemLanguege, ToolStripMenuItemSetting });
       toolStripMenuItem2.Image = (Image)resources.GetObject("toolStripMenuItem2.Image");
       toolStripMenuItem2.Name = "toolStripMenuItem2";
-      toolStripMenuItem2.Size = new Size(53, 29);
-      toolStripMenuItem2.Text = "   ";
+      toolStripMenuItem2.Size = new Size(47, 29);
+      toolStripMenuItem2.Text = " ";
       // 
-      // ddadasToolStripMenuItem
+      // ToolStripMenuItemLanguege
       // 
-      ddadasToolStripMenuItem.Name = "ddadasToolStripMenuItem";
-      ddadasToolStripMenuItem.Size = new Size(180, 22);
-      ddadasToolStripMenuItem.Text = "語言";
+      ToolStripMenuItemLanguege.DropDownItems.AddRange(new ToolStripItem[] { 簡體中文ToolStripMenuItem, 繁體中文ToolStripMenuItem, englishToolStripMenuItem });
+      ToolStripMenuItemLanguege.Name = "ToolStripMenuItemLanguege";
+      ToolStripMenuItemLanguege.Size = new Size(98, 22);
+      ToolStripMenuItemLanguege.Text = "語言";
       // 
-      // dasdasdToolStripMenuItem
+      // 簡體中文ToolStripMenuItem
       // 
-      dasdasdToolStripMenuItem.Name = "dasdasdToolStripMenuItem";
-      dasdasdToolStripMenuItem.Size = new Size(180, 22);
-      dasdasdToolStripMenuItem.Text = "設置";
+      簡體中文ToolStripMenuItem.Name = "簡體中文ToolStripMenuItem";
+      簡體中文ToolStripMenuItem.Size = new Size(122, 22);
+      簡體中文ToolStripMenuItem.Text = "简体中文";
+      // 
+      // 繁體中文ToolStripMenuItem
+      // 
+      繁體中文ToolStripMenuItem.Name = "繁體中文ToolStripMenuItem";
+      繁體中文ToolStripMenuItem.Size = new Size(122, 22);
+      繁體中文ToolStripMenuItem.Text = "繁體中文";
+      // 
+      // englishToolStripMenuItem
+      // 
+      englishToolStripMenuItem.Name = "englishToolStripMenuItem";
+      englishToolStripMenuItem.Size = new Size(122, 22);
+      englishToolStripMenuItem.Text = "English";
+      // 
+      // ToolStripMenuItemSetting
+      // 
+      ToolStripMenuItemSetting.Name = "ToolStripMenuItemSetting";
+      ToolStripMenuItemSetting.Size = new Size(98, 22);
+      ToolStripMenuItemSetting.Text = "設置";
       // 
       // LabelMachineType
       // 
@@ -158,10 +147,8 @@ namespace LoadMonitor
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 787);
+      ClientSize = new Size(1347, 772);
       Controls.Add(LabelMachineType);
-      Controls.Add(panel1);
-      Controls.Add(radioButton1);
       Controls.Add(DetailChartPanel);
       Controls.Add(flowLayoutPanel1);
       Controls.Add(menuStrip1);
@@ -170,10 +157,8 @@ namespace LoadMonitor
       MainMenuStrip = menuStrip1;
       Name = "MainForm";
       StartPosition = FormStartPosition.CenterScreen;
-      Text = "GAM 330AT";
+      Text = "監控";
       flowLayoutPanel1.ResumeLayout(false);
-      panel1.ResumeLayout(false);
-      panel1.PerformLayout();
       menuStrip1.ResumeLayout(false);
       menuStrip1.PerformLayout();
       ResumeLayout(false);
@@ -186,13 +171,14 @@ namespace LoadMonitor
     private Panel DummyPanel;
     private TextBox TextBoxDetailInfo;
     private RadioButton radioButton1;
-    private Panel panel1;
-    private Label label1;
     private MenuStrip menuStrip1;
     private ToolStripMenuItem toolStripMenuItem2;
-    private ToolStripMenuItem ddadasToolStripMenuItem;
-    private ToolStripMenuItem dasdasdToolStripMenuItem;
+    private ToolStripMenuItem ToolStripMenuItemLanguege;
+    private ToolStripMenuItem ToolStripMenuItemSetting;
     private Label LabelMachineType;
+    private ToolStripMenuItem 簡體中文ToolStripMenuItem;
+    private ToolStripMenuItem 繁體中文ToolStripMenuItem;
+    private ToolStripMenuItem englishToolStripMenuItem;
   }
 
 }

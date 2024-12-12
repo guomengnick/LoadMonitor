@@ -102,6 +102,10 @@ namespace LoadMonitor
         throw new InvalidOperationException("Serial port is not open.");
       }
 
+      // 清空接收緩衝區
+      serial_port_.DiscardInBuffer();
+      Log.Information("接收緩衝區已清除");
+
       // 構造 Modbus 請求幀
       byte[] requestFrame = new byte[]
       {
@@ -119,6 +123,8 @@ namespace LoadMonitor
       try
       {
         serial_port_.Write(requestFrame, 0, requestFrame.Length);
+        System.Threading.Thread.Sleep(50);
+        Log.Information("寫入寄存器");
       }
       catch (Exception ex)
       {
@@ -142,7 +148,7 @@ namespace LoadMonitor
 
       Dictionary<int, double> currents = new Dictionary<int, double>();
       // 接收數據幀
-      byte[] responseFrame = new byte[37]; // 根據您提供的範例數據，應有 37 字節
+      byte[] responseFrame = new byte[255]; // 根據您提供的範例數據，應有 37 字節
       int bytesRead = 0;
       try
       {
@@ -157,14 +163,13 @@ namespace LoadMonitor
       {
         Log.Error($"Error during Modbus Read: {ex.Message}");
       }
-
-      var hexResponse = BitConverter.ToString(responseFrame).Replace("-", " ");
-      Log.Information($"Received Response Frame: {hexResponse}");
+      var hexResponse = BitConverter.ToString(responseFrame, 0, bytesRead).Replace("-", " ");
+      Log.Information($"長度:{bytesRead} Received Response: {hexResponse}");
 
 
       if (bytesRead < 5) // 最少要有頭部（3字節）和校驗碼（2字節）
       {
-        //Log.Warning("Response too short or invalid.");
+        Log.Warning("Response too short or invalid.");
         return currents;
       }
       if (responseFrame[0] == 0x03 && responseFrame[1] == 0x20)
@@ -213,11 +218,11 @@ namespace LoadMonitor
       }
       currents[0/*0 用來裝總電流*/] = sum_current;
 
-      Log.Information($"總電流:{sum_current} A\n" + s + "\n\n");
+      //Log.Information($"總電流:{sum_current} A\n" + s + "\n\n");
 
       // 最後清空緩衝區
-      //serial_port_.DiscardInBuffer();
-      //serial_port_.DiscardOutBuffer();
+      serial_port_.DiscardInBuffer();
+      serial_port_.DiscardOutBuffer();
       return currents;
     }
 

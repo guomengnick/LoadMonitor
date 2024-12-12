@@ -142,7 +142,9 @@ namespace LoadMonitor
       var text = part_base_.OnReminderBellClick();
       var form = new RemindForm(text);
       
-      form.ShowDialog();
+      var reset_reminder_ = form.ShowDialogInfo();//獲取使用者點擊'關閉'或'清除提醒'
+
+      this.ButtonRemindBell.Visible = !reset_reminder_;
     }
 
 
