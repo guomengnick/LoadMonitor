@@ -121,55 +121,9 @@
   <data name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
   </data>
-  <data name="toolStripMenuItem2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-        6P4AAAAASUVORK5CYII=
-</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="toolStripMenuItem2.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.TrayHeight" type="System.Int32, mscorlib">
@@ -1662,74 +1616,73 @@
 </value>
   </data>
   <data name="簡體中文ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Simplified Chinese</value>
+    <value>简体中文</value>
   </data>
   <data name="ToolStripMenuItemSetting.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>设置</value>
   </data>
   <data name="ToolStripMenuItemLanguege.Text" xml:space="preserve">
-    <value>Languege</value>
+    <value>语言</value>
   </data>
   <data name="MainForm.Text" xml:space="preserve">
-    <value>Usage Monitor</value>
+    <value>使用率监控</value>
   </data>
   <data name="主軸" xml:space="preserve">
-    <value>Spindle</value>
+    <value>主轴</value>
   </data>
   <data name="整機" xml:space="preserve">
-    <value>System Overview</value>
+    <value>整机</value>
   </data>
   <data name="移載" xml:space="preserve">
-    <value>Transfer Rack</value>
+    <value>移载</value>
   </data>
   <data name="切割" xml:space="preserve">
-    <value>Cutter</value>
+    <value>切割</value>
   </data>
   <data name="單位.秒" xml:space="preserve">
-    <value>s</value>
+    <value>秒</value>
   </data>
   <data name="單位.使用率" xml:space="preserve">
-    <value>Usage</value>
+    <value>使用率</value>
   </data>
   <data name="馬達溫度" xml:space="preserve">
-    <value>MotorTemperature</value>
+    <value>马达温度</value>
   </data>
   <data name="主軸附載" xml:space="preserve">
-    <value>SpindleLoading</value>
+    <value>主轴附载</value>
   </data>
   <data name="轉速" xml:space="preserve">
-    <value>RPM</value>
+    <value>转速</value>
   </data>
   <data name="電流" xml:space="preserve">
-    <value>Current</value>
+    <value>电流</value>
   </data>
   <data name="功率" xml:space="preserve">
-    <value>Power</value>
+    <value>功率</value>
   </data>
   <data name="匯流排電壓" xml:space="preserve">
-    <value>Bus Voltage</value>
+    <value>汇流排电压</value>
   </data>
   <data name="變頻器溫度" xml:space="preserve">
-    <value>Inverter Temperature</value>
+    <value>变频器温度</value>
   </data>
   <data name="當前功率" xml:space="preserve">
-    <value>Current Power</value>
+    <value>当前功率</value>
   </data>
   <data name="日功率" xml:space="preserve">
-    <value>Daily Power</value>
+    <value>日功率</value>
   </data>
   <data name="電機保養提醒文字" xml:space="preserve">
-    <value>Motor load abnormality detected.
-Please inspect the following items:
-‧ Screw rod
-‧ Linear guide rails and blocks
-‧ All sliding surfaces
-‧ Motor-related components and maintenance</value>
+    <value>电机负载异常，请检查
+‧ 螺杆
+‧ 滑轨滑块
+‧ 各滑动面
+‧ 电机相关部件及保养。</value>
   </data>
   <data name="關閉" xml:space="preserve">
-    <value>Close</value>
+    <value>关闭</value>
   </data>
   <data name="清除警示並關閉" xml:space="preserve">
-    <value>Clear Alert and Close</value>
+    <value>清除警示并关闭</value>
   </data>
 </root>

@@ -122,7 +122,7 @@ namespace LoadMonitor.Components
       string summary = $"{Math.Round(current_loading * 100)}%";
 
 
-      string detailInfo = $"電流: {current_loading:F1} A";
+      string detailInfo = $"{Language.GetString("電流")}: {current_loading:F1} A";
       //Log.Information($"基類:{this.GetType().Name} 更新電流");
 
 
@@ -174,10 +174,10 @@ namespace LoadMonitor.Components
     //點擊了提醒鈴鐺
     public virtual string OnReminderBellClick()
     {
-            //如果要換行的話，要加上@
-      return $@"{MainTitle} 電機負載異常，請檢查
-螺桿、滑軌滑塊、各滑動面、電機
-相關部件及保養。";
+      //如果要換行的話，要加上@
+      var s = $@"{MainTitle} {Language.GetString("電機保養提醒文字")}";
+      Log.Information(s);
+      return $@"{MainTitle} {Language.GetString("電機保養提醒文字")}";
     }
 
     /// <summary>

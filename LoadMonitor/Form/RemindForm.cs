@@ -17,6 +17,9 @@ namespace LoadMonitor
     {
       InitializeComponent();
       this.TextBoxRemindInfo.Text = warnning_info;
+      this.ButtonResetRemind.Text = Language.GetString("清除警示並關閉");
+      this.OKButton.Text = Language.GetString("關閉");
+
       Show();// 確保調用此form時, 不發生"視窗控制代碼建立後才能呼叫控制項上"
       Hide();
     }

@@ -71,7 +71,7 @@ namespace LoadMonitor.Components
       var parts_configs = new List<Config>
       {
         new Config { Type = "Overview", Name = Settings.Default.MachineType, Key = 0, MaxCurrentValue = 5 },
-        new Config { Type = "Spindle", Name = "主軸", Key = 17, MaxCurrentValue = 2 }
+        new Config { Type = "Spindle", Name = Language.GetString("主軸"), Key = 17, MaxCurrentValue = 2 }
       };
 
 
@@ -162,10 +162,10 @@ namespace LoadMonitor.Components
     {
       return new Config[]
       {
-        new Config { Type = "CutMotor", Name = "切割X1", Key = 5, MaxCurrentValue = 1.9},
-        new Config { Type = "CutMotor", Name = "切割Y1", Key = 3, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = "切割Y2", Key = 4, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = "切割Z1", Key = 6, MaxCurrentValue = 0.5 }
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y2", Key = 4, MaxCurrentValue = 1.8 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5 }
       };
     }
 
@@ -176,7 +176,7 @@ namespace LoadMonitor.Components
       gam330d.AddRange(Create330());
       gam330d.AddRange(new Config[]
       {
-        new Config { Type = "CutMotor", Name = "切割Z2", Key = 8, MaxCurrentValue = 0.5 }
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z2", Key = 8, MaxCurrentValue = 0.5 }
       });
       return gam330d;
     }
@@ -187,8 +187,8 @@ namespace LoadMonitor.Components
       gam330.AddRange(Create330());
       gam330.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = "移載X", Key = 1, MaxCurrentValue = 1.5 },
-        new Config { Type = "TransferRack", Name = "移載Z", Key = 2, MaxCurrentValue = 0.4 }
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4 }
       });
       return gam330;
     }
@@ -199,8 +199,8 @@ namespace LoadMonitor.Components
       gam330ad.AddRange(Create330AT());
       gam330ad.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = "切割X2", Key = 7, MaxCurrentValue = 1.8 },
-        new Config { Type = "TransferRack", Name = "切割Z2", Key = 8, MaxCurrentValue = 1.8 }
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("切割")}X2", Key = 7, MaxCurrentValue = 1.8 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("切割")}Z2", Key = 8, MaxCurrentValue = 1.8 }
       });
       return gam330ad;
     }
@@ -212,7 +212,7 @@ namespace LoadMonitor.Components
       gam336at.AddRange(Create330AT());//基於330AT,再加一個移載Y軸
       gam336at.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = "移載Y", Key = 7, MaxCurrentValue = 1.8 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.8 },
       });
       return gam336at;
     }
@@ -223,14 +223,14 @@ namespace LoadMonitor.Components
       List<Config> gam336ad = new List<Config>();
       gam336ad.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = "移載X", Key = 1, MaxCurrentValue = 1.5 },
-        new Config { Type = "CutMotor", Name = "切割X2", Key = 2, MaxCurrentValue = 1.9},
-        new Config { Type = "CutMotor", Name = "切割Y1", Key = 3, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = "切割Y2", Key = 4, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = "切割X1", Key = 5, MaxCurrentValue = 1.9},
-        new Config { Type = "CutMotor", Name = "切割Z1", Key = 6, MaxCurrentValue = 0.5 },
-        new Config { Type = "TransferRack", Name = "移載Y", Key = 7, MaxCurrentValue = 1.5 },
-        new Config { Type = "CutMotor", Name = "切割Z2", Key = 8, MaxCurrentValue = 1.9},
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X2", Key = 2, MaxCurrentValue = 1.9},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y2", Key = 4, MaxCurrentValue = 1.8 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z2", Key = 8, MaxCurrentValue = 1.9},
       });
       return gam336ad;
     }
@@ -241,13 +241,13 @@ namespace LoadMonitor.Components
       List<Config> gam380at = new List<Config>();
       gam380at.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = "移載X", Key = 1, MaxCurrentValue = 1.5 },
-        new Config { Type = "TransferRack", Name = "移載Z", Key = 2, MaxCurrentValue = 0.4 },
-        new Config { Type = "CutMotor", Name = "切割Y1", Key = 3, MaxCurrentValue = 1.8 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8 },
         //沒有 key 4
-        new Config { Type = "CutMotor", Name = "切割X1", Key = 5, MaxCurrentValue = 1.9},
-        new Config { Type = "CutMotor", Name = "切割Z1", Key = 6, MaxCurrentValue = 0.5 },
-        new Config { Type = "TransferRack", Name = "移載Y", Key = 7, MaxCurrentValue = 1.5 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5 },
       });
       return gam380at;
     }

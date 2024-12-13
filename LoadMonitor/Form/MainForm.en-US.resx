@@ -1662,7 +1662,7 @@
 </value>
   </data>
   <data name="簡體中文ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Simplified Chinese</value>
+    <value>Simplified Chinese </value>
   </data>
   <data name="ToolStripMenuItemSetting.Text" xml:space="preserve">
     <value>Settings</value>

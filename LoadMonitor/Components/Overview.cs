@@ -105,7 +105,7 @@ namespace LoadMonitor.Components
                 UnitWidth = 2,
                 Labeler = value =>
                 {
-                  if (value == 0)return "60秒";
+                  if (value == 0)return $"60{Language.GetString("單位.秒")}";
                   else if (value == 60)return "0";
                   return ""; // 其他值不顯示
                 },
@@ -134,7 +134,7 @@ namespace LoadMonitor.Components
             {
               if (value == base.MaxLoadingValue)
               {
-                return "% 使用率";//base.MaxLoadingValue.ToString() + "A";
+                return $"% {Language.GetString("單位.使用率")}";//base.MaxLoadingValue.ToString() + "A";
               }
               return "";
             }, // 格式化為 0 A, 1 A, 2 A
@@ -150,7 +150,7 @@ namespace LoadMonitor.Components
         DrawMargin = new LiveChartsCore.Measure.Margin(20, 30, 5, 15),//設定 左、上、右、下 的邊界大小
         Title = new LabelVisual
         {
-          Text = "整機",
+          Text = $"{Language.GetString("整機")}",
           TextSize = 24,
           Paint = new SolidColorPaint(SKColors.Black)
           {
@@ -236,7 +236,7 @@ namespace LoadMonitor.Components
   private AngularGauge current_watt_;
     private UserControl AverageWattPerWeekChart()
     {
-      current_watt_ = new AngularGauge("當前功率(kWh)") // TODO: 給單位
+      current_watt_ = new AngularGauge($"{Language.GetString("當前功率")}(kWh)") // TODO: 給單位
       {
         Dock = DockStyle.Fill,
       };
@@ -249,7 +249,7 @@ namespace LoadMonitor.Components
 
     private UserControl AverageWattPerMonthChart()
     {
-      daily_average_watt_ = new AngularGauge("日功率(kWh)")
+      daily_average_watt_ = new AngularGauge($"{Language.GetString("日功率")}(kWh)")
       {
 
         Dock = DockStyle.Fill,

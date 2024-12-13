@@ -46,7 +46,7 @@
       OKButton.FlatStyle = FlatStyle.Flat;
       OKButton.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold);
       OKButton.ForeColor = SystemColors.Info;
-      OKButton.Location = new Point(97, 227);
+      OKButton.Location = new Point(189, 280);
       OKButton.Name = "OKButton";
       OKButton.Size = new Size(146, 32);
       OKButton.TabIndex = 0;
@@ -58,21 +58,21 @@
       // 
       TextBoxRemindInfo.BackColor = Color.FromArgb(64, 64, 64);
       TextBoxRemindInfo.BorderStyle = BorderStyle.None;
-      TextBoxRemindInfo.Font = new Font("Microsoft JhengHei UI", 15F);
+      TextBoxRemindInfo.Font = new Font("Microsoft JhengHei UI", 17F);
       TextBoxRemindInfo.ForeColor = SystemColors.Menu;
-      TextBoxRemindInfo.Location = new Point(25, 63);
+      TextBoxRemindInfo.Location = new Point(26, 61);
       TextBoxRemindInfo.Multiline = true;
       TextBoxRemindInfo.Name = "TextBoxRemindInfo";
-      TextBoxRemindInfo.Size = new Size(471, 156);
+      TextBoxRemindInfo.Size = new Size(656, 211);
       TextBoxRemindInfo.TabIndex = 1;
       // 
       // label1
       // 
       label1.BackColor = SystemColors.InfoText;
       label1.BorderStyle = BorderStyle.FixedSingle;
-      label1.Location = new Point(6, 53);
+      label1.Location = new Point(11, 56);
       label1.Name = "label1";
-      label1.Size = new Size(510, 2);
+      label1.Size = new Size(684, 4);
       label1.TabIndex = 2;
       // 
       // pictureBox1
@@ -89,7 +89,7 @@
       // 
       label2.AutoSize = true;
       label2.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Bold);
-      label2.Location = new Point(204, 9);
+      label2.Location = new Point(294, 12);
       label2.Name = "label2";
       label2.Size = new Size(128, 30);
       label2.TabIndex = 4;
@@ -104,7 +104,7 @@
       ButtonResetRemind.FlatStyle = FlatStyle.Flat;
       ButtonResetRemind.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold);
       ButtonResetRemind.ForeColor = SystemColors.ButtonHighlight;
-      ButtonResetRemind.Location = new Point(276, 227);
+      ButtonResetRemind.Location = new Point(369, 280);
       ButtonResetRemind.Name = "ButtonResetRemind";
       ButtonResetRemind.Size = new Size(146, 32);
       ButtonResetRemind.TabIndex = 5;
@@ -117,7 +117,7 @@
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       BackColor = Color.FromArgb(64, 64, 64);
-      ClientSize = new Size(520, 266);
+      ClientSize = new Size(712, 319);
       Controls.Add(ButtonResetRemind);
       Controls.Add(label2);
       Controls.Add(pictureBox1);

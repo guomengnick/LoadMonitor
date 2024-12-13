@@ -5,6 +5,9 @@ using System.Timers;
 using System.ComponentModel;
 using Microsoft.VisualBasic.Logging;
 using Serilog;
+using System.Resources;
+using System.Globalization;
+using HarfBuzzSharp;
 
 namespace LoadMonitor
 {
@@ -16,15 +19,15 @@ namespace LoadMonitor
     private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
     private Overview overview_;
-
+    private System.Resources.ResourceManager resource_manager_;
     public MainForm()
     {
       InitializeComponent();
+      LoadLanguage();
       this.FormClosed += MainFormClose;
-      
+
 
       InitializePart();
-      this.Text = Settings.Default.MachineType + "  使用率監控";
       modbusSerialPort_ = new ModbusSerialPort(Settings.Default.ComPort);// 初始化 Modbus 通信
 
       read_current_timer_.Elapsed += Update;//更新畫面
@@ -116,6 +119,48 @@ namespace LoadMonitor
         }
 
       }
+    }
+
+
+
+
+
+    // 动态加载语言资源的方法
+    private void LoadLanguage()
+    {
+      // 更新控件的文本内容
+      this.Text = Settings.Default.MachineType + "  " + Language.GetString("MainForm.Text");
+      ToolStripMenuItemSetting.Text = Language.GetString("ToolStripMenuItemSetting.Text");
+      ToolStripMenuItemLanguege.Text = Language.GetString("ToolStripMenuItemLanguege.Text");
+    }
+
+    private void 簡體中文ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      Language.SetLanguage("zh-CN");
+      UpdateLanguageMenuState();
+      MessageBox.Show("切换语言须重启系统!!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    private void 繁體中文ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      Language.SetLanguage("zh-TW");
+      UpdateLanguageMenuState();
+      MessageBox.Show("切換語言須重啟系統!!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    private void 英文ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      Language.SetLanguage("en-US");
+      UpdateLanguageMenuState();
+      MessageBox.Show("Language switch requires restart!!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    // 更新语言菜单的选中状态
+    private void UpdateLanguageMenuState()
+    {
+      簡體中文ToolStripMenuItem.Checked = Language.current_culture_code_ == "zh-CN";
+      繁體中文ToolStripMenuItem.Checked = Language.current_culture_code_ == "zh-TW";
+      englishToolStripMenuItem.Checked = Language.current_culture_code_ == "en-US";
     }
 
 

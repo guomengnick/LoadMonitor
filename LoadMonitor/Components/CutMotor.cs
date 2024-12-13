@@ -61,7 +61,7 @@ namespace LoadMonitor.Components
             UnitWidth = 30,
             Labeler = value =>
             {
-              if (value == 0)return "60秒";
+              if (value == 0)return $"60{Language.GetString("單位.秒")}";
               else if (value == 60)return "0";
               return ""; // 其他值不顯示
             },
@@ -89,7 +89,7 @@ namespace LoadMonitor.Components
             {
               if (value == Math.Ceiling(base.MaxLoadingValue))
               {
-                return "% 使用率";//base.MaxLoadingValue.ToString() + "A";
+                return $"% {Language.GetString("單位.使用率")}";//base.MaxLoadingValue.ToString() + "A";
               }
               return "";
             }, // 格式化為 0 A, 1 A, 2 A

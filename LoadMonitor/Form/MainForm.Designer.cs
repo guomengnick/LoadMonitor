@@ -73,7 +73,7 @@ namespace LoadMonitor
       // DetailChartPanel
       // 
       DetailChartPanel.BackColor = Color.Transparent;
-      DetailChartPanel.Location = new Point(318, 4);
+      DetailChartPanel.Location = new Point(318, 7);
       DetailChartPanel.Name = "DetailChartPanel";
       DetailChartPanel.Size = new Size(1027, 733);
       DetailChartPanel.TabIndex = 8;
@@ -84,7 +84,7 @@ namespace LoadMonitor
       menuStrip1.Dock = DockStyle.None;
       menuStrip1.ImageScalingSize = new Size(25, 25);
       menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
-      menuStrip1.Location = new Point(1283, 6);
+      menuStrip1.Location = new Point(1230, 4);
       menuStrip1.Name = "menuStrip1";
       menuStrip1.ShowItemToolTips = true;
       menuStrip1.Size = new Size(55, 33);
@@ -111,18 +111,21 @@ namespace LoadMonitor
       簡體中文ToolStripMenuItem.Name = "簡體中文ToolStripMenuItem";
       簡體中文ToolStripMenuItem.Size = new Size(122, 22);
       簡體中文ToolStripMenuItem.Text = "简体中文";
+      簡體中文ToolStripMenuItem.Click += 簡體中文ToolStripMenuItem_Click;
       // 
       // 繁體中文ToolStripMenuItem
       // 
       繁體中文ToolStripMenuItem.Name = "繁體中文ToolStripMenuItem";
       繁體中文ToolStripMenuItem.Size = new Size(122, 22);
       繁體中文ToolStripMenuItem.Text = "繁體中文";
+      繁體中文ToolStripMenuItem.Click += 繁體中文ToolStripMenuItem_Click;
       // 
       // englishToolStripMenuItem
       // 
       englishToolStripMenuItem.Name = "englishToolStripMenuItem";
       englishToolStripMenuItem.Size = new Size(122, 22);
       englishToolStripMenuItem.Text = "English";
+      englishToolStripMenuItem.Click += 英文ToolStripMenuItem_Click;
       // 
       // ToolStripMenuItemSetting
       // 
@@ -135,8 +138,8 @@ namespace LoadMonitor
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       ClientSize = new Size(1347, 740);
-      Controls.Add(flowLayoutPanel1);
       Controls.Add(menuStrip1);
+      Controls.Add(flowLayoutPanel1);
       Controls.Add(DetailChartPanel);
       Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold);
       Icon = (Icon)resources.GetObject("$this.Icon");
