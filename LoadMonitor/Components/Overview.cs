@@ -17,6 +17,8 @@ using static LoadMonitor.HistoryData;
 
 using Log = Serilog.Log;
 using LiveChartsCore.SkiaSharpView.Extensions;
+using LiveCharts.Wpf.Charts.Base;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace LoadMonitor.Components
 {
@@ -83,7 +85,7 @@ namespace LoadMonitor.Components
 
     private UserControl OverviewLoadingChart()
     {
-      return new CartesianChart
+      var chart =  new CartesianChart
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]{new LineSeries<ObservableValue>{
@@ -100,7 +102,7 @@ namespace LoadMonitor.Components
             {
                 MinLimit = 0,
                 MaxLimit = 60,
-                UnitWidth = 60,
+                UnitWidth = 2,
                 Labeler = value =>
                 {
                   if (value == 0)return "60秒";
@@ -156,9 +158,82 @@ namespace LoadMonitor.Components
           }, // 標籤顏色
         }
       };
+
+      // 创建容器 Panel
+      var container = new Panel
+      {
+        Dock = DockStyle.Fill
+      };
+
+      // 添加 Chart 到容器中
+      container.Controls.Add(chart);
+
+      // 创建上下左右的滑动条
+      var topBar = CreateTrackBar(Orientation.Horizontal, 50, 0);    // 顶部
+      var bottomBar = CreateTrackBar(Orientation.Horizontal, 50, 1); // 底部
+      var leftBar = CreateTrackBar(Orientation.Vertical, 50, 2);     // 左侧
+      var rightBar = CreateTrackBar(Orientation.Vertical, 50, 3);    // 右侧
+
+      // 添加事件，用于实时调整 Chart 的 DrawMargin
+      void UpdateDrawMargin()
+      {
+        chart.DrawMargin = new LiveChartsCore.Measure.Margin(
+            leftBar.Value,  // 左边距
+            topBar.Value,   // 上边距
+            rightBar.Value, // 右边距
+            bottomBar.Value // 下边距
+        );
+      }
+
+      topBar.ValueChanged += (s, e) => UpdateDrawMargin();
+      bottomBar.ValueChanged += (s, e) => UpdateDrawMargin();
+      leftBar.ValueChanged += (s, e) => UpdateDrawMargin();
+      rightBar.ValueChanged += (s, e) => UpdateDrawMargin();
+
+      // 添加滑动条到容器（覆盖在 Chart 上）
+      container.Controls.Add(topBar);
+      container.Controls.Add(bottomBar);
+      container.Controls.Add(leftBar);
+      container.Controls.Add(rightBar);
+
+      return chart;
     }
 
-    private AngularGauge current_watt_;
+
+
+  // 创建 TrackBar
+  private System.Windows.Forms.TrackBar CreateTrackBar(Orientation orientation, int initialValue, int position)
+  {
+    var trackBar = new System.Windows.Forms.TrackBar
+    {
+      Orientation = orientation,
+      Minimum = 0,
+      Maximum = 100,
+      Value = initialValue,
+      TickFrequency = 10,
+      Size = orientation == Orientation.Horizontal
+            ? new Size(150, 20) // 水平滑动条大小
+            : new Size(20, 150), // 垂直滑动条大小
+      Anchor = position == 0
+            ? AnchorStyles.Top
+            : position == 1
+                ? AnchorStyles.Bottom
+                : position == 2
+                    ? AnchorStyles.Left
+                    : AnchorStyles.Right
+    };
+
+    // 设置位置
+    if (position == 0) trackBar.Location = new Point(20, 0); // 顶部
+    if (position == 1) trackBar.Location = new Point(20, 300); // 底部
+    if (position == 2) trackBar.Location = new Point(0, 20); // 左侧
+    if (position == 3) trackBar.Location = new Point(380, 20); // 右侧
+
+    return trackBar;
+  }
+
+
+  private AngularGauge current_watt_;
     private UserControl AverageWattPerWeekChart()
     {
       current_watt_ = new AngularGauge("當前功率(kWh)") // TODO: 給單位

@@ -59,36 +59,59 @@ namespace LoadMonitor.Components
             MinLimit = 0, // 最小值（秒）
             MaxLimit = 60, // 最大值（秒）
             UnitWidth = 30,
-            Labeler = value => $"{60 - value:F0} s", // 顯示反向標籤（60秒到0秒）
-            LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
+            Labeler = value =>
+            {
+              if (value == 0)return "60秒";
+              else if (value == 60)return "0";
+              return ""; // 其他值不顯示
+            },
+            LabelsPaint = new SolidColorPaint(SKColors.Black)
+            {
+              SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字體
+                  
+            },
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+            {
+              StrokeThickness = 1 // 分隔線的寬度
+            },
+            TextSize = 10,
+            Padding = new LiveChartsCore.Drawing.Padding(50, 20, 50, 0) // 調整標籤與邊界的距離
           }
         },
         // 設置 Y 軸
         YAxes = new Axis[]
         {
-            new Axis
+          new Axis
+          {
+            MinLimit = 0, // 最小值（安培）
+            MaxLimit = Math.Ceiling(base.MaxLoadingValue), // 最大值（安培）
+            Labeler = value =>
             {
-                MinLimit = 0, // 最小值（安培）
-                MaxLimit = 3, // 最大值（安培）
-                Labels = new[] { "0", "1", "2" , "3" }, // 僅顯示 0, 1, 2
-                Labeler = value => $"{value:F0} A", // 格式化為 0 A, 1 A, 2 A
-                LabelsPaint = new SolidColorPaint(SKColors.Black)
-                {
-                  SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
-                }, // 標籤顏色
-                SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
-            }
-        }
-      };
-      cartesianChart_.Title = new LabelVisual
-      {
-        Text = MainTitle,
-        TextSize = 24,
-        Paint = new SolidColorPaint(SKColors.Black)
+              if (value == Math.Ceiling(base.MaxLoadingValue))
+              {
+                return "% 使用率";//base.MaxLoadingValue.ToString() + "A";
+              }
+              return "";
+            }, // 格式化為 0 A, 1 A, 2 A
+            TextSize= 12,
+            Padding = new LiveChartsCore.Drawing.Padding(20, 26, 0, 42), // 調整標籤與邊界的距離
+            LabelsPaint = new SolidColorPaint(SKColors.Black)
+            {
+              SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+            }, // 標籤顏色
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
+          }
+        },
+        DrawMargin = new LiveChartsCore.Measure.Margin(20, 30, 5, 15),//設定 左、上、右、下 的邊界大小
+        Title = new LabelVisual
         {
-          SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
-        }, // 標籤顏色
+          Text = MainTitle,
+          TextSize = 24,
+          Paint = new SolidColorPaint(SKColors.Black)
+          {
+            SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+          }, // 標籤顏色
+        },
       };
       single_form_.AddToPanel(cartesianChart_, base.DetailInfo, "");
 

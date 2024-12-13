@@ -62,11 +62,6 @@ namespace LoadMonitor.Components
 
     protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
     {
-
-      //if (!quad_grid_form_.IsHandleCreated)
-      //{
-      //  quad_grid_form_.Show(); // 強制創建 Handle
-      //}
       quad_grid_form_.Invoke(new Action(() => quad_grid_form_.UpdateText(leftText, rightText)));
     };
 
@@ -114,51 +109,57 @@ namespace LoadMonitor.Components
     private UserControl MotorTemperature()
     {
       // 創建 CartesianChart
-      var temperature = 100;
+      var temperature = 80;
       return new CartesianChart
       {
         Dock = DockStyle.Fill, 
-        Height = 300,
         XAxes = new Axis[]
         {
           new Axis
           {
-              MinLimit = 0,
-              MaxLimit = 60,
-              //UnitWidth = 60,
-              Labeler = value =>
-              {
-                  if (value == 0) return "60秒";
-                  else if (value == 60) return "0";
-                  return ""; // 其他值不顯示
-              },
-              LabelsPaint = new SolidColorPaint(SKColors.Black)
-              {
-                  SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字體
-              },
-              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
-              {
-                  StrokeThickness = 1 // 分隔線的寬度
-              }
+            MinLimit = 0,
+            MaxLimit = 60,
+            //UnitWidth = 60,
+            Labeler = value =>
+            {
+              if (value == 0)return "60秒";
+              else if (value == 60)return "0";
+              return ""; // 其他值不顯示
+            },
+            LabelsPaint = new SolidColorPaint(SKColors.Black)
+            {
+              SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字體
+            },
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+            {
+              StrokeThickness = 1 // 分隔線的寬度
+            },
+            TextSize = 10,
+            Padding = new LiveChartsCore.Drawing.Padding(50, 20, 50, 0) // 調整標籤與邊界的距離
           }
         },
         YAxes = new Axis[]
         {
           new Axis
           {
-              MinLimit = 0,
-              MaxLimit = temperature,
-              //UnitWidth = 2,
-              Labeler = value =>
+            MinLimit = 20,
+            MaxLimit = temperature,
+            UnitWidth = 4,
+            Labeler = value =>
+            {
+              if (value == temperature)
               {
-                  if (value == temperature)
-                  {
-                      return temperature.ToString() + "°C";
-                  }
-                  return "";
-              },
-              LabelsPaint = new SolidColorPaint(SKColors.Black),
-              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+                return $"{temperature}°C";
+              }
+              return "";
+            }, // 格式化為 0 A, 1 A, 2 A
+            TextSize= 12,
+            Padding = new LiveChartsCore.Drawing.Padding(20, 26, 0, 42), // 調整標籤與邊界的距離
+            LabelsPaint = new SolidColorPaint(SKColors.Black)
+            {
+              SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+            }, // 標籤顏色
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
           }
         },
         Series = new ISeries[]
@@ -180,7 +181,8 @@ namespace LoadMonitor.Components
           {
             SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
           }
-        }
+        },
+        DrawMargin = new LiveChartsCore.Measure.Margin(20, 30, 15, 15),//設定 左、上、右、下 的邊界大小
       };
     }
 
@@ -203,44 +205,52 @@ namespace LoadMonitor.Components
         {
           new Axis
           {
-              MinLimit = 0,
-              MaxLimit = 60,
-              UnitWidth = 60,
-              Labeler = value =>
-              {
-                  if (value == 0) return "60秒";
-                  else if (value == 60) return "0";
-                  return ""; // 其他值不顯示
-              },
-              LabelsPaint = new SolidColorPaint(SKColors.Black)
-              {
-                  SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字體
-              },
-              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
-              {
-                  StrokeThickness = 1 // 分隔線的寬度
-              }
+            MinLimit = 0,
+            MaxLimit = 60,
+            UnitWidth = 30,
+            Labeler = value =>
+            {
+              if (value == 0)return "60秒";
+              else if (value == 60)return "0";
+              return ""; // 其他值不顯示
+            },
+            LabelsPaint = new SolidColorPaint(SKColors.Black)
+            {
+              SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字體
+            },
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+            {
+              StrokeThickness = 1 // 分隔線的寬度
+            },
+            TextSize = 10,
+            Padding = new LiveChartsCore.Drawing.Padding(50, 20, 50, 0) // 調整標籤與邊界的距離
           }
         },
         YAxes = new Axis[]
         {
           new Axis
           {
-              MinLimit = 0,
-              MaxLimit = base.MaxLoadingValue,
-              //UnitWidth = 2,
-              Labeler = value =>
+            MinLimit = 0,
+            MaxLimit = base.MaxLoadingValue,
+            //UnitWidth = 2,
+            Labeler = value =>
+            {
+              if (value == base.MaxLoadingValue)
               {
-                  if (value == base.MaxLoadingValue)
-                  {
-                      return base.MaxLoadingValue.ToString() + " A";
-                  }
-                  return "";
-              },
-              LabelsPaint = new SolidColorPaint(SKColors.Black),
-              SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+                return "% 使用率";//base.MaxLoadingValue.ToString() + "A";
+              }
+              return "";
+            }, // 格式化為 0 A, 1 A, 2 A
+            TextSize= 12,
+            Padding = new LiveChartsCore.Drawing.Padding(20, 26, 0, 42), // 調整標籤與邊界的距離
+            LabelsPaint = new SolidColorPaint(SKColors.Black)
+            {
+              SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+            }, // 標籤顏色
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
           }
         },
+        DrawMargin = new LiveChartsCore.Measure.Margin(20, 30, 15, 15),//設定 左、上、右、下 的邊界大小
         Title = new LabelVisual
         {
           Text = "主軸附載 (%)",
