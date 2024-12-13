@@ -1,17 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\VisualStudioProgram\\LoadMonitor\\",
+  "WorkspaceRootPath": "D:\\Program\\LoadMonitor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|d:\\program\\loadmonitor\\loadmonitor\\charts\\angulargauge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\charts\\angulargauge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\form\\thumbnail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\thumbnail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|d:\\program\\loadmonitor\\loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -22,44 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Thumbnail.cs [\u8A2D\u8A08]",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\Thumbnail.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Form\\Thumbnail.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\Thumbnail.cs [\u8A2D\u8A08]",
-              "RelativeToolTip": "LoadMonitor\\Form\\Thumbnail.cs [\u8A2D\u8A08]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-13T08:28:51.832Z",
-              "EditorCaption": " [\u8A2D\u8A08]"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainForm.cs",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Form\\MainForm.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
-              "RelativeToolTip": "LoadMonitor\\Form\\MainForm.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABIAAABPAAAAAAAAAA==",
+              "Title": "AngularGauge.cs",
+              "DocumentMoniker": "D:\\Program\\LoadMonitor\\LoadMonitor\\Charts\\AngularGauge.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Charts\\AngularGauge.cs",
+              "ToolTip": "D:\\Program\\LoadMonitor\\LoadMonitor\\Charts\\AngularGauge.cs",
+              "RelativeToolTip": "LoadMonitor\\Charts\\AngularGauge.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAcwDEAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-13T08:22:51.141Z",
+              "WhenOpened": "2024-12-13T08:42:19.435Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MainForm.cs [\u8A2D\u8A08]",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
+              "DocumentIndex": 1,
+              "Title": "MainForm.cs [\u8BBE\u8BA1]",
+              "DocumentMoniker": "D:\\Program\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
               "RelativeDocumentMoniker": "LoadMonitor\\Form\\MainForm.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs [\u8A2D\u8A08]",
-              "RelativeToolTip": "LoadMonitor\\Form\\MainForm.cs [\u8A2D\u8A08]",
+              "ToolTip": "D:\\Program\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs [\u8BBE\u8BA1]",
+              "RelativeToolTip": "LoadMonitor\\Form\\MainForm.cs [\u8BBE\u8BA1]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-13T08:18:54.322Z",
-              "EditorCaption": " [\u8A2D\u8A08]"
+              "WhenOpened": "2024-12-13T08:40:17.841Z",
+              "EditorCaption": " [\u8BBE\u8BA1]"
             }
           ]
         }

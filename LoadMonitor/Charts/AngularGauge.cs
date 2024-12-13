@@ -47,17 +47,17 @@ namespace LoadMonitor
       Series = GaugeGenerator.BuildAngularGaugeSections(
         new GaugeItem(50, s =>
         {
-          s.Fill = new SolidColorPaint(0xf012ff75); // 藍色
+          s.Fill = new SolidColorPaint(0xff12ff75); // 藍色
           SetStyle(sectionsOuter, sectionsWidth, s);
         }),
         new GaugeItem(30, s =>
         {
-          s.Fill = new SolidColorPaint(0xf0fafa20); // 紅色
+          s.Fill = new SolidColorPaint(0xfffffa20); // 紅色
           SetStyle(sectionsOuter, sectionsWidth, s);
         }),
         new GaugeItem(20, s =>
         {
-          s.Fill = new SolidColorPaint(0xf0f75273); // 紅色
+          s.Fill = new SolidColorPaint(0xfff75273); // 紅色
           SetStyle(sectionsOuter, sectionsWidth, s);
         }));
 
