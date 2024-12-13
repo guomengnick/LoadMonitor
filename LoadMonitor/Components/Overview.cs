@@ -83,7 +83,7 @@ namespace LoadMonitor.Components
 
     private UserControl OverviewLoadingChart()
     {
-      var overview_chart = new CartesianChart
+      return new CartesianChart
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]{new LineSeries<ObservableValue>{
@@ -110,11 +110,14 @@ namespace LoadMonitor.Components
                 LabelsPaint = new SolidColorPaint(SKColors.Black)
                 {
                   SKTypeface = SKFontManager.Default.MatchCharacter('汉'), // 設定中文字體
+                  
                 },
                 SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
                 {
                   StrokeThickness = 1 // 分隔線的寬度
-                }
+                },
+                TextSize = 10,
+                Padding = new LiveChartsCore.Drawing.Padding(50, 20, 50, 0) // 調整標籤與邊界的距離
             }
         },
         // 設置 Y 軸
@@ -125,31 +128,34 @@ namespace LoadMonitor.Components
             MinLimit = 0, // 最小值（安培）
             MaxLimit = base.MaxLoadingValue, // 最大值（安培）
             UnitWidth = 2,
-            
-            //Labels = new[] { "0","", "", "", "", "5", "", "", "", "", "10" }, // 僅顯示 0, 1, 2
             Labeler = value =>
             {
               if (value == base.MaxLoadingValue)
               {
-                return base.MaxLoadingValue.ToString() + " A";
+                return "% 使用率";//base.MaxLoadingValue.ToString() + "A";
               }
               return "";
             }, // 格式化為 0 A, 1 A, 2 A
-            LabelsPaint = new SolidColorPaint(SKColors.Black), // 標籤顏色
+            TextSize= 12,
+            Padding = new LiveChartsCore.Drawing.Padding(20, 26, 0, 42), // 調整標籤與邊界的距離
+            LabelsPaint = new SolidColorPaint(SKColors.Black)
+            {
+              SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+            }, // 標籤顏色
             SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
           }
+        },
+        DrawMargin = new LiveChartsCore.Measure.Margin(20, 30, 5, 15),//設定 左、上、右、下 的邊界大小
+        Title = new LabelVisual
+        {
+          Text = "整機",
+          TextSize = 24,
+          Paint = new SolidColorPaint(SKColors.Black)
+          {
+            SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
+          }, // 標籤顏色
         }
       };
-      overview_chart.Title = new LabelVisual
-      {
-        Text = "總覽",
-        TextSize = 20,
-        Paint = new SolidColorPaint(SKColors.Black)
-        {
-          SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
-        }, // 標籤顏色
-      };
-      return overview_chart;
     }
 
     private AngularGauge current_watt_;

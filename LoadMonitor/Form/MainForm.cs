@@ -13,7 +13,7 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1300);
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
     private Overview overview_;
 
@@ -24,8 +24,7 @@ namespace LoadMonitor
       
 
       InitializePart();
-      LabelMachineType.Text = Settings.Default.MachineType;
-
+      this.Text = Settings.Default.MachineType + "  使用率監控";
       modbusSerialPort_ = new ModbusSerialPort(Settings.Default.ComPort);// 初始化 Modbus 通信
 
       read_current_timer_.Elapsed += Update;//更新畫面
@@ -76,40 +75,46 @@ namespace LoadMonitor
 
 
     //因為有讀取rs485, 以下除了更新UI外，都在子線程執行
+    private readonly object update_lock_ = new object(); // 增加鎖來確保執行不交錯
     private void Update(object? sender, ElapsedEventArgs e)
     {
-      if (modbusSerialPort_ == null || !modbusSerialPort_.IsConnected)
-      {
-        Log.Warning("Modbus serial port is not connected.");
-        return;
-      }
 
-      // 發送請求並解析數據
-      Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();//較耗時, 在子線程執行
-      if (currents.Count == 0)
+      lock (update_lock_)
       {
-        //Log.Warning("Modbus serial port 收到的值為空");
-        return;
-      }
-
-      //因為主軸的電流是另外計算,不來自rs485，這邊另外計算
-      if (components_.ContainsKey(0/*總覽的key*/) && components_.ContainsKey(17/*主軸的key*/))
-      {
-        var motors_current = currents[0];//除主軸外, 量測模組量到的電流加總
-        var spindle_current = components_[17].GetCurrentLoad();
-        currents[17/*主軸*/] = spindle_current;
-        //currents[0] = motors_current + spindle_current;//TODO:目前主軸為測試值
-      }
-
-      // 更新组件数据
-      foreach (var key in components_.Keys.ToList()) // 使用 ToList() 遍历，避免修改集合时出错
-      {
-        if (!currents.ContainsKey(key)) continue;
-
-        this.Invoke(new Action(() =>//在主線程執行
+        if (modbusSerialPort_ == null || !modbusSerialPort_.IsConnected)
         {
-          components_[key]?.Update(currents[key]/* + 3*/);
-        }));
+          Log.Warning("Modbus serial port is not connected.");
+          return;
+        }
+
+        // 發送請求並解析數據
+        Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();//較耗時, 在子線程執行
+        if (currents.Count == 0)
+        {
+          //Log.Warning("Modbus serial port 收到的值為空");
+          return;
+        }
+
+        //因為主軸的電流是另外計算,不來自rs485，這邊另外計算
+        if (components_.ContainsKey(0/*總覽的key*/) && components_.ContainsKey(17/*主軸的key*/))
+        {
+          var motors_current = currents[0];//除主軸外, 量測模組量到的電流加總
+          var spindle_current = components_[17].GetCurrentLoad();
+          currents[17/*主軸*/] = spindle_current;
+          //currents[0] = motors_current + spindle_current;//TODO:目前主軸為測試值
+        }
+
+        // 更新组件数据
+        foreach (var key in components_.Keys.ToList()) // 使用 ToList() 遍历，避免修改集合时出错
+        {
+          if (!currents.ContainsKey(key)) continue;
+
+          this.Invoke(new Action(() =>//在主線程執行
+          {
+            components_[key]?.Update(currents[key]);
+          }));
+        }
+
       }
     }
 

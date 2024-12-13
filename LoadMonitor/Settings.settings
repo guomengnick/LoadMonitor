@@ -6,7 +6,7 @@
       <Value Profile="(Default)">GAM330AT</Value>
     </Setting>
     <Setting Name="ComPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">COM7</Value>
+      <Value Profile="(Default)">COM3</Value>
     </Setting>
   </Settings>
 </SettingsFile>

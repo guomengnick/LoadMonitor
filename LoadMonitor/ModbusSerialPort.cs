@@ -34,7 +34,7 @@ namespace LoadMonitor
       {
         serial_port_ = new SerialPort(portName, baudRate, parity, dataBits, stopBits)
         {
-          ReadTimeout = 1000,
+          ReadTimeout = 300,
           WriteTimeout = 1000
         };
         Log.Information("Serial port initialized.");
@@ -102,10 +102,6 @@ namespace LoadMonitor
         throw new InvalidOperationException("Serial port is not open.");
       }
 
-      // 清空接收緩衝區
-      serial_port_.DiscardInBuffer();
-      Log.Information("接收緩衝區已清除");
-
       // 構造 Modbus 請求幀
       byte[] requestFrame = new byte[]
       {
@@ -118,113 +114,121 @@ namespace LoadMonitor
                     0x44, // CRC 低字節 (0x44)
                     0x0C   // CRC 高字節 (0x06收16個通道  0x0C:收8個通道)
       };// 發送請求幀
-        // 實際發送的數據: 0x0103000000104406
-        //                            ^ 10 代表要收16個byte, 1個通道用2個byte表示
       try
       {
         serial_port_.Write(requestFrame, 0, requestFrame.Length);
-        System.Threading.Thread.Sleep(50);
-        //Log.Information("寫入寄存器");
+        System.Threading.Thread.Sleep(200);
       }
       catch (Exception ex)
       {
         Log.Error($"Error during Modbus write: {ex.Message}");
       }
 
-
-      /// 模擬接收到的數據幀///
-      //byte[] responseFrame = new byte[]
-      //{
-      //    0x01, 0x03, 0x20, 0x00, 0x87, 0x00, 0x12, 0x00, 0x1E, 0x00, 0x00, 0x00, 0x23, 0x00, 0x4E, 0x00,
-      //    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      //    0x00, 0x00, 0x00, 0x8D, 0x0E
-      //};
-      //int bytesRead = 37;
-      //實際收到的數據: 01032000000000000000000000000A000000000000000000000000000000000000000038D0
-      //                   ^ 數據有0x20個(共32 個)byte, 一個通道用2個byte表示
-      //                     ^ 0x0000表示第一個通道的值 比如0xFFFF 為 65535/100 = 65.535A 
-      /// 模擬接收到的數據幀///
-
-
       Dictionary<int, double> currents = new Dictionary<int, double>();
-      // 接收數據幀
-      byte[] responseFrame = new byte[255]; // 根據您提供的範例數據，應有 37 字節
-      int bytesRead = 0;
-      try
-      {
-        bytesRead = serial_port_.Read(responseFrame, 0, 255);// 打印接收到的數據幀到日誌
-      }
-      catch (TimeoutException)
-      {
-        Log.Warning("Modbus read timeout. No response from device.");
-        return currents;
-      }
-      catch (Exception ex)
-      {
-        Log.Error($"Error during Modbus Read: {ex.Message}");
-      }
-      var hexResponse = BitConverter.ToString(responseFrame, 0, bytesRead).Replace("-", " ");
-      Log.Information($"長度:{bytesRead} Received Response: {hexResponse}");
 
-
-      if (bytesRead < 5) // 最少要有頭部（3字節）和校驗碼（2字節）
-      {
-        Log.Warning("Response too short or invalid.");
-        return currents;
-      }
-      if (responseFrame[0] == 0x03 && responseFrame[1] == 0x20)
-      {
-        // 將數據向後移動一位（從末尾開始防止覆蓋）
-        for (int i = responseFrame.Length - 1; i > 0; i--)
-        {
-          responseFrame[i] = responseFrame[i - 1];
-        }
-
-        // 設置第一個字節為 0x01
-        responseFrame[0] = 0x01;
-      }
-
-
-      if (responseFrame[0] != 0x01 || responseFrame[1] != 0x03 || responseFrame[2] != 0x20)
+      byte[] respond = ReadCompleteResponse(21);// 接收數據幀
+      if (respond.Length != 21 || respond[0] != 0x01 || respond[1] != 0x03 || respond[2] != 0x10)
       {
         return currents;//TODO: 有時候第0個值會跑到最後一位，全部的數據往前一格
       }
 
-      // 提取數據區域：去掉報文頭 (3字節) 和校驗碼 (2字節)
-      int dataLength = bytesRead - 5;
-      if (dataLength != 32) // 確保數據區域是 32 字節（16 通道，每通道 2 字節）
-      {
-        //Log.Warning("Invalid data length.");
-        return currents;
-      }
       var s = "";
       double sum_current = 0;
-
-      for (int i = 1; i <= 16; i++) // 從 1 開始，解析 16 次
+      for (int i = 1; i <= 8; i++) // 從 1 開始，解析 8 個通道
       {
-        int dataIndex = 3 + (i - 1) * 2; // 索引需要調整，i-1 對應原始的 0~15
-        ushort registerValue = (ushort)((responseFrame[dataIndex] << 8) | responseFrame[dataIndex + 1]);
+        int dataIndex = 3 + (i - 1) * 2; // 索引需要調整，i-1 對應原始的 0~7
+        ushort registerValue = (ushort)((respond[dataIndex] << 8) | respond[dataIndex + 1]);
 
-        // 計算實際電流值（寄存器值 / 100.0）
-        double currentValue = registerValue / 100.0;
+        double currentValue = registerValue / 100.0; // 計算實際電流值（寄存器值 / 100.0）
         currents[i] = currentValue; // 字典的鍵值對應通道號（從1開始）
         sum_current += currentValue;
 
-        // 記錄到日誌
-        if(i <= 8)
-        {
-          s += $"通道{i}: {currentValue:00.00} A\n";
-        }
+        s += $"{i} : {currentValue:0.00} A\t";// 記錄到日誌
       }
       currents[0/*0 用來裝總電流*/] = sum_current;
+      Log.Information($"總電流:{sum_current} A\n" + s + "\n\n");
 
-      //Log.Information($"總電流:{sum_current} A\n" + s + "\n\n");
-
-      // 最後清空緩衝區
-      serial_port_.DiscardInBuffer();
-      serial_port_.DiscardOutBuffer();
       return currents;
     }
+
+
+
+    // 接收並處理數據幀的方法
+    byte[] ReadCompleteResponse(int expected_length)
+    {
+      List<byte> response_buffer = new List<byte>();
+      byte[] temp_buffer = new byte[255];
+      int total_bytes_read = 0;
+      int re_read_max_time = 2;
+      int current_read_time = 0;
+      try
+      {
+        while (total_bytes_read < expected_length)
+        {
+          current_read_time++;
+          int bytes_read = serial_port_.Read(temp_buffer, 0, temp_buffer.Length);
+
+          string hexResponse = BitConverter.ToString(temp_buffer, 0, bytes_read).Replace("-", " ");
+          Log.Information($"當前在 while 讀取到的長度:{bytes_read} Received Response: {hexResponse}");
+
+          if (bytes_read > 0)
+          {
+            // 添加新接收的數據到緩衝區
+            response_buffer.AddRange(temp_buffer.Take(bytes_read));
+            total_bytes_read += bytes_read;
+
+            // 檢查是否包含指定標頭數據
+            byte[] header = { 0x01, 0x03, 0x10 };
+            int headerIndex = response_buffer.FindIndex(0, response_buffer.Count, b => response_buffer.Skip(b).Take(header.Length).SequenceEqual(header));
+
+            if (headerIndex != -1 && response_buffer.Count - headerIndex >= 21)
+            {
+              // 擷取標頭開始的21字節數據並更新 response_buffer
+              response_buffer = response_buffer.Skip(headerIndex).Take(21).ToList();
+              Log.Information("已找到指定標頭數據並擷取21字節。");
+              break;
+            }
+          }
+
+          // 如果收到的數據超過預期長度，跳出循環
+          if (response_buffer.Count >= expected_length)
+          {
+            Log.Information($"嘗試 {current_read_time} 次，達到21長度，目前讀的長度:{response_buffer.Count}，跳出迴圈");
+            break;
+          }
+
+          if(current_read_time >= re_read_max_time)
+            break;
+
+          System.Threading.Thread.Sleep(150);
+        }
+
+        // 修剪多餘的數據（去掉超過 expected_length 的部分）
+        if (response_buffer.Count > expected_length)
+        {
+          response_buffer = response_buffer.Take(expected_length).ToList();
+        }
+
+        // 將數據轉換為陣列返回
+        string totalhexResponse = BitConverter.ToString(response_buffer.ToArray()).Replace("-", " ");
+        Log.Information($"最後數據長度:{response_buffer.Count} Received Response: {totalhexResponse}");
+
+        return response_buffer.ToArray();
+      }
+      catch (TimeoutException)
+      {
+        Log.Warning("Modbus read timeout. No response from device.");
+        return Array.Empty<byte>();
+      }
+      catch (Exception ex)
+      {
+        Log.Error($"Error during Modbus Read: {ex.Message}");
+        return Array.Empty<byte>();
+      }
+    }
+
+
+
 
   }
 }

@@ -46,7 +46,6 @@ namespace LoadMonitor
       繁體中文ToolStripMenuItem = new ToolStripMenuItem();
       englishToolStripMenuItem = new ToolStripMenuItem();
       ToolStripMenuItemSetting = new ToolStripMenuItem();
-      LabelMachineType = new Label();
       flowLayoutPanel1.SuspendLayout();
       menuStrip1.SuspendLayout();
       SuspendLayout();
@@ -60,7 +59,7 @@ namespace LoadMonitor
       flowLayoutPanel1.Location = new Point(9, 4);
       flowLayoutPanel1.Margin = new Padding(0);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
-      flowLayoutPanel1.Size = new Size(306, 765);
+      flowLayoutPanel1.Size = new Size(306, 733);
       flowLayoutPanel1.TabIndex = 3;
       flowLayoutPanel1.WrapContents = false;
       // 
@@ -74,9 +73,9 @@ namespace LoadMonitor
       // DetailChartPanel
       // 
       DetailChartPanel.BackColor = Color.Transparent;
-      DetailChartPanel.Location = new Point(335, 42);
+      DetailChartPanel.Location = new Point(318, 4);
       DetailChartPanel.Name = "DetailChartPanel";
-      DetailChartPanel.Size = new Size(1000, 727);
+      DetailChartPanel.Size = new Size(1027, 733);
       DetailChartPanel.TabIndex = 8;
       // 
       // menuStrip1
@@ -131,33 +130,20 @@ namespace LoadMonitor
       ToolStripMenuItemSetting.Size = new Size(98, 22);
       ToolStripMenuItemSetting.Text = "設置";
       // 
-      // LabelMachineType
-      // 
-      LabelMachineType.Anchor = AnchorStyles.Top;
-      LabelMachineType.AutoSize = true;
-      LabelMachineType.BackColor = Color.Transparent;
-      LabelMachineType.Font = new Font("Microsoft JhengHei UI", 20F, FontStyle.Bold);
-      LabelMachineType.Location = new Point(592, 4);
-      LabelMachineType.Name = "LabelMachineType";
-      LabelMachineType.Size = new Size(171, 35);
-      LabelMachineType.TabIndex = 0;
-      LabelMachineType.Text = "GAM 330AT";
-      // 
       // MainForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 772);
-      Controls.Add(LabelMachineType);
-      Controls.Add(DetailChartPanel);
+      ClientSize = new Size(1347, 740);
       Controls.Add(flowLayoutPanel1);
       Controls.Add(menuStrip1);
+      Controls.Add(DetailChartPanel);
       Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold);
       Icon = (Icon)resources.GetObject("$this.Icon");
       MainMenuStrip = menuStrip1;
       Name = "MainForm";
       StartPosition = FormStartPosition.CenterScreen;
-      Text = "監控";
+      Text = "  使用率監控";
       flowLayoutPanel1.ResumeLayout(false);
       menuStrip1.ResumeLayout(false);
       menuStrip1.PerformLayout();

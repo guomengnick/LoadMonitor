@@ -174,7 +174,10 @@ namespace LoadMonitor.Components
     //點擊了提醒鈴鐺
     public virtual string OnReminderBellClick()
     {
-      return $"{MainTitle} 電機負載異常，請檢查該電機相關部件及保養。";
+            //如果要換行的話，要加上@
+      return $@"{MainTitle} 電機負載異常，請檢查
+螺桿、滑軌滑塊、各滑動面、電機
+相關部件及保養。";
     }
 
     /// <summary>
