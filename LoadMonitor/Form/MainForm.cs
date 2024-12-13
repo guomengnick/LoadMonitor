@@ -16,7 +16,7 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(500);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
     private Overview overview_;
     private System.Resources.ResourceManager resource_manager_;
@@ -24,8 +24,8 @@ namespace LoadMonitor
     {
       InitializeComponent();
       LoadLanguage();
+      UpdateLanguageMenuState();
       this.FormClosed += MainFormClose;
-
 
       InitializePart();
       modbusSerialPort_ = new ModbusSerialPort(Settings.Default.ComPort);// 初始化 Modbus 通信

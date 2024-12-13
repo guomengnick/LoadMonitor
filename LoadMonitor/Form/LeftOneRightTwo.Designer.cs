@@ -66,7 +66,7 @@
       LeftTextBoxDetail.Location = new Point(7, 7);
       LeftTextBoxDetail.Multiline = true;
       LeftTextBoxDetail.Name = "LeftTextBoxDetail";
-      LeftTextBoxDetail.Size = new Size(484, 140);
+      LeftTextBoxDetail.Size = new Size(484, 145);
       LeftTextBoxDetail.TabIndex = 3;
       LeftTextBoxDetail.Text = "aaaaaaaaaaaaaaaaaaa\r\niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii\r\nBBBBBBBB\r\nCCCCCCC\r\nDDDDDD\r\nEEEEEE\r\nFFFFF";
       // 
@@ -78,7 +78,7 @@
       RightTextBoxDetail.Location = new Point(497, 7);
       RightTextBoxDetail.Multiline = true;
       RightTextBoxDetail.Name = "RightTextBoxDetail";
-      RightTextBoxDetail.Size = new Size(490, 140);
+      RightTextBoxDetail.Size = new Size(490, 146);
       RightTextBoxDetail.TabIndex = 4;
       RightTextBoxDetail.Text = "RRRRR\r\nIIIII\r\nGGGGG\r\nHHHH\r\nTTTTT\r\nGGGGG";
       // 
@@ -86,9 +86,9 @@
       // 
       PanelText.Controls.Add(LeftTextBoxDetail);
       PanelText.Controls.Add(RightTextBoxDetail);
-      PanelText.Location = new Point(5, 573);
+      PanelText.Location = new Point(5, 569);
       PanelText.Name = "PanelText";
-      PanelText.Size = new Size(990, 151);
+      PanelText.Size = new Size(990, 155);
       PanelText.TabIndex = 5;
       // 
       // LeftOneRightTwo

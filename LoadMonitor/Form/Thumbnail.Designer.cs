@@ -49,7 +49,7 @@
       // 
       LabelTitle.AutoSize = true;
       LabelTitle.Font = new Font("Microsoft JhengHei UI", 14F);
-      LabelTitle.Location = new Point(123, 17);
+      LabelTitle.Location = new Point(118, 14);
       LabelTitle.Name = "LabelTitle";
       LabelTitle.Size = new Size(71, 24);
       LabelTitle.TabIndex = 3;
@@ -75,18 +75,19 @@
       ButtonRemindBell.FlatStyle = FlatStyle.Flat;
       ButtonRemindBell.ForeColor = Color.Transparent;
       ButtonRemindBell.Image = (Image)resources.GetObject("ButtonRemindBell.Image");
-      ButtonRemindBell.Location = new Point(248, 0);
+      ButtonRemindBell.Location = new Point(299, 0);
       ButtonRemindBell.Name = "ButtonRemindBell";
       ButtonRemindBell.Size = new Size(31, 37);
       ButtonRemindBell.TabIndex = 5;
       ButtonRemindBell.UseVisualStyleBackColor = false;
+      ButtonRemindBell.Visible = false;
       ButtonRemindBell.MouseClick += ButtonRemindBellClick;
       // 
       // Thumbnail
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(295, 109);
+      ClientSize = new Size(346, 109);
       Controls.Add(ButtonRemindBell);
       Controls.Add(Labelsummary);
       Controls.Add(LabelTitle);

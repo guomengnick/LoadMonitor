@@ -302,7 +302,7 @@ namespace LoadMonitor.Components
 {Language.GetString("整機使用率")}: {loading:F1} %
 {Language.GetString("總電流")}: {latestValue:F3} A
 {Language.GetString("瞬時功率")}: {power:F1} kW
-{Language.GetString("平均日功率")}: {averageDailyPower:F1} kWh
+{Language.GetString("日功率")}: {averageDailyPower:F1} kWh
 ";
 
 

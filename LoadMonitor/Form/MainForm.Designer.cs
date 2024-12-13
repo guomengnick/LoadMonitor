@@ -59,7 +59,7 @@ namespace LoadMonitor
       flowLayoutPanel1.Location = new Point(9, 4);
       flowLayoutPanel1.Margin = new Padding(0);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
-      flowLayoutPanel1.Size = new Size(306, 733);
+      flowLayoutPanel1.Size = new Size(353, 733);
       flowLayoutPanel1.TabIndex = 3;
       flowLayoutPanel1.WrapContents = false;
       // 
@@ -67,13 +67,13 @@ namespace LoadMonitor
       // 
       DummyPanel.Location = new Point(3, 3);
       DummyPanel.Name = "DummyPanel";
-      DummyPanel.Size = new Size(280, 10);
+      DummyPanel.Size = new Size(328, 10);
       DummyPanel.TabIndex = 8;
       // 
       // DetailChartPanel
       // 
       DetailChartPanel.BackColor = Color.Transparent;
-      DetailChartPanel.Location = new Point(318, 7);
+      DetailChartPanel.Location = new Point(365, 7);
       DetailChartPanel.Name = "DetailChartPanel";
       DetailChartPanel.Size = new Size(1027, 733);
       DetailChartPanel.TabIndex = 8;
@@ -84,7 +84,7 @@ namespace LoadMonitor
       menuStrip1.Dock = DockStyle.None;
       menuStrip1.ImageScalingSize = new Size(25, 25);
       menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
-      menuStrip1.Location = new Point(1230, 4);
+      menuStrip1.Location = new Point(1348, 4);
       menuStrip1.Name = "menuStrip1";
       menuStrip1.ShowItemToolTips = true;
       menuStrip1.Size = new Size(55, 33);
@@ -137,7 +137,7 @@ namespace LoadMonitor
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1347, 740);
+      ClientSize = new Size(1393, 740);
       Controls.Add(menuStrip1);
       Controls.Add(flowLayoutPanel1);
       Controls.Add(DetailChartPanel);

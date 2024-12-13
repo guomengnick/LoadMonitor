@@ -69,7 +69,7 @@ namespace LoadMonitor.Components
       this.DetailChartPanel = DetailChartPanel;
 
       line_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0xee);
-      fill_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0x20);
+      fill_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0x60);
 
       MainTitle = name;
       thumbnail_ = new Thumbnail(CreateThumbnail(), this);//對縮圖賦值
