@@ -1732,4 +1732,16 @@
   <data name="清除警示並關閉" xml:space="preserve">
     <value>清除警示並關閉</value>
   </data>
+  <data name="整機使用率" xml:space="preserve">
+    <value>整機使用率</value>
+  </data>
+  <data name="總電流" xml:space="preserve">
+    <value>總電流</value>
+  </data>
+  <data name="瞬時功率" xml:space="preserve">
+    <value>當前功率</value>
+  </data>
+  <data name="運作時間" xml:space="preserve">
+    <value>運作時間</value>
+  </data>
 </root>

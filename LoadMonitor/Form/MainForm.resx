@@ -1732,4 +1732,16 @@ Please inspect the following items:
   <data name="清除警示並關閉" xml:space="preserve">
     <value>Clear Alert and Close</value>
   </data>
+  <data name="整機使用率" xml:space="preserve">
+    <value>Overall usage</value>
+  </data>
+  <data name="總電流" xml:space="preserve">
+    <value>Overall current</value>
+  </data>
+  <data name="瞬時功率" xml:space="preserve">
+    <value>Current Power</value>
+  </data>
+  <data name="運作時間" xml:space="preserve">
+    <value>Operating Time</value>
+  </data>
 </root>

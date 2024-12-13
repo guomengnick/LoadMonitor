@@ -285,7 +285,8 @@ namespace LoadMonitor.Components
       TimeSpan operationTime = now - startTime;// 累計運行時間
 
       // 格式化运作时间
-      string operationTimeFormatted = $"運作時間: {operationTime.Hours}:{operationTime.Minutes:D2}:{operationTime.Seconds:D2}:{operationTime.Milliseconds:D3}";
+      string operationTimeFormatted = 
+        $"{Language.GetString("運作時間")}: {operationTime.Hours}:{operationTime.Minutes:D2}:{operationTime.Seconds:D2}:{operationTime.Milliseconds:D3}";
 
       // 計算瞬時功率 (假設公式為: 電流 x 電壓)
       double voltage = 220.0; // 假設電壓值
@@ -298,10 +299,10 @@ namespace LoadMonitor.Components
       // 格式化詳細信息
       string detailInfo = $@"{dateTimeString}
 {operationTimeFormatted}
-整機附載: {loading:F1} %
-總電流: {latestValue:F3} A
-瞬時功率: {power:F1} kW
-平均日功率: {averageDailyPower:F1} kWh
+{Language.GetString("整機使用率")}: {loading:F1} %
+{Language.GetString("總電流")}: {latestValue:F3} A
+{Language.GetString("瞬時功率")}: {power:F1} kW
+{Language.GetString("平均日功率")}: {averageDailyPower:F1} kWh
 ";
 
 
