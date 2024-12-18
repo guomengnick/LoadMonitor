@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LoadMonitor" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="MachineType" Type="System.String" Scope="User">
-      <Value Profile="(Default)">GAM330AT</Value>
+    <Setting Name="MachineType" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="ComPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">COM3</Value>

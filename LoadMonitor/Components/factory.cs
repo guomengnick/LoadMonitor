@@ -6,8 +6,40 @@ using System.Windows.Forms;
 namespace LoadMonitor.Components
 {
 
+  public enum MachineType
+  {
+    //在線機
+    GAM320AT = 0, GAM330AT = 1, GAM360AT = 2, GAM310AT = 3, GAM300AT = 4, GAM380AT = 5,
+    GAM336AT = 6, GAM330AD = 7, GAM316AT = 8, GAM336AD = 9, GAM386AT = 10,
+    //離線機
+    GAM330 = 100, GAM310 = 101, GAM320 = 102, GAM330D = 103, GAM386 = 104,
+  }
 
+  public static class MachineTypeHelper
+  {
+    private static readonly Dictionary<MachineType, string> machineTypeMap = new Dictionary<MachineType, string>
+    {
+        { MachineType.GAM320AT, "GAM320AT" }, { MachineType.GAM330AT, "GAM330AT" },
+        { MachineType.GAM360AT, "GAM360AT" }, { MachineType.GAM310AT, "GAM310AT" },
+        { MachineType.GAM300AT, "GAM300AT" }, { MachineType.GAM380AT, "GAM380AT" },
+        { MachineType.GAM336AT, "GAM336AT" }, { MachineType.GAM330AD, "GAM330AD" },
+        { MachineType.GAM316AT, "GAM316AT" }, { MachineType.GAM336AD, "GAM336AD" },
+        { MachineType.GAM386AT, "GAM386AT" },
 
+        { MachineType.GAM330, "GAM330" }, { MachineType.GAM310, "GAM310" },
+        { MachineType.GAM320, "GAM320" }, { MachineType.GAM330D, "GAM330D" },
+        { MachineType.GAM386, "GAM386" }
+    };
+
+    public static string ToString(MachineType type)
+    {
+      if (machineTypeMap.TryGetValue(type, out var name))
+      {
+        return name;
+      }
+      return "Unknown MachineType";
+    }
+  }
 
   internal class Factory
   {
@@ -36,41 +68,14 @@ namespace LoadMonitor.Components
 
     private const double kSafetyFactor = 2.0;// 安全係數
 
-
-    // 從設定中讀取機型類型
-    private MachineType GetMachineTypeFromSettings()
+    public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel, MachineType type)
     {
-      try
-      {
-        string machineType = Settings.Default.MachineType; // 假設設定中有 MachineType
-        Enum.TryParse(machineType, out MachineType type);
-        return type;
-      }
-      catch
-      {
-        throw new InvalidOperationException($"Unknown machine type: {Settings.Default.MachineType}");
-      }
-    }
-
-
-    public enum MachineType
-    {
-      //在線機
-      GAM320AT = 0, GAM330AT = 1, GAM360AT = 2, GAM310AT = 3, GAM300AT = 4, GAM380AT = 5,
-      GAM336AT = 6, GAM330AD = 7, GAM316AT = 8, GAM336AD = 9, GAM386AT = 10,
-      //離線機
-      GAM330 = 100, GAM310 = 101, GAM320 = 102, GAM330D = 103, GAM386 = 104,
-    }
-
-    public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel)
-    {
-      MachineType type = GetMachineTypeFromSettings();// 從設定中讀取機型類型
       Dictionary<int, PartBase> parts = new Dictionary<int, PartBase>();
 
       // 初始化基礎部件
       var parts_configs = new List<Config>
       {
-        new Config { Type = "Overview", Name = Settings.Default.MachineType, Key = 0, MaxCurrentValue = 5 },
+        new Config { Type = "Overview", Name = MachineTypeHelper.ToString(type), Key = 0, MaxCurrentValue = 5 },
         new Config { Type = "Spindle", Name = Language.GetString("主軸"), Key = 17, MaxCurrentValue = 2 }
       };
 

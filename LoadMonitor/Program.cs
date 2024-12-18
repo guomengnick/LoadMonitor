@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Serilog.Sinks.File;
-using Serilog;
 using System.Windows.Forms;
+using LoadMonitor.Components;
 
 namespace LoadMonitor
 {
@@ -11,7 +11,7 @@ namespace LoadMonitor
     ///  The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    static void Main(string[] args)
     {
       // 註冊全域退出事件
       //Application.ApplicationExit += Application_Exit;
@@ -25,14 +25,39 @@ namespace LoadMonitor
                         rollOnFileSizeLimit: true) // 文件過大時滾動
           .CreateLogger();
 
+      int machineTypeValue = 0; // 預設值
+      MachineType machineTypeEnum = (MachineType)Settings.Default.MachineType;
+
       try
       {
-        Log.Information("Application is starting...");
+        if (args.Length > 0)
+        {
+          // 如果有傳入的參數, 將傳入的參數轉換成 int
+          machineTypeValue = int.Parse(args[0]);
+
+          // 檢查 int 是否對應到 MachineType 枚舉
+          if (Enum.IsDefined(typeof(MachineType), machineTypeValue))
+          {
+            machineTypeEnum = (MachineType)machineTypeValue;
+          }
+          else
+          {
+            Log.Warning($"無效的參數值: {machineTypeValue}");
+          }
+          // 儲存 MachineType 到設定檔
+          Settings.Default.MachineType = (int)machineTypeEnum;
+          Settings.Default.Save();
+
+          // 紀錄日誌
+          Log.Information($"傳入的參數: {args[0]}, 轉換後的 MachineType: {machineTypeEnum}");
+        }
+
 
         // 初始化應用程序
         ApplicationConfiguration.Initialize();
-        Application.Run(new MainForm());
+        Application.Run(new MainForm(machineTypeEnum));
         //Application.Run(new SerialPortFormTEST());
+        //Application.Run(new TEST_Comm());
       }
       catch (Exception ex)
       {

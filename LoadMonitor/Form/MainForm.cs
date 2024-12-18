@@ -8,6 +8,7 @@ using Serilog;
 using System.Resources;
 using System.Globalization;
 using HarfBuzzSharp;
+using System.Runtime.InteropServices;
 
 namespace LoadMonitor
 {
@@ -16,28 +17,28 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(500);
+    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
     private Overview overview_;
     private System.Resources.ResourceManager resource_manager_;
-    public MainForm()
+    public MainForm(MachineType machine_type)
     {
       InitializeComponent();
-      LoadLanguage();
+      LoadLanguage(machine_type);
       UpdateLanguageMenuState();
       this.FormClosed += MainFormClose;
 
-      InitializePart();
+      InitializePart(machine_type);
       modbusSerialPort_ = new ModbusSerialPort(Settings.Default.ComPort);// 初始化 Modbus 通信
 
       read_current_timer_.Elapsed += Update;//更新畫面
       read_current_timer_.Start();
     }
 
-    private void InitializePart()
+    private void InitializePart(MachineType machine_type)
     {
       var factory = new Factory();
-      components_ = factory.CreateComponents(DetailChartPanel);
+      components_ = factory.CreateComponents(DetailChartPanel, machine_type);
       if (components_.ContainsKey(0) && components_[0] is Overview overview)
       {
         overview_ = overview;
@@ -84,14 +85,16 @@ namespace LoadMonitor
 
       lock (update_lock_)
       {
-        if (modbusSerialPort_ == null || !modbusSerialPort_.IsConnected)
+        bool is_test_mode = true;
+        Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents(is_test_mode);//較耗時, 在子線程執行
+        if (!is_test_mode && (modbusSerialPort_ == null || !modbusSerialPort_.IsConnected))
         {
           Log.Warning("Modbus serial port is not connected.");
           return;
         }
 
         // 發送請求並解析數據
-        Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();//較耗時, 在子線程執行
+        //Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();//較耗時, 在子線程執行
         if (currents.Count == 0)
         {
           //Log.Warning("Modbus serial port 收到的值為空");
@@ -126,10 +129,10 @@ namespace LoadMonitor
 
 
     // 动态加载语言资源的方法
-    private void LoadLanguage()
+    private void LoadLanguage(MachineType machine_type)
     {
       // 更新控件的文本内容
-      this.Text = Settings.Default.MachineType + "  " + Language.GetString("MainForm.Text");
+      this.Text = MachineTypeHelper.ToString(machine_type) + "  " + Language.GetString("MainForm.Text");
       ToolStripMenuItemSetting.Text = Language.GetString("ToolStripMenuItemSetting.Text");
       ToolStripMenuItemLanguege.Text = Language.GetString("ToolStripMenuItemLanguege.Text");
     }

@@ -95,8 +95,19 @@ namespace LoadMonitor
 
 
     // 發送 Modbus 請求並讀取回應
-    public Dictionary<int, double> ReadCurrents()
+    public Dictionary<int, double> ReadCurrents(bool is_test_mode = false)
     {
+      if (is_test_mode)
+      {
+        var TEST_currents = new Dictionary<int, double>();
+        var random = new Random();
+        for(int i = 0; i < 30; i++)
+        {
+          TEST_currents[i] = random.NextDouble() * 1;
+        }
+        return TEST_currents;
+      }
+
       if (serial_port_ == null || !serial_port_.IsOpen)
       {
         throw new InvalidOperationException("Serial port is not open.");

@@ -102,6 +102,10 @@ namespace LoadMonitor.Components
       return $"1小時 平均附載 : {oneHourAverage:F0}% \r\n\r\n6小時平均附載 : {sixHoursAverage:F0}%";
     }
 
+    public bool IsExceedingMax()
+    {
+        return history_data_.IsExceedingMax();
+    }
 
     // 获取加载百分比
     protected double CalculateLoading(double currentValue)

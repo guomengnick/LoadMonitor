@@ -19,12 +19,17 @@ using Log = Serilog.Log;
 using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveCharts.Wpf.Charts.Base;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO.Pipes;
 
 namespace LoadMonitor.Components
 {
   internal class Overview : PartBase
   {
-    private Dictionary<int, PartBase> components_; // 用于保存组件数据
+    private const string PipeName = "LoadMonitorPipe"; // 命名管道名稱，用於識別管道通訊
+    private static int latest_warning_count_; // 最新的警告數量
+    private Dictionary<int, PartBase> components_; // 保存所有組件的集合
+    private static CancellationTokenSource cts_ = new CancellationTokenSource(); // 控制後台伺服器的執行取消
+
 
     private DateTime startTime;
     public Overview(string name,
@@ -32,15 +37,13 @@ namespace LoadMonitor.Components
       base(name, max_current, DetailChartPanel, color)
     {
       startTime = DateTime.Now;
+
+      Task.Run(() => StartPipeServer(cts_.Token)); // 啟動後台任務處理管道通訊
     }
     private LeftOneRightTwo form_3;
 
     protected override Action<string, string> DetailFormUpdater => (leftText, rightText) =>
     {
-      //if (!form_3.IsHandleCreated)
-      //{
-      //  form_3.Show(); // 強制創建 Handle
-      //}
       form_3.Invoke(new Action(() => form_3.UpdateText(leftText, rightText)));
     };
 
@@ -81,11 +84,61 @@ namespace LoadMonitor.Components
     public override void Update(double motor_current)
     {
       base.Update(motor_current);//要計算整機的電流
+
+      var warning_count = 0; // 本次更新的警告計數
+
+      // 使用 LINQ 簡化迴圈計算，避免重複迴圈邏輯
+      warning_count = components_.Values.Count(component => component.IsExceedingMax());
+      var random = new Random();
+      warning_count = random.Next(0, 3);
+      warning_count = 0;
+
+      // 使用 Interlocked.Exchange 保證執行緒安全地更新最新的警告數量
+      Interlocked.Exchange(ref latest_warning_count_, warning_count);
     }
+
+
+    // 開啟 NamedPipeServer，等待接收端連接並發送最新警告數據
+    private static void StartPipeServer(CancellationToken token)
+    {
+      while (!token.IsCancellationRequested) // 檢查取消令牌，確保可以停止後台任務
+      {
+        try
+        {
+          using (var pipeServer = new NamedPipeServerStream(PipeName, PipeDirection.Out))
+          {
+            Log.Information("等待客戶端連接...");
+            pipeServer.WaitForConnection(); // 阻塞等待客戶端連接
+
+            // 將最新的警告數量轉換為字串，準備發送
+            string message = latest_warning_count_.ToString();
+            byte[] buffer = Encoding.UTF8.GetBytes(message);
+            Log.Information($"寫入數據到LoadMonitorPipe: {message}");
+
+            pipeServer.Write(buffer, 0, buffer.Length); // 發送數據給客戶端
+            pipeServer.Flush(); // 確保資料寫入管道
+            Log.Information($"已發送最新警告數量: {message}");
+          }
+        }
+        catch (Exception ex)
+        {
+          Console.WriteLine($"管道錯誤: {ex.Message}");
+        }
+      }
+    }
+
+    // 釋放資源，停止 NamedPipeServer 執行緒
+    public void Dispose()
+    {
+      cts_.Cancel(); // 取消後台任務
+    }
+
+
+
 
     private UserControl OverviewLoadingChart()
     {
-      var chart =  new CartesianChart
+      var chart = new CartesianChart
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]{new LineSeries<ObservableValue>{
@@ -201,39 +254,39 @@ namespace LoadMonitor.Components
 
 
 
-  // 创建 TrackBar
-  private System.Windows.Forms.TrackBar CreateTrackBar(Orientation orientation, int initialValue, int position)
-  {
-    var trackBar = new System.Windows.Forms.TrackBar
+    // 创建 TrackBar
+    private System.Windows.Forms.TrackBar CreateTrackBar(Orientation orientation, int initialValue, int position)
     {
-      Orientation = orientation,
-      Minimum = 0,
-      Maximum = 100,
-      Value = initialValue,
-      TickFrequency = 10,
-      Size = orientation == Orientation.Horizontal
-            ? new Size(150, 20) // 水平滑动条大小
-            : new Size(20, 150), // 垂直滑动条大小
-      Anchor = position == 0
-            ? AnchorStyles.Top
-            : position == 1
-                ? AnchorStyles.Bottom
-                : position == 2
-                    ? AnchorStyles.Left
-                    : AnchorStyles.Right
-    };
+      var trackBar = new System.Windows.Forms.TrackBar
+      {
+        Orientation = orientation,
+        Minimum = 0,
+        Maximum = 100,
+        Value = initialValue,
+        TickFrequency = 10,
+        Size = orientation == Orientation.Horizontal
+              ? new Size(150, 20) // 水平滑动条大小
+              : new Size(20, 150), // 垂直滑动条大小
+        Anchor = position == 0
+              ? AnchorStyles.Top
+              : position == 1
+                  ? AnchorStyles.Bottom
+                  : position == 2
+                      ? AnchorStyles.Left
+                      : AnchorStyles.Right
+      };
 
-    // 设置位置
-    if (position == 0) trackBar.Location = new Point(20, 0); // 顶部
-    if (position == 1) trackBar.Location = new Point(20, 300); // 底部
-    if (position == 2) trackBar.Location = new Point(0, 20); // 左侧
-    if (position == 3) trackBar.Location = new Point(380, 20); // 右侧
+      // 设置位置
+      if (position == 0) trackBar.Location = new Point(20, 0); // 顶部
+      if (position == 1) trackBar.Location = new Point(20, 300); // 底部
+      if (position == 2) trackBar.Location = new Point(0, 20); // 左侧
+      if (position == 3) trackBar.Location = new Point(380, 20); // 右侧
 
-    return trackBar;
-  }
+      return trackBar;
+    }
 
 
-  private AngularGauge current_watt_;
+    private AngularGauge current_watt_;
     private UserControl AverageWattPerWeekChart()
     {
       current_watt_ = new AngularGauge($"{Language.GetString("當前功率")}(kWh)") // TODO: 給單位
@@ -285,7 +338,7 @@ namespace LoadMonitor.Components
       TimeSpan operationTime = now - startTime;// 累計運行時間
 
       // 格式化运作时间
-      string operationTimeFormatted = 
+      string operationTimeFormatted =
         $"{Language.GetString("運作時間")}: {operationTime.Hours}:{operationTime.Minutes:D2}:{operationTime.Seconds:D2}:{operationTime.Milliseconds:D3}";
 
       // 計算瞬時功率 (假設公式為: 電流 x 電壓)
