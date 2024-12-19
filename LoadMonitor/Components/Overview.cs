@@ -88,10 +88,16 @@ namespace LoadMonitor.Components
       var warning_count = 0; // 本次更新的警告計數
 
       // 使用 LINQ 簡化迴圈計算，避免重複迴圈邏輯
-      warning_count = components_.Values.Count(component => component.IsExceedingMax());
-      var random = new Random();
-      warning_count = random.Next(0, 3);
-      warning_count = 0;
+      warning_count = components_.Values.Count(component =>
+      {
+        if (component.IsExceedingMax())
+        {
+          // 記錄類名稱和超出警示的訊息
+          Log.Information($"類名稱: {component.GetType().Name} 超出警示範圍");
+          return true; // 符合條件
+        }
+        return false; // 不符合條件
+      });
 
       // 使用 Interlocked.Exchange 保證執行緒安全地更新最新的警告數量
       Interlocked.Exchange(ref latest_warning_count_, warning_count);

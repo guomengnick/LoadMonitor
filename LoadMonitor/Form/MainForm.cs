@@ -17,13 +17,16 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
-    private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
+
+    //private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
+    private System.Windows.Forms.Timer read_current_timer_ = new System.Windows.Forms.Timer();
+
     private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
-    private Overview overview_;
-    private System.Resources.ResourceManager resource_manager_;
+    private Overview ?overview_;
     public MainForm(MachineType machine_type)
     {
       InitializeComponent();
+      //flowLayoutPanel1.Scroll += FlowLayoutPanel1_Scroll;
       LoadLanguage(machine_type);
       UpdateLanguageMenuState();
       this.FormClosed += MainFormClose;
@@ -31,7 +34,9 @@ namespace LoadMonitor
       InitializePart(machine_type);
       modbusSerialPort_ = new ModbusSerialPort(Settings.Default.ComPort);// 初始化 Modbus 通信
 
-      read_current_timer_.Elapsed += Update;//更新畫面
+      //read_current_timer_.Elapsed += Update;//更新畫面
+      read_current_timer_.Tick += Update;
+      read_current_timer_.Interval = 1000;
       read_current_timer_.Start();
     }
 
@@ -50,6 +55,7 @@ namespace LoadMonitor
       bool add_first_detail_form = true;
       foreach (var component in components_.Values)
       {
+        //component.Parent = flowLayoutPanel1;
         if (add_first_detail_form)
         {// 對第一個加入的部件先顯示出詳細數據
           add_first_detail_form = false;
@@ -60,11 +66,12 @@ namespace LoadMonitor
           DetailChartPanel.Controls.Add(component.DetailForm);
         }
         component.thumbnail_.TopLevel = false;         // 設置為非頂層窗口
-        component.thumbnail_.FormBorderStyle = FormBorderStyle.None; // 移除邊框，讓它像一個控件
-        component.thumbnail_.Dock = DockStyle.Top;    // 填充容器
+        //component.thumbnail_.FormBorderStyle = FormBorderStyle.None; // 移除邊框，讓它像一個控件
+        component.thumbnail_.Dock = DockStyle.Fill;    // 填充容器
         component.thumbnail_.Show();                  // 顯示 Form
         // 将 PartInfoPanel 添加到 FlowLayoutPanel
         flowLayoutPanel1.Controls.Add(component.thumbnail_);
+
       }
     }
 
@@ -80,7 +87,8 @@ namespace LoadMonitor
 
     //因為有讀取rs485, 以下除了更新UI外，都在子線程執行
     private readonly object update_lock_ = new object(); // 增加鎖來確保執行不交錯
-    private void Update(object? sender, ElapsedEventArgs e)
+    //private void Update(object? sender, ElapsedEventArgs e)
+    private void Update(object? sender, EventArgs e)
     {
 
       lock (update_lock_)
@@ -165,7 +173,6 @@ namespace LoadMonitor
       繁體中文ToolStripMenuItem.Checked = Language.current_culture_code_ == "zh-TW";
       englishToolStripMenuItem.Checked = Language.current_culture_code_ == "en-US";
     }
-
 
   }
 }

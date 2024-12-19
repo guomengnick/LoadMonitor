@@ -135,5 +135,11 @@ namespace LoadMonitor
 
       return false; // 未達到設定的筆數，返回 false
     }
+    
+    public void ResetData()
+    {
+      one_hour_data_.Clear();
+      six_hour_data_.Clear();
+    }
   }
 }

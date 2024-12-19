@@ -193,7 +193,7 @@ namespace LoadMonitor.Components
       gam330.AddRange(new Config[]
       {
         new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5 },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4 }
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.45 }
       });
       return gam330;
     }

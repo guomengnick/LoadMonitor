@@ -31,8 +31,10 @@
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Thumbnail));
       PanelThumbnail = new Panel();
       LabelTitle = new Label();
-      Labelsummary = new Label();
       ButtonRemindBell = new Button();
+      panel1 = new Panel();
+      Labelsummary = new Label();
+      panel1.SuspendLayout();
       SuspendLayout();
       // 
       // PanelThumbnail
@@ -55,15 +57,6 @@
       LabelTitle.TabIndex = 3;
       LabelTitle.Text = "切割X1";
       // 
-      // Labelsummary
-      // 
-      Labelsummary.AutoSize = true;
-      Labelsummary.Location = new Point(126, 42);
-      Labelsummary.Name = "Labelsummary";
-      Labelsummary.Size = new Size(25, 15);
-      Labelsummary.TabIndex = 4;
-      Labelsummary.Text = "5%";
-      // 
       // ButtonRemindBell
       // 
       ButtonRemindBell.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -83,13 +76,29 @@
       ButtonRemindBell.Visible = false;
       ButtonRemindBell.MouseClick += ButtonRemindBellClick;
       // 
+      // panel1
+      // 
+      panel1.Controls.Add(Labelsummary);
+      panel1.Location = new Point(130, 43);
+      panel1.Name = "panel1";
+      panel1.Size = new Size(200, 46);
+      panel1.TabIndex = 6;
+      // 
+      // Labelsummary
+      // 
+      Labelsummary.Location = new Point(3, 0);
+      Labelsummary.Name = "Labelsummary";
+      Labelsummary.Size = new Size(197, 46);
+      Labelsummary.TabIndex = 5;
+      Labelsummary.Text = "5%";
+      // 
       // Thumbnail
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       ClientSize = new Size(346, 109);
+      Controls.Add(panel1);
       Controls.Add(ButtonRemindBell);
-      Controls.Add(Labelsummary);
       Controls.Add(LabelTitle);
       Controls.Add(PanelThumbnail);
       FormBorderStyle = FormBorderStyle.None;
@@ -97,6 +106,7 @@
       Text = "Thumbnail";
       Load += Thumbnail_Load;
       Click += Thumbnail_Click;
+      panel1.ResumeLayout(false);
       ResumeLayout(false);
       PerformLayout();
     }
@@ -104,7 +114,8 @@
     #endregion
     private Panel PanelThumbnail;
     private Label LabelTitle;
-    private Label Labelsummary;
     private Button ButtonRemindBell;
+    private Panel panel1;
+    private Label Labelsummary;
   }
 }

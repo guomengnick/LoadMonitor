@@ -80,7 +80,7 @@ namespace LoadMonitor.Components
       IsSelected = false;
 
       Initialize(maxLoadingValue);
-      history_data_ = new HistoryData(maxLoadingValue, 3/*每個部件都預設取3筆就好*/);
+      history_data_ = new HistoryData(maxLoadingValue, 1/*每個部件都預設取3筆就好*/);
       //對此部件更新色彩
       GetDetailForm();
     }
@@ -100,6 +100,11 @@ namespace LoadMonitor.Components
       }
 
       return $"1小時 平均附載 : {oneHourAverage:F0}% \r\n\r\n6小時平均附載 : {sixHoursAverage:F0}%";
+    }
+
+    public void ResetData()
+    {
+      history_data_.ResetData();
     }
 
     public bool IsExceedingMax()
