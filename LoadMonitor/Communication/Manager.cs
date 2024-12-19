@@ -13,8 +13,9 @@ namespace LoadMonitor.Communication
 
     private readonly Action update_action_;
 
-    public Manager()
+    public Manager(ToolStripMenuItem com_port_menu_item)
     {
+      InitializeComPorts(com_port_menu_item);
     }
 
 

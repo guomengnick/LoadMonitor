@@ -23,19 +23,17 @@ namespace LoadMonitor
     private System.Timers.Timer update_timer_ = new System.Timers.Timer(1000);
     private Communication.Manager communication_manager_;
 
-    private Overview ?overview_;
+    private Overview? overview_;
     public MainForm(MachineType machine_type)
     {
       InitializeComponent();
       LoadLanguage(machine_type);
       UpdateLanguageMenuState();
-      this.FormClosed += MainFormClose;
-
+      //this.FormClosed += MainFormClose;
+      //this.FormClosing += MainForm_FormClosing;
       InitializePart(machine_type);
 
-
-      communication_manager_ = new Communication.Manager();
-      communication_manager_.InitializeComPorts(this.COMPortToolStripMenuItem1);
+      communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
 
       update_timer_.Elapsed += Update;//更新畫面
       update_timer_.Interval = 1000;
@@ -75,6 +73,14 @@ namespace LoadMonitor
         flowLayoutPanel1.Controls.Add(component.thumbnail_);
 
       }
+    }
+
+
+    private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      // 攔截關閉事件，隱藏表單而不是關閉程式
+      e.Cancel = true; // 阻止表單關閉
+      this.Hide(); // 隱藏表單
     }
 
     private void MainFormClose(object? sender, FormClosedEventArgs e)
@@ -188,8 +194,13 @@ namespace LoadMonitor
       }
     }
 
+    private void 關閉監控軟體ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      // 清理通知區域圖示
+      //notifyIcon1.Visible = false;
 
-
-
+      // 正常退出程式
+      //Application.Exit();
+    }
   }
 }
