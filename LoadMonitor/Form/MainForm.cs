@@ -9,6 +9,7 @@ using System.Resources;
 using System.Globalization;
 using HarfBuzzSharp;
 using System.Runtime.InteropServices;
+using OpenTK.Graphics.OpenGL;
 
 namespace LoadMonitor
 {
@@ -18,26 +19,27 @@ namespace LoadMonitor
   {
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
 
-    //private System.Timers.Timer read_current_timer_ = new System.Timers.Timer(1000);
-    private System.Windows.Forms.Timer read_current_timer_ = new System.Windows.Forms.Timer();
 
-    private ModbusSerialPort modbusSerialPort_; // Modbus 通信物件
+    private System.Timers.Timer update_timer_ = new System.Timers.Timer(1000);
+    private Communication.Manager communication_manager_;
+
     private Overview ?overview_;
     public MainForm(MachineType machine_type)
     {
       InitializeComponent();
-      //flowLayoutPanel1.Scroll += FlowLayoutPanel1_Scroll;
       LoadLanguage(machine_type);
       UpdateLanguageMenuState();
       this.FormClosed += MainFormClose;
 
       InitializePart(machine_type);
-      modbusSerialPort_ = new ModbusSerialPort(Settings.Default.ComPort);// 初始化 Modbus 通信
 
-      //read_current_timer_.Elapsed += Update;//更新畫面
-      read_current_timer_.Tick += Update;
-      read_current_timer_.Interval = 1000;
-      read_current_timer_.Start();
+
+      communication_manager_ = new Communication.Manager();
+      communication_manager_.InitializeComPorts(this.COMPortToolStripMenuItem1);
+
+      update_timer_.Elapsed += Update;//更新畫面
+      update_timer_.Interval = 1000;
+      update_timer_.Start();
     }
 
     private void InitializePart(MachineType machine_type)
@@ -77,35 +79,27 @@ namespace LoadMonitor
 
     private void MainFormClose(object? sender, FormClosedEventArgs e)
     {
-      read_current_timer_.Stop();
-      if (modbusSerialPort_ != null && modbusSerialPort_.IsConnected)
-      {
-        modbusSerialPort_.Close();
-      }
+      update_timer_.Stop();
     }
 
 
     //因為有讀取rs485, 以下除了更新UI外，都在子線程執行
     private readonly object update_lock_ = new object(); // 增加鎖來確保執行不交錯
-    //private void Update(object? sender, ElapsedEventArgs e)
-    private void Update(object? sender, EventArgs e)
+    private void Update(object? sender, ElapsedEventArgs e)
     {
 
       lock (update_lock_)
       {
         bool is_test_mode = true;
-        Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents(is_test_mode);//較耗時, 在子線程執行
-        if (!is_test_mode && (modbusSerialPort_ == null || !modbusSerialPort_.IsConnected))
+        Dictionary<int, double> currents = communication_manager_.ReadCurrents(true/*TEST*/);//較耗時, 在子線程執行
+        if (!is_test_mode && (communication_manager_.IsConnected()))
         {
           Log.Warning("Modbus serial port is not connected.");
           return;
         }
 
-        // 發送請求並解析數據
-        //Dictionary<int, double> currents = modbusSerialPort_.ReadCurrents();//較耗時, 在子線程執行
         if (currents.Count == 0)
         {
-          //Log.Warning("Modbus serial port 收到的值為空");
           return;
         }
 
@@ -141,38 +135,61 @@ namespace LoadMonitor
     {
       // 更新控件的文本内容
       this.Text = MachineTypeHelper.ToString(machine_type) + "  " + Language.GetString("MainForm.Text");
-      ToolStripMenuItemSetting.Text = Language.GetString("ToolStripMenuItemSetting.Text");
       ToolStripMenuItemLanguege.Text = Language.GetString("ToolStripMenuItemLanguege.Text");
-    }
 
-    private void 簡體中文ToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      Language.SetLanguage("zh-CN");
+      // 定義共享的語言切換邏輯
+      EventHandler action = (object? sender, EventArgs e) =>
+      {
+        if (sender is ToolStripMenuItem selected_item)
+        {
+          string selected_language = selected_item.Tag as string ?? string.Empty;
+          if (Language.CurrentLanguage != selected_language) // 判斷當前語言是否改變
+          {
+            // 更新語言設定並顯示重啟提示
+            Language.SetLanguage(selected_language);
+            UpdateLanguageMenuState();
+            Helper.ShowRestartDialog(
+                $"{Language.GetString("是否重啟")}",
+                $"{Language.GetString("切換語言彈窗內文")}"
+            );
+          }
+        }
+      };
+
+      // 為每個語言選單項目分配 Tag 和 Click 事件
+      簡體中文ToolStripMenuItem.Tag = "zh-CN";
+      簡體中文ToolStripMenuItem.Click += action;
+
+      繁體中文ToolStripMenuItem.Tag = "zh-TW";
+      繁體中文ToolStripMenuItem.Click += action;
+
+      englishToolStripMenuItem.Tag = "en-US";
+      englishToolStripMenuItem.Click += action;
       UpdateLanguageMenuState();
-      MessageBox.Show("切换语言须重启系统!!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
-    private void 繁體中文ToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      Language.SetLanguage("zh-TW");
-      UpdateLanguageMenuState();
-      MessageBox.Show("切換語言須重啟系統!!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-    }
 
-    private void 英文ToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      Language.SetLanguage("en-US");
-      UpdateLanguageMenuState();
-      MessageBox.Show("Language switch requires restart!!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-    }
-
-    // 更新语言菜单的选中状态
     private void UpdateLanguageMenuState()
     {
-      簡體中文ToolStripMenuItem.Checked = Language.current_culture_code_ == "zh-CN";
-      繁體中文ToolStripMenuItem.Checked = Language.current_culture_code_ == "zh-TW";
-      englishToolStripMenuItem.Checked = Language.current_culture_code_ == "en-US";
+      // 遍歷所有語言選單項目
+      foreach (ToolStripMenuItem item in ToolStripMenuItemLanguege.DropDownItems)
+      {
+        // 判斷選單項目的 Tag 是否與當前語言匹配
+        if (item.Tag != null && item.Tag.ToString() == Language.CurrentLanguage)
+        {
+          item.Checked = true;  // 設置為選中
+          item.Enabled = false; // 禁用選中項
+        }
+        else
+        {
+          item.Checked = false; // 取消選中
+          item.Enabled = true;  // 啟用其他選項
+        }
+      }
     }
+
+
+
 
   }
 }

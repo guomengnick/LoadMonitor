@@ -121,10 +121,6 @@
   <data name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="toolStripMenuItem2.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.TrayHeight" type="System.Int32, mscorlib">
     <value>25</value>
@@ -1622,7 +1618,7 @@
     <value>设置</value>
   </data>
   <data name="ToolStripMenuItemLanguege.Text" xml:space="preserve">
-    <value>语言</value>
+    <value>Languege</value>
   </data>
   <data name="MainForm.Text" xml:space="preserve">
     <value>使用率监控</value>
@@ -1696,5 +1692,16 @@
   </data>
   <data name="運作時間" xml:space="preserve">
     <value>运作时间</value>
+  </data>
+  <data name="重啟提示" xml:space="preserve">
+    <value>是否重启?</value>
+  </data>
+  <data name="切換COM口彈窗內文" xml:space="preserve">
+    <value>切换为 {0} 口，
+是否需要重启程式以应用更改？</value>
+  </data>
+  <data name="切換語言彈窗內文" xml:space="preserve">
+    <value>切换为简体
+是否需要重启程式以应用更改？</value>
   </data>
 </root>

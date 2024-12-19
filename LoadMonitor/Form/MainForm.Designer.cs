@@ -45,7 +45,7 @@ namespace LoadMonitor
       簡體中文ToolStripMenuItem = new ToolStripMenuItem();
       繁體中文ToolStripMenuItem = new ToolStripMenuItem();
       englishToolStripMenuItem = new ToolStripMenuItem();
-      ToolStripMenuItemSetting = new ToolStripMenuItem();
+      COMPortToolStripMenuItem1 = new ToolStripMenuItem();
       flowLayoutPanel1.SuspendLayout();
       menuStrip1.SuspendLayout();
       SuspendLayout();
@@ -73,7 +73,7 @@ namespace LoadMonitor
       // DetailChartPanel
       // 
       DetailChartPanel.BackColor = Color.Transparent;
-      DetailChartPanel.Location = new Point(337, 6);
+      DetailChartPanel.Location = new Point(340, 57);
       DetailChartPanel.Name = "DetailChartPanel";
       DetailChartPanel.Size = new Size(1027, 733);
       DetailChartPanel.TabIndex = 8;
@@ -84,7 +84,7 @@ namespace LoadMonitor
       menuStrip1.Dock = DockStyle.None;
       menuStrip1.ImageScalingSize = new Size(25, 25);
       menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
-      menuStrip1.Location = new Point(1314, 4);
+      menuStrip1.Location = new Point(701, 21);
       menuStrip1.Name = "menuStrip1";
       menuStrip1.ShowItemToolTips = true;
       menuStrip1.Size = new Size(55, 33);
@@ -93,8 +93,8 @@ namespace LoadMonitor
       // 
       // toolStripMenuItem2
       // 
-      toolStripMenuItem2.DropDownItems.AddRange(new ToolStripItem[] { ToolStripMenuItemLanguege, ToolStripMenuItemSetting });
-      toolStripMenuItem2.Image = (Image)resources.GetObject("toolStripMenuItem2.Image");
+      toolStripMenuItem2.DropDownItems.AddRange(new ToolStripItem[] { ToolStripMenuItemLanguege, COMPortToolStripMenuItem1 });
+      toolStripMenuItem2.Image = Properties.Resources.SETT26472;
       toolStripMenuItem2.Name = "toolStripMenuItem2";
       toolStripMenuItem2.Size = new Size(47, 29);
       toolStripMenuItem2.Text = " ";
@@ -103,35 +103,32 @@ namespace LoadMonitor
       // 
       ToolStripMenuItemLanguege.DropDownItems.AddRange(new ToolStripItem[] { 簡體中文ToolStripMenuItem, 繁體中文ToolStripMenuItem, englishToolStripMenuItem });
       ToolStripMenuItemLanguege.Name = "ToolStripMenuItemLanguege";
-      ToolStripMenuItemLanguege.Size = new Size(98, 22);
+      ToolStripMenuItemLanguege.Size = new Size(180, 22);
       ToolStripMenuItemLanguege.Text = "語言";
       // 
       // 簡體中文ToolStripMenuItem
       // 
       簡體中文ToolStripMenuItem.Name = "簡體中文ToolStripMenuItem";
-      簡體中文ToolStripMenuItem.Size = new Size(122, 22);
+      簡體中文ToolStripMenuItem.Size = new Size(180, 22);
       簡體中文ToolStripMenuItem.Text = "简体中文";
-      簡體中文ToolStripMenuItem.Click += 簡體中文ToolStripMenuItem_Click;
       // 
       // 繁體中文ToolStripMenuItem
       // 
       繁體中文ToolStripMenuItem.Name = "繁體中文ToolStripMenuItem";
-      繁體中文ToolStripMenuItem.Size = new Size(122, 22);
+      繁體中文ToolStripMenuItem.Size = new Size(180, 22);
       繁體中文ToolStripMenuItem.Text = "繁體中文";
-      繁體中文ToolStripMenuItem.Click += 繁體中文ToolStripMenuItem_Click;
       // 
       // englishToolStripMenuItem
       // 
       englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-      englishToolStripMenuItem.Size = new Size(122, 22);
+      englishToolStripMenuItem.Size = new Size(180, 22);
       englishToolStripMenuItem.Text = "English";
-      englishToolStripMenuItem.Click += 英文ToolStripMenuItem_Click;
       // 
-      // ToolStripMenuItemSetting
+      // COMPortToolStripMenuItem1
       // 
-      ToolStripMenuItemSetting.Name = "ToolStripMenuItemSetting";
-      ToolStripMenuItemSetting.Size = new Size(98, 22);
-      ToolStripMenuItemSetting.Text = "設置";
+      COMPortToolStripMenuItem1.Name = "COMPortToolStripMenuItem1";
+      COMPortToolStripMenuItem1.Size = new Size(180, 22);
+      COMPortToolStripMenuItem1.Text = "COM口設置";
       // 
       // MainForm
       // 
@@ -162,12 +159,12 @@ namespace LoadMonitor
     private MenuStrip menuStrip1;
     private ToolStripMenuItem toolStripMenuItem2;
     private ToolStripMenuItem ToolStripMenuItemLanguege;
-    private ToolStripMenuItem ToolStripMenuItemSetting;
     private Label LabelMachineType;
     private ToolStripMenuItem 簡體中文ToolStripMenuItem;
     private ToolStripMenuItem 繁體中文ToolStripMenuItem;
     private ToolStripMenuItem englishToolStripMenuItem;
     private Panel DummyPanel;
+    private ToolStripMenuItem COMPortToolStripMenuItem1;
   }
 
 }
