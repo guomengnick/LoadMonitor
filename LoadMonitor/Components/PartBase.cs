@@ -21,6 +21,7 @@ namespace LoadMonitor.Components
     public string DetailInfo { get; set; } // 詳細信息
     public bool IsSelected { get; set; }  // 是否被選中
     public double MaxLoadingValue { get; protected set; }// 最大负载值
+    public MainForm MainForm { get; set; }
 
     public Thumbnail thumbnail_;
 
@@ -50,21 +51,22 @@ namespace LoadMonitor.Components
     protected ObservableCollection<ObservableValue> data_ = new ObservableCollection<ObservableValue>();
 
     public static PartBase Create(string type, string name,
-        Panel DetailChartPanel, double max_current_value, SKColor color)
+        Panel DetailChartPanel, double max_current_value, SKColor color, MainForm owner)
     {
       return type switch
       {
-        "Spindle" => new Spindle(name, DetailChartPanel, max_current_value, color),
-        "CutMotor" => new CutMotor(name, DetailChartPanel, max_current_value, color),
-        "TransferRack" => new TransferRack(name, DetailChartPanel, max_current_value, color),
-        "Overview" => new Overview(name, DetailChartPanel, max_current_value, color),
+        "Spindle" => new Spindle(name, DetailChartPanel, max_current_value, color, owner),
+        "CutMotor" => new CutMotor(name, DetailChartPanel, max_current_value, color, owner),
+        "TransferRack" => new TransferRack(name, DetailChartPanel, max_current_value, color, owner),
+        "Overview" => new Overview(name, DetailChartPanel, max_current_value, color, owner),
         _ => throw new ArgumentException($"Unknown component type: {type}")
       };
     }
 
     public PartBase(string name,
-        double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color)
+        double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color, MainForm owner)
     {
+      MainForm = owner;
       MaxLoadingValue = maxLoadingValue;
       this.DetailChartPanel = DetailChartPanel;
 
@@ -80,7 +82,7 @@ namespace LoadMonitor.Components
       IsSelected = false;
 
       Initialize(maxLoadingValue);
-      history_data_ = new HistoryData(maxLoadingValue, 1/*每個部件都預設取3筆就好*/);
+      history_data_ = new HistoryData(maxLoadingValue, 6/*每個部件都預設取3筆就好*/);
       //對此部件更新色彩
       GetDetailForm();
     }

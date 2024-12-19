@@ -27,6 +27,7 @@ namespace LoadMonitor
     private PartBase part_base_;
     public Color UnactiveColor { get; private set; }
 
+    private bool is_selected_ = false; // 新增屬性標記選中狀態
 
     public Thumbnail(CartesianChart thumbnail_chart, PartBase part_base)
     {
@@ -42,6 +43,8 @@ namespace LoadMonitor
       PanelThumbnail.Controls.Clear();
       thumbnail_chart.Dock = DockStyle.Fill; // 確保圖表填滿 Panel
       PanelThumbnail.Controls.Add(thumbnail_chart);
+      //thumbnail_chart.Click += (s, e) =>Thumbnail_Click(s, e);
+
       part_base_ = part_base;
       var read_current_timer_ = new System.Timers.Timer(200);
       bool isHighlighted = false; // 用于切换状态
@@ -92,22 +95,31 @@ namespace LoadMonitor
       this.MouseLeave += Thumbnail_MouseLeave;
 
     }
+
+
+
+    public void SetSelected(bool isSelected)
+    {
+      is_selected_ = isSelected;
+      this.BackColor = isSelected ? Color.LightBlue : UnactiveColor; // 選中或未選中設定對應顏色
+    }
+
+
     // 父元件變色
     private void Thumbnail_MouseEnter(object sender, EventArgs e)
     {
-      Debug.WriteLine("ENTER");
-      this.BackColor = Color.LightBlue; // 背景變藍色
+      if (!is_selected_) // 未選中時才改變背景色
+      {
+        this.BackColor = Color.LightBlue;
+      }
     }
 
     private void Thumbnail_MouseLeave(object sender, EventArgs e)
     {
-      Debug.WriteLine("LEAVE");
-
-      if (!is_showing)
-      {// 沒有在顯示時, 才恢復顏色
-        this.BackColor = unactive_color_; // 恢復背景顏色
+      if (!is_selected_) // 未選中時恢復原始背景色
+      {
+        this.BackColor = UnactiveColor;
       }
-
     }
 
     // 註冊所有子元件的事件
@@ -118,37 +130,20 @@ namespace LoadMonitor
         // 讓子元件的滑鼠事件觸發父元件事件
         child.MouseEnter += (s, e) => Thumbnail_MouseEnter(s, e);
         child.MouseLeave += (s, e) => Thumbnail_MouseLeave(s, e);
+        child.Click += (s, e) => Thumbnail_Click(s, e);
 
         // 如果有子控件，遞迴註冊
         if (child.HasChildren)
         {
           RegisterMouseEvents(child);
         }
+
       }
     }
 
     private void Thumbnail_Click(object sender, EventArgs e)
     {
-
-
-      Debug.WriteLine("點擊");
-      //is_showing = true; // 设置标志位
-      //part_base_.thumbnail_.BackColor = Color.DeepSkyBlue;//標記此縮圖為顯示中
-      //part_base_.thumbnail_.Refresh();
-
-
-      part_base_.DetailChartPanel.Controls.Clear();
-      part_base_.DetailForm.Shown += (s, e) =>
-      {
-        this.BackColor = Color.LightBlue; // 背景變藍色
-      };
-
-      // 设置状态为激活状态
-      part_base_.DetailForm.FormClosed += (s, e) =>
-      {
-        is_showing = false;
-        part_base_.thumbnail_.BackColor = Color.LightGreen;
-      };
+      part_base_.MainForm.OnThumbnailClicked(this);
 
       part_base_.DetailForm.TopLevel = false; // 設置為非頂層窗口
       part_base_.DetailForm.Dock = DockStyle.Fill; // 填充父控件

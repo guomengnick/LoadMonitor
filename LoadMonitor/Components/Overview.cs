@@ -33,8 +33,8 @@ namespace LoadMonitor.Components
 
     private DateTime startTime;
     public Overview(string name,
-      Panel DetailChartPanel, double max_current, SKColor color) :
-      base(name, max_current, DetailChartPanel, color)
+      Panel DetailChartPanel, double max_current, SKColor color, MainForm owner) :
+      base(name, max_current, DetailChartPanel, color, owner)
     {
       startTime = DateTime.Now;
 

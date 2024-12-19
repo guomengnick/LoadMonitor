@@ -45,7 +45,7 @@ namespace LoadMonitor
     private void InitializePart(MachineType machine_type)
     {
       var factory = new Factory();
-      components_ = factory.CreateComponents(DetailChartPanel, machine_type);
+      components_ = factory.CreateComponents(DetailChartPanel, machine_type, this/*傳入主控件*/);
       if (components_.ContainsKey(0) && components_[0] is Overview overview)
       {
         overview_ = overview;
@@ -235,11 +235,10 @@ namespace LoadMonitor
       // 還原上一個選中的縮圖底色
       if (current_selected_thumbnail_ != null)
       {
-        current_selected_thumbnail_.BackColor = current_selected_thumbnail_.UnactiveColor;
+        current_selected_thumbnail_.SetSelected(false); // 設置為未選中
       }
-
-      // 設置當前縮圖的底色
-      clickedThumbnail.BackColor = Color.LightBlue;
+      // 設置當前縮圖的選中狀態
+      clickedThumbnail.SetSelected(true);
       current_selected_thumbnail_ = clickedThumbnail;
     }
 

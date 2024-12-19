@@ -17,8 +17,8 @@ namespace LoadMonitor.Components
   internal class TransferRack : PartBase
   {
     public TransferRack(string name,
-      Panel DetailChartPanel, double max_current, SKColor chart_color) :
-      base(name, max_current, DetailChartPanel, chart_color) // 主轴最大负载值为 10A
+      Panel DetailChartPanel, double max_current, SKColor chart_color, MainForm owner) :
+      base(name, max_current, DetailChartPanel, chart_color, owner) // 主轴最大负载值为 10A
     {
       //TEST.TEST.Add60EmptyData(data_);
     }

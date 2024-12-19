@@ -79,16 +79,16 @@
       // panel1
       // 
       panel1.Controls.Add(Labelsummary);
-      panel1.Location = new Point(130, 43);
+      panel1.Location = new Point(138, 43);
       panel1.Name = "panel1";
-      panel1.Size = new Size(200, 46);
+      panel1.Size = new Size(179, 46);
       panel1.TabIndex = 6;
       // 
       // Labelsummary
       // 
-      Labelsummary.Location = new Point(6, 0);
+      Labelsummary.Location = new Point(3, 5);
       Labelsummary.Name = "Labelsummary";
-      Labelsummary.Size = new Size(197, 46);
+      Labelsummary.Size = new Size(63, 19);
       Labelsummary.TabIndex = 5;
       Labelsummary.Text = "5%";
       // 

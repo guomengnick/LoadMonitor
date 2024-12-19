@@ -1,6 +1,7 @@
 ﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Windows.Forms;
 
 namespace LoadMonitor.Components
@@ -50,6 +51,7 @@ namespace LoadMonitor.Components
       public string Name;
       public int Key;
       public double MaxCurrentValue;
+
       public SKColor Color
       {
         get
@@ -67,8 +69,7 @@ namespace LoadMonitor.Components
     }
 
     private const double kSafetyFactor = 2.0;// 安全係數
-
-    public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel, MachineType type)
+    public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel, MachineType type, MainForm owner)
     {
       Dictionary<int, PartBase> parts = new Dictionary<int, PartBase>();
 
@@ -76,7 +77,7 @@ namespace LoadMonitor.Components
       var parts_configs = new List<Config>
       {
         new Config { Type = "Overview", Name = MachineTypeHelper.ToString(type), Key = 0, MaxCurrentValue = 5 },
-        new Config { Type = "Spindle", Name = Language.GetString("主軸"), Key = 17, MaxCurrentValue = 2 }
+        new Config { Type = "Spindle", Name = Language.GetString("主軸"), Key = 17, MaxCurrentValue = 2}
       };
 
 
@@ -158,17 +159,20 @@ namespace LoadMonitor.Components
       foreach (var config in parts_configs)
       {
         var component = PartBase.Create(config.Type, config.Name, DetailChartPanel,
-          config.MaxCurrentValue * kSafetyFactor, config.Color);
+          config.MaxCurrentValue * kSafetyFactor, config.Color, owner);
         parts[config.Key] = component;
       }
       return parts;
     }
 
+
+
+
     private IEnumerable<Config> Create300AT()//只有切割軸在移動，XYZ的移動
     {
       return new Config[]
       {
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9 },
         new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8 },
         new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5 }
       };
