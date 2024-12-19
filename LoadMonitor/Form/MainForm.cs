@@ -18,6 +18,8 @@ namespace LoadMonitor
   public partial class MainForm : Form
   {
     private Dictionary<int, PartBase> components_; // 用于保存组件数据
+    private Thumbnail? current_selected_thumbnail_;
+
 
 
     private System.Timers.Timer update_timer_ = new System.Timers.Timer(1000);
@@ -29,8 +31,8 @@ namespace LoadMonitor
       InitializeComponent();
       LoadLanguage(machine_type);
       UpdateLanguageMenuState();
-      //this.FormClosed += MainFormClose;
-      //this.FormClosing += MainForm_FormClosing;
+      this.FormClosed += MainFormClose;
+      this.FormClosing += MainForm_FormClosing;
       InitializePart(machine_type);
 
       communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
@@ -78,9 +80,18 @@ namespace LoadMonitor
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-      // 攔截關閉事件，隱藏表單而不是關閉程式
-      e.Cancel = true; // 阻止表單關閉
-      this.Hide(); // 隱藏表單
+      // 判斷關閉來源
+      if (e.CloseReason == CloseReason.UserClosing)
+      {
+        // 用戶點擊視窗 X 按鈕，隱藏視窗而不是關閉程式
+        e.Cancel = true;
+        this.Hide();
+      }
+      else
+      {
+        // 其他來源（如通知區域右鍵選單），允許正常關閉
+        e.Cancel = false;
+      }
     }
 
     private void MainFormClose(object? sender, FormClosedEventArgs e)
@@ -131,9 +142,6 @@ namespace LoadMonitor
 
       }
     }
-
-
-
 
 
     // 动态加载语言资源的方法
@@ -196,11 +204,44 @@ namespace LoadMonitor
 
     private void 關閉監控軟體ToolStripMenuItem_Click(object sender, EventArgs e)
     {
+      update_timer_.Stop();
+      Application.Exit();
       // 清理通知區域圖示
-      //notifyIcon1.Visible = false;
+      notifyIcon1.Visible = false;
 
       // 正常退出程式
       //Application.Exit();
     }
+
+    private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+    {
+
+      // 顯示視窗
+      this.Show();
+
+      // 確保視窗從最小化恢復
+      if (this.WindowState == FormWindowState.Minimized)
+      {
+        this.WindowState = FormWindowState.Normal;
+      }
+
+      // 將視窗設置為前台
+      this.Activate();
+    }
+
+
+    public void OnThumbnailClicked(Thumbnail clickedThumbnail)
+    {
+      // 還原上一個選中的縮圖底色
+      if (current_selected_thumbnail_ != null)
+      {
+        current_selected_thumbnail_.BackColor = current_selected_thumbnail_.UnactiveColor;
+      }
+
+      // 設置當前縮圖的底色
+      clickedThumbnail.BackColor = Color.LightBlue;
+      current_selected_thumbnail_ = clickedThumbnail;
+    }
+
   }
 }

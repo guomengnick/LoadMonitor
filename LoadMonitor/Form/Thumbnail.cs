@@ -23,11 +23,20 @@ namespace LoadMonitor
 {
   public partial class Thumbnail : Form
   {
+    public PartBase PartBase => part_base_;
     private PartBase part_base_;
+    public Color UnactiveColor { get; private set; }
+
 
     public Thumbnail(CartesianChart thumbnail_chart, PartBase part_base)
     {
       InitializeComponent();
+      unactive_color_ = this.BackColor;
+
+      // 初始化未選中狀態的底色
+      UnactiveColor = this.BackColor;
+
+
       RegisterMouseEvents(this); // 為所有子元件註冊事件
       LabelTitle.Text = part_base.MainTitle;
       PanelThumbnail.Controls.Clear();
@@ -121,6 +130,7 @@ namespace LoadMonitor
     private void Thumbnail_Click(object sender, EventArgs e)
     {
 
+
       Debug.WriteLine("點擊");
       //is_showing = true; // 设置标志位
       //part_base_.thumbnail_.BackColor = Color.DeepSkyBlue;//標記此縮圖為顯示中
@@ -144,6 +154,14 @@ namespace LoadMonitor
       part_base_.DetailForm.Dock = DockStyle.Fill; // 填充父控件
       part_base_.DetailForm.Show(); // 顯示詳細信息
       part_base_.DetailChartPanel.Controls.Add(part_base_.DetailForm);
+
+
+      var mainForm = this.FindForm() as MainForm;
+      Debug.WriteLine($"點擊 當前頁面{this.FindForm().ToString()}    副頁面:{this.FindForm().Parent.ToString()}");
+      if (mainForm != null)
+      {
+        mainForm.OnThumbnailClicked(this);
+      }
     }
 
     public void ShowRemindBell()

@@ -85,10 +85,10 @@ namespace LoadMonitor.Components
       {
         //離線機
         case MachineType.GAM310:
-          parts_configs.AddRange(Create330());//320 一樣創建330
+          parts_configs.AddRange(Create310());//320 一樣創建330
           break;
         case MachineType.GAM320:
-          parts_configs.AddRange(Create330());//320 一樣創建330
+          parts_configs.AddRange(Create310());//320 一樣創建330
           break;
         case MachineType.GAM330:
           parts_configs.AddRange(Create330());
@@ -96,19 +96,19 @@ namespace LoadMonitor.Components
         case MachineType.GAM330D:
           parts_configs.AddRange(Create330D());
           break;
-        //case MachineType.GAM386:
-        //  parts_configs.AddRange(Create330D());
-        //  break;
+        case MachineType.GAM386:
+          parts_configs.AddRange(Create386());
+          break;
 
 
         //在線機Series
 
-        //case MachineType.GAM300AT:
-        //  parts_configs.AddRange(Create300AT());
-        //  break;
-        //case MachineType.GAM310AT:
-        //  parts_configs.AddRange(Create310AT());
-        //  break;
+        case MachineType.GAM300AT:
+          parts_configs.AddRange(Create300AT());
+          break;
+        case MachineType.GAM310AT://沒有移載旋轉軸的336AT，因為沒有監測移載 sita,所以沿用336AT
+          parts_configs.AddRange(Create336AT());
+          break;
 
 
         //   330AT series
@@ -126,6 +126,7 @@ namespace LoadMonitor.Components
           break;
 
 
+        //316AT沒有量產
         //case MachineType.GAM316AT:
         //  parts_configs.AddRange(Create316AT());
         //  break;
@@ -163,7 +164,30 @@ namespace LoadMonitor.Components
       return parts;
     }
 
-    private IEnumerable<Config> Create330()
+    private IEnumerable<Config> Create300AT()//只有切割軸在移動，XYZ的移動
+    {
+      return new Config[]
+      {
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5 }
+      };
+    }
+
+    
+    private IEnumerable<Config> Create310()//只有切割軸在移動，XYZ的移動
+    {
+      return new Config[]
+      {
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5 }
+      };
+    }
+
+
+
+    private IEnumerable<Config> Create330()//總共4個電機軸
     {
       return new Config[]
       {
@@ -186,7 +210,7 @@ namespace LoadMonitor.Components
       return gam330d;
     }
 
-    private IEnumerable<Config> Create330AT()
+    private IEnumerable<Config> Create330AT()// 330:4個電機軸 + 2 = 總共6個電機軸
     {
       List<Config> gam330 = new List<Config>();
       gam330.AddRange(Create330());
@@ -211,7 +235,7 @@ namespace LoadMonitor.Components
     }
 
 
-    private IEnumerable<Config> Create336AT()
+    private IEnumerable<Config> Create336AT()// 330AT:6個電機軸 + 移載Y軸(前進後退) = 7個
     {
       List<Config> gam336at = new List<Config>();
       gam336at.AddRange(Create330AT());//基於330AT,再加一個移載Y軸
@@ -258,6 +282,20 @@ namespace LoadMonitor.Components
     }
 
 
+    private IEnumerable<Config> Create386()
+    {
+      List<Config> gam380at = new List<Config>();
+      gam380at.AddRange(new Config[]
+      {
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5 },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4 },
+      });
+      return gam380at;
+    }
+
+
+    
 
 
   }

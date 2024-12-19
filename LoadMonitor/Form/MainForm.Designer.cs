@@ -149,17 +149,18 @@ namespace LoadMonitor
       notifyIcon1.Icon = (Icon)resources.GetObject("notifyIcon1.Icon");
       notifyIcon1.Text = "負載監控";
       notifyIcon1.Visible = true;
+      notifyIcon1.MouseDoubleClick += notifyIcon1_MouseDoubleClick;
       // 
       // contextMenuStrip1
       // 
       contextMenuStrip1.Items.AddRange(new ToolStripItem[] { 關閉監控軟體ToolStripMenuItem });
       contextMenuStrip1.Name = "contextMenuStrip1";
-      contextMenuStrip1.Size = new Size(181, 48);
+      contextMenuStrip1.Size = new Size(147, 26);
       // 
       // 關閉監控軟體ToolStripMenuItem
       // 
       關閉監控軟體ToolStripMenuItem.Name = "關閉監控軟體ToolStripMenuItem";
-      關閉監控軟體ToolStripMenuItem.Size = new Size(180, 22);
+      關閉監控軟體ToolStripMenuItem.Size = new Size(146, 22);
       關閉監控軟體ToolStripMenuItem.Text = "關閉監控軟體";
       關閉監控軟體ToolStripMenuItem.Click += 關閉監控軟體ToolStripMenuItem_Click;
       // 

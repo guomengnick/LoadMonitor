@@ -41,7 +41,7 @@
       // 
       PanelThumbnail.BackColor = SystemColors.Control;
       PanelThumbnail.BorderStyle = BorderStyle.FixedSingle;
-      PanelThumbnail.Location = new Point(12, 11);
+      PanelThumbnail.Location = new Point(18, 11);
       PanelThumbnail.Margin = new Padding(0);
       PanelThumbnail.Name = "PanelThumbnail";
       PanelThumbnail.Size = new Size(105, 86);
@@ -51,7 +51,7 @@
       // 
       LabelTitle.AutoSize = true;
       LabelTitle.Font = new Font("Microsoft JhengHei UI", 14F);
-      LabelTitle.Location = new Point(118, 14);
+      LabelTitle.Location = new Point(125, 14);
       LabelTitle.Name = "LabelTitle";
       LabelTitle.Size = new Size(71, 24);
       LabelTitle.TabIndex = 3;
@@ -86,7 +86,7 @@
       // 
       // Labelsummary
       // 
-      Labelsummary.Location = new Point(3, 0);
+      Labelsummary.Location = new Point(6, 0);
       Labelsummary.Name = "Labelsummary";
       Labelsummary.Size = new Size(197, 46);
       Labelsummary.TabIndex = 5;
