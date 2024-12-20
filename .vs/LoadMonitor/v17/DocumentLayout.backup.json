@@ -3,31 +3,11 @@
   "WorkspaceRootPath": "C:\\VisualStudioProgram\\LoadMonitor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\user\\AppData\\Local\\SourceServer\\c58911e49277e7f146857e09468cf90ca10abe83901c44cc5d5ad1f3b7ba60c5\\Form.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\form\\single.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\single.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\components\\spindle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\spindle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\user\\AppData\\Local\\SourceServer\\462b611e3d4f218f13a9890e1b10b442a23e91a9cd90f8652d6aff0cc481ca14\\src\\System.Windows.Forms\\src\\System\\Windows\\Forms\\Control.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\communication\\manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\communication\\manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\components\\overview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\overview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -37,7 +17,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -49,92 +29,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Single.cs",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\Single.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Form\\Single.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\Single.cs",
-              "RelativeToolTip": "LoadMonitor\\Form\\Single.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAlwCoAAAAeAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Control.cs",
+              "DocumentMoniker": "C:\\Users\\user\\AppData\\Local\\SourceServer\\462b611e3d4f218f13a9890e1b10b442a23e91a9cd90f8652d6aff0cc481ca14\\src\\System.Windows.Forms\\src\\System\\Windows\\Forms\\Control.cs",
+              "RelativeDocumentMoniker": "..\\..\\Users\\user\\AppData\\Local\\SourceServer\\462b611e3d4f218f13a9890e1b10b442a23e91a9cd90f8652d6aff0cc481ca14\\src\\System.Windows.Forms\\src\\System\\Windows\\Forms\\Control.cs",
+              "ToolTip": "C:\\Users\\user\\AppData\\Local\\SourceServer\\462b611e3d4f218f13a9890e1b10b442a23e91a9cd90f8652d6aff0cc481ca14\\src\\System.Windows.Forms\\src\\System\\Windows\\Forms\\Control.cs [\u552F\u8B80]",
+              "RelativeToolTip": "..\\..\\Users\\user\\AppData\\Local\\SourceServer\\462b611e3d4f218f13a9890e1b10b442a23e91a9cd90f8652d6aff0cc481ca14\\src\\System.Windows.Forms\\src\\System\\Windows\\Forms\\Control.cs [\u552F\u8B80]",
+              "ViewState": "AgIAABkSAAAAAAAAAIAwwBwSAAASAAAAAQAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T03:19:06.054Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-20T03:30:11.549Z",
+              "EditorCaption": " [\u552F\u8B80]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Form.cs",
-              "DocumentMoniker": "C:\\Users\\user\\AppData\\Local\\SourceServer\\c58911e49277e7f146857e09468cf90ca10abe83901c44cc5d5ad1f3b7ba60c5\\Form.cs",
-              "RelativeDocumentMoniker": "..\\..\\Users\\user\\AppData\\Local\\SourceServer\\c58911e49277e7f146857e09468cf90ca10abe83901c44cc5d5ad1f3b7ba60c5\\Form.cs",
-              "ToolTip": "C:\\Users\\user\\AppData\\Local\\SourceServer\\c58911e49277e7f146857e09468cf90ca10abe83901c44cc5d5ad1f3b7ba60c5\\Form.cs",
-              "RelativeToolTip": "..\\..\\Users\\user\\AppData\\Local\\SourceServer\\c58911e49277e7f146857e09468cf90ca10abe83901c44cc5d5ad1f3b7ba60c5\\Form.cs",
-              "ViewState": "AgIAAOIOAAAAAAAAAAAnwOwOAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T03:19:03.124Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "Manager.cs",
               "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Communication\\Manager.cs",
               "RelativeDocumentMoniker": "LoadMonitor\\Communication\\Manager.cs",
               "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Communication\\Manager.cs",
               "RelativeToolTip": "LoadMonitor\\Communication\\Manager.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAYwDwAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAACgAAAAAAAAAAAAwwDQAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-20T03:01:31.547Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainForm.cs",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Form\\MainForm.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
-              "RelativeToolTip": "LoadMonitor\\Form\\MainForm.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAYwHYAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T03:01:20.195Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainForm.cs [\u8A2D\u8A08]",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Form\\MainForm.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs [\u8A2D\u8A08]",
-              "RelativeToolTip": "LoadMonitor\\Form\\MainForm.cs [\u8A2D\u8A08]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T03:01:13.21Z",
-              "EditorCaption": " [\u8A2D\u8A08]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Spindle.cs",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Components\\Spindle.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Components\\Spindle.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Components\\Spindle.cs",
-              "RelativeToolTip": "LoadMonitor\\Components\\Spindle.cs",
-              "ViewState": "AgIAAEgBAAAAAAAAAAASwFUBAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T02:00:34.132Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Overview.cs",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Components\\Overview.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Components\\Overview.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Components\\Overview.cs",
-              "RelativeToolTip": "LoadMonitor\\Components\\Overview.cs",
-              "ViewState": "AgIAANkAAAAAAAAAAAAvwPAAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T01:25:02.956Z",
               "EditorCaption": ""
             }
           ]

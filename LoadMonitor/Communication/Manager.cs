@@ -24,48 +24,57 @@ namespace LoadMonitor.Communication
       com_port_menu_item.DropDownItems.Clear();
       List<string> available_ports = System.IO.Ports.SerialPort.GetPortNames().ToList();
 
-      //available_ports.AddRange(new[] { "COM2", "COM3", "COM4" });
-
       foreach (string port in available_ports)
       {
-        ToolStripMenuItem port_item = new ToolStripMenuItem(port);
+        ToolStripMenuItem port_item = new ToolStripMenuItem(port)
+        {
+          Checked = port == Settings.Default.ComPort, // 初始化時選中當前設定的 COM 埠
+          Enabled = port != Settings.Default.ComPort // 如果是當前選定的埠，禁用選項
+        };
+
         port_item.Click += (sender, e) =>
         {
-          if (sender is ToolStripMenuItem selected_item &&
-            selected_item.Text != Settings.Default.ComPort)
+          if (sender is not ToolStripMenuItem selected_item ||
+              selected_item.Text == Settings.Default.ComPort)
           {
-            string selected_port = selected_item.Text;
-            Settings.Default.ComPort = selected_port;
-            Settings.Default.Save();
-
-            // 用以下方式把文字檔內的 '{0}' 換成 'selected_port'
-            string message = string.Format(
-                Language.GetString("切換COM口彈窗內文"),
-                selected_port
-            );
-            Helper.ShowRestartDialog($"{Language.GetString("是否重啟")}", message);
+            return;
           }
+
+          // 更新設定
+          string selected_port = selected_item.Text;
+          Settings.Default.ComPort = selected_port;
+          Settings.Default.Save();
+
+          // 更新所有選項的狀態
+          foreach (ToolStripMenuItem item in com_port_menu_item.DropDownItems.OfType<ToolStripMenuItem>())
+          {
+            item.Checked = item == selected_item;
+            item.Enabled = item != selected_item;
+          }
+
+          // 顯示切換彈窗
+          string message = string.Format(
+              Language.GetString("切換COM口彈窗內文"),
+              selected_port
+          );
+          Helper.ShowRestartDialog($"{Language.GetString("是否重啟")}", message);
+
+          // 初始化 Modbus 埠
+          InitializeModbusPort(selected_port);
         };
 
         com_port_menu_item.DropDownItems.Add(port_item);
       }
 
+      // 如果當前 COM 埠存在，初始化 Modbus 埠
       if (!string.IsNullOrEmpty(Settings.Default.ComPort))
       {
         InitializeModbusPort(Settings.Default.ComPort);
-        // 把預設值，對combo box更新
-        var selectedItem = com_port_menu_item.DropDownItems
-          .OfType<ToolStripMenuItem>()
-          .FirstOrDefault(item => item.Text == Settings.Default.ComPort);
-
-        if (selectedItem != null)
-        {
-          selectedItem.Checked = true;
-          selectedItem.Enabled = false;
-        }
-
       }
     }
+
+
+
 
     private void InitializeModbusPort(string port)
     {
