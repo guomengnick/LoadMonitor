@@ -126,7 +126,12 @@ namespace LoadMonitor
           var motors_current = currents[0];//除主軸外, 量測模組量到的電流加總
           var spindle_current = components_[17].GetCurrentLoad();
           currents[17/*主軸*/] = spindle_current;
-          //currents[0] = motors_current + spindle_current;//TODO:目前主軸為測試值
+
+          // 電機電壓為 220V
+          // 主軸電壓為 48V，為了統一單位，需要將主軸電流按照電壓比例進行換算
+          // 將主軸電流調整為等效 220V 電壓下的電流後，再進行加總
+          // 等效電流 = 主軸電流 × 電機電壓 / 主軸電壓
+          currents[0] = motors_current + spindle_current * (48.0 / 220.0);
         }
 
         // 更新组件数据

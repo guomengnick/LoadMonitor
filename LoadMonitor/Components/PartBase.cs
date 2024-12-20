@@ -7,13 +7,14 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.WinForms;
 using SkiaSharp;
-using static LoadMonitor.HistoryData;
+using static LoadMonitor.Data.HistoryData;
 using Serilog;
+using LoadMonitor.Data;
 
 
 namespace LoadMonitor.Components
 {
-  public abstract class PartBase : UserControl
+    public abstract class PartBase : UserControl
   {
 
     public string MainTitle { get; set; } // 主標題

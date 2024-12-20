@@ -21,7 +21,7 @@ TForm1 *Form1;
 __fastcall TForm1::TForm1(TComponent* Owner) : TForm(Owner)
 {
 
-	UpdateTimer->Interval = 1500; // 設定為 1000ms
+	UpdateTimer->Interval = 3500; // 設定為 1000ms
 	UpdateTimer->OnTimer = UpdateSpindleInfo; // 設定 Timer 的觸發函數
 
 }
@@ -83,14 +83,15 @@ void __fastcall TForm1::UpdateSpindleInfo(TObject *Sender)
 	try
 	{
 		// 隨機生成數值
-		int speed = GenerateRandomInt(37500, 300); // Speed
+		int speed = GenerateRandomInt(37000, 10); // Speed
 		String status = GenerateRandomStatus(); // Status
 		String internalStatus = GenerateRandomStatus(); // InternalStatus
-		int power = GenerateRandomInt(500, 60); // Power
-		double busVoltage = GenerateRandomDouble(48.0, 1.0); // BusVoltage
-		double current = GenerateRandomDouble(1.0, 0.3); // Current
-		int motorTemperature = GenerateRandomInt(40, 2); // MotorTemperature
-		double inverterTemperature = GenerateRandomDouble(30.4, 5.0); // InverterTemperature
+
+		double busVoltage = GenerateRandomDouble(48.0, 0.1); // BusVoltage
+		double current = GenerateRandomDouble(1.5, 0.1); // Current
+		int motorTemperature = GenerateRandomInt(35, 0.1); // MotorTemperature
+		double inverterTemperature = GenerateRandomDouble(39, 0.1); // InverterTemperature
+		int power = current * busVoltage; //
 
 		// 更新 INI 檔案內容（存儲到記憶體）
 		ini->WriteInteger("Spindle", "Speed", speed);

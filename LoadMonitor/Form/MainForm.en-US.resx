@@ -1706,4 +1706,7 @@ Do you need to restart the application to apply changes?
     <value>Switch to languaue to  english
 restart now ?</value>
   </data>
+  <data name="日整機使用率" xml:space="preserve">
+    <value>Daily overall usage</value>
+  </data>
 </root>

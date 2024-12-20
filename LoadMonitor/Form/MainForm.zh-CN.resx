@@ -1704,4 +1704,7 @@
     <value>切换为简体
 是否需要重启程式以应用更改？</value>
   </data>
+  <data name="日整機使用率" xml:space="preserve">
+    <value>日整机使用率</value>
+  </data>
 </root>

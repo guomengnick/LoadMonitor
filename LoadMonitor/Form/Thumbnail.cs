@@ -88,7 +88,6 @@ namespace LoadMonitor
 
 
     private Color unactive_color_;
-    private bool is_showing = false;
     private void Thumbnail_Load(object sender, EventArgs e)
     {
       this.MouseEnter += Thumbnail_MouseEnter;
@@ -144,6 +143,8 @@ namespace LoadMonitor
     private void Thumbnail_Click(object sender, EventArgs e)
     {
       part_base_.MainForm.OnThumbnailClicked(this);
+
+      part_base_.DetailChartPanel.Controls.Clear();
 
       part_base_.DetailForm.TopLevel = false; // 設置為非頂層窗口
       part_base_.DetailForm.Dock = DockStyle.Fill; // 填充父控件

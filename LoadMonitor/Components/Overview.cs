@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static LoadMonitor.HistoryData;
+using static LoadMonitor.Data.HistoryData;
 
 using Log = Serilog.Log;
 using LiveChartsCore.SkiaSharpView.Extensions;
@@ -23,13 +23,14 @@ using System.IO.Pipes;
 
 namespace LoadMonitor.Components
 {
-  internal class Overview : PartBase
+    internal class Overview : PartBase
   {
     private const string PipeName = "LoadMonitorPipe"; // 命名管道名稱，用於識別管道通訊
     private static int latest_warning_count_; // 最新的警告數量
     private Dictionary<int, PartBase> components_; // 保存所有組件的集合
     private static CancellationTokenSource cts_ = new CancellationTokenSource(); // 控制後台伺服器的執行取消
-
+    private Data.DailyValueCalculator power_calculator_;
+    private Data.DailyValueCalculator usage_calculator_;
 
     private DateTime startTime;
     public Overview(string name,
@@ -39,6 +40,9 @@ namespace LoadMonitor.Components
       startTime = DateTime.Now;
 
       Task.Run(() => StartPipeServer(cts_.Token)); // 啟動後台任務處理管道通訊
+
+      power_calculator_ = new Data.DailyValueCalculator();
+      usage_calculator_ = new Data.DailyValueCalculator();
     }
     private LeftOneRightTwo form_3;
 
@@ -144,7 +148,7 @@ namespace LoadMonitor.Components
 
     private UserControl OverviewLoadingChart()
     {
-      var chart = new CartesianChart
+      return new CartesianChart
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]{new LineSeries<ObservableValue>{
@@ -217,78 +221,6 @@ namespace LoadMonitor.Components
           }, // 標籤顏色
         }
       };
-
-      // 创建容器 Panel
-      var container = new Panel
-      {
-        Dock = DockStyle.Fill
-      };
-
-      // 添加 Chart 到容器中
-      container.Controls.Add(chart);
-
-      // 创建上下左右的滑动条
-      var topBar = CreateTrackBar(Orientation.Horizontal, 50, 0);    // 顶部
-      var bottomBar = CreateTrackBar(Orientation.Horizontal, 50, 1); // 底部
-      var leftBar = CreateTrackBar(Orientation.Vertical, 50, 2);     // 左侧
-      var rightBar = CreateTrackBar(Orientation.Vertical, 50, 3);    // 右侧
-
-      // 添加事件，用于实时调整 Chart 的 DrawMargin
-      void UpdateDrawMargin()
-      {
-        chart.DrawMargin = new LiveChartsCore.Measure.Margin(
-            leftBar.Value,  // 左边距
-            topBar.Value,   // 上边距
-            rightBar.Value, // 右边距
-            bottomBar.Value // 下边距
-        );
-      }
-
-      topBar.ValueChanged += (s, e) => UpdateDrawMargin();
-      bottomBar.ValueChanged += (s, e) => UpdateDrawMargin();
-      leftBar.ValueChanged += (s, e) => UpdateDrawMargin();
-      rightBar.ValueChanged += (s, e) => UpdateDrawMargin();
-
-      // 添加滑动条到容器（覆盖在 Chart 上）
-      container.Controls.Add(topBar);
-      container.Controls.Add(bottomBar);
-      container.Controls.Add(leftBar);
-      container.Controls.Add(rightBar);
-
-      return chart;
-    }
-
-
-
-    // 创建 TrackBar
-    private System.Windows.Forms.TrackBar CreateTrackBar(Orientation orientation, int initialValue, int position)
-    {
-      var trackBar = new System.Windows.Forms.TrackBar
-      {
-        Orientation = orientation,
-        Minimum = 0,
-        Maximum = 100,
-        Value = initialValue,
-        TickFrequency = 10,
-        Size = orientation == Orientation.Horizontal
-              ? new Size(150, 20) // 水平滑动条大小
-              : new Size(20, 150), // 垂直滑动条大小
-        Anchor = position == 0
-              ? AnchorStyles.Top
-              : position == 1
-                  ? AnchorStyles.Bottom
-                  : position == 2
-                      ? AnchorStyles.Left
-                      : AnchorStyles.Right
-      };
-
-      // 设置位置
-      if (position == 0) trackBar.Location = new Point(20, 0); // 顶部
-      if (position == 1) trackBar.Location = new Point(20, 300); // 底部
-      if (position == 2) trackBar.Location = new Point(0, 20); // 左侧
-      if (position == 3) trackBar.Location = new Point(380, 20); // 右侧
-
-      return trackBar;
     }
 
 
@@ -310,7 +242,6 @@ namespace LoadMonitor.Components
     {
       daily_average_watt_ = new AngularGauge($"{Language.GetString("日功率")}(kWh)")
       {
-
         Dock = DockStyle.Fill,
       };
       daily_average_watt_.SetGaugeMaxValue(3);
@@ -352,8 +283,8 @@ namespace LoadMonitor.Components
       double power = latestValue * voltage / 1000; // 功率 (kW)
 
       // 平均每日功率 (kW·h)
-      var random = new Random();
-      double averageDailyPower = random.NextDouble() * 0.1 + power; // 平均每日功率
+      double averageDailyPower = power_calculator_.AddValue(power, 1); // 平均每日功率
+      double average_daily_usage = usage_calculator_.AddValue(power, 1); // 平均每日功率
 
       // 格式化詳細信息
       string detailInfo = $@"{dateTimeString}
@@ -361,7 +292,6 @@ namespace LoadMonitor.Components
 {Language.GetString("整機使用率")}: {loading:F1} %
 {Language.GetString("總電流")}: {latestValue:F3} A
 {Language.GetString("瞬時功率")}: {power:F1} kW
-{Language.GetString("日功率")}: {averageDailyPower:F1} kWh
 ";
 
 
@@ -369,8 +299,10 @@ namespace LoadMonitor.Components
       current_watt_.UpdateValue(power);
       daily_average_watt_.UpdateValue(averageDailyPower);
 
-      var right_text = "";//DisplayLoadSummary();
+      var right_text = $@"{Language.GetString("日整機使用率")}: {average_daily_usage:F1} %
+{Language.GetString("日功率")}: {averageDailyPower:F1} kWh
 
+";
       return (detailInfo, right_text);
     }
 
