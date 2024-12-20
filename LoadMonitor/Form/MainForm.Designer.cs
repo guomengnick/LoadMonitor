@@ -51,6 +51,7 @@ namespace LoadMonitor
       notifyIcon1 = new NotifyIcon(components);
       contextMenuStrip1 = new ContextMenuStrip(components);
       關閉監控軟體ToolStripMenuItem = new ToolStripMenuItem();
+      LabelMainMessage = new Label();
       flowLayoutPanel1.SuspendLayout();
       menuStrip1.SuspendLayout();
       contextMenuStrip1.SuspendLayout();
@@ -164,11 +165,25 @@ namespace LoadMonitor
       關閉監控軟體ToolStripMenuItem.Text = "關閉監控軟體";
       關閉監控軟體ToolStripMenuItem.Click += 關閉監控軟體ToolStripMenuItem_Click;
       // 
+      // LabelMainMessage
+      // 
+      LabelMainMessage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+      LabelMainMessage.BackColor = Color.Transparent;
+      LabelMainMessage.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Bold);
+      LabelMainMessage.ForeColor = Color.Red;
+      LabelMainMessage.Location = new Point(401, 1);
+      LabelMainMessage.Name = "LabelMainMessage";
+      LabelMainMessage.Size = new Size(861, 28);
+      LabelMainMessage.TabIndex = 12;
+      LabelMainMessage.Text = "    ";
+      LabelMainMessage.TextAlign = ContentAlignment.MiddleCenter;
+      // 
       // MainForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       ClientSize = new Size(1359, 766);
+      Controls.Add(LabelMainMessage);
       Controls.Add(panel1);
       Controls.Add(menuStrip1);
       Controls.Add(flowLayoutPanel1);
@@ -205,6 +220,7 @@ namespace LoadMonitor
     private NotifyIcon notifyIcon1;
     private ContextMenuStrip contextMenuStrip1;
     private ToolStripMenuItem 關閉監控軟體ToolStripMenuItem;
+    private Label LabelMainMessage;
   }
 
 }

@@ -108,8 +108,18 @@ namespace LoadMonitor
       lock (update_lock_)
       {
         bool is_test_mode = true;
-        Dictionary<int, double> currents = communication_manager_.ReadCurrents(true/*TEST*/);//較耗時, 在子線程執行
-        if (!is_test_mode && (communication_manager_.IsConnected()))
+        Dictionary<int, double> currents = new Dictionary<int, double>();
+        try{
+          currents = communication_manager_.ReadCurrents(false/*TEST*/);//較耗時, 在子線程執行
+        }
+        catch (Exception ex)
+        {
+          Log.Error($"讀取rs485失敗，錯誤信息:{ex.Message}");
+          ShowErrorMessage($"讀取{Settings.Default.ComPort} 口失敗.");
+        }
+
+
+        if (!is_test_mode && communication_manager_.IsConnected())
         {
           Log.Warning("Modbus serial port is not connected.");
           return;
@@ -146,6 +156,22 @@ namespace LoadMonitor
         }
 
       }
+    }
+
+    public void ShowErrorMessage(string msg)
+    {
+      if (LabelMainMessage.InvokeRequired)
+      {
+        LabelMainMessage.Invoke(new Action(() =>
+        {
+          LabelMainMessage.Text = msg;
+        }));
+      }
+      else
+      {
+        LabelMainMessage.Text = msg;
+      }
+
     }
 
 

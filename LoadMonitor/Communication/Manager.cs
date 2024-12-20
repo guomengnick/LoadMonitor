@@ -24,7 +24,7 @@ namespace LoadMonitor.Communication
       com_port_menu_item.DropDownItems.Clear();
       List<string> available_ports = System.IO.Ports.SerialPort.GetPortNames().ToList();
 
-      available_ports.AddRange(new[] { "COM2", "COM3", "COM4" });
+      //available_ports.AddRange(new[] { "COM2", "COM3", "COM4" });
 
       foreach (string port in available_ports)
       {
