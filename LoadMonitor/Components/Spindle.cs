@@ -38,8 +38,8 @@ namespace LoadMonitor.Components
     protected AngularGauge rpm_;
     private ThreadTimer timer_ = new ThreadTimer(3000);
     public Spindle(string name, 
-      Panel DetailChartPanel, double max_current, SKColor chart_color, MainForm owner) :
-      base(name, max_current, DetailChartPanel, chart_color, owner) // 主轴最大负载值为 10A
+      Panel DetailChartPanel, double max_current, SKColor chart_color, MainForm owner, string image_path) :
+      base(name, max_current, DetailChartPanel, chart_color, owner, image_path) // 主轴最大负载值为 10A
     {
       TEST.TEST.Add60EmptyData(motor_temperature_data_);
       

@@ -26,14 +26,14 @@ namespace LoadMonitor
     private Communication.Manager communication_manager_;
 
     private Overview? overview_;
-    public MainForm(MachineType machine_type)
+    public MainForm(MachineType machine_type, int is_spindle_show)
     {
       InitializeComponent();
       LoadLanguage(machine_type);
       UpdateLanguageMenuState();
       this.FormClosed += MainFormClose;
       this.FormClosing += MainForm_FormClosing;
-      InitializePart(machine_type);
+      InitializePart(machine_type, is_spindle_show);
 
       communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
 
@@ -42,10 +42,10 @@ namespace LoadMonitor
       update_timer_.Start();
     }
 
-    private void InitializePart(MachineType machine_type)
+    private void InitializePart(MachineType machine_type, int is_spindle_show)
     {
       var factory = new Factory();
-      components_ = factory.CreateComponents(DetailChartPanel, machine_type, this/*傳入主控件*/);
+      components_ = factory.CreateComponents(DetailChartPanel, machine_type, is_spindle_show, this/*傳入主控件*/);
       if (components_.ContainsKey(0) && components_[0] is Overview overview)
       {
         overview_ = overview;

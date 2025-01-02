@@ -22,7 +22,7 @@ namespace LoadMonitor.Components
     {
         { MachineType.GAM320AT, "GAM320AT" }, { MachineType.GAM330AT, "GAM330AT" },
         { MachineType.GAM360AT, "GAM360AT" }, { MachineType.GAM310AT, "GAM310AT" },
-        { MachineType.GAM300AT, "GAM300AT" }, { MachineType.GAM380AT, "GAM380AT" },
+        { MachineType.GAM300AT, "GAM300AT" }, { MachineType.GAM380AT, "GAM385AT" },
         { MachineType.GAM336AT, "GAM336AT" }, { MachineType.GAM330AD, "GAM330AD" },
         { MachineType.GAM316AT, "GAM316AT" }, { MachineType.GAM336AD, "GAM336AD" },
         { MachineType.GAM386AT, "GAM386AT" },
@@ -51,6 +51,7 @@ namespace LoadMonitor.Components
       public string Name;
       public int Key;
       public double MaxCurrentValue;
+      public string ImagePath;
 
       public SKColor Color
       {
@@ -69,16 +70,28 @@ namespace LoadMonitor.Components
     }
 
     private const double kSafetyFactor = 2.0;// 安全係數
-    public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel, MachineType type, MainForm owner)
+    public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel, MachineType type, int is_spindle_show, MainForm owner)
     {
       Dictionary<int, PartBase> parts = new Dictionary<int, PartBase>();
 
       // 初始化基礎部件
       var parts_configs = new List<Config>
       {
-        new Config { Type = "Overview", Name = MachineTypeHelper.ToString(type), Key = 0, MaxCurrentValue = 5 },
-        new Config { Type = "Spindle", Name = Language.GetString("主軸"), Key = 17, MaxCurrentValue = 2}
+        new Config { Type = "Overview", Name = MachineTypeHelper.ToString(type), Key = 0, MaxCurrentValue = 5 ,
+          ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png"},
       };
+
+      if (is_spindle_show != 0/*不顯示主軸部件*/)
+      {
+        parts_configs.Add(new Config
+        {
+          Type = "Spindle",
+          Name = Language.GetString("主軸"),
+          Key = 17,
+          MaxCurrentValue = 2,
+          ImagePath = $@".\Doc\Spindle.png"
+        });
+      }
 
 
       // 根據機型類型動態加入特定部件
@@ -142,7 +155,7 @@ namespace LoadMonitor.Components
 
         // 380 series
         case MachineType.GAM380AT:
-          parts_configs.AddRange(Create380AT());
+          parts_configs.AddRange(Create385AT());
           break;
         //case MachineType.GAM386AT:
         //  parts_configs.AddRange(Create386AT());
@@ -159,7 +172,7 @@ namespace LoadMonitor.Components
       foreach (var config in parts_configs)
       {
         var component = PartBase.Create(config.Type, config.Name, DetailChartPanel,
-          config.MaxCurrentValue * kSafetyFactor, config.Color, owner);
+          config.MaxCurrentValue * kSafetyFactor, config.Color, owner, config.ImagePath);
         parts[config.Key] = component;
       }
       return parts;
@@ -178,7 +191,7 @@ namespace LoadMonitor.Components
       };
     }
 
-    
+
     private IEnumerable<Config> Create310()//只有切割軸在移動，XYZ的移動
     {
       return new Config[]
@@ -269,18 +282,20 @@ namespace LoadMonitor.Components
     }
 
 
-    private IEnumerable<Config> Create380AT()
+    private IEnumerable<Config> Create385AT()// 沒有380AT了，一律改385AT
     {
       List<Config> gam380at = new List<Config>();
+
+      var machineTypeString = MachineTypeHelper.ToString(MachineType.GAM380AT); // 轉換成機型文字
+      var directory_path = $@".\Doc\{machineTypeString}\";
       gam380at.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5 },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8 },
-        //沒有 key 4
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9},
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5 },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5, ImagePath = $@"{directory_path}TransferRackX.png" },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4, ImagePath = $@"{directory_path}TransferRackZ.png" },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8, ImagePath = $@"{directory_path}CutMotorY.png" },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9, ImagePath = $@"{directory_path}CutMotorX.png" },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5, ImagePath = $@"{directory_path}CutMotorZ.png" },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5, ImagePath = $@"{directory_path}TransferRackY.png" },
       });
       return gam380at;
     }
@@ -299,7 +314,7 @@ namespace LoadMonitor.Components
     }
 
 
-    
+
 
 
   }

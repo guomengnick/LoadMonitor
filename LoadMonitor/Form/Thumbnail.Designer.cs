@@ -40,18 +40,17 @@
       // PanelThumbnail
       // 
       PanelThumbnail.BackColor = SystemColors.Control;
-      PanelThumbnail.BorderStyle = BorderStyle.FixedSingle;
-      PanelThumbnail.Location = new Point(18, 11);
+      PanelThumbnail.Location = new Point(5, 5);
       PanelThumbnail.Margin = new Padding(0);
       PanelThumbnail.Name = "PanelThumbnail";
-      PanelThumbnail.Size = new Size(105, 86);
+      PanelThumbnail.Size = new Size(121, 99);
       PanelThumbnail.TabIndex = 2;
       // 
       // LabelTitle
       // 
       LabelTitle.AutoSize = true;
       LabelTitle.Font = new Font("Microsoft JhengHei UI", 14F);
-      LabelTitle.Location = new Point(125, 14);
+      LabelTitle.Location = new Point(131, 14);
       LabelTitle.Name = "LabelTitle";
       LabelTitle.Size = new Size(71, 24);
       LabelTitle.TabIndex = 3;

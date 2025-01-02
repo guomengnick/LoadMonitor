@@ -52,10 +52,19 @@ namespace LoadMonitor
           Log.Information($"傳入的參數: {args[0]}, 轉換後的 MachineType: {machineTypeEnum}");
         }
 
+        var is_spindle_show = 0;//主軸不顯示
+        if (args.Length > 1)
+        {//有傳入主軸是否啟動
+          // 如果有傳入的參數, 將傳入的參數轉換成 int
+          is_spindle_show = int.Parse(args[1]);
+
+          // 紀錄日誌
+          Log.Information($"傳入的主軸參數為: {args[1]}, 1為顯示主軸部件，0為不顯示");
+        }
 
         // 初始化應用程序
         ApplicationConfiguration.Initialize();
-        Application.Run(new MainForm(machineTypeEnum));
+        Application.Run(new MainForm(machineTypeEnum, is_spindle_show));
         //Application.Run(new SerialPortFormTEST());
         //Application.Run(new TEST_Comm());
       }

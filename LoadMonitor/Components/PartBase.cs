@@ -52,20 +52,20 @@ namespace LoadMonitor.Components
     protected ObservableCollection<ObservableValue> data_ = new ObservableCollection<ObservableValue>();
 
     public static PartBase Create(string type, string name,
-        Panel DetailChartPanel, double max_current_value, SKColor color, MainForm owner)
+        Panel DetailChartPanel, double max_current_value, SKColor color, MainForm owner, string image_path)
     {
       return type switch
       {
-        "Spindle" => new Spindle(name, DetailChartPanel, max_current_value, color, owner),
-        "CutMotor" => new CutMotor(name, DetailChartPanel, max_current_value, color, owner),
-        "TransferRack" => new TransferRack(name, DetailChartPanel, max_current_value, color, owner),
-        "Overview" => new Overview(name, DetailChartPanel, max_current_value, color, owner),
+        "Spindle" => new Spindle(name, DetailChartPanel, max_current_value, color, owner, image_path),
+        "CutMotor" => new CutMotor(name, DetailChartPanel, max_current_value, color, owner, image_path),
+        "TransferRack" => new TransferRack(name, DetailChartPanel, max_current_value, color, owner, image_path),
+        "Overview" => new Overview(name, DetailChartPanel, max_current_value, color, owner, image_path),
         _ => throw new ArgumentException($"Unknown component type: {type}")
       };
     }
 
     public PartBase(string name,
-        double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color, MainForm owner)
+        double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color, MainForm owner, string image_path)
     {
       MainForm = owner;
       MaxLoadingValue = maxLoadingValue;
@@ -75,7 +75,9 @@ namespace LoadMonitor.Components
       fill_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0x60);
 
       MainTitle = name;
-      thumbnail_ = new Thumbnail(CreateThumbnail(), this);//對縮圖賦值
+      //thumbnail_ = new Thumbnail(CreateThumbnail(), this);//對縮圖賦值, 給的是笛卡兒座標
+      var image = Image.FromFile(image_path);
+      thumbnail_ = new Thumbnail(image, this);//對縮圖賦值, 給機器的縮圖
 
       TEST.TEST.Add60EmptyData(data_);
       //TEST.TEST.AddData(data_);
@@ -140,6 +142,7 @@ namespace LoadMonitor.Components
 
       return (summary, detailInfo);
     }
+
 
     // 縮圖由基類創建，讓縮圖都長一樣
     virtual protected CartesianChart CreateThumbnail()

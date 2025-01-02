@@ -31,6 +31,23 @@ namespace LoadMonitor
 
     public Thumbnail(CartesianChart thumbnail_chart, PartBase part_base)
     {
+      InitializeForm(part_base);
+      thumbnail_chart.Dock = DockStyle.Fill; // 確保圖表填滿 Panel
+      PanelThumbnail.Controls.Add(thumbnail_chart);
+    }
+
+    public Thumbnail(Image image, PartBase part_base)
+    {
+      InitializeForm(part_base);
+
+      PanelThumbnail.BackgroundImage = image;
+      PanelThumbnail.BackgroundImageLayout = ImageLayout.Stretch; // 確保圖片適應面板大小
+    }
+
+
+    private void InitializeForm(PartBase part_base)
+    {
+
       InitializeComponent();
       unactive_color_ = this.BackColor;
 
@@ -41,9 +58,7 @@ namespace LoadMonitor
       RegisterMouseEvents(this); // 為所有子元件註冊事件
       LabelTitle.Text = part_base.MainTitle;
       PanelThumbnail.Controls.Clear();
-      thumbnail_chart.Dock = DockStyle.Fill; // 確保圖表填滿 Panel
-      PanelThumbnail.Controls.Add(thumbnail_chart);
-      //thumbnail_chart.Click += (s, e) =>Thumbnail_Click(s, e);
+
 
       part_base_ = part_base;
       var read_current_timer_ = new System.Timers.Timer(200);
@@ -55,9 +70,9 @@ namespace LoadMonitor
         {
           part_base.thumbnail_.Invoke(new Action(() =>
           {
-          part_base.thumbnail_.BackColor = isHighlighted ? Color.LightGreen : Color.LightPink;
-          isHighlighted = !isHighlighted; // 切换状态
-        }));
+            part_base.thumbnail_.BackColor = isHighlighted ? Color.LightGreen : Color.LightPink;
+            isHighlighted = !isHighlighted; // 切换状态
+          }));
         }
       };
 
@@ -65,8 +80,8 @@ namespace LoadMonitor
 
       //read_current_timer_.Start();
       unactive_color_ = this.BackColor;
-    }
 
+    }
 
     public void UpdateSummary(string text)
     {
