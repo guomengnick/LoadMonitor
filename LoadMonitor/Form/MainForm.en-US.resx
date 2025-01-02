@@ -121,6 +121,10 @@
   <data name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="contextMenuStrip1.TrayLocation" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.TrayHeight" type="System.Int32, mscorlib">
     <value>25</value>
@@ -1711,5 +1715,11 @@ restart now ?</value>
   </data>
   <data name="負載警示Text" xml:space="preserve">
     <value>Warnning value</value>
+  </data>
+  <data name="COM口設置" xml:space="preserve">
+    <value>Setting COM</value>
+  </data>
+  <data name="設置負載值" xml:space="preserve">
+    <value>Loading Warnning Setting</value>
   </data>
 </root>

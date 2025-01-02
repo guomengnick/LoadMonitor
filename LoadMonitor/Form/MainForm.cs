@@ -109,7 +109,8 @@ namespace LoadMonitor
       {
         bool is_test_mode = true;
         Dictionary<int, double> currents = new Dictionary<int, double>();
-        try{
+        try
+        {
           currents = communication_manager_.ReadCurrents(true/*TEST*/);//較耗時, 在子線程執行
         }
         catch (Exception ex)
@@ -181,6 +182,9 @@ namespace LoadMonitor
       // 更新控件的文本内容
       this.Text = MachineTypeHelper.ToString(machine_type) + "  " + Language.GetString("MainForm.Text");
       ToolStripMenuItemLanguege.Text = Language.GetString("ToolStripMenuItemLanguege.Text");
+
+      COMPortToolStripMenuItem1.Text = Language.GetString("COM口設置");
+      設置負載警示值ToolStripMenuItem.Text = Language.GetString("設置負載值");
 
       // 定義共享的語言切換邏輯
       EventHandler action = (object? sender, EventArgs e) =>
@@ -273,5 +277,14 @@ namespace LoadMonitor
       current_selected_thumbnail_ = clickedThumbnail;
     }
 
+    private void 設定負載顯示值ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      foreach(var part_base in components_)
+      {
+        part_base.Value.thumbnail_.ShowWarnningThreshold(true);
+      }
+      var setting_form = new SettingForm();
+      setting_form.ShowDialog();
+    }
   }
 }

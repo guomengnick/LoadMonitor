@@ -1874,6 +1874,12 @@
     <value />
   </data>
   <data name="負載警示Text" xml:space="preserve">
-    <value>負載警示Text</value>
+    <value />
+  </data>
+  <data name="COM口設置" xml:space="preserve">
+    <value>COM口設置</value>
+  </data>
+  <data name="設置負載值" xml:space="preserve">
+    <value>設置負載值</value>
   </data>
 </root>

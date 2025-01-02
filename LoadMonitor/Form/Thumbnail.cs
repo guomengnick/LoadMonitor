@@ -91,6 +91,7 @@ namespace LoadMonitor
         WarnRatioLabel.Text = $"{currentValue}";
         part_base_.UpdateWarningThreshold(currentValue);
       };
+      LabelLoadingWarnning.Text = Language.GetString("負載警示Text");
     }
 
     public void UpdateSummary(string text)
@@ -208,6 +209,14 @@ namespace LoadMonitor
     private void label1_Click(object sender, EventArgs e)
     {
 
+    }
+
+    public void ShowWarnningThreshold(bool show)
+    {
+      LabelLoadingWarnning.Visible = show;
+      label3.Visible = show;
+      WarnRatioLabel.Visible = show;
+      trackBar1.Visible = show;
     }
   }
 }

@@ -36,7 +36,7 @@
       Labelsummary = new Label();
       trackBar1 = new TrackBar();
       WarnRatioLabel = new Label();
-      label2 = new Label();
+      LabelLoadingWarnning = new Label();
       label3 = new Label();
       panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -98,12 +98,12 @@
       // 
       // trackBar1
       // 
-      trackBar1.Location = new Point(174, 77);
+      trackBar1.Location = new Point(193, 77);
       trackBar1.Margin = new Padding(0);
       trackBar1.Maximum = 150;
       trackBar1.Minimum = 50;
       trackBar1.Name = "trackBar1";
-      trackBar1.Size = new Size(123, 45);
+      trackBar1.Size = new Size(96, 45);
       trackBar1.TabIndex = 7;
       trackBar1.TickFrequency = 20;
       trackBar1.Value = 100;
@@ -121,15 +121,16 @@
       WarnRatioLabel.Visible = false;
       WarnRatioLabel.Click += label1_Click;
       // 
-      // label2
+      // LabelLoadingWarnning
       // 
-      label2.AutoSize = true;
-      label2.Location = new Point(127, 81);
-      label2.Name = "label2";
-      label2.Size = new Size(55, 15);
-      label2.TabIndex = 9;
-      label2.Text = "負載警示";
-      label2.Visible = false;
+      LabelLoadingWarnning.AccessibleRole = AccessibleRole.ToolBar;
+      LabelLoadingWarnning.AutoSize = true;
+      LabelLoadingWarnning.Location = new Point(127, 81);
+      LabelLoadingWarnning.Name = "LabelLoadingWarnning";
+      LabelLoadingWarnning.Size = new Size(55, 15);
+      LabelLoadingWarnning.TabIndex = 9;
+      LabelLoadingWarnning.Text = "負載警示";
+      LabelLoadingWarnning.Visible = false;
       // 
       // label3
       // 
@@ -149,7 +150,7 @@
       ClientSize = new Size(357, 109);
       Controls.Add(WarnRatioLabel);
       Controls.Add(label3);
-      Controls.Add(label2);
+      Controls.Add(LabelLoadingWarnning);
       Controls.Add(trackBar1);
       Controls.Add(panel1);
       Controls.Add(ButtonRemindBell);
@@ -174,7 +175,7 @@
     private Label Labelsummary;
     private TrackBar trackBar1;
     private Label WarnRatioLabel;
-    private Label label2;
+    private Label LabelLoadingWarnning;
     private Label label3;
   }
 }
