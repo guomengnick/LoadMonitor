@@ -22,6 +22,8 @@ namespace LoadMonitor.Components
     public string DetailInfo { get; set; } // 詳細信息
     public bool IsSelected { get; set; }  // 是否被選中
     public double MaxLoadingValue { get; protected set; }// 最大负载值
+
+    private string setting_name_ ;
     public MainForm MainForm { get; set; }
 
     public Thumbnail thumbnail_;
@@ -52,23 +54,28 @@ namespace LoadMonitor.Components
     protected ObservableCollection<ObservableValue> data_ = new ObservableCollection<ObservableValue>();
 
     public static PartBase Create(string type, string name,
-        Panel DetailChartPanel, double max_current_value, SKColor color, MainForm owner, string image_path)
+        Panel DetailChartPanel, double max_current_value, SKColor color, 
+        MainForm owner, string image_path, string setting_name )
     {
       return type switch
       {
-        "Spindle" => new Spindle(name, DetailChartPanel, max_current_value, color, owner, image_path),
-        "CutMotor" => new CutMotor(name, DetailChartPanel, max_current_value, color, owner, image_path),
-        "TransferRack" => new TransferRack(name, DetailChartPanel, max_current_value, color, owner, image_path),
-        "Overview" => new Overview(name, DetailChartPanel, max_current_value, color, owner, image_path),
+        "Spindle" => new Spindle(name, DetailChartPanel, max_current_value, color, owner, image_path, setting_name),
+        "CutMotor" => new CutMotor(name, DetailChartPanel, max_current_value, color, owner, image_path, setting_name),
+        "TransferRack" => new TransferRack(name, DetailChartPanel, max_current_value, color, owner, image_path, setting_name),
+        "Overview" => new Overview(name, DetailChartPanel, max_current_value, color, owner, image_path, setting_name),
         _ => throw new ArgumentException($"Unknown component type: {type}")
       };
     }
 
     public PartBase(string name,
-        double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color, MainForm owner, string image_path)
+        double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color, 
+        MainForm owner, string image_path, string setting_name )
     {
       MainForm = owner;
+
+
       MaxLoadingValue = maxLoadingValue;
+      this.setting_name_  = setting_name;
       this.DetailChartPanel = DetailChartPanel;
 
       line_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0xee);
@@ -182,7 +189,27 @@ namespace LoadMonitor.Components
     {
       if (maxLoadingValue <= 0)
         throw new ArgumentException("MaxLoadingValue must be greater than 0.");
-      MaxLoadingValue = maxLoadingValue;
+
+      if(setting_name_ == null)
+      {
+        MaxLoadingValue = maxLoadingValue;
+        return;
+      }
+
+
+      // 讀取設定值 (報警百分比)
+      var property = Settings.Default.GetType().GetProperty(setting_name_);
+      if (property != null)
+      {
+        // 獲取設定值 (默認為 100%)
+        double threshold_ratio = Convert.ToDouble(property.GetValue(Settings.Default));
+        // 根據設定值更新 MaxLoadingValue
+        MaxLoadingValue = MaxLoadingValue * threshold_ratio;
+      }
+      else
+      {
+        //throw new ArgumentException($"設定名稱 {setting_name_} 無效！");
+      }
     }
 
 
@@ -215,6 +242,41 @@ namespace LoadMonitor.Components
       //Log.Information($"detail_texts:{detail_texts}");
       DetailFormUpdater(detail_texts.LeftText, detail_texts.RightInfo);
     }
+
+
+    private double GetWarningThreshold()//獲取此部件的"報警提示%數"
+    {
+      var property = Settings.Default.GetType().GetProperty(setting_name_ );
+      if (property != null)
+      {
+        return Convert.ToDouble(property.GetValue(Settings.Default));
+      }
+      throw new ArgumentException($"設定名稱 {setting_name_ } 無效！");
+    }
+
+
+
+    public void UpdateWarningThreshold(double threshold_ratio)
+    {
+      MaxLoadingValue = threshold_ratio * MaxLoadingValue;
+      if(setting_name_ == null)
+      {
+        return;//沒有要設定的值的話，就return 掉
+      }
+
+      // 同步更新 Settings.Default
+      var property = Settings.Default.GetType().GetProperty(setting_name_ );
+      if (property != null)
+      {
+        property.SetValue(Settings.Default, Convert.ChangeType(threshold_ratio, property.PropertyType));
+        Settings.Default.Save(); // 保存修改
+      }
+      else
+      {
+        throw new ArgumentException($"設定名稱 {setting_name_ } 無效！");
+      }
+    }
+
 
 
     /// <summary>

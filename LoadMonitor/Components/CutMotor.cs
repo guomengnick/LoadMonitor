@@ -22,8 +22,8 @@ namespace LoadMonitor.Components
   {
     private Single single_form_ = new Single();
     public CutMotor(string name,
-      Panel DetailChartPanel, double max_current, SKColor chart_color, MainForm owner, string image_path) :
-      base(name, max_current, DetailChartPanel, chart_color, owner, image_path) // 主轴最大负载值为 10A
+      Panel DetailChartPanel, double max_current, SKColor chart_color, MainForm owner, string image_path, string settingName) :
+      base(name, max_current, DetailChartPanel, chart_color, owner, image_path, settingName) // 主轴最大负载值为 10A
     {
     }
 

@@ -1871,6 +1871,9 @@
     <value />
   </data>
   <data name="日整機使用率" xml:space="preserve">
-    <value>日整機使用率</value>
+    <value />
+  </data>
+  <data name="負載警示Text" xml:space="preserve">
+    <value>負載警示Text</value>
   </data>
 </root>

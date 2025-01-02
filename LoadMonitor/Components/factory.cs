@@ -52,6 +52,7 @@ namespace LoadMonitor.Components
       public int Key;
       public double MaxCurrentValue;
       public string ImagePath;
+      public string SettingName; // 對應 Settings.Default 的屬性名稱
 
       public SKColor Color
       {
@@ -78,7 +79,7 @@ namespace LoadMonitor.Components
       var parts_configs = new List<Config>
       {
         new Config { Type = "Overview", Name = MachineTypeHelper.ToString(type), Key = 0, MaxCurrentValue = 5 ,
-          ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png"},
+          ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png", },
       };
 
       if (is_spindle_show != 0/*不顯示主軸部件*/)
@@ -172,7 +173,7 @@ namespace LoadMonitor.Components
       foreach (var config in parts_configs)
       {
         var component = PartBase.Create(config.Type, config.Name, DetailChartPanel,
-          config.MaxCurrentValue * kSafetyFactor, config.Color, owner, config.ImagePath);
+          config.MaxCurrentValue * kSafetyFactor, config.Color, owner, config.ImagePath, config.SettingName);
         parts[config.Key] = component;
       }
       return parts;
@@ -290,12 +291,18 @@ namespace LoadMonitor.Components
       var directory_path = $@".\Doc\{machineTypeString}\";
       gam380at.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5, ImagePath = $@"{directory_path}TransferRackX.png" },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4, ImagePath = $@"{directory_path}TransferRackZ.png" },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8, ImagePath = $@"{directory_path}CutMotorY.png" },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9, ImagePath = $@"{directory_path}CutMotorX.png" },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5, ImagePath = $@"{directory_path}CutMotorZ.png" },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5, ImagePath = $@"{directory_path}TransferRackY.png" },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5, 
+          ImagePath = $@"{directory_path}TransferRackX.png", SettingName = nameof(Settings.Default.移載X負載率警示)},
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4, 
+          ImagePath = $@"{directory_path}TransferRackZ.png", SettingName = nameof(Settings.Default.移載Z負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8, 
+          ImagePath = $@"{directory_path}CutMotorY.png" , SettingName = nameof(Settings.Default.切割Y1負載率警示)},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9, 
+          ImagePath = $@"{directory_path}CutMotorX.png" , SettingName = nameof(Settings.Default.切割X1負載率警示)},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5, 
+          ImagePath = $@"{directory_path}CutMotorZ.png" , SettingName = nameof(Settings.Default.切割Z1負載率警示)},
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5, 
+          ImagePath = $@"{directory_path}TransferRackY.png", SettingName = nameof(Settings.Default.移載Y負載率警示) },
       });
       return gam380at;
     }

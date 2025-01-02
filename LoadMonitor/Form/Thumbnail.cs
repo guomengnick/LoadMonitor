@@ -31,8 +31,8 @@ namespace LoadMonitor
 
     public Thumbnail(CartesianChart thumbnail_chart, PartBase part_base)
     {
-      InitializeForm(part_base);
       thumbnail_chart.Dock = DockStyle.Fill; // 確保圖表填滿 Panel
+      InitializeForm(part_base);
       PanelThumbnail.Controls.Add(thumbnail_chart);
     }
 
@@ -81,11 +81,21 @@ namespace LoadMonitor
       //read_current_timer_.Start();
       unactive_color_ = this.BackColor;
 
+
+      trackBar1.ValueChanged += (s, e) =>
+      {
+        // 獲取當前的 TrackBar 值
+        int currentValue = trackBar1.Value;
+
+        // 更新 WarnRatioLabel 的文本
+        WarnRatioLabel.Text = $"{currentValue}";
+        part_base_.UpdateWarningThreshold(currentValue);
+      };
     }
 
     public void UpdateSummary(string text)
     {
-      
+
       if (Labelsummary.Text == text)
       {// 沒變化就return
         return;
@@ -195,5 +205,9 @@ namespace LoadMonitor
       this.ButtonRemindBell.Visible = !reset_reminder_;
     }
 
+    private void label1_Click(object sender, EventArgs e)
+    {
+
+    }
   }
 }

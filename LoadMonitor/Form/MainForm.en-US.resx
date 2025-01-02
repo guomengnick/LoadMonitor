@@ -1709,4 +1709,7 @@ restart now ?</value>
   <data name="日整機使用率" xml:space="preserve">
     <value>Daily overall usage</value>
   </data>
+  <data name="負載警示Text" xml:space="preserve">
+    <value>Warnning value</value>
+  </data>
 </root>

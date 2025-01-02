@@ -58,5 +58,125 @@ namespace LoadMonitor {
                 this["語言"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 移載X負載率警示 {
+            get {
+                return ((float)(this["移載X負載率警示"]));
+            }
+            set {
+                this["移載X負載率警示"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 移載Y負載率警示 {
+            get {
+                return ((float)(this["移載Y負載率警示"]));
+            }
+            set {
+                this["移載Y負載率警示"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 移載Z負載率警示 {
+            get {
+                return ((float)(this["移載Z負載率警示"]));
+            }
+            set {
+                this["移載Z負載率警示"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 切割Y1負載率警示 {
+            get {
+                return ((float)(this["切割Y1負載率警示"]));
+            }
+            set {
+                this["切割Y1負載率警示"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 切割Y2負載率警示 {
+            get {
+                return ((float)(this["切割Y2負載率警示"]));
+            }
+            set {
+                this["切割Y2負載率警示"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 切割X1負載率警示 {
+            get {
+                return ((float)(this["切割X1負載率警示"]));
+            }
+            set {
+                this["切割X1負載率警示"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 切割X2負載率警示 {
+            get {
+                return ((float)(this["切割X2負載率警示"]));
+            }
+            set {
+                this["切割X2負載率警示"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 切割Z1負載率警示 {
+            get {
+                return ((float)(this["切割Z1負載率警示"]));
+            }
+            set {
+                this["切割Z1負載率警示"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 切割Z2負載率警示 {
+            get {
+                return ((float)(this["切割Z2負載率警示"]));
+            }
+            set {
+                this["切割Z2負載率警示"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float 主軸負載率警示 {
+            get {
+                return ((float)(this["主軸負載率警示"]));
+            }
+            set {
+                this["主軸負載率警示"] = value;
+            }
+        }
     }
 }
