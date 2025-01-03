@@ -259,6 +259,7 @@ namespace LoadMonitor.Components
     public void UpdateWarningThreshold(double threshold_ratio)
     {
       MaxLoadingValue = threshold_ratio * MaxLoadingValue;
+
       if(setting_name_ == null)
       {
         return;//沒有要設定的值的話，就return 掉

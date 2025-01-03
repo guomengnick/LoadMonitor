@@ -10,6 +10,10 @@ using System.Globalization;
 using HarfBuzzSharp;
 using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace LoadMonitor
 {
@@ -277,14 +281,6 @@ namespace LoadMonitor
       current_selected_thumbnail_ = clickedThumbnail;
     }
 
-    private void 設定負載顯示值ToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      // 創建設定窗體並傳入主窗體的 FlowLayoutPanel
-      var setting_form = new SettingForm(this.flowLayoutPanel1);
-
-      // 顯示設定窗體
-      setting_form.ShowDialog();
-    }
 
 
     // 方法：複製 Thumbnail 控件
@@ -305,5 +301,33 @@ namespace LoadMonitor
       return newThumbnail;
     }
 
+    private void 設置負載警示值ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+
+      // 創建背景遮罩
+      //var overlay = new Panel
+      //{
+      //  Dock = DockStyle.Fill,
+      //  BackColor = Color.FromArgb(128, 0, 0, 0), // 半透明黑色
+      //  Parent = this,
+      //  Visible = true
+      //};
+      //this.Controls.Add(overlay);
+      //overlay.BringToFront();
+
+      // 創建設定窗體並傳入母窗體的 FlowLayoutPanel
+      var setting_form = new SettingForm(this.flowLayoutPanel1)
+      {
+        Owner = this, // 設置母窗體為擁有者
+        StartPosition = FormStartPosition.CenterParent
+      };
+
+      // 顯示設定窗體
+      setting_form.ShowDialog();
+
+      // 關閉設定窗體後移除遮罩
+      //overlay.Visible = false;
+      //this.Controls.Remove(overlay);
+    }
   }
 }

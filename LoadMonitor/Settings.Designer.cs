@@ -61,7 +61,7 @@ namespace LoadMonitor {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
         public float 移載X負載率警示 {
             get {
                 return ((float)(this["移載X負載率警示"]));
@@ -73,7 +73,7 @@ namespace LoadMonitor {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
         public float 移載Y負載率警示 {
             get {
                 return ((float)(this["移載Y負載率警示"]));
@@ -97,7 +97,7 @@ namespace LoadMonitor {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
         public float 切割Y1負載率警示 {
             get {
                 return ((float)(this["切割Y1負載率警示"]));
@@ -109,7 +109,7 @@ namespace LoadMonitor {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
         public float 切割Y2負載率警示 {
             get {
                 return ((float)(this["切割Y2負載率警示"]));

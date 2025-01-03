@@ -30,8 +30,8 @@
     {
       flowLayoutPanel1 = new FlowLayoutPanel();
       panel1 = new Panel();
-      button2 = new Button();
-      button3 = new Button();
+      ButtonSaveAndClose = new Button();
+      ButtonReset = new Button();
       flowLayoutPanel1.SuspendLayout();
       SuspendLayout();
       // 
@@ -42,7 +42,7 @@
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
       flowLayoutPanel1.Location = new Point(12, 12);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
-      flowLayoutPanel1.Size = new Size(403, 475);
+      flowLayoutPanel1.Size = new Size(403, 597);
       flowLayoutPanel1.TabIndex = 0;
       flowLayoutPanel1.WrapContents = false;
       // 
@@ -54,36 +54,35 @@
       panel1.Size = new Size(374, 15);
       panel1.TabIndex = 0;
       // 
-      // button2
+      // ButtonSaveAndClose
       // 
-      button2.Location = new Point(232, 493);
-      button2.Name = "button2";
-      button2.Size = new Size(89, 27);
-      button2.TabIndex = 2;
-      button2.Text = "儲存並關閉";
-      button2.UseVisualStyleBackColor = true;
-      button2.Click += button2_Click;
+      ButtonSaveAndClose.Location = new Point(230, 615);
+      ButtonSaveAndClose.Name = "ButtonSaveAndClose";
+      ButtonSaveAndClose.Size = new Size(89, 27);
+      ButtonSaveAndClose.TabIndex = 2;
+      ButtonSaveAndClose.Text = "儲存";
+      ButtonSaveAndClose.UseVisualStyleBackColor = true;
       // 
-      // button3
+      // ButtonReset
       // 
-      button3.Location = new Point(98, 493);
-      button3.Name = "button3";
-      button3.Size = new Size(89, 27);
-      button3.TabIndex = 3;
-      button3.Text = "回覆預設";
-      button3.UseVisualStyleBackColor = true;
+      ButtonReset.Location = new Point(96, 615);
+      ButtonReset.Name = "ButtonReset";
+      ButtonReset.Size = new Size(89, 27);
+      ButtonReset.TabIndex = 3;
+      ButtonReset.Text = "回覆預設";
+      ButtonReset.UseVisualStyleBackColor = true;
       // 
       // SettingForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(424, 523);
-      Controls.Add(button3);
-      Controls.Add(button2);
+      ClientSize = new Size(424, 654);
+      Controls.Add(ButtonReset);
+      Controls.Add(ButtonSaveAndClose);
       Controls.Add(flowLayoutPanel1);
       FormBorderStyle = FormBorderStyle.FixedToolWindow;
       Name = "SettingForm";
-      Text = "SettingForm";
+      Text = "Settings";
       flowLayoutPanel1.ResumeLayout(false);
       ResumeLayout(false);
     }
@@ -91,8 +90,8 @@
     #endregion
 
     public FlowLayoutPanel flowLayoutPanel1;
-    private Button button2;
+    private Button ButtonSaveAndClose;
     private Panel panel1;
-    private Button button3;
+    private Button ButtonReset;
   }
 }
