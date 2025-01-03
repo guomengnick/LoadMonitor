@@ -121,10 +121,6 @@
   <data name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="contextMenuStrip1.TrayLocation" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.TrayHeight" type="System.Int32, mscorlib">
     <value>25</value>
@@ -1721,5 +1717,23 @@ restart now ?</value>
   </data>
   <data name="設置負載值" xml:space="preserve">
     <value>Loading Warnning Setting</value>
+  </data>
+  <data name="恢復預設" xml:space="preserve">
+    <value>Reset to default</value>
+  </data>
+  <data name="儲存" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="恢復預設ClickMsg" xml:space="preserve">
+    <value>All parts are reset to default value</value>
+  </data>
+  <data name="儲存按鈕ClickMsg" xml:space="preserve">
+    <value>Saved it!</value>
+  </data>
+  <data name="負載率警示觸發值" xml:space="preserve">
+    <value>Loading rate warning value</value>
+  </data>
+  <data name="參數設置視窗" xml:space="preserve">
+    <value>Setting form</value>
   </data>
 </root>

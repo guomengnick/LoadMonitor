@@ -91,7 +91,7 @@ namespace LoadMonitor
       menuStrip1.Dock = DockStyle.None;
       menuStrip1.ImageScalingSize = new Size(25, 25);
       menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
-      menuStrip1.Location = new Point(1072, 1);
+      menuStrip1.Location = new Point(1192, 1);
       menuStrip1.Name = "menuStrip1";
       menuStrip1.ShowItemToolTips = true;
       menuStrip1.Size = new Size(175, 33);

@@ -42,7 +42,7 @@
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
       flowLayoutPanel1.Location = new Point(12, 12);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
-      flowLayoutPanel1.Size = new Size(403, 597);
+      flowLayoutPanel1.Size = new Size(553, 597);
       flowLayoutPanel1.TabIndex = 0;
       flowLayoutPanel1.WrapContents = false;
       // 
@@ -51,32 +51,33 @@
       panel1.BackColor = Color.Transparent;
       panel1.Location = new Point(3, 3);
       panel1.Name = "panel1";
-      panel1.Size = new Size(374, 15);
+      panel1.Size = new Size(515, 20);
       panel1.TabIndex = 0;
       // 
       // ButtonSaveAndClose
       // 
-      ButtonSaveAndClose.Location = new Point(230, 615);
+      ButtonSaveAndClose.Location = new Point(300, 615);
       ButtonSaveAndClose.Name = "ButtonSaveAndClose";
-      ButtonSaveAndClose.Size = new Size(89, 27);
+      ButtonSaveAndClose.Size = new Size(115, 28);
       ButtonSaveAndClose.TabIndex = 2;
       ButtonSaveAndClose.Text = "儲存";
       ButtonSaveAndClose.UseVisualStyleBackColor = true;
       // 
       // ButtonReset
       // 
-      ButtonReset.Location = new Point(96, 615);
+      ButtonReset.Location = new Point(162, 615);
       ButtonReset.Name = "ButtonReset";
-      ButtonReset.Size = new Size(89, 27);
+      ButtonReset.Size = new Size(115, 28);
       ButtonReset.TabIndex = 3;
-      ButtonReset.Text = "回覆預設";
+      ButtonReset.Text = "恢復預設";
       ButtonReset.UseVisualStyleBackColor = true;
+      ButtonReset.Click += ButtonReset_Click;
       // 
       // SettingForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(424, 654);
+      ClientSize = new Size(569, 654);
       Controls.Add(ButtonReset);
       Controls.Add(ButtonSaveAndClose);
       Controls.Add(flowLayoutPanel1);

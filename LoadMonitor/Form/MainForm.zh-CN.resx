@@ -121,10 +121,6 @@
   <data name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="contextMenuStrip1.TrayLocation" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.TrayHeight" type="System.Int32, mscorlib">
     <value>25</value>
@@ -1719,5 +1715,23 @@
   </data>
   <data name="設置負載值" xml:space="preserve">
     <value>设置负载值</value>
+  </data>
+  <data name="恢復預設" xml:space="preserve">
+    <value>恢复预设</value>
+  </data>
+  <data name="儲存" xml:space="preserve">
+    <value>储存</value>
+  </data>
+  <data name="恢復預設ClickMsg" xml:space="preserve">
+    <value>所有部件已恢复预设值 (100%)</value>
+  </data>
+  <data name="儲存按鈕ClickMsg" xml:space="preserve">
+    <value>储存完成</value>
+  </data>
+  <data name="負載率警示觸發值" xml:space="preserve">
+    <value>负载率警示触发值</value>
+  </data>
+  <data name="參數設置視窗" xml:space="preserve">
+    <value>参数设置视窗</value>
   </data>
 </root>

@@ -23,7 +23,7 @@ namespace LoadMonitor.Components
     public bool IsSelected { get; set; }  // 是否被選中
     public double MaxLoadingValue { get; protected set; }// 最大负载值
 
-    private string setting_name_ ;
+    public string setting_name_ { get; set; }
     public MainForm MainForm { get; set; }
 
     public Thumbnail thumbnail_;
@@ -83,8 +83,10 @@ namespace LoadMonitor.Components
 
       MainTitle = name;
       //thumbnail_ = new Thumbnail(CreateThumbnail(), this);//對縮圖賦值, 給的是笛卡兒座標
+
       var image = Image.FromFile(image_path);
       thumbnail_ = new Thumbnail(image, this);//對縮圖賦值, 給機器的縮圖
+
 
       TEST.TEST.Add60EmptyData(data_);
       //TEST.TEST.AddData(data_);
@@ -202,9 +204,9 @@ namespace LoadMonitor.Components
       if (property != null)
       {
         // 獲取設定值 (默認為 100%)
-        double threshold_ratio = Convert.ToDouble(property.GetValue(Settings.Default));
+        int threshold_ratio = Convert.ToInt32(property.GetValue(Settings.Default));
         // 根據設定值更新 MaxLoadingValue
-        MaxLoadingValue = MaxLoadingValue * threshold_ratio;
+        MaxLoadingValue = MaxLoadingValue * threshold_ratio/*這裡是整數*/ / 100/*轉成百分比*/;
       }
       else
       {
@@ -256,7 +258,7 @@ namespace LoadMonitor.Components
 
 
 
-    public void UpdateWarningThreshold(double threshold_ratio)
+    public void UpdateWarningThreshold(int threshold_ratio/*%數 百分比*/)
     {
       MaxLoadingValue = threshold_ratio * MaxLoadingValue;
 
@@ -271,6 +273,7 @@ namespace LoadMonitor.Components
       {
         property.SetValue(Settings.Default, Convert.ChangeType(threshold_ratio, property.PropertyType));
         Settings.Default.Save(); // 保存修改
+        history_data_.max_value_ = MaxLoadingValue;
       }
       else
       {

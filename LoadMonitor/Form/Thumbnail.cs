@@ -18,6 +18,7 @@ using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.WinForms;
 using LoadMonitor.Components;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace LoadMonitor
@@ -51,7 +52,6 @@ namespace LoadMonitor
 
     private void InitializeForm(PartBase part_base)
     {
-
       InitializeComponent();
       unactive_color_ = this.BackColor;
 

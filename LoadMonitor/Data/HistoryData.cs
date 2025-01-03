@@ -21,7 +21,7 @@ namespace LoadMonitor.Data
     private Queue<double> one_hour_data_;    // 存储1小时数据
     private Queue<double> six_hour_data_;    // 存储6小时数据
 
-    private readonly double max_value_; // 最大值
+    public double max_value_; // 最大值
     private readonly int sample_count_; // 預設取幾筆
                                         // 构造函数，初始化两种时间范围的容量，以及最大值與預設取樣筆數
 
