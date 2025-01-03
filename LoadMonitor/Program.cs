@@ -53,13 +53,13 @@ namespace LoadMonitor
         }
 
         var is_spindle_show = 0;//主軸不顯示
-        if (args.Length > 1)
+        //if (args.Length > 1)
         {//有傳入主軸是否啟動
           // 如果有傳入的參數, 將傳入的參數轉換成 int
-          is_spindle_show = int.Parse(args[1]);
-
+          //is_spindle_show = int.Parse(args[1]);
+          is_spindle_show = 1;
           // 紀錄日誌
-          Log.Information($"傳入的主軸參數為: {args[1]}, 1為顯示主軸部件，0為不顯示");
+          //Log.Information($"傳入的主軸參數為: {args[1]}, 1為顯示主軸部件，0為不顯示");
         }
 
         // 初始化應用程序

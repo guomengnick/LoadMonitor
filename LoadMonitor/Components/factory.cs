@@ -291,17 +291,17 @@ namespace LoadMonitor.Components
       var directory_path = $@".\Doc\{machineTypeString}\";
       gam380at.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5, 
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5,
           ImagePath = $@"{directory_path}TransferRackX.png", SettingName = nameof(Settings.Default.移載X負載率警示)},
         new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4, 
           ImagePath = $@"{directory_path}TransferRackZ.png", SettingName = nameof(Settings.Default.移載Z負載率警示) },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8, 
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
           ImagePath = $@"{directory_path}CutMotorY.png" , SettingName = nameof(Settings.Default.切割Y1負載率警示)},
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9, 
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9,
           ImagePath = $@"{directory_path}CutMotorX.png" , SettingName = nameof(Settings.Default.切割X1負載率警示)},
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5, 
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5,
           ImagePath = $@"{directory_path}CutMotorZ.png" , SettingName = nameof(Settings.Default.切割Z1負載率警示)},
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5, 
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5,
           ImagePath = $@"{directory_path}TransferRackY.png", SettingName = nameof(Settings.Default.移載Y負載率警示) },
       });
       return gam380at;

@@ -92,9 +92,9 @@ namespace LoadMonitor
 
           // 確保讀到的值是 float，並進行乘以 100 的處理
           int trackBarValue;
-          if (propertyValue is float floatValue)
+          if (propertyValue is int floatValue)
           {
-            trackBarValue = Convert.ToInt32(floatValue * 100); // 將 float 轉換為 int
+            trackBarValue = floatValue; 
           }
           else
           {
@@ -168,6 +168,15 @@ namespace LoadMonitor
         {
           thumbnail.PartBase.UpdateWarningThreshold(100); // 設定為 100%
         }
+
+
+        // 遍歷所有 TrackBar 並更新其關聯的 PartBase
+        foreach (var trackBar in flowLayoutPanel1.Controls.OfType<Panel>()
+                 .SelectMany(panel => panel.Controls.OfType<System.Windows.Forms.TrackBar>()))
+        {
+          trackBar.Value = 100;
+        }
+
         MessageBox.Show(Language.GetString("恢復預設ClickMsg"));
       };
 

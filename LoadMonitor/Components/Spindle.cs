@@ -36,20 +36,20 @@ namespace LoadMonitor.Components
 
     protected AngularGauge power_;
     protected AngularGauge rpm_;
-    private ThreadTimer timer_ = new ThreadTimer(3000);
-    public Spindle(string name, 
+    private ThreadTimer timer_ = new ThreadTimer(5000);
+    public Spindle(string name,
       Panel DetailChartPanel, double max_current, SKColor chart_color, MainForm owner, string image_path, string settingName) :
       base(name, max_current, DetailChartPanel, chart_color, owner, image_path, settingName) // 主轴最大负载值为 10A
     {
       TEST.TEST.Add60EmptyData(motor_temperature_data_);
-      
+
 
       rpm_ = new AngularGauge("x10000rpm")
       {
         Dock = DockStyle.Fill,
       };
 
-      power_ = new AngularGauge("功率(kW)")
+      power_ = new AngularGauge("kW")
       {
         Dock = DockStyle.Fill,
       };
@@ -74,9 +74,9 @@ namespace LoadMonitor.Components
         {
           Dock = DockStyle.Fill,
         };
-        rpm_.SetGaugeMaxValue(10);
-        rpm_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(3.0);
       }
+      rpm_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(10.0);
+      rpm_.SetGaugeMaxValue(10);
       return rpm_;
     }
     private UserControl Power()
@@ -88,9 +88,9 @@ namespace LoadMonitor.Components
         {
           Dock = DockStyle.Fill,
         };
-        power_.SetGaugeMaxValue(10);
-        power_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(3.0);
       }
+      power_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(5.0);
+      power_.SetGaugeMaxValue(300);
       return power_;
     }
 
@@ -112,7 +112,7 @@ namespace LoadMonitor.Components
       var temperature = 80;
       return new CartesianChart
       {
-        Dock = DockStyle.Fill, 
+        Dock = DockStyle.Fill,
         XAxes = new Axis[]
         {
           new Axis
@@ -293,12 +293,12 @@ namespace LoadMonitor.Components
           string currentStr = data["Spindle"]["Current"];
           string motorTempStr = data["Spindle"]["MotorTemperature"];
           string speed = data["Spindle"]["Speed"];
-          double speedValue = int.TryParse(speed, out int rpm) ? rpm : 0;
+          double speedValue = double.TryParse(speed, out double rpm) ? rpm : 0.0;
 
           string status = data["Spindle"]["Status"];
           string internalStatus = data["Spindle"]["InternalStatus"];
           string power = data["Spindle"]["Power"];
-          double powerValue = double.TryParse(power, out double value) ? value : 0.0;
+          double powerValue = double.TryParse(power, out double value) ? value: 0.0;
 
           string busVoltage = data["Spindle"]["BusVoltage"];
           string inverterTemp = data["Spindle"]["InverterTemperature"];
@@ -321,15 +321,15 @@ namespace LoadMonitor.Components
             // 更新圖表數據
             data_.Add(new ObservableValue(motor_current));
             motor_temperature_data_.Add(new ObservableValue(motor_temperature));
-            rpm_.UpdateValue(rpm / 10000);
-            power_.UpdateValue(powerValue / 1000);
+            rpm_.UpdateValue(rpm / 10000.0);
+            power_.UpdateValue(powerValue);
             // 保持數據點數量不超過 60
             if (data_.Count > 60) data_.RemoveAt(0);
             if (motor_temperature_data_.Count > 60) motor_temperature_data_.RemoveAt(0);
             DetailInfo = $@"{Language.GetString("轉速")}:         {speedValue,6:F0} RPM    
 {Language.GetString("電流")}:          {motorCurrent.ToString("F1"),6} A
-{Language.GetString("馬達溫度")}:     {motorTemperature.ToString("F1"),6} °C
-{Language.GetString("功率")}:         {powerValue.ToString("F1"),6} kW
+{Language.GetString("馬達溫度")}:     {motorTemperature.ToString("F0"),6} °C
+{Language.GetString("功率")}:         {power} W
 {Language.GetString("匯流排電壓")}:   {busVoltageValue.ToString("F1"),6} V    
 {Language.GetString("變頻器溫度")}:   {busVoltageValue.ToString("F1"),6} °C
 ";

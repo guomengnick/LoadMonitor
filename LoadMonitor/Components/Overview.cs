@@ -227,7 +227,7 @@ namespace LoadMonitor.Components
     private AngularGauge current_watt_;
     private UserControl AverageWattPerWeekChart()
     {
-      current_watt_ = new AngularGauge($"{Language.GetString("當前功率")}(kWh)") // TODO: 給單位
+      current_watt_ = new AngularGauge($"{Language.GetString("功率")}(kWh)") // TODO: 給單位
       {
         Dock = DockStyle.Fill,
       };
@@ -296,7 +296,7 @@ namespace LoadMonitor.Components
 
 
       base.DetailInfo = detailInfo;
-      current_watt_.UpdateValue(power);
+      current_watt_.UpdateValue(averageDailyPower);
       daily_average_watt_.UpdateValue(averageDailyPower);
 
       var right_text = $@"{Language.GetString("日整機使用率")}: {average_daily_usage:F1} %

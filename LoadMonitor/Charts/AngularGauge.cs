@@ -204,6 +204,12 @@ namespace LoadMonitor
 
           return isCloseToStep ? value.ToString("0.0") : "";
         }
+
+        // 如果是整數刻度，則顯示值
+        //return value % 1 == 0 && value >= 0 && value <= max_index
+        //    ? (value * 10000).ToString("0")
+        //    : ""; // 將值顯示為 10000 的倍數
+
         return value % 1 == 0 && value >= 0 && value <= max_index ? value.ToString() : "";
       };
 

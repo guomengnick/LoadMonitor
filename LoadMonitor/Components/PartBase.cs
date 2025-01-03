@@ -14,7 +14,7 @@ using LoadMonitor.Data;
 
 namespace LoadMonitor.Components
 {
-    public abstract class PartBase : UserControl
+  public abstract class PartBase : UserControl
   {
 
     public string MainTitle { get; set; } // 主標題
@@ -54,8 +54,8 @@ namespace LoadMonitor.Components
     protected ObservableCollection<ObservableValue> data_ = new ObservableCollection<ObservableValue>();
 
     public static PartBase Create(string type, string name,
-        Panel DetailChartPanel, double max_current_value, SKColor color, 
-        MainForm owner, string image_path, string setting_name )
+        Panel DetailChartPanel, double max_current_value, SKColor color,
+        MainForm owner, string image_path, string setting_name)
     {
       return type switch
       {
@@ -68,14 +68,14 @@ namespace LoadMonitor.Components
     }
 
     public PartBase(string name,
-        double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color, 
-        MainForm owner, string image_path, string setting_name )
+        double maxLoadingValue, Panel DetailChartPanel, SKColor chart_color,
+        MainForm owner, string image_path, string setting_name)
     {
       MainForm = owner;
 
 
       MaxLoadingValue = maxLoadingValue;
-      this.setting_name_  = setting_name;
+      this.setting_name_ = setting_name;
       this.DetailChartPanel = DetailChartPanel;
 
       line_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0xee);
@@ -123,7 +123,7 @@ namespace LoadMonitor.Components
 
     public bool IsExceedingMax()
     {
-        return history_data_.IsExceedingMax();
+      return history_data_.IsExceedingMax();
     }
 
     // 获取加载百分比
@@ -135,8 +135,9 @@ namespace LoadMonitor.Components
       return currentValue / MaxLoadingValue * 100.0; // 返回百分比
     }
 
-    public double GetCurrentLoad() {
-      return data_.LastOrDefault()?.Value ?? 0.0; 
+    public double GetCurrentLoad()
+    {
+      return data_.LastOrDefault()?.Value ?? 0.0;
     }
 
     public virtual (string Summary, string DetailInfo) GetText()
@@ -172,11 +173,11 @@ namespace LoadMonitor.Components
             },
           },
         XAxes = new[] {
-          new Axis { 
+          new Axis {
             MinLimit = 0,
             MaxLimit = 60,
-            IsVisible = false, 
-          } 
+            IsVisible = false,
+          }
         }, // 隐藏 X 轴
         YAxes = new[] { new Axis { IsVisible = false,
           SeparatorsPaint = null, MinLimit = 0, MaxLimit = Math.Ceiling(MaxLoadingValue * 3), } }, // 隐藏 Y 轴
@@ -192,7 +193,7 @@ namespace LoadMonitor.Components
       if (maxLoadingValue <= 0)
         throw new ArgumentException("MaxLoadingValue must be greater than 0.");
 
-      if(setting_name_ == null)
+      if (setting_name_ == null)
       {
         MaxLoadingValue = maxLoadingValue;
         return;
@@ -224,12 +225,30 @@ namespace LoadMonitor.Components
       return $@"{MainTitle} {Language.GetString("電機保養提醒文字")}";
     }
 
+
+    //取最新的5筆做平均
+    virtual public double AverageData(double motor_current)
+    {
+      //return motor_current;
+      // 獲取最近 5 筆數據
+      var recentValues = data_.Skip(Math.Max(0, data_.Count - 5)).Select(value => value.Value).ToList();
+      // 計算平均值
+      double average = recentValues.Any() ? recentValues.Average().GetValueOrDefault() : 0;
+
+      // 可以根據需求對 `motor_current` 和 `average` 進行操作
+      double finalValue = (motor_current + average) / 2; // 例如：取平均值
+      return finalValue;
+    }
+
     /// <summary>
     /// 更新組件數據，並通知派生類更新詳細頁面
     /// </summary>
     virtual public void Update(double motor_current)
     {
+      motor_current = AverageData(motor_current);
       data_.Add(new ObservableValue(motor_current));
+      // 將計算後的值加入到 data_
+
       if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
 
       history_data_.AddDataPoint(motor_current);
@@ -248,37 +267,35 @@ namespace LoadMonitor.Components
 
     private double GetWarningThreshold()//獲取此部件的"報警提示%數"
     {
-      var property = Settings.Default.GetType().GetProperty(setting_name_ );
+      var property = Settings.Default.GetType().GetProperty(setting_name_);
       if (property != null)
       {
         return Convert.ToDouble(property.GetValue(Settings.Default));
       }
-      throw new ArgumentException($"設定名稱 {setting_name_ } 無效！");
+      throw new ArgumentException($"設定名稱 {setting_name_} 無效！");
     }
 
 
 
-    public void UpdateWarningThreshold(int threshold_ratio/*%數 百分比*/)
+    public void UpdateWarningThreshold(int threshold_ratio/*%數*/)
     {
-      MaxLoadingValue = threshold_ratio * MaxLoadingValue;
 
-      if(setting_name_ == null)
+      if (setting_name_ == null)
       {
         return;//沒有要設定的值的話，就return 掉
       }
 
       // 同步更新 Settings.Default
-      var property = Settings.Default.GetType().GetProperty(setting_name_ );
-      if (property != null)
+      var property = Settings.Default.GetType().GetProperty(setting_name_);
+      if (property == null)
       {
-        property.SetValue(Settings.Default, Convert.ChangeType(threshold_ratio, property.PropertyType));
-        Settings.Default.Save(); // 保存修改
-        history_data_.max_value_ = MaxLoadingValue;
+        return;
       }
-      else
-      {
-        throw new ArgumentException($"設定名稱 {setting_name_ } 無效！");
-      }
+
+      MaxLoadingValue *= (Convert.ToDouble(threshold_ratio) / 100.0/*轉成 0~1 的倍數*/);
+      property.SetValue(Settings.Default, Convert.ChangeType(threshold_ratio, property.PropertyType));
+      Settings.Default.Save(); // 保存修改
+      history_data_.max_value_ = MaxLoadingValue;
     }
 
 

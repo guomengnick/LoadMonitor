@@ -26,7 +26,7 @@ namespace LoadMonitor
 
 
 
-    private System.Timers.Timer update_timer_ = new System.Timers.Timer(1000);
+    private System.Timers.Timer update_timer_ = new System.Timers.Timer(200);
     private Communication.Manager communication_manager_;
 
     private Overview? overview_;
@@ -42,7 +42,7 @@ namespace LoadMonitor
       communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
 
       update_timer_.Elapsed += Update;//更新畫面
-      update_timer_.Interval = 1000;
+      update_timer_.Interval = 2000;
       update_timer_.Start();
     }
 
@@ -148,10 +148,11 @@ namespace LoadMonitor
           // 等效電流 = 主軸電流 × 電機電壓 / 主軸電壓
           currents[0] = motors_current + spindle_current * (48.0 / 220.0);
         }
-
+        var s = "";
         // 更新组件数据
         foreach (var key in components_.Keys.ToList()) // 使用 ToList() 遍历，避免修改集合时出错
         {
+          s += $"{key}  電流: {currents[key]}";
           if (!currents.ContainsKey(key)) continue;
 
           this.Invoke(new Action(() =>//在主線程執行
@@ -159,6 +160,7 @@ namespace LoadMonitor
             components_[key]?.Update(currents[key]);
           }));
         }
+        Log.Information(s);
 
       }
     }

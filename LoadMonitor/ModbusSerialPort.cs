@@ -103,7 +103,20 @@ namespace LoadMonitor
         var random = new Random();
         for(int i = 0; i < 30; i++)
         {
-          TEST_currents[i] = random.NextDouble() * 1;
+
+          // 生成一個 [0, 1) 的隨機值
+          double probability = random.NextDouble();
+
+          // 30% 機率執行隨機生成的值，其他則設為 1/10
+          if (probability < 0.3)
+          {
+            TEST_currents[i] = random.NextDouble() * 1; // 隨機生成值
+          }
+          else
+          {
+            TEST_currents[i] = 1.0 / 10; // 設置為 1/10
+          }
+          //TEST_currents[i] = 0.5;
         }
         return TEST_currents;
       }
