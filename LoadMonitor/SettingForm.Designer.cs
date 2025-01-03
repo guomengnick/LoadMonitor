@@ -37,17 +37,21 @@
       // 
       // flowLayoutPanel1
       // 
+      flowLayoutPanel1.AutoScroll = true;
       flowLayoutPanel1.Controls.Add(panel1);
+      flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
       flowLayoutPanel1.Location = new Point(12, 12);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
       flowLayoutPanel1.Size = new Size(403, 475);
       flowLayoutPanel1.TabIndex = 0;
+      flowLayoutPanel1.WrapContents = false;
       // 
       // panel1
       // 
+      panel1.BackColor = Color.Transparent;
       panel1.Location = new Point(3, 3);
       panel1.Name = "panel1";
-      panel1.Size = new Size(351, 16);
+      panel1.Size = new Size(374, 15);
       panel1.TabIndex = 0;
       // 
       // button2
@@ -86,7 +90,7 @@
 
     #endregion
 
-    private FlowLayoutPanel flowLayoutPanel1;
+    public FlowLayoutPanel flowLayoutPanel1;
     private Button button2;
     private Panel panel1;
     private Button button3;

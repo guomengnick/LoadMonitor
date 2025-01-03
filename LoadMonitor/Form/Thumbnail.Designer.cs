@@ -37,7 +37,7 @@
       trackBar1 = new TrackBar();
       WarnRatioLabel = new Label();
       LabelLoadingWarnning = new Label();
-      label3 = new Label();
+      LabelRatio = new Label();
       panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
       SuspendLayout();
@@ -72,7 +72,7 @@
       ButtonRemindBell.FlatStyle = FlatStyle.Flat;
       ButtonRemindBell.ForeColor = Color.Transparent;
       ButtonRemindBell.Image = (Image)resources.GetObject("ButtonRemindBell.Image");
-      ButtonRemindBell.Location = new Point(310, 0);
+      ButtonRemindBell.Location = new Point(352, 0);
       ButtonRemindBell.Name = "ButtonRemindBell";
       ButtonRemindBell.Size = new Size(31, 37);
       ButtonRemindBell.TabIndex = 5;
@@ -98,12 +98,12 @@
       // 
       // trackBar1
       // 
-      trackBar1.Location = new Point(193, 77);
+      trackBar1.Location = new Point(239, 77);
       trackBar1.Margin = new Padding(0);
       trackBar1.Maximum = 150;
       trackBar1.Minimum = 50;
       trackBar1.Name = "trackBar1";
-      trackBar1.Size = new Size(96, 45);
+      trackBar1.Size = new Size(110, 45);
       trackBar1.TabIndex = 7;
       trackBar1.TickFrequency = 20;
       trackBar1.Value = 100;
@@ -112,7 +112,7 @@
       // WarnRatioLabel
       // 
       WarnRatioLabel.AutoSize = true;
-      WarnRatioLabel.Location = new Point(297, 81);
+      WarnRatioLabel.Location = new Point(349, 81);
       WarnRatioLabel.Margin = new Padding(0);
       WarnRatioLabel.Name = "WarnRatioLabel";
       WarnRatioLabel.Size = new Size(28, 15);
@@ -132,24 +132,24 @@
       LabelLoadingWarnning.Text = "負載警示";
       LabelLoadingWarnning.Visible = false;
       // 
-      // label3
+      // LabelRatio
       // 
-      label3.AutoSize = true;
-      label3.Location = new Point(322, 81);
-      label3.Margin = new Padding(0);
-      label3.Name = "label3";
-      label3.Size = new Size(18, 15);
-      label3.TabIndex = 10;
-      label3.Text = "%";
-      label3.Visible = false;
+      LabelRatio.AutoSize = true;
+      LabelRatio.Location = new Point(374, 81);
+      LabelRatio.Margin = new Padding(0);
+      LabelRatio.Name = "LabelRatio";
+      LabelRatio.Size = new Size(18, 15);
+      LabelRatio.TabIndex = 10;
+      LabelRatio.Text = "%";
+      LabelRatio.Visible = false;
       // 
       // Thumbnail
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(357, 109);
+      ClientSize = new Size(399, 109);
       Controls.Add(WarnRatioLabel);
-      Controls.Add(label3);
+      Controls.Add(LabelRatio);
       Controls.Add(LabelLoadingWarnning);
       Controls.Add(trackBar1);
       Controls.Add(panel1);
@@ -169,13 +169,13 @@
 
     #endregion
     private Panel PanelThumbnail;
-    private Label LabelTitle;
+    public Label LabelTitle;
     private Button ButtonRemindBell;
     private Panel panel1;
-    private Label Labelsummary;
-    private TrackBar trackBar1;
-    private Label WarnRatioLabel;
-    private Label LabelLoadingWarnning;
-    private Label label3;
+    public Label Labelsummary;
+    public TrackBar trackBar1;
+    public Label WarnRatioLabel;
+    public Label LabelLoadingWarnning;
+    public Label LabelRatio;
   }
 }

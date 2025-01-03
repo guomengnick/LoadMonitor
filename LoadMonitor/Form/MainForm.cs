@@ -279,12 +279,31 @@ namespace LoadMonitor
 
     private void 設定負載顯示值ToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      foreach(var part_base in components_)
-      {
-        part_base.Value.thumbnail_.ShowWarnningThreshold(true);
-      }
-      var setting_form = new SettingForm();
+      // 創建設定窗體並傳入主窗體的 FlowLayoutPanel
+      var setting_form = new SettingForm(this.flowLayoutPanel1);
+
+      // 顯示設定窗體
       setting_form.ShowDialog();
     }
+
+
+    // 方法：複製 Thumbnail 控件
+    private Thumbnail CloneThumbnail(Thumbnail original)
+    {
+      Image image = null;
+      var newThumbnail = new Thumbnail(image, original.PartBase)
+      {
+        TopLevel = false,
+        // 假設 Thumbnail 是一個自定義控件，複製其需要的屬性
+        Name = original.Name,
+        Size = original.Size,
+        BackColor = original.BackColor,
+        Text = original.Text // 如果有 Text 屬性
+      };
+
+      // 根據需要複製其他屬性
+      return newThumbnail;
+    }
+
   }
 }

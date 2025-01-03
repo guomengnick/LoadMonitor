@@ -17,6 +17,7 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.WinForms;
 using LoadMonitor.Components;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace LoadMonitor
@@ -29,18 +30,21 @@ namespace LoadMonitor
 
     private bool is_selected_ = false; // 新增屬性標記選中狀態
 
+    public System.Drawing.Image image_;
     public Thumbnail(CartesianChart thumbnail_chart, PartBase part_base)
     {
       thumbnail_chart.Dock = DockStyle.Fill; // 確保圖表填滿 Panel
       InitializeForm(part_base);
       PanelThumbnail.Controls.Add(thumbnail_chart);
+      image_ = new System.Drawing.Bitmap(1, 1);
     }
-
-    public Thumbnail(Image image, PartBase part_base)
+    
+    public Thumbnail(System.Drawing.Image image, PartBase part_base)
     {
       InitializeForm(part_base);
+      image_ = image;
 
-      PanelThumbnail.BackgroundImage = image;
+      PanelThumbnail.BackgroundImage = image_;
       PanelThumbnail.BackgroundImageLayout = ImageLayout.Stretch; // 確保圖片適應面板大小
     }
 
@@ -214,7 +218,7 @@ namespace LoadMonitor
     public void ShowWarnningThreshold(bool show)
     {
       LabelLoadingWarnning.Visible = show;
-      label3.Visible = show;
+      LabelRatio.Visible = show;
       WarnRatioLabel.Visible = show;
       trackBar1.Visible = show;
     }
