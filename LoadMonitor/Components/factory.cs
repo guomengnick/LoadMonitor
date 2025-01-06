@@ -78,7 +78,8 @@ namespace LoadMonitor.Components
       // 初始化基礎部件
       var parts_configs = new List<Config>
       {
-        new Config { Type = "Overview", Name = MachineTypeHelper.ToString(type), Key = 0, MaxCurrentValue = 5 ,
+        new Config { Type = "Overview", Name = $"{MachineTypeHelper.ToString(type)} {Language.GetString("整機")}", 
+            Key = 0, MaxCurrentValue = 5 ,
           ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png", },
       };
 

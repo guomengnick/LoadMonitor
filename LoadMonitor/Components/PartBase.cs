@@ -143,14 +143,23 @@ namespace LoadMonitor.Components
     public virtual (string Summary, string DetailInfo) GetText()
     {
       double current_loading = history_data_.GetAverage(TimeUnit.Seconds);
-      string summary = $"{Math.Round(current_loading * 100)}%";
+      double current_loading_1h = history_data_.GetAverage(TimeUnit.OneHour);
+      double current_loading_6h = history_data_.GetAverage(TimeUnit.SixHours);
+      string left = $@"{Language.GetString("負載")} 
+  {(int)Math.Round(CalculateLoading(current_loading))}%
+  {(int)CalculateLoading(current_loading_1h)} % / 1 hour
+  {(int)CalculateLoading(current_loading_6h)} % / 6 hours
+";
 
 
-      string detailInfo = $"{Language.GetString("電流")}: {current_loading:F1} A";
+      string right = $@"{Language.GetString("電流")} 
+  {current_loading:F1} A
+  {current_loading_1h:F1} A / 1 hour
+  {current_loading_6h:F1} A / 6 hours";
       //Log.Information($"基類:{this.GetType().Name} 更新電流");
 
 
-      return (summary, detailInfo);
+      return (left, right);
     }
 
 

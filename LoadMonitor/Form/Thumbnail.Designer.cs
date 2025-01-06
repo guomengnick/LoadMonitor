@@ -48,14 +48,14 @@
       PanelThumbnail.Location = new Point(5, 4);
       PanelThumbnail.Margin = new Padding(0);
       PanelThumbnail.Name = "PanelThumbnail";
-      PanelThumbnail.Size = new Size(119, 101);
+      PanelThumbnail.Size = new Size(110, 80);
       PanelThumbnail.TabIndex = 2;
       // 
       // LabelTitle
       // 
       LabelTitle.AutoSize = true;
       LabelTitle.Font = new Font("Microsoft JhengHei UI", 14F);
-      LabelTitle.Location = new Point(131, 7);
+      LabelTitle.Location = new Point(127, 0);
       LabelTitle.Name = "LabelTitle";
       LabelTitle.Size = new Size(71, 24);
       LabelTitle.TabIndex = 3;
@@ -83,7 +83,7 @@
       // panel1
       // 
       panel1.Controls.Add(Labelsummary);
-      panel1.Location = new Point(138, 30);
+      panel1.Location = new Point(138, 24);
       panel1.Name = "panel1";
       panel1.Size = new Size(146, 30);
       panel1.TabIndex = 6;
@@ -98,7 +98,7 @@
       // 
       // trackBar1
       // 
-      trackBar1.Location = new Point(239, 77);
+      trackBar1.Location = new Point(239, 60);
       trackBar1.Margin = new Padding(0);
       trackBar1.Maximum = 150;
       trackBar1.Minimum = 50;
@@ -112,7 +112,7 @@
       // WarnRatioLabel
       // 
       WarnRatioLabel.AutoSize = true;
-      WarnRatioLabel.Location = new Point(349, 81);
+      WarnRatioLabel.Location = new Point(349, 68);
       WarnRatioLabel.Margin = new Padding(0);
       WarnRatioLabel.Name = "WarnRatioLabel";
       WarnRatioLabel.Size = new Size(28, 15);
@@ -125,7 +125,7 @@
       // 
       LabelLoadingWarnning.AccessibleRole = AccessibleRole.ToolBar;
       LabelLoadingWarnning.AutoSize = true;
-      LabelLoadingWarnning.Location = new Point(127, 81);
+      LabelLoadingWarnning.Location = new Point(127, 65);
       LabelLoadingWarnning.Name = "LabelLoadingWarnning";
       LabelLoadingWarnning.Size = new Size(55, 15);
       LabelLoadingWarnning.TabIndex = 9;
@@ -135,7 +135,7 @@
       // LabelRatio
       // 
       LabelRatio.AutoSize = true;
-      LabelRatio.Location = new Point(374, 81);
+      LabelRatio.Location = new Point(374, 69);
       LabelRatio.Margin = new Padding(0);
       LabelRatio.Name = "LabelRatio";
       LabelRatio.Size = new Size(18, 15);
@@ -147,7 +147,7 @@
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(399, 109);
+      ClientSize = new Size(399, 86);
       Controls.Add(WarnRatioLabel);
       Controls.Add(LabelRatio);
       Controls.Add(LabelLoadingWarnning);

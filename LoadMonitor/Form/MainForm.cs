@@ -42,7 +42,7 @@ namespace LoadMonitor
       communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
 
       update_timer_.Elapsed += Update;//更新畫面
-      update_timer_.Interval = 2000;
+      update_timer_.Interval = 2500;
       update_timer_.Start();
     }
 
@@ -70,6 +70,7 @@ namespace LoadMonitor
           component.DetailForm.Dock = DockStyle.Fill; // 填充父控件
           component.DetailForm.Show(); // 顯示詳細信息
           DetailChartPanel.Controls.Add(component.DetailForm);
+          UpdatePartImage(component.thumbnail_.image_);
         }
         component.thumbnail_.TopLevel = false;         // 設置為非頂層窗口
         //component.thumbnail_.FormBorderStyle = FormBorderStyle.None; // 移除邊框，讓它像一個控件
@@ -115,12 +116,20 @@ namespace LoadMonitor
         Dictionary<int, double> currents = new Dictionary<int, double>();
         try
         {
-          currents = communication_manager_.ReadCurrents(true/*TEST*/);//較耗時, 在子線程執行
+          currents = communication_manager_.ReadCurrents(false/*TEST*/);//較耗時, 在子線程執行
         }
         catch (Exception ex)
         {
+
           Log.Error($"讀取rs485失敗，錯誤信息:{ex.Message}");
-          ShowErrorMessage($"讀取{Settings.Default.ComPort} 口失敗.");
+          string selected_port = Settings.Default.ComPort;
+
+          string message = string.Format(
+              Language.GetString("切換COM口彈窗內文"),
+              selected_port
+          );
+
+          ShowErrorMessage(message);
         }
 
 
@@ -191,6 +200,8 @@ namespace LoadMonitor
 
       COMPortToolStripMenuItem1.Text = Language.GetString("COM口設置");
       設置負載警示值ToolStripMenuItem.Text = Language.GetString("設置負載值");
+
+      關閉監控軟體ToolStripMenuItem.Text = Language.GetString("關閉監控軟體");
 
       // 定義共享的語言切換邏輯
       EventHandler action = (object? sender, EventArgs e) =>
@@ -281,6 +292,8 @@ namespace LoadMonitor
       // 設置當前縮圖的選中狀態
       clickedThumbnail.SetSelected(true);
       current_selected_thumbnail_ = clickedThumbnail;
+
+      UpdatePartImage(clickedThumbnail.image_);
     }
 
 
@@ -330,6 +343,15 @@ namespace LoadMonitor
       // 關閉設定窗體後移除遮罩
       //overlay.Visible = false;
       //this.Controls.Remove(overlay);
+    }
+
+
+
+    public void UpdatePartImage(System.Drawing.Image image)
+    {
+      //PanelPartView.Dock = DockStyle.Fill;
+      PanelPartView.BackgroundImage = image;
+      PanelPartView.BackgroundImageLayout = ImageLayout.Stretch; // 確保圖片適應面板大小
     }
   }
 }

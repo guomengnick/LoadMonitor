@@ -1662,9 +1662,6 @@
   <data name="變頻器溫度" xml:space="preserve">
     <value>变频器温度</value>
   </data>
-  <data name="當前功率" xml:space="preserve">
-    <value>当前功率</value>
-  </data>
   <data name="日功率" xml:space="preserve">
     <value>日功率</value>
   </data>
@@ -1733,5 +1730,17 @@
   </data>
   <data name="參數設置視窗" xml:space="preserve">
     <value>参数设置视窗</value>
+  </data>
+  <data name="當前功率" xml:space="preserve">
+    <value>当前功率</value>
+  </data>
+  <data name="關閉監控軟體" xml:space="preserve">
+    <value>关闭监控软体</value>
+  </data>
+  <data name="讀取COM口失敗msg" xml:space="preserve">
+    <value>读取COM  {0} 口失败</value>
+  </data>
+  <data name="負載" xml:space="preserve">
+    <value>负载</value>
   </data>
 </root>

@@ -1627,7 +1627,7 @@
     <value>Spindle</value>
   </data>
   <data name="整機" xml:space="preserve">
-    <value>System Overview</value>
+    <value>Overview</value>
   </data>
   <data name="移載" xml:space="preserve">
     <value>Transfer Rack</value>
@@ -1661,9 +1661,6 @@
   </data>
   <data name="變頻器溫度" xml:space="preserve">
     <value>Inverter Temperature</value>
-  </data>
-  <data name="當前功率" xml:space="preserve">
-    <value>Current Power</value>
   </data>
   <data name="日功率" xml:space="preserve">
     <value>Daily Power</value>
@@ -1735,5 +1732,17 @@ restart now ?</value>
   </data>
   <data name="參數設置視窗" xml:space="preserve">
     <value>Setting form</value>
+  </data>
+  <data name="當前功率" xml:space="preserve">
+    <value>Current Power</value>
+  </data>
+  <data name="關閉監控軟體" xml:space="preserve">
+    <value>Close monitoring software</value>
+  </data>
+  <data name="讀取COM口失敗msg" xml:space="preserve">
+    <value>Failed to read COM  {0} port</value>
+  </data>
+  <data name="負載" xml:space="preserve">
+    <value>Loading</value>
   </data>
 </root>

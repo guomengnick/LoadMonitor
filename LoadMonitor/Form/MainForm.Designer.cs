@@ -52,9 +52,13 @@ namespace LoadMonitor
       contextMenuStrip1 = new ContextMenuStrip(components);
       關閉監控軟體ToolStripMenuItem = new ToolStripMenuItem();
       LabelMainMessage = new Label();
+      PanelPartView = new Panel();
+      panel1 = new Panel();
+      panel2 = new Panel();
       flowLayoutPanel1.SuspendLayout();
       menuStrip1.SuspendLayout();
       contextMenuStrip1.SuspendLayout();
+      PanelPartView.SuspendLayout();
       SuspendLayout();
       // 
       // flowLayoutPanel1
@@ -62,10 +66,10 @@ namespace LoadMonitor
       flowLayoutPanel1.AutoScroll = true;
       flowLayoutPanel1.Controls.Add(DummyPanel);
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-      flowLayoutPanel1.Location = new Point(-12, 4);
+      flowLayoutPanel1.Location = new Point(2, 380);
       flowLayoutPanel1.Margin = new Padding(0);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
-      flowLayoutPanel1.Size = new Size(370, 760);
+      flowLayoutPanel1.Size = new Size(377, 390);
       flowLayoutPanel1.TabIndex = 3;
       flowLayoutPanel1.WrapContents = false;
       // 
@@ -74,13 +78,13 @@ namespace LoadMonitor
       DummyPanel.BackColor = Color.Transparent;
       DummyPanel.Location = new Point(3, 3);
       DummyPanel.Name = "DummyPanel";
-      DummyPanel.Size = new Size(346, 10);
+      DummyPanel.Size = new Size(345, 10);
       DummyPanel.TabIndex = 8;
       // 
       // DetailChartPanel
       // 
       DetailChartPanel.BackColor = Color.Transparent;
-      DetailChartPanel.Location = new Point(360, 32);
+      DetailChartPanel.Location = new Point(381, 32);
       DetailChartPanel.Name = "DetailChartPanel";
       DetailChartPanel.Size = new Size(1008, 733);
       DetailChartPanel.TabIndex = 8;
@@ -91,10 +95,10 @@ namespace LoadMonitor
       menuStrip1.Dock = DockStyle.None;
       menuStrip1.ImageScalingSize = new Size(25, 25);
       menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
-      menuStrip1.Location = new Point(1192, 1);
+      menuStrip1.Location = new Point(1343, 1);
       menuStrip1.Name = "menuStrip1";
       menuStrip1.ShowItemToolTips = true;
-      menuStrip1.Size = new Size(175, 33);
+      menuStrip1.Size = new Size(55, 33);
       menuStrip1.TabIndex = 11;
       menuStrip1.Text = "menuStrip1";
       // 
@@ -110,7 +114,7 @@ namespace LoadMonitor
       // 
       ToolStripMenuItemLanguege.DropDownItems.AddRange(new ToolStripItem[] { 簡體中文ToolStripMenuItem, 繁體中文ToolStripMenuItem, englishToolStripMenuItem });
       ToolStripMenuItemLanguege.Name = "ToolStripMenuItemLanguege";
-      ToolStripMenuItemLanguege.Size = new Size(180, 22);
+      ToolStripMenuItemLanguege.Size = new Size(140, 22);
       ToolStripMenuItemLanguege.Text = "語言";
       // 
       // 簡體中文ToolStripMenuItem
@@ -134,13 +138,13 @@ namespace LoadMonitor
       // COMPortToolStripMenuItem1
       // 
       COMPortToolStripMenuItem1.Name = "COMPortToolStripMenuItem1";
-      COMPortToolStripMenuItem1.Size = new Size(180, 22);
+      COMPortToolStripMenuItem1.Size = new Size(140, 22);
       COMPortToolStripMenuItem1.Text = "COM口設置";
       // 
       // 設置負載警示值ToolStripMenuItem
       // 
       設置負載警示值ToolStripMenuItem.Name = "設置負載警示值ToolStripMenuItem";
-      設置負載警示值ToolStripMenuItem.Size = new Size(180, 22);
+      設置負載警示值ToolStripMenuItem.Size = new Size(140, 22);
       設置負載警示值ToolStripMenuItem.Text = "設置負載值";
       設置負載警示值ToolStripMenuItem.Click += 設置負載警示值ToolStripMenuItem_Click;
       // 
@@ -171,18 +175,44 @@ namespace LoadMonitor
       LabelMainMessage.BackColor = Color.Transparent;
       LabelMainMessage.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Bold);
       LabelMainMessage.ForeColor = Color.Red;
-      LabelMainMessage.Location = new Point(386, 1);
+      LabelMainMessage.Location = new Point(417, 1);
       LabelMainMessage.Name = "LabelMainMessage";
       LabelMainMessage.Size = new Size(803, 28);
       LabelMainMessage.TabIndex = 12;
       LabelMainMessage.Text = "    ";
       LabelMainMessage.TextAlign = ContentAlignment.MiddleCenter;
       // 
+      // PanelPartView
+      // 
+      PanelPartView.Controls.Add(panel1);
+      PanelPartView.Location = new Point(1, 1);
+      PanelPartView.Name = "PanelPartView";
+      PanelPartView.Size = new Size(379, 379);
+      PanelPartView.TabIndex = 13;
+      // 
+      // panel1
+      // 
+      panel1.BackColor = SystemColors.ControlDark;
+      panel1.Location = new Point(8, 377);
+      panel1.Name = "panel1";
+      panel1.Size = new Size(366, 2);
+      panel1.TabIndex = 0;
+      // 
+      // panel2
+      // 
+      panel2.BackColor = SystemColors.ControlDark;
+      panel2.Location = new Point(381, 7);
+      panel2.Name = "panel2";
+      panel2.Size = new Size(2, 750);
+      panel2.TabIndex = 14;
+      // 
       // MainForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(1359, 766);
+      ClientSize = new Size(1390, 768);
+      Controls.Add(panel2);
+      Controls.Add(PanelPartView);
       Controls.Add(LabelMainMessage);
       Controls.Add(menuStrip1);
       Controls.Add(flowLayoutPanel1);
@@ -197,6 +227,7 @@ namespace LoadMonitor
       menuStrip1.ResumeLayout(false);
       menuStrip1.PerformLayout();
       contextMenuStrip1.ResumeLayout(false);
+      PanelPartView.ResumeLayout(false);
       ResumeLayout(false);
       PerformLayout();
     }
@@ -220,6 +251,9 @@ namespace LoadMonitor
     private ToolStripMenuItem 關閉監控軟體ToolStripMenuItem;
     private Label LabelMainMessage;
     private ToolStripMenuItem 設置負載警示值ToolStripMenuItem;
+    private Panel PanelPartView;
+    private Panel panel1;
+    private Panel panel2;
   }
 
 }

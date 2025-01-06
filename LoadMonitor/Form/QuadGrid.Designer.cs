@@ -70,9 +70,9 @@
       // 
       PanelText.Controls.Add(LeftTextBoxDetail);
       PanelText.Controls.Add(RightTextBoxDetail);
-      PanelText.Location = new Point(5, 570);
+      PanelText.Location = new Point(5, 565);
       PanelText.Name = "PanelText";
-      PanelText.Size = new Size(990, 151);
+      PanelText.Size = new Size(990, 155);
       PanelText.TabIndex = 6;
       // 
       // LeftTextBoxDetail

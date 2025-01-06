@@ -39,17 +39,18 @@ namespace LoadMonitor.Components
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]
-                {
-                    new LineSeries<ObservableValue>
-                    {
-                        Values = data_,
-                        Fill = new SolidColorPaint(base.fill_color_), // 填充颜色
-                        GeometrySize = 0, // 无点标记
-                        Stroke = new SolidColorPaint(base.line_color_, 1), // 线条颜色和粗细
-                        LineSmoothness = 0, // 无弧度
-                        
-                    },
-                },
+          {
+            new LineSeries<ObservableValue>
+            {
+              Values = data_,
+              Fill = new SolidColorPaint(base.fill_color_), // 填充颜色
+              GeometrySize = 0, // 无点标记
+              Stroke = new SolidColorPaint(base.line_color_, 1), // 线条颜色和粗细
+              LineSmoothness = 0, // 无弧度     
+            },
+          },
+        AnimationsSpeed = TimeSpan.FromMilliseconds(2500), // 设置动画持续时间为1秒
+        EasingFunction = LiveChartsCore.EasingFunctions.ExponentialOut, // 设置缓动效果
         // 設置 X 軸
         XAxes = new Axis[]
         {

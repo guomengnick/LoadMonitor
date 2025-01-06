@@ -41,21 +41,21 @@
       // 
       panel1.Location = new Point(5, 5);
       panel1.Name = "panel1";
-      panel1.Size = new Size(697, 563);
+      panel1.Size = new Size(728, 506);
       panel1.TabIndex = 0;
       // 
       // panel2
       // 
-      panel2.Location = new Point(706, 5);
+      panel2.Location = new Point(739, 1);
       panel2.Name = "panel2";
-      panel2.Size = new Size(291, 278);
+      panel2.Size = new Size(260, 260);
       panel2.TabIndex = 1;
       // 
       // panel3
       // 
-      panel3.Location = new Point(705, 289);
+      panel3.Location = new Point(740, 262);
       panel3.Name = "panel3";
-      panel3.Size = new Size(291, 278);
+      panel3.Size = new Size(260, 260);
       panel3.TabIndex = 2;
       // 
       // LeftTextBoxDetail
@@ -66,7 +66,7 @@
       LeftTextBoxDetail.Location = new Point(7, 7);
       LeftTextBoxDetail.Multiline = true;
       LeftTextBoxDetail.Name = "LeftTextBoxDetail";
-      LeftTextBoxDetail.Size = new Size(484, 145);
+      LeftTextBoxDetail.Size = new Size(484, 197);
       LeftTextBoxDetail.TabIndex = 3;
       LeftTextBoxDetail.Text = "aaaaaaaaaaaaaaaaaaa\r\niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii\r\nBBBBBBBB\r\nCCCCCCC\r\nDDDDDD\r\nEEEEEE\r\nFFFFF";
       // 
@@ -78,7 +78,7 @@
       RightTextBoxDetail.Location = new Point(497, 7);
       RightTextBoxDetail.Multiline = true;
       RightTextBoxDetail.Name = "RightTextBoxDetail";
-      RightTextBoxDetail.Size = new Size(490, 146);
+      RightTextBoxDetail.Size = new Size(490, 197);
       RightTextBoxDetail.TabIndex = 4;
       RightTextBoxDetail.Text = "RRRRR\r\nIIIII\r\nGGGGG\r\nHHHH\r\nTTTTT\r\nGGGGG";
       // 
@@ -86,9 +86,9 @@
       // 
       PanelText.Controls.Add(LeftTextBoxDetail);
       PanelText.Controls.Add(RightTextBoxDetail);
-      PanelText.Location = new Point(5, 569);
+      PanelText.Location = new Point(5, 519);
       PanelText.Name = "PanelText";
-      PanelText.Size = new Size(990, 155);
+      PanelText.Size = new Size(990, 207);
       PanelText.TabIndex = 5;
       // 
       // LeftOneRightTwo
