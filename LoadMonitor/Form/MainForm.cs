@@ -33,6 +33,9 @@ namespace LoadMonitor
     public MainForm(MachineType machine_type, int is_spindle_show)
     {
       InitializeComponent();
+
+      flowLayoutPanel1.MouseWheel += FlowLayoutPanel1_MouseWheel;
+
       LoadLanguage(machine_type);
       UpdateLanguageMenuState();
       this.FormClosed += MainFormClose;
@@ -164,15 +167,13 @@ namespace LoadMonitor
           s += $"{key}  電流: {currents[key]}";
           if (!currents.ContainsKey(key)) continue;
 
-          if (key == 1)
-            //currents[key] += 1.5;
 
           this.Invoke(new Action(() =>//在主線程執行
           {
             components_[key]?.Update(currents[key]);
           }));
         }
-        Log.Information(s);
+        //Log.Information(s);
 
       }
     }
@@ -356,5 +357,49 @@ namespace LoadMonitor
       PanelPartView.BackgroundImage = image;
       PanelPartView.BackgroundImageLayout = ImageLayout.Stretch; // 確保圖片適應面板大小
     }
+
+
+
+
+    private void FlowLayoutPanel1_MouseWheel(object sender, MouseEventArgs e)
+    {
+      // 垂直滾動：修改垂直滾動條的位置
+      flowLayoutPanel1.VerticalScroll.Value = Math.Max(
+          0,
+          Math.Min(
+              flowLayoutPanel1.VerticalScroll.Maximum,
+              flowLayoutPanel1.VerticalScroll.Value - e.Delta
+          )
+      );
+    }
+
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+      const int ScrollAmount = 20; // 每次滾動的像素量
+
+      if (keyData == Keys.Up)
+      {
+        flowLayoutPanel1.VerticalScroll.Value = Math.Max(
+            flowLayoutPanel1.VerticalScroll.Value - ScrollAmount,
+            flowLayoutPanel1.VerticalScroll.Minimum
+        );
+        return true; // 表示已處理
+      }
+      else if (keyData == Keys.Down)
+      {
+        flowLayoutPanel1.VerticalScroll.Value = Math.Min(
+            flowLayoutPanel1.VerticalScroll.Value + ScrollAmount,
+            flowLayoutPanel1.VerticalScroll.Maximum
+        );
+        return true; // 表示已處理
+      }
+
+      return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+
+
   }
+
+
 }

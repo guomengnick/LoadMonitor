@@ -68,8 +68,8 @@ namespace LoadMonitor.Components
       // 遍历组件获取负载信息
       foreach (var component in components_.Values)
       {
-        double oneHourAverage = component.history_data_.GetAverage(TimeUnit.OneHour);
-        double sixHourAverage = component.history_data_.GetAverage(TimeUnit.SixHours);
+        double oneHourAverage = component.history_data_.GetAveragePercentage(TimeUnit.OneHour);
+        double sixHourAverage = component.history_data_.GetAveragePercentage(TimeUnit.SixHours);
 
         // 添加到字符串构建器
         summaryBuilder.AppendLine(string.Format("{0,-8} | {1,10:F2}% | {2,10:F2}%",

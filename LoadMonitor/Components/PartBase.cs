@@ -104,8 +104,8 @@ namespace LoadMonitor.Components
     // 获取小时和 6 小时的平均负载信息
     public string GetLoadSummary()
     {
-      double oneHourAverage = Math.Ceiling(history_data_.GetAverage(TimeUnit.OneHour));
-      double sixHoursAverage = Math.Ceiling(history_data_.GetAverage(TimeUnit.SixHours));
+      double oneHourAverage = Math.Ceiling(history_data_.GetAveragePercentage(TimeUnit.OneHour));
+      double sixHoursAverage = Math.Ceiling(history_data_.GetAveragePercentage(TimeUnit.SixHours));
 
       if (history_data_.IsExceedingMax())
       {
@@ -142,9 +142,9 @@ namespace LoadMonitor.Components
 
     public virtual (string Summary, string DetailInfo) GetText()
     {
-      double current_loading = history_data_.GetAverage(TimeUnit.Seconds);
-      double current_loading_1h = history_data_.GetAverage(TimeUnit.OneHour);
-      double current_loading_6h = history_data_.GetAverage(TimeUnit.SixHours);
+      double current_loading = history_data_.GetAveragePercentage(TimeUnit.Seconds);
+      double current_loading_1h = history_data_.GetAveragePercentage(TimeUnit.OneHour);
+      double current_loading_6h = history_data_.GetAveragePercentage(TimeUnit.SixHours);
       string left = $@"  {Language.GetString("負載")} 
   {string.Format(Language.GetString("過去{}小時"), "1")}       {(int)Math.Round(CalculateLoading(current_loading))}%
   {string.Format(Language.GetString("過去{}小時"), "6")}       {(int)CalculateLoading(current_loading_1h)} %
@@ -154,9 +154,10 @@ namespace LoadMonitor.Components
       
 
       string right = $@"  {Language.GetString("峰值負荷")} 
-  {current_loading:F1} %
-  {current_loading_1h:F1} %
-  {current_loading_6h:F1} %";
+  {string.Format(Language.GetString("過去{}小時"), "1")}       {history_data_.GetPeakValue(TimeUnit.OneHour):F1} %
+  {string.Format(Language.GetString("過去{}小時"), "6")}       {history_data_.GetPeakValue(TimeUnit.SixHours):F1} %
+  {string.Format(Language.GetString("過去{}小時"), "24")}     {history_data_.GetPeakValue(TimeUnit.Day):F1} %
+";
       //Log.Information($"基類:{this.GetType().Name} 更新電流");
 
 
@@ -262,7 +263,7 @@ namespace LoadMonitor.Components
       if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
 
       history_data_.AddDataPoint(motor_current);
-      var current_loading = history_data_.GetAverage(TimeUnit.Seconds);
+      var current_loading = history_data_.GetAveragePercentage(TimeUnit.Seconds);
       string summary = $"{Math.Round(current_loading * 100)}%";
 
       GetLoadSummary();
@@ -270,7 +271,7 @@ namespace LoadMonitor.Components
       thumbnail_.UpdateSummary(summary);
 
       var detail_texts = UpdateDetailData();
-      //Log.Information($"detail_texts:{detail_texts}");
+      Log.Information($"部件:{MainTitle}detail_texts:{detail_texts}");
       DetailFormUpdater(detail_texts.LeftText, detail_texts.RightInfo);
     }
 

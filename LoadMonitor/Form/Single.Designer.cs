@@ -55,10 +55,12 @@
       // 
       LeftTextBoxDetail.BackColor = SystemColors.Control;
       LeftTextBoxDetail.BorderStyle = BorderStyle.None;
+      LeftTextBoxDetail.Enabled = false;
       LeftTextBoxDetail.Font = new Font("Microsoft JhengHei UI", 14F);
       LeftTextBoxDetail.Location = new Point(7, 7);
       LeftTextBoxDetail.Multiline = true;
       LeftTextBoxDetail.Name = "LeftTextBoxDetail";
+      LeftTextBoxDetail.ReadOnly = true;
       LeftTextBoxDetail.Size = new Size(484, 168);
       LeftTextBoxDetail.TabIndex = 3;
       LeftTextBoxDetail.Text = "aaaaaaaaaaaaaaaaaaa\r\niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii\r\nBBBBBBBB\r\nCCCCCCC\r\nDDDDDD\r\nEEEEEE\r\nFFFFF";
@@ -67,10 +69,12 @@
       // 
       RightTextBoxDetail.BackColor = SystemColors.Control;
       RightTextBoxDetail.BorderStyle = BorderStyle.None;
+      RightTextBoxDetail.Enabled = false;
       RightTextBoxDetail.Font = new Font("Microsoft JhengHei UI", 14F);
       RightTextBoxDetail.Location = new Point(497, 7);
       RightTextBoxDetail.Multiline = true;
       RightTextBoxDetail.Name = "RightTextBoxDetail";
+      RightTextBoxDetail.ReadOnly = true;
       RightTextBoxDetail.Size = new Size(490, 171);
       RightTextBoxDetail.TabIndex = 4;
       RightTextBoxDetail.Text = "RRRRR\r\nIIIII\r\nGGGGG\r\nHHHH\r\nTTTTT\r\nGGGGG";

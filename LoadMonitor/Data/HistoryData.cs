@@ -19,10 +19,10 @@ namespace LoadMonitor.Data
 
     private readonly int one_hour_capacity_ = 3600;  // 1小时容量
     private readonly int six_hour_capacity_ = 3600 * 6; // 6小时容量
-    private readonly int day_capacity_ = 3600 * 24; // 6小时容量
+    private readonly int day_capacity_ = 3600 * 24; // 24小时容量
     private Queue<double> one_hour_data_;    // 存储1小时数据
     private Queue<double> six_hour_data_;    // 存储6小时数据
-    private Queue<double> day_data_;    // 存储6小时数据
+    private Queue<double> day_data_;    // 存储24小时数据
 
     public double max_value_; // 最大值
     private readonly int sample_count_; // 預設取幾筆
@@ -81,20 +81,20 @@ namespace LoadMonitor.Data
     {
       return new Dictionary<TimeUnit, double>
         {
-          { TimeUnit.OneHour, GetAverage(TimeUnit.OneHour) },
-          { TimeUnit.SixHours, GetAverage(TimeUnit.SixHours) },
-          { TimeUnit.Day, GetAverage(TimeUnit.Day) },
+          { TimeUnit.OneHour, GetAveragePercentage(TimeUnit.OneHour) },
+          { TimeUnit.SixHours, GetAveragePercentage(TimeUnit.SixHours) },
+          { TimeUnit.Day, GetAveragePercentage(TimeUnit.Day) },
         };
     }
 
 
     // 使用枚举获取平均值
-    public double GetAverage(TimeUnit timeUnit)
+    public double GetAveragePercentage(TimeUnit timeUnit)
     {
       if (timeUnit == TimeUnit.Seconds)
       {
         double lastest_value = one_hour_data_.LastOrDefault(0.0);
-        return lastest_value;//返回最新的負載
+        return lastest_value / max_value_;//返回最新的負載
       }
       var dataQueue = timeUnit switch
       {
@@ -108,12 +108,8 @@ namespace LoadMonitor.Data
       {
         return 0.0;
       }
-      double sum = 0.0;
-      foreach (var value in dataQueue)
-      {
-        sum += value;
-      }
-      return sum / dataQueue.Count;
+
+      return dataQueue.Average() / max_value_;
     }
 
     // 清空数据
@@ -173,9 +169,8 @@ namespace LoadMonitor.Data
       {
         return 0.0;
       }
-
       // 計算峰值（隊列中的最大值）
-      return dataQueue.Max();
+      return dataQueue.Max() / max_value_ * 100/*%*/;
     }
   }
 }
