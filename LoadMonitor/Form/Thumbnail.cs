@@ -19,6 +19,7 @@ using LiveChartsCore.SkiaSharpView.WinForms;
 using LoadMonitor.Components;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Serilog;
 
 
 namespace LoadMonitor
@@ -131,6 +132,7 @@ namespace LoadMonitor
     {
       is_selected_ = isSelected;
       this.BackColor = isSelected ? Color.LightBlue : UnactiveColor; // 選中或未選中設定對應顏色
+      Log.Information($"{part_base_.MainTitle} 選中:{isSelected}");
     }
 
 
@@ -170,7 +172,7 @@ namespace LoadMonitor
       }
     }
 
-    private void Thumbnail_Click(object sender, EventArgs e)
+    public void Thumbnail_Click(object sender, EventArgs e)
     {
       part_base_.MainForm.OnThumbnailClicked(this);
 
@@ -183,7 +185,7 @@ namespace LoadMonitor
 
 
       var mainForm = this.FindForm() as MainForm;
-      Debug.WriteLine($"點擊 當前頁面{this.FindForm().ToString()}    副頁面:{this.FindForm().Parent.ToString()}");
+      //Debug.WriteLine($"點擊 當前頁面{this.FindForm().ToString()}    副頁面:{this.FindForm().Parent.ToString()}");
       if (mainForm != null)
       {
         mainForm.OnThumbnailClicked(this);

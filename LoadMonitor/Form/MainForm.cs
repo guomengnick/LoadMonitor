@@ -33,8 +33,7 @@ namespace LoadMonitor
     public MainForm(MachineType machine_type, int is_spindle_show)
     {
       InitializeComponent();
-
-      flowLayoutPanel1.MouseWheel += FlowLayoutPanel1_MouseWheel;
+      this.MouseWheel += MouseWheelTrigger;
 
       LoadLanguage(machine_type);
       UpdateLanguageMenuState();
@@ -62,16 +61,20 @@ namespace LoadMonitor
 
       // 將部件添加到界面
       bool add_first_detail_form = true;
+      PartBase first = null;
       foreach (var component in components_.Values)
       {
         //component.Parent = flowLayoutPanel1;
         if (add_first_detail_form)
         {// 對第一個加入的部件先顯示出詳細數據
+          first = component;
           add_first_detail_form = false;
           component.DetailChartPanel.Controls.Clear();
           component.DetailForm.TopLevel = false; // 設置為非頂層窗口
           component.DetailForm.Dock = DockStyle.Fill; // 填充父控件
           component.DetailForm.Show(); // 顯示詳細信息
+          component.thumbnail_.Thumbnail_Click(null, new EventArgs());//顯示 'active' 
+
           DetailChartPanel.Controls.Add(component.DetailForm);
           UpdatePartImage(component.thumbnail_.image_);
         }
@@ -82,7 +85,15 @@ namespace LoadMonitor
         // 将 PartInfoPanel 添加到 FlowLayoutPanel
         flowLayoutPanel1.Controls.Add(component.thumbnail_);
 
+
+        component.thumbnail_?.Thumbnail_Click(null, new EventArgs());
+        current_selected_thumbnail_ = component.thumbnail_;
       }
+
+      first?.thumbnail_?.Thumbnail_Click(null, new EventArgs());
+      current_selected_thumbnail_ = first.thumbnail_;
+      
+
     }
 
 
@@ -359,42 +370,86 @@ namespace LoadMonitor
     }
 
 
-
-
-    private void FlowLayoutPanel1_MouseWheel(object sender, MouseEventArgs e)
-    {
-      // 垂直滾動：修改垂直滾動條的位置
-      flowLayoutPanel1.VerticalScroll.Value = Math.Max(
-          0,
-          Math.Min(
-              flowLayoutPanel1.VerticalScroll.Maximum,
-              flowLayoutPanel1.VerticalScroll.Value - e.Delta
-          )
-      );
-    }
-
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
       const int ScrollAmount = 20; // 每次滾動的像素量
 
       if (keyData == Keys.Up)
       {
-        flowLayoutPanel1.VerticalScroll.Value = Math.Max(
-            flowLayoutPanel1.VerticalScroll.Value - ScrollAmount,
-            flowLayoutPanel1.VerticalScroll.Minimum
-        );
+        MoveSelection(true); // 向上移動
         return true; // 表示已處理
       }
       else if (keyData == Keys.Down)
       {
-        flowLayoutPanel1.VerticalScroll.Value = Math.Min(
-            flowLayoutPanel1.VerticalScroll.Value + ScrollAmount,
-            flowLayoutPanel1.VerticalScroll.Maximum
-        );
+        MoveSelection(false); // 向下移動
         return true; // 表示已處理
       }
 
       return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+
+
+    private void MoveSelection(bool up)
+    {
+      if (components_ == null || components_.Count == 0)
+      {
+        return; // 如果沒有元件，直接返回
+      }
+
+      // 取得目前的 keys 列表
+      var keys = components_.Keys.ToList();
+
+      // 找到目前選中的索引
+      int currentIndex = keys.IndexOf(components_.FirstOrDefault(
+          x => x.Value.thumbnail_ == current_selected_thumbnail_).Key);
+
+      // 如果目前選中不存在，則預設為第一個索引
+      if (currentIndex == -1)
+      {
+        currentIndex = 0;
+      }
+
+      // 計算新的索引
+      int newIndex;
+      if (up)
+      {
+        // 上一個（如果是第 0 個，則循環到最後一個）
+        newIndex = currentIndex == 0 ? keys.Count - 1 : currentIndex - 1;
+      }
+      else
+      {
+        // 下一個（如果是最後一個，則循環到第 0 個）
+        newIndex = currentIndex == keys.Count - 1 ? 0 : currentIndex + 1;
+      }
+
+      // 更新 current_selected_thumbnail_
+      var newKey = keys[newIndex];
+      var component = components_[newKey];
+
+      // 觸發 Thumbnail_Click 事件
+      component.thumbnail_?.Thumbnail_Click(null, new EventArgs());
+      current_selected_thumbnail_ = component.thumbnail_;
+
+      // 滾動到對應的控件
+      if (flowLayoutPanel1.Controls.Contains(component.thumbnail_))
+      {
+        flowLayoutPanel1.ScrollControlIntoView(component.thumbnail_);
+      }
+    }
+
+
+
+    private void MouseWheelTrigger(object sender, MouseEventArgs e)
+    {
+      if (e.Delta > 0) // 滾輪向上
+      {
+        MoveSelection(true); // 上一個
+      }
+      else if (e.Delta < 0) // 滾輪向下
+      {
+        MoveSelection(false); // 下一個
+      }
     }
 
 

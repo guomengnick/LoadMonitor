@@ -271,7 +271,7 @@ namespace LoadMonitor.Components
       thumbnail_.UpdateSummary(summary);
 
       var detail_texts = UpdateDetailData();
-      Log.Information($"部件:{MainTitle}detail_texts:{detail_texts}");
+      //Log.Information($"部件:{MainTitle}detail_texts:{detail_texts}");
       DetailFormUpdater(detail_texts.LeftText, detail_texts.RightInfo);
     }
 
