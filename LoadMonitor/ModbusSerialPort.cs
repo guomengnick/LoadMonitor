@@ -108,13 +108,13 @@ namespace LoadMonitor
           double probability = random.NextDouble();
 
           // 30% 機率執行隨機生成的值，其他則設為 1/10
-          if (probability < 0.3)
+          if (probability < 0)
           {
             TEST_currents[i] = random.NextDouble() * 1; // 隨機生成值
           }
           else
           {
-            TEST_currents[i] = 1.0 / 10; // 設置為 1/10
+            TEST_currents[i] = 0.1 + random.NextDouble() / 18; // 設置為 1/10
           }
           //TEST_currents[i] = 0.5;
         }

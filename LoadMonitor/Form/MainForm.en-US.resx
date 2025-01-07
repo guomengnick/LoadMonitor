@@ -1745,4 +1745,13 @@ restart now ?</value>
   <data name="負載" xml:space="preserve">
     <value>Loading</value>
   </data>
+  <data name="當前" xml:space="preserve">
+    <value>Now</value>
+  </data>
+  <data name="過去{}小時" xml:space="preserve">
+    <value>Past {0} hour</value>
+  </data>
+  <data name="峰值負荷" xml:space="preserve">
+    <value>Peak Load</value>
+  </data>
 </root>

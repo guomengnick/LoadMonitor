@@ -1745,4 +1745,13 @@
   <data name="負載" xml:space="preserve">
     <value>負載</value>
   </data>
+  <data name="當前" xml:space="preserve">
+    <value>當前</value>
+  </data>
+  <data name="過去{}小時" xml:space="preserve">
+    <value>過去 {0} 小時</value>
+  </data>
+  <data name="峰值負荷" xml:space="preserve">
+    <value>峰值負荷</value>
+  </data>
 </root>

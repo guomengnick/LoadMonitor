@@ -47,12 +47,12 @@ namespace LoadMonitor
       Series = GaugeGenerator.BuildAngularGaugeSections(
         new GaugeItem(50, s =>
         {
-          s.Fill = new SolidColorPaint(0xff12ff75); // 藍色
+          s.Fill = new SolidColorPaint(0xff2bf211); // 藍色
           SetStyle(sectionsOuter, sectionsWidth, s);
         }),
         new GaugeItem(30, s =>
         {
-          s.Fill = new SolidColorPaint(0xfffffa20); // 紅色
+          s.Fill = new SolidColorPaint(0xffffff05); // 黃色
           SetStyle(sectionsOuter, sectionsWidth, s);
         }),
         new GaugeItem(20, s =>
@@ -214,24 +214,24 @@ namespace LoadMonitor
       };
 
 
-      var sectionsOuter = 0;//顏色固定的寬度
-      var sectionsWidth = 7;
+      var sectionsOuter = -5;//顏色固定的寬度
+      var sectionsWidth = 11;
 
       // 計算每個區域的比例值
       viewModel_.Series = GaugeGenerator.BuildAngularGaugeSections(
           new GaugeItem(max_index * 0.6, s => // 60% 的範圍 (3/5 * max_index)
           {
-            s.Fill = new SolidColorPaint(0xf012ff75); // 藍色
+            s.Fill = new SolidColorPaint(0xff22ff05); // 綠色
             ViewModel.SetStyle(sectionsOuter, sectionsWidth, s);
           }),
           new GaugeItem(max_index * 0.2, s => // 20% 的範圍 (1/5 * max_index)
           {
-            s.Fill = new SolidColorPaint(0xf0fafa20); // 紅色
+            s.Fill = new SolidColorPaint(0xfffbff05); // 黃色
             ViewModel.SetStyle(sectionsOuter, sectionsWidth, s);
           }),
           new GaugeItem(max_index * 0.2, s => // 20% 的範圍 (1/5 * max)
           {
-            s.Fill = new SolidColorPaint(0xf0f75273); // 紅色
+            s.Fill = new SolidColorPaint(0xffff0505); // 紅色
             ViewModel.SetStyle(sectionsOuter, sectionsWidth, s);
           })
       );

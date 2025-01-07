@@ -13,13 +13,16 @@ namespace LoadMonitor.Data
     {
       Seconds,
       OneHour,
-      SixHours
+      SixHours,
+      Day
     }
 
     private readonly int one_hour_capacity_ = 3600;  // 1小时容量
     private readonly int six_hour_capacity_ = 3600 * 6; // 6小时容量
+    private readonly int day_capacity_ = 3600 * 24; // 6小时容量
     private Queue<double> one_hour_data_;    // 存储1小时数据
     private Queue<double> six_hour_data_;    // 存储6小时数据
+    private Queue<double> day_data_;    // 存储6小时数据
 
     public double max_value_; // 最大值
     private readonly int sample_count_; // 預設取幾筆
@@ -32,6 +35,7 @@ namespace LoadMonitor.Data
 
       one_hour_data_ = new Queue<double>(one_hour_capacity_);
       six_hour_data_ = new Queue<double>(six_hour_capacity_);
+      day_data_ = new Queue<double>(day_capacity_);
 
     }
 
@@ -51,6 +55,13 @@ namespace LoadMonitor.Data
         six_hour_data_.Dequeue(); // 移除最旧数据
       }
       six_hour_data_.Enqueue(value);
+
+      // 添加到24小时队列
+      if (day_data_.Count >= day_capacity_)
+      {
+        day_data_.Dequeue(); // 移除最旧数据
+      }
+      day_data_.Enqueue(value);
     }
 
     // 使用枚举获取所有历史数据点
@@ -60,6 +71,7 @@ namespace LoadMonitor.Data
       {
         TimeUnit.OneHour => new List<double>(one_hour_data_),
         TimeUnit.SixHours => new List<double>(six_hour_data_),
+        TimeUnit.Day => new List<double>(day_data_),
         _ => throw new ArgumentOutOfRangeException(nameof(timeUnit), "Unsupported TimeUnit.")
       };
     }
@@ -70,7 +82,8 @@ namespace LoadMonitor.Data
       return new Dictionary<TimeUnit, double>
         {
           { TimeUnit.OneHour, GetAverage(TimeUnit.OneHour) },
-          { TimeUnit.SixHours, GetAverage(TimeUnit.SixHours) }
+          { TimeUnit.SixHours, GetAverage(TimeUnit.SixHours) },
+          { TimeUnit.Day, GetAverage(TimeUnit.Day) },
         };
     }
 
@@ -81,12 +94,13 @@ namespace LoadMonitor.Data
       if (timeUnit == TimeUnit.Seconds)
       {
         double lastest_value = one_hour_data_.LastOrDefault(0.0);
-        return lastest_value / max_value_;//返回最新的負載率
+        return lastest_value;//返回最新的負載
       }
       var dataQueue = timeUnit switch
       {
         TimeUnit.OneHour => one_hour_data_,
         TimeUnit.SixHours => six_hour_data_,
+        TimeUnit.Day => day_data_,
         _ => throw new ArgumentOutOfRangeException(nameof(timeUnit), "Unsupported TimeUnit.")
       };
 
@@ -94,7 +108,6 @@ namespace LoadMonitor.Data
       {
         return 0.0;
       }
-
       double sum = 0.0;
       foreach (var value in dataQueue)
       {
@@ -108,6 +121,7 @@ namespace LoadMonitor.Data
     {
       one_hour_data_.Clear();
       six_hour_data_.Clear();
+      day_data_.Clear();
     }
 
 
@@ -140,6 +154,28 @@ namespace LoadMonitor.Data
     {
       one_hour_data_.Clear();
       six_hour_data_.Clear();
+      day_data_.Clear();
+    }
+
+    public double GetPeakValue(TimeUnit timeUnit)
+    {
+      // 根據時間單位選擇對應的數據隊列
+      var dataQueue = timeUnit switch
+      {
+        TimeUnit.OneHour => one_hour_data_,
+        TimeUnit.SixHours => six_hour_data_,
+        TimeUnit.Day => day_data_,
+        _ => throw new ArgumentOutOfRangeException(nameof(timeUnit), "Unsupported TimeUnit.")
+      };
+
+      // 如果數據隊列為空，返回 0.0 作為默認值
+      if (dataQueue.Count == 0)
+      {
+        return 0.0;
+      }
+
+      // 計算峰值（隊列中的最大值）
+      return dataQueue.Max();
     }
   }
 }

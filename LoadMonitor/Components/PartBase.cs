@@ -145,17 +145,18 @@ namespace LoadMonitor.Components
       double current_loading = history_data_.GetAverage(TimeUnit.Seconds);
       double current_loading_1h = history_data_.GetAverage(TimeUnit.OneHour);
       double current_loading_6h = history_data_.GetAverage(TimeUnit.SixHours);
-      string left = $@"{Language.GetString("負載")} 
-  {(int)Math.Round(CalculateLoading(current_loading))}%
-  {(int)CalculateLoading(current_loading_1h)} % / 1 hour
-  {(int)CalculateLoading(current_loading_6h)} % / 6 hours
+      string left = $@"  {Language.GetString("負載")} 
+  {string.Format(Language.GetString("過去{}小時"), "1")}       {(int)Math.Round(CalculateLoading(current_loading))}%
+  {string.Format(Language.GetString("過去{}小時"), "6")}       {(int)CalculateLoading(current_loading_1h)} %
+  {string.Format(Language.GetString("過去{}小時"), "24")}     {(int)CalculateLoading(current_loading_6h)} %
 ";
 
+      
 
-      string right = $@"{Language.GetString("電流")} 
-  {current_loading:F1} A
-  {current_loading_1h:F1} A / 1 hour
-  {current_loading_6h:F1} A / 6 hours";
+      string right = $@"  {Language.GetString("峰值負荷")} 
+  {current_loading:F1} %
+  {current_loading_1h:F1} %
+  {current_loading_6h:F1} %";
       //Log.Information($"基類:{this.GetType().Name} 更新電流");
 
 

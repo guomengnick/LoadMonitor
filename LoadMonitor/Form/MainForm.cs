@@ -42,7 +42,7 @@ namespace LoadMonitor
       communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
 
       update_timer_.Elapsed += Update;//更新畫面
-      update_timer_.Interval = 2500;
+      update_timer_.Interval = 1000;
       update_timer_.Start();
     }
 
@@ -116,7 +116,7 @@ namespace LoadMonitor
         Dictionary<int, double> currents = new Dictionary<int, double>();
         try
         {
-          currents = communication_manager_.ReadCurrents(false/*TEST*/);//較耗時, 在子線程執行
+          currents = communication_manager_.ReadCurrents(true/*TEST*/);//較耗時, 在子線程執行
         }
         catch (Exception ex)
         {
@@ -163,6 +163,9 @@ namespace LoadMonitor
         {
           s += $"{key}  電流: {currents[key]}";
           if (!currents.ContainsKey(key)) continue;
+
+          if (key == 1)
+            //currents[key] += 1.5;
 
           this.Invoke(new Action(() =>//在主線程執行
           {
