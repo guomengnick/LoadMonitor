@@ -10,6 +10,7 @@ using SkiaSharp;
 using static LoadMonitor.Data.HistoryData;
 using Serilog;
 using LoadMonitor.Data;
+using System.Xml.Linq;
 
 
 namespace LoadMonitor.Components
@@ -213,17 +214,20 @@ namespace LoadMonitor.Components
 
       // 讀取設定值 (報警百分比)
       var property = Settings.Default.GetType().GetProperty(setting_name_);
+      int threshold_ratio = -1;
       if (property != null)
       {
         // 獲取設定值 (默認為 100%)
-        int threshold_ratio = Convert.ToInt32(property.GetValue(Settings.Default));
+        threshold_ratio = Convert.ToInt32(property.GetValue(Settings.Default));
         // 根據設定值更新 MaxLoadingValue
         MaxLoadingValue = MaxLoadingValue * threshold_ratio/*這裡是整數*/ / 100/*轉成百分比*/;
       }
       else
       {
-        //throw new ArgumentException($"設定名稱 {setting_name_} 無效！");
+        //throw new ArgumentException($"設定名稱 {setting_name_} 無效！"); 
       }
+      Log.Information($@"{MainTitle}, 最大值:{maxLoadingValue}, 警示值:{MaxLoadingValue},{MachineTypeHelper.ToString((MachineType)Settings.Default.MachineType)}({Settings.Default.MachineType}), 參數:{setting_name_}");
+
     }
 
 

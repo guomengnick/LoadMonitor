@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LoadMonitor.Communication
 {
 
-  internal class Manager
+    internal class Manager
   {
     private ModbusSerialPort modbus_serial_port_;
 

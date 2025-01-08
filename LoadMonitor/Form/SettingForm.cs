@@ -139,6 +139,19 @@ namespace LoadMonitor
           trackBar.ValueChanged += (s, e) => warnRatioLabel.Text = trackBar.Value.ToString();
 
           thumbnailPanel.Controls.Add(warnRatioLabel);
+
+          // 顯示警告比例值 (warnRatioLabel)
+          var persentageLabel = new Label
+          {
+            Text = $"%",
+            AutoSize = true,
+            Font = new Font("Arial", 10, FontStyle.Regular),
+            Location = new Point(
+                  warnRatioLabel.Location.X + warnRatioLabel.Width, // TrackBar 的右側 10px
+                  warnRatioLabelText.Location.Y
+              )
+          };
+          thumbnailPanel.Controls.Add(persentageLabel);
         }
 
 

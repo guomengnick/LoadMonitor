@@ -70,7 +70,7 @@ namespace LoadMonitor.Components
       }
     }
 
-    private const double kSafetyFactor = 1.0;// 安全係數
+    private const double kSafetyFactor = 2.0;// 安全係數
     public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel, MachineType type, int is_spindle_show, MainForm owner)
     {
       Dictionary<int, PartBase> parts = new Dictionary<int, PartBase>();
