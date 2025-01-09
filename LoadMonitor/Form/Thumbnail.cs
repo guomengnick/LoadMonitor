@@ -40,7 +40,16 @@ namespace LoadMonitor
       PanelThumbnail.Controls.Add(thumbnail_chart);
       image_ = new System.Drawing.Bitmap(1, 1);
     }
-    
+
+    public Thumbnail(CartesianChart thumbnail_chart, System.Drawing.Image image, PartBase part_base)
+    {
+      thumbnail_chart.Dock = DockStyle.Fill; // 確保圖表填滿 Panel
+      InitializeForm(part_base);
+      PanelThumbnail.Controls.Add(thumbnail_chart);
+      image_ = image;
+    }
+
+
     public Thumbnail(System.Drawing.Image image, PartBase part_base)
     {
       InitializeForm(part_base);

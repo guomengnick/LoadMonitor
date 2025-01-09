@@ -83,10 +83,10 @@ namespace LoadMonitor.Components
       fill_color_ = new SKColor(chart_color.Red, chart_color.Green, chart_color.Blue, 0x60);
 
       MainTitle = name;
-      //thumbnail_ = new Thumbnail(CreateThumbnail(), this);//對縮圖賦值, 給的是笛卡兒座標
 
       var image = Image.FromFile(image_path);
       thumbnail_ = new Thumbnail(image, this);//對縮圖賦值, 給機器的縮圖
+      thumbnail_ = new Thumbnail(CreateThumbnail(), image, this);//對縮圖賦值, 給的是笛卡兒座標
 
 
       TEST.TEST.Add60EmptyData(data_);

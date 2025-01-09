@@ -40,7 +40,7 @@
       flowLayoutPanel1.AutoScroll = true;
       flowLayoutPanel1.Controls.Add(panel1);
       flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-      flowLayoutPanel1.Location = new Point(12, 12);
+      flowLayoutPanel1.Location = new Point(64, 12);
       flowLayoutPanel1.Name = "flowLayoutPanel1";
       flowLayoutPanel1.Size = new Size(553, 597);
       flowLayoutPanel1.TabIndex = 0;
@@ -56,7 +56,7 @@
       // 
       // ButtonSaveAndClose
       // 
-      ButtonSaveAndClose.Location = new Point(300, 615);
+      ButtonSaveAndClose.Location = new Point(352, 615);
       ButtonSaveAndClose.Name = "ButtonSaveAndClose";
       ButtonSaveAndClose.Size = new Size(115, 28);
       ButtonSaveAndClose.TabIndex = 2;
@@ -65,7 +65,7 @@
       // 
       // ButtonReset
       // 
-      ButtonReset.Location = new Point(162, 615);
+      ButtonReset.Location = new Point(214, 615);
       ButtonReset.Name = "ButtonReset";
       ButtonReset.Size = new Size(115, 28);
       ButtonReset.TabIndex = 3;
@@ -77,7 +77,8 @@
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
-      ClientSize = new Size(569, 654);
+      BackColor = SystemColors.ControlDark;
+      ClientSize = new Size(675, 654);
       Controls.Add(ButtonReset);
       Controls.Add(ButtonSaveAndClose);
       Controls.Add(flowLayoutPanel1);

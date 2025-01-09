@@ -339,7 +339,9 @@ namespace LoadMonitor.Components
             quad_grid_form_.UpdateText(DetailInfo, right_text);
 
             // 更新 SubTitle
-            double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
+            //double latestValue = data_.Last().Value ?? 0.0; // 获取最新数据
+            double latestValue = data_.Any() ? (data_.Last()?.Value ?? 0.0) : 0.0;
+
             double loading = CalculateLoading(latestValue); // 计算负载百分比
             SubTitle = $"{loading:F1} % | {speedValue:F0} RPM";
 

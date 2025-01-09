@@ -44,7 +44,7 @@ namespace LoadMonitor
       communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
 
       update_timer_.Elapsed += Update;//更新畫面
-      update_timer_.Interval = 2500;
+      update_timer_.Interval = 500;
       update_timer_.Start();
     }
 
