@@ -180,7 +180,7 @@ namespace LoadMonitor.Components
               Values = data_,
               Fill = new SolidColorPaint(fill_color_), // 填充颜色
               GeometrySize = 0, // 无点标记
-              Stroke = new SolidColorPaint(line_color_, 1), // 线条颜色和粗细
+              Stroke = new SolidColorPaint(line_color_, 3), // 线条颜色和粗细
               LineSmoothness = 0, // 无弧度
             },
           },

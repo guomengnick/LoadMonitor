@@ -30,28 +30,55 @@ namespace LoadMonitor
     private Communication.Manager communication_manager_;
 
     private Overview? overview_;
-    public MainForm(MachineType machine_type, int is_spindle_show)
+    public MainForm(MachineType machine_type, string spindle_ini_path)
     {
       InitializeComponent();
       this.MouseWheel += MouseWheelTrigger;
+      communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
 
       LoadLanguage(machine_type);
       UpdateLanguageMenuState();
       this.FormClosed += MainFormClose;
       this.FormClosing += MainForm_FormClosing;
-      InitializePart(machine_type, is_spindle_show);
+      InitializePart(machine_type, spindle_ini_path);
 
-      communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
 
       update_timer_.Elapsed += Update;//更新畫面
-      update_timer_.Interval = 500;
-      update_timer_.Start();
+      update_timer_.Interval = 5000;
+
+      if (Read485Value())
+      {
+        update_timer_.Start();//如果COM口沒有設置的話，就不要啟動
+      }
+      else
+      {
+        ShowErrorMessage(Language.GetString("請選擇電流"));
+        update_timer_.Interval = 60000;//一樣啟動，但就是數值都給0
+      }
     }
 
-    private void InitializePart(MachineType machine_type, int is_spindle_show)
+    public bool Read485Value()
+    {
+      // 檢查選單中是否有 Checked 的子項目
+      var selected_item = COMPortToolStripMenuItem1.DropDownItems
+          .OfType<ToolStripMenuItem>()
+          .FirstOrDefault(item => item.Checked);
+
+      // 如果沒有選中任何項目，則認為未選擇
+      if (selected_item == null)
+      {
+        return false;
+      }
+
+      // 檢查選中的項目是否為 "未選擇"
+      return selected_item.Text != Language.GetString("未選擇");
+
+    }
+
+    private void InitializePart(MachineType machine_type, string spindle_ini_path)
     {
       var factory = new Factory();
-      components_ = factory.CreateComponents(DetailChartPanel, machine_type, is_spindle_show, this/*傳入主控件*/);
+      components_ = factory.CreateComponents(DetailChartPanel, machine_type, spindle_ini_path, this/*傳入主控件*/);
       if (components_.ContainsKey(0) && components_[0] is Overview overview)
       {
         overview_ = overview;
@@ -92,7 +119,7 @@ namespace LoadMonitor
 
       first?.thumbnail_?.Thumbnail_Click(null, new EventArgs());
       current_selected_thumbnail_ = first.thumbnail_;
-      
+
 
     }
 
@@ -130,7 +157,8 @@ namespace LoadMonitor
         Dictionary<int, double> currents = new Dictionary<int, double>();
         try
         {
-          currents = communication_manager_.ReadCurrents(false/*TEST*/);//較耗時, 在子線程執行
+          //較耗時, 在子線程執行
+          currents = communication_manager_.ReadCurrents(Read485Value()/*是否讀取485，若沒選擇，則不讀取*/);
         }
         catch (Exception ex)
         {
@@ -217,6 +245,8 @@ namespace LoadMonitor
       設置負載警示值ToolStripMenuItem.Text = Language.GetString("設置負載值");
 
       關閉監控軟體ToolStripMenuItem.Text = Language.GetString("關閉監控軟體");
+
+      未選擇ToolStripMenuItem.Text = Language.GetString("未選擇");
 
       // 定義共享的語言切換邏輯
       EventHandler action = (object? sender, EventArgs e) =>

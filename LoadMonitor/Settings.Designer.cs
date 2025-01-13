@@ -178,5 +178,17 @@ namespace LoadMonitor {
                 this["主軸負載率警示"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string 主軸參數檔案位置 {
+            get {
+                return ((string)(this["主軸參數檔案位置"]));
+            }
+            set {
+                this["主軸參數檔案位置"] = value;
+            }
+        }
     }
 }

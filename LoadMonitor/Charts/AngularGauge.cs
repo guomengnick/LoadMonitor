@@ -153,7 +153,7 @@ namespace LoadMonitor
         MaxAngle = 270,
         MinValue = 0,
         MaxValue = 100,
-        //AnimationsSpeed = TimeSpan.Zero,
+        AnimationsSpeed = TimeSpan.Zero,
         // out of livecharts properties...
         //Location = new System.Drawing.Point(0, 0),
         Size = new System.Drawing.Size(10, 10),
@@ -165,11 +165,11 @@ namespace LoadMonitor
       var panelWidth = pie_chart_.Width; // 獲取 Panel 的寬度
       var panelHeight = pie_chart_.Height; // 獲取 Panel 的高度
       // 初始化定时器
-      var updateTimer_ = new FormsTimer
-      {
-        Interval = 900
-      };
-      updateTimer_.Tick += (object? sender, EventArgs e) => viewModel_.DoRandomChange(_random.Next(15, 25));
+      //var updateTimer_ = new FormsTimer
+      //{
+      //  Interval = 900
+      //};
+      //updateTimer_.Tick += (object? sender, EventArgs e) => viewModel_.DoRandomChange(_random.Next(15, 25));
       //updateTimer_.Start();
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,10 @@ namespace LoadMonitor.Communication
     public void InitializeComPorts(ToolStripMenuItem com_port_menu_item)
     {
       com_port_menu_item.DropDownItems.Clear();
-      List<string> available_ports = System.IO.Ports.SerialPort.GetPortNames().ToList();
+
+      // 獲取所有可用的 COM 埠並在最前面添加 "未選擇"
+      List<string> available_ports = new List<string> { Language.GetString("未選擇") };
+      available_ports.AddRange(System.IO.Ports.SerialPort.GetPortNames());
 
       foreach (string port in available_ports)
       {
@@ -69,8 +73,11 @@ namespace LoadMonitor.Communication
       // 如果當前 COM 埠存在，初始化 Modbus 埠
       if (!string.IsNullOrEmpty(Settings.Default.ComPort))
       {
+        Serilog.Log.Information($"預設COM口 {Settings.Default.ComPort}，初始化");
         InitializeModbusPort(Settings.Default.ComPort);
       }
+      var sss = com_port_menu_item.Text;
+
     }
 
 

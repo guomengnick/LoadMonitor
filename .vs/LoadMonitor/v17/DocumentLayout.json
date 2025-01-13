@@ -1,13 +1,37 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\VisualStudioProgram\\LoadMonitor\\",
+  "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\LoadMonitor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\form\\thumbnail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\thumbnail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\visualstudioprogram\\loadmonitor\\loadmonitor\\components\\partbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\communication\\modbusserialport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\communication\\modbusserialport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\communication\\manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\communication\\manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\form\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\components\\spindle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\spindle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\components\\factory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\factory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|c:\\users\\user\\source\\repos\\loadmonitor\\loadmonitor\\components\\partbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{143D8F20-15D2-45E1-A7DD-BF6A8A24F185}|LoadMonitor\\LoadMonitor.csproj|solutionrelative:loadmonitor\\components\\partbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -18,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,28 +54,105 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Thumbnail.cs",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\Thumbnail.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Form\\Thumbnail.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Form\\Thumbnail.cs",
-              "RelativeToolTip": "LoadMonitor\\Form\\Thumbnail.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAIA9wC8AAAAtAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "ModbusSerialPort.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Communication\\ModbusSerialPort.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Communication\\ModbusSerialPort.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Communication\\ModbusSerialPort.cs",
+              "RelativeToolTip": "LoadMonitor\\Communication\\ModbusSerialPort.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABwAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-09T05:12:24.179Z",
+              "WhenOpened": "2025-01-13T09:33:11.379Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PartBase.cs",
-              "DocumentMoniker": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Components\\PartBase.cs",
-              "RelativeDocumentMoniker": "LoadMonitor\\Components\\PartBase.cs",
-              "ToolTip": "C:\\VisualStudioProgram\\LoadMonitor\\LoadMonitor\\Components\\PartBase.cs",
-              "RelativeToolTip": "LoadMonitor\\Components\\PartBase.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAowFgAAAAgAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "factory.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\factory.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Components\\factory.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\factory.cs",
+              "RelativeToolTip": "LoadMonitor\\Components\\factory.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAlwFcAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T09:21:42.595Z",
+              "WhenOpened": "2025-01-13T07:27:43.871Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Settings.settings",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Settings.settings",
+              "RelativeDocumentMoniker": "LoadMonitor\\Settings.settings",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Settings.settings",
+              "RelativeToolTip": "LoadMonitor\\Settings.settings",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
+              "WhenOpened": "2025-01-13T07:25:51.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Manager.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Communication\\Manager.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Communication\\Manager.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Communication\\Manager.cs",
+              "RelativeToolTip": "LoadMonitor\\Communication\\Manager.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAADwv1cAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-13T04:03:26.199Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Program.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Program.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Program.cs",
+              "RelativeToolTip": "LoadMonitor\\Program.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAIA5wA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-13T03:32:56.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "PartBase.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\PartBase.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Components\\PartBase.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\PartBase.cs",
+              "RelativeToolTip": "LoadMonitor\\Components\\PartBase.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAmwFkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-13T03:14:25.72Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Spindle.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\Spindle.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Components\\Spindle.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Components\\Spindle.cs",
+              "RelativeToolTip": "LoadMonitor\\Components\\Spindle.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAAwDsAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-13T03:08:35.17Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
+              "RelativeDocumentMoniker": "LoadMonitor\\Form\\MainForm.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\Form\\MainForm.cs",
+              "RelativeToolTip": "LoadMonitor\\Form\\MainForm.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAADwvyQAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-13T02:52:43.225Z",
               "EditorCaption": ""
             }
           ]

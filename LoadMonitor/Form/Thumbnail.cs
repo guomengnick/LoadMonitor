@@ -75,20 +75,20 @@ namespace LoadMonitor
 
 
       part_base_ = part_base;
-      var read_current_timer_ = new System.Timers.Timer(200);
-      bool isHighlighted = false; // 用于切换状态
-      read_current_timer_.Elapsed += (object? sender, ElapsedEventArgs e) =>
-      {
-        // 切换背景颜色
-        if (part_base.thumbnail_ != null)
-        {
-          part_base.thumbnail_.Invoke(new Action(() =>
-          {
-            part_base.thumbnail_.BackColor = isHighlighted ? Color.LightGreen : Color.LightPink;
-            isHighlighted = !isHighlighted; // 切换状态
-          }));
-        }
-      };
+      //var read_current_timer_ = new System.Timers.Timer(200);
+      //bool isHighlighted = false; // 用于切换状态
+      //read_current_timer_.Elapsed += (object? sender, ElapsedEventArgs e) =>
+      //{
+      //  // 切换背景颜色
+      //  if (part_base.thumbnail_ != null)
+      //  {
+      //    part_base.thumbnail_.Invoke(new Action(() =>
+      //    {
+      //      part_base.thumbnail_.BackColor = isHighlighted ? Color.LightGreen : Color.LightPink;
+      //      isHighlighted = !isHighlighted; // 切换状态
+      //    }));
+      //  }
+      //};
 
       // 启动定时器
 

@@ -71,7 +71,7 @@ namespace LoadMonitor.Components
     }
 
     private const double kSafetyFactor = 2.0;// 安全係數
-    public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel, MachineType type, int is_spindle_show, MainForm owner)
+    public Dictionary<int, PartBase> CreateComponents(Panel DetailChartPanel, MachineType type, string spindle_ini_path, MainForm owner)
     {
       Dictionary<int, PartBase> parts = new Dictionary<int, PartBase>();
 
@@ -83,8 +83,11 @@ namespace LoadMonitor.Components
           ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png", },
       };
 
-      if (is_spindle_show != 0/*不顯示主軸部件*/)
+      if (spindle_ini_path != ""/*為空的話就不顯示主軸部件*/)
       {
+        Settings.Default.主軸參數檔案位置 = spindle_ini_path;
+        Settings.Default.Save();
+
         parts_configs.Add(new Config
         {
           Type = "Spindle",

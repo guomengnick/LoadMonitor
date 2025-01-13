@@ -31,7 +31,7 @@ namespace LoadMonitor.Components
 {
   internal class Spindle : PartBase
   {
-    private string ini_path_ = "spindle_info.ini";
+    private string ini_path_;
     protected ObservableCollection<ObservableValue> motor_temperature_data_ = new ObservableCollection<ObservableValue>();
 
     protected AngularGauge power_;
@@ -42,7 +42,7 @@ namespace LoadMonitor.Components
       base(name, max_current, DetailChartPanel, chart_color, owner, image_path, settingName) // 主轴最大负载值为 10A
     {
       TEST.TEST.Add60EmptyData(motor_temperature_data_);
-
+      ini_path_ = Settings.Default.主軸參數檔案位置;
 
       rpm_ = new AngularGauge("x10000rpm")
       {
@@ -55,7 +55,10 @@ namespace LoadMonitor.Components
       };
 
       timer_.Elapsed += TimerElapsed;
-      timer_.Start();
+      if (ini_path_ != "" && File.Exists(ini_path_))
+      {
+        timer_.Start();//若有開啟讀取RS485功能，才ON起timer
+      }
     }
 
     private QuadGrid quad_grid_form_ = new QuadGrid();

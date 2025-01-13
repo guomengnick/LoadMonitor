@@ -1752,4 +1752,10 @@
   <data name="峰值負荷" xml:space="preserve">
     <value>峰值负荷</value>
   </data>
+  <data name="未選擇" xml:space="preserve">
+    <value>未选择</value>
+  </data>
+  <data name="請選擇電流" xml:space="preserve">
+    <value>若有安装感测器，请选择感测器COM口</value>
+  </data>
 </root>

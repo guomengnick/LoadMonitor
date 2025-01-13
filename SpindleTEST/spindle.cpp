@@ -334,27 +334,18 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
 // ---------------------------------------------------------------------------
 
 
-	#include <System.IOUtils.hpp>
+#include <System.IOUtils.hpp>
+
 void LaunchLoadMonitor()
 {
 
 	UnicodeString exe =
-			L"C:\Users\\user\\source\\repos\\LoadMonitor\\LoadMonitor\\bin\\Debug\\net8.0-windows\\LoadMonitor.exe";
-	exe = ".\\LoadMonitor\\LoadMonitor.exe";
-	exe = ExtractFilePath(Application->ExeName) + "LoadMonitor.exe";
-  exe = "C:\\Program1\\GAM320AT\\LoadMonitor\\LoadMonitor.exe";
+			TPath::Combine(TPath::GetFullPath("C:\\Program1\\GAM320AT\\Gam320\\..\\bin\\"),
+			"..\\LoadMonitor\\LoadMonitor.exe");
 
+	UnicodeString modelType = L"5%" + ExtractFilePath(Application->ExeName) +
+			L"\\Ini\\spindle_info.ini";
 
-
-String kMonitorExePath = TPath::Combine(TPath::GetFullPath("C:\\Program1\\GAM320AT\\Gam320\\..\\bin\\"), "..\\LoadMonitor\\LoadMonitor.exe");
-//kMonitorExePath = TPath::Canonicalize(kMonitorExePath);
-	 exe =              kMonitorExePath;
-
-	UnicodeString modelType = L"GAM330";
-	modelType = L"GAM330";
-	modelType = L"GAM336AD";
-	modelType = L"GAM380AT";
-  modelType = "";
 	// 判斷文件是否存在
 	if (!FileExists(exe))
 	{
@@ -365,15 +356,15 @@ String kMonitorExePath = TPath::Combine(TPath::GetFullPath("C:\\Program1\\GAM320
 	Log(L"未啟動監控軟件，手動啟動，啟動位置:" + exe);
 
 	HINSTANCE hInst = ShellExecute(NULL, /* 父視窗句柄 */ L"open", /* 操作類型：打開 */ exe.c_str(),
-			/* 可執行文件 */ modelType.c_str(), /* 命令行參數 */ NULL, /* 工作目錄 */ SW_SHOWMINIMIZED  /* 視窗顯示方式 */);
+			/* 可執行文件 */ modelType.c_str(), /* 命令行參數 */ NULL, /* 工作目錄 */ SW_SHOWMINIMIZED /* 視窗顯示方式 */);
 
 	if (reinterpret_cast<int>(hInst) > 32)
 	{
-		// Log(INFO,)
+		Log(reinterpret_cast<int>(hInst));
 	}
 	else
 	{
-		// Log(ERROR,
+		Log(reinterpret_cast<int>(hInst));
 	}
 }
 
@@ -412,4 +403,3 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 
 }
 // ---------------------------------------------------------------------------
-

@@ -1754,4 +1754,10 @@ restart now ?</value>
   <data name="峰值負荷" xml:space="preserve">
     <value>Peak Load</value>
   </data>
+  <data name="未選擇" xml:space="preserve">
+    <value>Not selected</value>
+  </data>
+  <data name="請選擇電流" xml:space="preserve">
+    <value>If a sensor is installed, please select the sensor COM port.</value>
+  </data>
 </root>

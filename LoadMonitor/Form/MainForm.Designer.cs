@@ -55,6 +55,7 @@ namespace LoadMonitor
       PanelPartView = new Panel();
       panel1 = new Panel();
       panel2 = new Panel();
+      未選擇ToolStripMenuItem = new ToolStripMenuItem();
       flowLayoutPanel1.SuspendLayout();
       menuStrip1.SuspendLayout();
       contextMenuStrip1.SuspendLayout();
@@ -95,10 +96,10 @@ namespace LoadMonitor
       menuStrip1.Dock = DockStyle.None;
       menuStrip1.ImageScalingSize = new Size(25, 25);
       menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
-      menuStrip1.Location = new Point(1343, 1);
+      menuStrip1.Location = new Point(1145, 1);
       menuStrip1.Name = "menuStrip1";
       menuStrip1.ShowItemToolTips = true;
-      menuStrip1.Size = new Size(55, 33);
+      menuStrip1.Size = new Size(175, 33);
       menuStrip1.TabIndex = 11;
       menuStrip1.Text = "menuStrip1";
       // 
@@ -114,7 +115,7 @@ namespace LoadMonitor
       // 
       ToolStripMenuItemLanguege.DropDownItems.AddRange(new ToolStripItem[] { 簡體中文ToolStripMenuItem, 繁體中文ToolStripMenuItem, englishToolStripMenuItem });
       ToolStripMenuItemLanguege.Name = "ToolStripMenuItemLanguege";
-      ToolStripMenuItemLanguege.Size = new Size(140, 22);
+      ToolStripMenuItemLanguege.Size = new Size(180, 22);
       ToolStripMenuItemLanguege.Text = "語言";
       // 
       // 簡體中文ToolStripMenuItem
@@ -137,14 +138,15 @@ namespace LoadMonitor
       // 
       // COMPortToolStripMenuItem1
       // 
+      COMPortToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { 未選擇ToolStripMenuItem });
       COMPortToolStripMenuItem1.Name = "COMPortToolStripMenuItem1";
-      COMPortToolStripMenuItem1.Size = new Size(140, 22);
+      COMPortToolStripMenuItem1.Size = new Size(180, 22);
       COMPortToolStripMenuItem1.Text = "COM口設置";
       // 
       // 設置負載警示值ToolStripMenuItem
       // 
       設置負載警示值ToolStripMenuItem.Name = "設置負載警示值ToolStripMenuItem";
-      設置負載警示值ToolStripMenuItem.Size = new Size(140, 22);
+      設置負載警示值ToolStripMenuItem.Size = new Size(180, 22);
       設置負載警示值ToolStripMenuItem.Text = "設置負載值";
       設置負載警示值ToolStripMenuItem.Click += 設置負載警示值ToolStripMenuItem_Click;
       // 
@@ -206,6 +208,12 @@ namespace LoadMonitor
       panel2.Size = new Size(2, 750);
       panel2.TabIndex = 14;
       // 
+      // 未選擇ToolStripMenuItem
+      // 
+      未選擇ToolStripMenuItem.Name = "未選擇ToolStripMenuItem";
+      未選擇ToolStripMenuItem.Size = new Size(180, 22);
+      未選擇ToolStripMenuItem.Text = "未選擇";
+      // 
       // MainForm
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
@@ -254,6 +262,7 @@ namespace LoadMonitor
     private Panel PanelPartView;
     private Panel panel1;
     private Panel panel2;
+    private ToolStripMenuItem 未選擇ToolStripMenuItem;
   }
 
 }
