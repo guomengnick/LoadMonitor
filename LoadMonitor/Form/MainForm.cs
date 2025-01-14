@@ -26,7 +26,7 @@ namespace LoadMonitor
 
 
 
-    private System.Timers.Timer update_timer_ = new System.Timers.Timer(200);
+    public System.Timers.Timer update_timer_ = new System.Timers.Timer(5000);
     private Communication.Manager communication_manager_;
 
     private Overview? overview_;
@@ -44,8 +44,6 @@ namespace LoadMonitor
 
 
       update_timer_.Elapsed += Update;//更新畫面
-      update_timer_.Interval = 5000;
-
       if (Read485Value())
       {
         update_timer_.Start();//如果COM口沒有設置的話，就不要啟動

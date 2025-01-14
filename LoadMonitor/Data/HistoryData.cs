@@ -17,9 +17,9 @@ namespace LoadMonitor.Data
       Day
     }
 
-    private readonly int one_hour_capacity_ = 3600;  // 1小时容量
-    private readonly int six_hour_capacity_ = 3600 * 6; // 6小时容量
-    private readonly int day_capacity_ = 3600 * 24; // 24小时容量
+    private readonly int one_hour_capacity_;  // 1小时容量
+    private readonly int six_hour_capacity_; // 6小时容量
+    private readonly int day_capacity_; // 24小时容量
     private Queue<double> one_hour_data_;    // 存储1小时数据
     private Queue<double> six_hour_data_;    // 存储6小时数据
     private Queue<double> day_data_;    // 存储24小时数据
@@ -27,16 +27,23 @@ namespace LoadMonitor.Data
     public double max_value_; // 最大值
     private readonly int sample_count_; // 預設取幾筆
                                         // 构造函数，初始化两种时间范围的容量，以及最大值與預設取樣筆數
+    private readonly double read_interval_; // 預設取幾筆
 
-    public HistoryData(double maxValue, int sample_count = 3)
+    public HistoryData(double maxValue, int sample_count, double read_interval)
     {
       max_value_ = maxValue;
       sample_count_ = sample_count;
+      read_interval_ = read_interval;
 
+      // 根據讀取間隔計算各時間段的容量
+      double interval_in_seconds = read_interval_ / 1000.0;
+      one_hour_capacity_ = (int)(3600 / interval_in_seconds);
+      six_hour_capacity_ = (int)(3600 * 6 / interval_in_seconds);
+      day_capacity_ = (int)(3600 * 24 / interval_in_seconds);
+      
       one_hour_data_ = new Queue<double>(one_hour_capacity_);
       six_hour_data_ = new Queue<double>(six_hour_capacity_);
       day_data_ = new Queue<double>(day_capacity_);
-
     }
 
     // 添加新的数据点
