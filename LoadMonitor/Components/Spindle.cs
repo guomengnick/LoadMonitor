@@ -78,7 +78,7 @@ namespace LoadMonitor.Components
           Dock = DockStyle.Fill,
         };
       }
-      rpm_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(10.0);
+      rpm_.pie_chart_.AnimationsSpeed = TimeSpan.FromMilliseconds(5000);
       rpm_.SetGaugeMaxValue(10);
       return rpm_;
     }
@@ -92,7 +92,7 @@ namespace LoadMonitor.Components
           Dock = DockStyle.Fill,
         };
       }
-      power_.pie_chart_.AnimationsSpeed = TimeSpan.FromSeconds(5.0);
+      power_.pie_chart_.AnimationsSpeed = TimeSpan.FromMilliseconds(5000);
       power_.SetGaugeMaxValue(300);
       return power_;
     }
@@ -324,6 +324,8 @@ namespace LoadMonitor.Components
             // 更新圖表數據
             data_.Add(new ObservableValue(motor_current));
             motor_temperature_data_.Add(new ObservableValue(motor_temperature));
+            TrimCollection(motor_temperature_data_);
+
             rpm_.UpdateValue(rpm / 10000.0);
             power_.UpdateValue(powerValue);
             // 保持數據點數量不超過 60

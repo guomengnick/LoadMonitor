@@ -11,6 +11,7 @@ using static LoadMonitor.Data.HistoryData;
 using Serilog;
 using LoadMonitor.Data;
 using System.Xml.Linq;
+using Microsoft.VisualBasic;
 
 
 namespace LoadMonitor.Components
@@ -85,7 +86,7 @@ namespace LoadMonitor.Components
       MainTitle = name;
 
       var image = Image.FromFile(image_path);
-      thumbnail_ = new Thumbnail(image, this);//對縮圖賦值, 給機器的縮圖
+      //thumbnail_ = new Thumbnail(image, this);//對縮圖賦值, 給機器的縮圖
       thumbnail_ = new Thumbnail(CreateThumbnail(), image, this);//對縮圖賦值, 給的是笛卡兒座標
 
 
@@ -95,7 +96,8 @@ namespace LoadMonitor.Components
       IsSelected = false;
 
       Initialize(maxLoadingValue);
-      history_data_ = new HistoryData(maxLoadingValue, 6/*每個部件都預設取3筆就好*/);
+      history_data_ = new HistoryData(maxLoadingValue, 6/*每個部件都預設取6筆就好*/, 
+        MainForm.update_timer_.Interval/*讀取頻率*/);
       //對此部件更新色彩
       GetDetailForm();
     }
@@ -184,6 +186,7 @@ namespace LoadMonitor.Components
               LineSmoothness = 0, // 无弧度
             },
           },
+        AnimationsSpeed = TimeSpan.FromMilliseconds(5000), // 设置动画持续时间为1秒
         XAxes = new[] {
           new Axis {
             MinLimit = 0,
@@ -254,6 +257,13 @@ namespace LoadMonitor.Components
       double finalValue = (motor_current + average) / 2; // 例如：取平均值
       return finalValue;
     }
+    protected void TrimCollection(ObservableCollection<ObservableValue> collection)
+    {
+      while (collection.Count > 60)
+      {
+        collection.RemoveAt(0);
+      }
+    }
 
     /// <summary>
     /// 更新組件數據，並通知派生類更新詳細頁面
@@ -264,7 +274,7 @@ namespace LoadMonitor.Components
       data_.Add(new ObservableValue(motor_current));
       // 將計算後的值加入到 data_
 
-      if (data_.Count > 60) data_.RemoveAt(0); // 限制最多 60 个点
+      TrimCollection(data_);
 
       history_data_.AddDataPoint(motor_current);
       var current_loading = history_data_.GetAveragePercentage(TimeUnit.Seconds);

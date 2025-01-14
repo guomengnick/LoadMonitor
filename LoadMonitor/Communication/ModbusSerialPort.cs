@@ -26,7 +26,7 @@ namespace LoadMonitor.Communication
     // 初始化串口
     private void Initialize(string portName)
     {
-      
+
       int baudRate = 9600, dataBits = 8;
       Parity parity = Parity.None;
       StopBits stopBits = StopBits.One;
@@ -107,18 +107,7 @@ namespace LoadMonitor.Communication
           // 生成一個 [0, 1) 的隨機值
           double probability = random.NextDouble();
 
-          // 30% 機率執行隨機生成的值，其他則設為 1/10
-          if (probability < 0)
-          {
-            //TEST_currents[i] = random.NextDouble() * 1; // 隨機生成值
-            TEST_currents[i] = 0.0;
-          }
-          else
-          {
-            //TEST_currents[i] = 0.1 + random.NextDouble() / 18; // 設置為 1/10
-            TEST_currents[i] = 0.0;
-          }
-          //TEST_currents[i] = 0.5;
+          TEST_currents[i] = 0.1 + random.NextDouble() / 10;
         }
         return TEST_currents;
       }
