@@ -100,7 +100,7 @@ namespace LoadMonitor.Components
             {
               SKTypeface = SKFontManager.Default.MatchCharacter('汉') // 設定中文字體
             }, // 標籤顏色
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) // 分隔線顏色
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray), // 分隔線顏色
           }
         },
         DrawMargin = new LiveChartsCore.Measure.Margin(20, 30, 5, 15),//設定 左、上、右、下 的邊界大小

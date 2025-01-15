@@ -26,7 +26,7 @@ namespace LoadMonitor
 
 
 
-    public System.Timers.Timer update_timer_ = new System.Timers.Timer(5000);
+    public System.Timers.Timer update_timer_ = new System.Timers.Timer(500);
     private Communication.Manager communication_manager_;
 
     private Overview? overview_;
@@ -46,12 +46,15 @@ namespace LoadMonitor
       update_timer_.Elapsed += Update;//更新畫面
       if (Read485Value())
       {
+        Log.Information("開始讀取RS485");
         update_timer_.Start();//如果COM口沒有設置的話，就不要啟動
       }
       else
       {
+        Log.Information("不讀取RS485");
         ShowErrorMessage(Language.GetString("請選擇電流"));
-        update_timer_.Interval = 60000;//一樣啟動，但就是數值都給0
+        update_timer_.Interval = 200;//一樣啟動，但就是數值都給0
+        update_timer_.Start();//如果COM口沒有設置的話，就不要啟動
       }
     }
 
@@ -156,7 +159,8 @@ namespace LoadMonitor
         try
         {
           //較耗時, 在子線程執行
-          currents = communication_manager_.ReadCurrents(Read485Value()/*是否讀取485，若沒選擇，則不讀取*/);
+          bool test_mode = !Read485Value();
+          currents = communication_manager_.ReadCurrents(test_mode/*是否讀取485，若沒選擇，則不讀取*/);
         }
         catch (Exception ex)
         {
@@ -204,7 +208,10 @@ namespace LoadMonitor
           s += $"{key}  電流: {currents[key]}";
           if (!currents.ContainsKey(key)) continue;
 
-
+          if(key == 1)
+          {
+            currents[key] += 1.5;
+          }
           this.Invoke(new Action(() =>//在主線程執行
           {
             components_[key]?.Update(currents[key]);

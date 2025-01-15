@@ -107,7 +107,7 @@ namespace LoadMonitor.Communication
           // 生成一個 [0, 1) 的隨機值
           double probability = random.NextDouble();
 
-          TEST_currents[i] = 0.1 + random.NextDouble() / 10;
+          TEST_currents[i] = 0.1 + random.NextDouble() /0.5;
         }
         return TEST_currents;
       }

@@ -94,7 +94,7 @@ namespace LoadMonitor.Components
           Name = Language.GetString("主軸"),
           Key = 17,
           MaxCurrentValue = 2,
-          ImagePath = $@".\Doc\Spindle.png"
+          ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Spindle.png"
         });
       }
 
@@ -231,6 +231,15 @@ namespace LoadMonitor.Components
       });
       return gam330d;
     }
+
+
+    /// <summary>
+    /// 以下是在線機
+    /// </summary>
+    /// <returns></returns>
+
+
+
 
     private IEnumerable<Config> Create330AT()// 330:4個電機軸 + 2 = 總共6個電機軸
     {
