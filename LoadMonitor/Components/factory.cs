@@ -18,6 +18,7 @@ namespace LoadMonitor.Components
 
   public static class MachineTypeHelper
   {
+
     private static readonly Dictionary<MachineType, string> machineTypeMap = new Dictionary<MachineType, string>
     {
         { MachineType.GAM320AT, "GAM320AT" }, { MachineType.GAM330AT, "GAM330AT" },
@@ -78,7 +79,7 @@ namespace LoadMonitor.Components
       // 初始化基礎部件
       var parts_configs = new List<Config>
       {
-        new Config { Type = "Overview", Name = $"{MachineTypeHelper.ToString(type)} {Language.GetString("整機")}", 
+        new Config { Type = "Overview", Name = $"{MachineTypeHelper.ToString(type)} {Language.GetString("整機")}",
             Key = 0, MaxCurrentValue = 5 ,
           ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png", },
       };
@@ -98,50 +99,51 @@ namespace LoadMonitor.Components
         });
       }
 
+      var directory_path = $@".\Doc\{MachineTypeHelper.ToString(type)}\";
 
       // 根據機型類型動態加入特定部件
       switch (type)
       {
         //離線機
         case MachineType.GAM310:
-          parts_configs.AddRange(Create310());//320 一樣創建330
+          parts_configs.AddRange(Create310(directory_path));//320 一樣創建330
           break;
         case MachineType.GAM320:
-          parts_configs.AddRange(Create310());//320 一樣創建330
+          parts_configs.AddRange(Create310(directory_path));//320 一樣創建330
           break;
         case MachineType.GAM330:
-          parts_configs.AddRange(Create330());
+          parts_configs.AddRange(Create330(directory_path));
           break;
         case MachineType.GAM330D:
-          parts_configs.AddRange(Create330D());
+          parts_configs.AddRange(Create330D(directory_path));
           break;
         case MachineType.GAM386:
-          parts_configs.AddRange(Create386());
+          parts_configs.AddRange(Create386(directory_path));
           break;
 
 
         //在線機Series
 
         case MachineType.GAM300AT:
-          parts_configs.AddRange(Create300AT());
+          parts_configs.AddRange(Create300AT(directory_path));
           break;
         case MachineType.GAM310AT://沒有移載旋轉軸的336AT，因為沒有監測移載 sita,所以沿用336AT
-          parts_configs.AddRange(Create336AT());
+          parts_configs.AddRange(Create336AT(directory_path));
           break;
 
 
         //   330AT series
         case MachineType.GAM320AT:
-          parts_configs.AddRange(Create330AT());//320AT也是創建330AT
+          parts_configs.AddRange(Create330AT(directory_path));//320AT也是創建330AT
           break;
         case MachineType.GAM330AT:
-          parts_configs.AddRange(Create330AT());
+          parts_configs.AddRange(Create330AT(directory_path));
           break;
         case MachineType.GAM330AD:
-          parts_configs.AddRange(Create330AD());
+          parts_configs.AddRange(Create330AD(directory_path));
           break;
         case MachineType.GAM360AT:
-          parts_configs.AddRange(Create330AT());//360AT也是創建330AT
+          parts_configs.AddRange(Create330AT(directory_path));//360AT也是創建330AT
           break;
 
 
@@ -152,15 +154,15 @@ namespace LoadMonitor.Components
 
         //   336 series
         case MachineType.GAM336AT:
-          parts_configs.AddRange(Create336AT());
+          parts_configs.AddRange(Create336AT(directory_path));
           break;
         case MachineType.GAM336AD:
-          parts_configs.AddRange(Create336AD());
+          parts_configs.AddRange(Create336AD(directory_path));
           break;
 
         // 380 series
         case MachineType.GAM380AT:
-          parts_configs.AddRange(Create385AT());
+          parts_configs.AddRange(Create385AT(directory_path));
           break;
         //case MachineType.GAM386AT:
         //  parts_configs.AddRange(Create386AT());
@@ -186,51 +188,81 @@ namespace LoadMonitor.Components
 
 
 
-    private IEnumerable<Config> Create300AT()//只有切割軸在移動，XYZ的移動
+
+
+
+
+
+    /// <summary>
+    /// 以下是離線機
+    /// </summary>
+    /// <returns></returns>
+
+
+
+    //300、310、320A 都是只有XYZ 電機
+    private IEnumerable<Config> Create310(string directory_path)//只有切割軸在移動，XYZ的移動
     {
       return new Config[]
       {
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5 }
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9,
+      ImagePath = $@"{directory_path}CutMotorX1.png", SettingName = nameof(Settings.Default.切割X1負載率警示) },
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
+      ImagePath = $@"{directory_path}CutMotorY1.png", SettingName = nameof(Settings.Default.切割Y1負載率警示) },
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5,
+      ImagePath = $@"{directory_path}CutMotorZ1.png", SettingName = nameof(Settings.Default.切割Z1負載率警示) }
       };
     }
 
 
-    private IEnumerable<Config> Create310()//只有切割軸在移動，XYZ的移動
+
+    private IEnumerable<Config> Create330(string directory_path)//總共4個電機軸
     {
       return new Config[]
       {
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9},
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5 }
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9,
+      ImagePath = $@"{directory_path}CutMotorX1.png", SettingName = nameof(Settings.Default.切割X1負載率警示) },
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8,
+      ImagePath = $@"{directory_path}CutMotorY1.png", SettingName = nameof(Settings.Default.切割Y1負載率警示) },
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y2", Key = 4, MaxCurrentValue = 1.8,
+      ImagePath = $@"{directory_path}CutMotorY2.png", SettingName = nameof(Settings.Default.切割Y2負載率警示) },
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5,
+      ImagePath = $@"{directory_path}CutMotorZ1.png", SettingName = nameof(Settings.Default.切割Z1負載率警示) }
       };
     }
 
 
-
-    private IEnumerable<Config> Create330()//總共4個電機軸
-    {
-      return new Config[]
-      {
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9},
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y2", Key = 4, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5 }
-      };
-    }
-
-
-    private IEnumerable<Config> Create330D()
+    private IEnumerable<Config> Create330D(string directory_path)
     {
       List<Config> gam330d = new List<Config>();
-      gam330d.AddRange(Create330());
+      gam330d.AddRange(Create330($@".\Doc\{MachineTypeHelper.ToString(MachineType.GAM330)}\"));
+
       gam330d.AddRange(new Config[]
       {
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z2", Key = 8, MaxCurrentValue = 0.5 }
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X2", Key = 7, MaxCurrentValue = 1.9,
+          ImagePath = $@"{directory_path}CutMotorX2.png", SettingName = nameof(Settings.Default.切割X2負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z2", Key = 8, MaxCurrentValue = 0.5,
+          ImagePath = $@"{directory_path}CutMotorZ2.png", SettingName = nameof(Settings.Default.切割Z2負載率警示) }
       });
       return gam330d;
     }
+
+    private IEnumerable<Config> Create386(string directory_path)
+    {
+      List<Config> gam380at = new List<Config>();
+
+      gam380at.AddRange(new Config[]
+      {
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.5,
+         ImagePath = $@"{directory_path}CutMotorX1.png", SettingName = nameof(Settings.Default.切割X1負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
+         ImagePath = $@"{directory_path}CutMotorY1.png", SettingName = nameof(Settings.Default.切割Y1負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.4,
+         ImagePath = $@"{directory_path}CutMotorZ1.png", SettingName = nameof(Settings.Default.切割Z1負載率警示) },
+      });
+      return gam380at;
+    }
+
 
 
     /// <summary>
@@ -241,94 +273,109 @@ namespace LoadMonitor.Components
 
 
 
-    private IEnumerable<Config> Create330AT()// 330:4個電機軸 + 2 = 總共6個電機軸
+    private IEnumerable<Config> Create300AT(string directory_path)//只有切割軸在移動，XYZ的移動
+    {
+      return new Config[]
+      {
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9,
+      ImagePath = $@"{directory_path}CutMotorX1.png", SettingName = nameof(Settings.Default.切割X1負載率警示) },
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
+      ImagePath = $@"{directory_path}CutMotorY1.png", SettingName = nameof(Settings.Default.切割Y1負載率警示) },
+    new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5,
+      ImagePath = $@"{directory_path}CutMotorZ1.png", SettingName = nameof(Settings.Default.切割Z1負載率警示) }
+      };
+    }
+
+    private IEnumerable<Config> Create330AT(string directory_path)// 330:4個電機軸 + 2 = 總共6個電機軸
     {
       List<Config> gam330 = new List<Config>();
-      gam330.AddRange(Create330());
+      gam330.AddRange(Create330($@".\Doc\{MachineTypeHelper.ToString(MachineType.GAM330)}\"));
+
       gam330.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5 },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.45 }
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5,
+      ImagePath = $@"{directory_path}TransferRackX1.png", SettingName = nameof(Settings.Default.移載X負載率警示)  },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.45,
+      ImagePath = $@"{directory_path}TransferRackZ1.png", SettingName = nameof(Settings.Default.移載Z負載率警示)  }
       });
       return gam330;
     }
 
-    private IEnumerable<Config> Create330AD()
+    private IEnumerable<Config> Create330AD(string directory_path)
     {
       List<Config> gam330ad = new List<Config>();
-      gam330ad.AddRange(Create330AT());
+      gam330ad.AddRange(Create330AT($@".\Doc\{MachineTypeHelper.ToString(MachineType.GAM330AT)}\"));
+
       gam330ad.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("切割")}X2", Key = 7, MaxCurrentValue = 1.8 },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("切割")}Z2", Key = 8, MaxCurrentValue = 1.8 }
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X2", Key = 7, MaxCurrentValue = 1.8 ,
+      ImagePath = $@"{directory_path}CutMotorX2.png", SettingName = nameof(Settings.Default.切割X2負載率警示)  },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z2", Key = 8, MaxCurrentValue = 1.8,
+      ImagePath = $@"{directory_path}CutMotorZ2.png", SettingName = nameof(Settings.Default.切割Z2負載率警示)   }
       });
       return gam330ad;
     }
 
 
-    private IEnumerable<Config> Create336AT()// 330AT:6個電機軸 + 移載Y軸(前進後退) = 7個
+    private IEnumerable<Config> Create336AT(string directory_path)// 330AT:6個電機軸 + 移載Y軸(前進後退) = 7個
     {
       List<Config> gam336at = new List<Config>();
-      gam336at.AddRange(Create330AT());//基於330AT,再加一個移載Y軸
+      gam336at.AddRange(Create330AT($@".\Doc\{MachineTypeHelper.ToString(MachineType.GAM330AT)}\"));//基於330AT,再加一個移載Y軸
+
+
       gam336at.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.8 },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.8 ,
+      ImagePath = $@"{directory_path}TransferRackY1.png", SettingName = nameof(Settings.Default.移載Y負載率警示)  },
       });
       return gam336at;
     }
 
-    //336AD沒有偵測 移載Z軸, 需要單獨創建
-    private IEnumerable<Config> Create336AD()
+    //336AD沒有偵測 移載Z軸, 需要單獨創建，以下因為key值與336AT不一樣，獨立創建
+    private IEnumerable<Config> Create336AD(string directory_path)
     {
+
       List<Config> gam336ad = new List<Config>();
       gam336ad.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X2", Key = 2, MaxCurrentValue = 1.9},
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y2", Key = 4, MaxCurrentValue = 1.8 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9},
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5 },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z2", Key = 8, MaxCurrentValue = 1.9},
-      });
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X1", Key = 5, MaxCurrentValue = 1.9,
+          ImagePath = $@"{directory_path}CutMotorX1.png", SettingName = nameof(Settings.Default.切割X1負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X2", Key = 2, MaxCurrentValue = 1.9,
+          ImagePath = $@"{directory_path}CutMotorX2.png", SettingName = nameof(Settings.Default.切割X2負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y1", Key = 3, MaxCurrentValue = 1.8,
+          ImagePath = $@"{directory_path}CutMotorY1.png", SettingName = nameof(Settings.Default.切割Y1負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y2", Key = 4, MaxCurrentValue = 1.8,
+          ImagePath = $@"{directory_path}CutMotorY2.png", SettingName = nameof(Settings.Default.切割Y2負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z1", Key = 6, MaxCurrentValue = 0.5,
+          ImagePath = $@"{directory_path}CutMotorZ1.png", SettingName = nameof(Settings.Default.切割Z1負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z2", Key = 8, MaxCurrentValue = 1.9,
+          ImagePath = $@"{directory_path}CutMotorZ2.png", SettingName = nameof(Settings.Default.切割Z2負載率警示) },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5,
+          ImagePath = $@"{directory_path}TransferRackX1.png", SettingName = nameof(Settings.Default.移載X負載率警示)},
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 0.4,
+          ImagePath = $@"{directory_path}TransferRackY1.png", SettingName = nameof(Settings.Default.移載Y負載率警示) },
+  });
       return gam336ad;
     }
 
 
-    private IEnumerable<Config> Create385AT()// 沒有380AT了，一律改385AT
+    private IEnumerable<Config> Create385AT(string directory_path)// 沒有380AT了，一律改385AT
     {
       List<Config> gam380at = new List<Config>();
-
-      var machineTypeString = MachineTypeHelper.ToString(MachineType.GAM380AT); // 轉換成機型文字
-      var directory_path = $@".\Doc\{machineTypeString}\";
       gam380at.AddRange(new Config[]
       {
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5,
-          ImagePath = $@"{directory_path}TransferRackX.png", SettingName = nameof(Settings.Default.移載X負載率警示)},
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4,
-          ImagePath = $@"{directory_path}TransferRackZ.png", SettingName = nameof(Settings.Default.移載Z負載率警示) },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
-          ImagePath = $@"{directory_path}CutMotorY.png" , SettingName = nameof(Settings.Default.切割Y1負載率警示)},
         new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9,
-          ImagePath = $@"{directory_path}CutMotorX.png" , SettingName = nameof(Settings.Default.切割X1負載率警示)},
+          ImagePath = $@"{directory_path}CutMotorX1.png" , SettingName = nameof(Settings.Default.切割X1負載率警示)},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
+          ImagePath = $@"{directory_path}CutMotorY1.png" , SettingName = nameof(Settings.Default.切割Y1負載率警示)},
         new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5,
-          ImagePath = $@"{directory_path}CutMotorZ.png" , SettingName = nameof(Settings.Default.切割Z1負載率警示)},
+          ImagePath = $@"{directory_path}CutMotorZ1.png" , SettingName = nameof(Settings.Default.切割Z1負載率警示)},
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5,
+          ImagePath = $@"{directory_path}TransferRackX1.png", SettingName = nameof(Settings.Default.移載X負載率警示)},
         new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5,
-          ImagePath = $@"{directory_path}TransferRackY.png", SettingName = nameof(Settings.Default.移載Y負載率警示) },
-      });
-      return gam380at;
-    }
-
-
-    private IEnumerable<Config> Create386()
-    {
-      List<Config> gam380at = new List<Config>();
-      gam380at.AddRange(new Config[]
-      {
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5 },
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8 },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4 },
+          ImagePath = $@"{directory_path}TransferRackY1.png", SettingName = nameof(Settings.Default.移載Y負載率警示) },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4,
+          ImagePath = $@"{directory_path}TransferRackZ1.png", SettingName = nameof(Settings.Default.移載Z負載率警示) },
       });
       return gam380at;
     }
