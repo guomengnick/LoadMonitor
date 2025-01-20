@@ -2,6 +2,8 @@
 using Serilog.Sinks.File;
 using System.Windows.Forms;
 using LoadMonitor.Components;
+using SQLitePCL;
+using Microsoft.Data.Sqlite;
 
 namespace LoadMonitor
 {
@@ -13,6 +15,29 @@ namespace LoadMonitor
     [STAThread]
     static void Main(string[] args)
     {
+      Batteries.Init();
+      // 创建并测试数据库连接
+      using (var connection = new SqliteConnection("Data Source=history.db"))
+      {
+        connection.Open();
+
+        // 创建表
+        var command = connection.CreateCommand();
+        command.CommandText = @"
+                CREATE TABLE IF NOT EXISTS PartHistory (
+                    PartName TEXT NOT NULL,
+                    TimeUnit TEXT NOT NULL,
+                    Timestamp DATETIME NOT NULL,
+                    Value REAL NOT NULL,
+                    PRIMARY KEY (PartName, TimeUnit, Timestamp)
+                );
+            ";
+        command.ExecuteNonQuery();
+
+        Console.WriteLine("Database initialized successfully.");
+      }
+
+
 
       // 註冊全域退出事件
       //Application.ApplicationExit += Application_Exit;
@@ -31,15 +56,17 @@ namespace LoadMonitor
           System.Configuration.ConfigurationUserLevel.None).FilePath;
       string exePath = AppDomain.CurrentDomain.BaseDirectory;
 
-      Log.Information($"Settings File Path: {settingsFilePath}");
-      Log.Information($"Executable Path: {exePath}");
+      Log.Information($"參數位置: {settingsFilePath}");
+      Log.Information($"執行檔位置: {exePath}");
 
       string modelType = "5";
       string iniPath = "";
       if (args.Length == 1)
       {
+        Log.Information($"啟動參數: {args[0]}");
         // 使用 % 分割參數
         string[] splitArgs = args[0].Split('%');
+
         if (splitArgs.Length == 2)
         {
           modelType = splitArgs[0];
@@ -56,6 +83,10 @@ namespace LoadMonitor
 
       int machineTypeValue = 0; // 預設值
       MachineType machineTypeEnum = (MachineType)Settings.Default.MachineType;
+
+      string settingsdefaultFilePath = System.Configuration.ConfigurationManager.OpenExeConfiguration(
+      System.Configuration.ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+      Log.Information($"Settings.Default 配置文件位置: {settingsdefaultFilePath}");
 
       try
       {

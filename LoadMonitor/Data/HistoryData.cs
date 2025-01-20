@@ -20,9 +20,9 @@ namespace LoadMonitor.Data
     private readonly int one_hour_capacity_;  // 1小时容量
     private readonly int six_hour_capacity_; // 6小时容量
     private readonly int day_capacity_; // 24小时容量
-    private Queue<double> one_hour_data_;    // 存储1小时数据
-    private Queue<double> six_hour_data_;    // 存储6小时数据
-    private Queue<double> day_data_;    // 存储24小时数据
+    public Queue<double> one_hour_data_;    // 存储1小时数据
+    public Queue<double> six_hour_data_;    // 存储6小时数据
+    public Queue<double> day_data_;    // 存储24小时数据
 
     public double max_value_; // 最大值
     private readonly int sample_count_; // 預設取幾筆

@@ -79,9 +79,9 @@ namespace LoadMonitor.Components
       // 初始化基礎部件
       var parts_configs = new List<Config>
       {
-        //new Config { Type = "Overview", Name = $"{MachineTypeHelper.ToString(type)} {Language.GetString("整機")}",
-        //    Key = 0, MaxCurrentValue = 5 ,
-          //ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png", },
+        new Config { Type = "Overview", Name = $"{MachineTypeHelper.ToString(type)} {Language.GetString("整機")}",
+            Key = 0, MaxCurrentValue = 5 ,
+          ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png", },
       };
 
       if (spindle_ini_path != ""/*為空的話就不顯示主軸部件*/)
@@ -89,14 +89,14 @@ namespace LoadMonitor.Components
         Settings.Default.主軸參數檔案位置 = spindle_ini_path;
         Settings.Default.Save();
 
-        //parts_configs.Add(new Config
-        //{
-        //  Type = "Spindle",
-        //  Name = Language.GetString("主軸"),
-        //  Key = 17,
-        //  MaxCurrentValue = 2,
-        //  ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Spindle.png"
-        //});
+        parts_configs.Add(new Config
+        {
+          Type = "Spindle",
+          Name = Language.GetString("主軸"),
+          Key = 17,
+          MaxCurrentValue = 2,
+          ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Spindle.png"
+        });
 
         //判斷是否為雙切割軸
         if (type == MachineType.GAM330AD || type == MachineType.GAM336AD)
@@ -379,16 +379,16 @@ namespace LoadMonitor.Components
       {
         new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9,
           ImagePath = $@"{directory_path}CutMotorX1.png" , SettingName = nameof(Settings.Default.切割X1負載率警示)},
-        //new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
-        //  ImagePath = $@"{directory_path}CutMotorY1.png" , SettingName = nameof(Settings.Default.切割Y1負載率警示)},
-        //new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5,
-        //  ImagePath = $@"{directory_path}CutMotorZ1.png" , SettingName = nameof(Settings.Default.切割Z1負載率警示)},
-        //new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5,
-        //  ImagePath = $@"{directory_path}TransferRackX1.png", SettingName = nameof(Settings.Default.移載X負載率警示)},
-        //new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5,
-        //  ImagePath = $@"{directory_path}TransferRackY1.png", SettingName = nameof(Settings.Default.移載Y負載率警示) },
-        //new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4,
-        //  ImagePath = $@"{directory_path}TransferRackZ1.png", SettingName = nameof(Settings.Default.移載Z負載率警示) },
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
+          ImagePath = $@"{directory_path}CutMotorY1.png" , SettingName = nameof(Settings.Default.切割Y1負載率警示)},
+        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5,
+          ImagePath = $@"{directory_path}CutMotorZ1.png" , SettingName = nameof(Settings.Default.切割Z1負載率警示)},
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5,
+          ImagePath = $@"{directory_path}TransferRackX1.png", SettingName = nameof(Settings.Default.移載X負載率警示)},
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5,
+          ImagePath = $@"{directory_path}TransferRackY1.png", SettingName = nameof(Settings.Default.移載Y負載率警示) },
+        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4,
+          ImagePath = $@"{directory_path}TransferRackZ1.png", SettingName = nameof(Settings.Default.移載Z負載率警示) },
       });
       return gam380at;
     }

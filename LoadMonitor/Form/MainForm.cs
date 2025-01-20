@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace LoadMonitor
 {
@@ -27,11 +28,21 @@ namespace LoadMonitor
 
 
     public System.Timers.Timer update_timer_ = new System.Timers.Timer(500);
+    public System.Timers.Timer restart_timer_ = new System.Timers.Timer(7200000/*2個小時*/)
+    {
+      AutoReset = false/*避免多次觸發*/
+    };
+
     private Communication.Manager communication_manager_;
 
     private Overview? overview_;
+    private readonly MachineType machine_type_;
+    private readonly string spindle_ini_path_;
     public MainForm(MachineType machine_type, string spindle_ini_path)
     {
+      machine_type_ = machine_type;
+      spindle_ini_path_ = spindle_ini_path;
+
       InitializeComponent();
       this.MouseWheel += MouseWheelTrigger;
       communication_manager_ = new Communication.Manager(this.COMPortToolStripMenuItem1);
@@ -53,9 +64,11 @@ namespace LoadMonitor
       {
         Log.Information("不讀取RS485");
         ShowErrorMessage(Language.GetString("請選擇電流"));
-        update_timer_.Interval = 300;//一樣啟動，但就是數值都給0
+        update_timer_.Interval = 1000;//一樣啟動，但就是數值都給0
         update_timer_.Start();//如果COM口沒有設置的話，就不要啟動
       }
+
+      InitializeRestartTimer();
     }
 
     public bool Read485Value()
@@ -208,7 +221,7 @@ namespace LoadMonitor
           s += $"{key}  電流: {currents[key]}";
           if (!currents.ContainsKey(key)) continue;
 
-          if(key == 1)
+          if (key == 1)
           {
             currents[key] += 1.5;
           }
@@ -307,13 +320,68 @@ namespace LoadMonitor
     private void 關閉監控軟體ToolStripMenuItem_Click(object sender, EventArgs e)
     {
       update_timer_.Stop();
-      Application.Exit();
       // 清理通知區域圖示
       notifyIcon1.Visible = false;
 
+      // 显式调用 PartBase 的 Dispose 方法
+      DisposePartBaseComponents();
+
       // 正常退出程式
-      //Application.Exit();
+      Application.Exit();
     }
+
+    // 手动释放 PartBase 资源
+    private void DisposePartBaseComponents()
+    {
+      if (components_ != null)
+      {
+        foreach (var partBase in components_.Values)
+        {
+          partBase.Dispose();
+        }
+        components_.Clear(); // 清空 Dictionary
+      }
+
+      Serilog.Log.Information("所有 PartBase 组件已释放。");
+    }
+
+    private void InitializeRestartTimer()
+    {
+      restart_timer_.Interval = 600000;
+      restart_timer_.Elapsed += RestartApplication;
+      restart_timer_.Start();
+
+      Serilog.Log.Information("2 小时自动重启计时器已启动。");
+    }
+
+    private void RestartApplication(object? sender, ElapsedEventArgs e)
+    {
+      restart_timer_.Stop();// 停止计时器，避免多次触发
+
+
+      PerformApplicationRestart();
+    }
+
+
+    private void PerformApplicationRestart()
+    {
+      Serilog.Log.Information("程序即将重启...");
+
+      // 保存所有数据并释放资源
+      DisposePartBaseComponents();
+
+      //用初始化的參數，把自己啟動起來，這是 "GAM320AT" 啟動時傳入的參數
+      var args = $"{(int)this.machine_type_}%{this.spindle_ini_path_}";
+      string executablePath = Process.GetCurrentProcess().MainModule.FileName;
+
+      // 启动新的进程，传入参数
+      Process.Start(executablePath,  args);
+      Serilog.Log.Information($"Application restarted with arguments: {this.machine_type_}%{this.spindle_ini_path_}");
+      // 退出当前进程
+      Application.Exit();
+    }
+
+
 
     private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
     {

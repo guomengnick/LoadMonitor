@@ -28,8 +28,6 @@ namespace LoadMonitor
   {
     public PartBase PartBase => part_base_;
     private PartBase part_base_;
-
-    private CartesianChart chart_; // 保存圖表引用
     public Color UnactiveColor { get; private set; }
 
     private bool is_selected_ = false; // 新增屬性標記選中狀態
@@ -60,35 +58,6 @@ namespace LoadMonitor
       PanelThumbnail.BackgroundImage = image_;
       PanelThumbnail.BackgroundImageLayout = ImageLayout.Stretch; // 確保圖片適應面板大小
     }
-
-    // 創建圖表的方法
-    private CartesianChart CreateChart()
-    {
-      chart_ = part_base_.CreateThumbnail();
-      return chart_;
-    }
-
-
-    // 重置圖表
-    public void ResetChart()
-    {
-      // 釋放舊圖表資源
-      if (chart_ != null)
-      {
-        Controls.Remove(chart_); // 從 UI 移除
-        chart_.Dispose(); // 釋放資源
-        Serilog.Log.Information("釋放縮圖的圖表資源");
-
-        chart_ = null;
-      }
-
-      // 創建新圖表並添加到 Panel
-      chart_ = CreateChart();
-      chart_.Dock = DockStyle.Fill;
-      Controls.Add(chart_);
-      Serilog.Log.Information("重置了縮圖的圖表資源");
-    }
-
 
     private void InitializeForm(PartBase part_base)
     {
@@ -171,7 +140,7 @@ namespace LoadMonitor
     {
       is_selected_ = isSelected;
       this.BackColor = isSelected ? Color.LightBlue : UnactiveColor; // 選中或未選中設定對應顏色
-      Log.Information($"{part_base_.MainTitle} 選中:{isSelected}");
+      // Log.Information($"{part_base_.MainTitle} 選中:{isSelected}");
     }
 
 

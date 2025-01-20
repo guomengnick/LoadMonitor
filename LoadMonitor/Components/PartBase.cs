@@ -13,6 +13,7 @@ using LoadMonitor.Data;
 using System.Xml.Linq;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
+using Microsoft.Data.Sqlite;
 
 
 namespace LoadMonitor.Components
@@ -102,10 +103,23 @@ namespace LoadMonitor.Components
       IsSelected = false;
 
       Initialize(maxLoadingValue);
-      history_data_ = new HistoryData(maxLoadingValue, 6/*每個部件都預設取6筆就好*/, 
+      history_data_ = new HistoryData(maxLoadingValue, 6/*每個部件都預設取6筆就好*/,
         MainForm.update_timer_.Interval/*讀取頻率*/);
+      LoadHistoryData();
+
       //對此部件更新色彩
       GetDetailForm();
+    }
+
+
+    protected override void Dispose(bool disposing)
+    {
+      if (disposing)
+      {
+        SaveHistoryData(); // 保存历史数据
+                           // 释放其他资源...
+      }
+      base.Dispose(disposing);
     }
 
 
@@ -160,7 +174,7 @@ namespace LoadMonitor.Components
   {string.Format(Language.GetString("過去{}小時"), "24")}     {(int)CalculateLoading(current_loading_6h)} %
 ";
 
-      
+
 
       string right = $@"  {Language.GetString("峰值負荷")} 
   {string.Format(Language.GetString("過去{}小時"), "1")}       {history_data_.GetPeakValue(TimeUnit.OneHour):F1} %
@@ -304,24 +318,7 @@ namespace LoadMonitor.Components
       thumbnail_.UpdateSummary(summary);
 
       var detail_texts = UpdateDetailData();
-      //Log.Information($"部件:{MainTitle}detail_texts:{detail_texts}");
       DetailFormUpdater(detail_texts.LeftText, detail_texts.RightInfo);
-
-
-      // 檢查是否已超過半小時
-      if ((DateTime.Now - lastResetTime_).TotalSeconds >= 15)
-      {
-        Process currentProcess = Process.GetCurrentProcess();
-
-        Log.Information($"重載前Memory Usage: {currentProcess.PrivateMemorySize64 / 1024 / 1024} MB");
-        //CreateThumbnail();
-        thumbnail_.ResetChart();
-        ResetDetailForm();
-        Log.Information($"重載後Memory Usage: {currentProcess.PrivateMemorySize64 / 1024 / 1024} MB");
-
-      }
-      //Log.Information($"data size: {data_.Count}");
-      LogMemoryUsage();
     }
 
     void LogMemoryUsage()
@@ -339,7 +336,7 @@ namespace LoadMonitor.Components
       lastResetTime_ = DateTime.Now;
 
       // 如果需要顯示訊息或執行其他操作，可以在這裡加入邏輯
-      Log.Information($"{ MainTitle} Detail form has been reset.");
+      Log.Information($"{MainTitle} Detail form has been reset.");
     }
 
     private double GetWarningThreshold()//獲取此部件的"報警提示%數"
@@ -375,13 +372,103 @@ namespace LoadMonitor.Components
       history_data_.max_value_ = MaxLoadingValue;
     }
 
+    public void SaveHistoryData()
+    {
+      using (var connection = new SqliteConnection("Data Source=history.db"))
+      {
+        connection.Open();
+        using (var transaction = connection.BeginTransaction())
+        {
+
+          // 拷贝队列数据，避免操作原始队列
+          var oneHourCopy = new Queue<double>(history_data_.one_hour_data_);
+          var sixHoursCopy = new Queue<double>(history_data_.six_hour_data_);
+          var dayCopy = new Queue<double>(history_data_.day_data_);
+
+          SaveQueueToDatabase(connection, MainTitle, "OneHour", oneHourCopy);
+          SaveQueueToDatabase(connection, MainTitle, "SixHours", sixHoursCopy);
+          SaveQueueToDatabase(connection, MainTitle, "Day", dayCopy);
+
+          transaction.Commit();
+        }
+      }
+    }
+
+    private readonly object queue_lock_ = new object(); // 定义锁对象
+    private void SaveQueueToDatabase(SqliteConnection connection, string partName, string timeUnit, Queue<double> queue)
+    {
+      var command = connection.CreateCommand();
+
+      // 删除旧数据
+      command.CommandText =
+          "DELETE FROM PartHistory WHERE PartName = @partName AND TimeUnit = @timeUnit";
+      command.Parameters.AddWithValue("@partName", partName);
+      command.Parameters.AddWithValue("@timeUnit", timeUnit);
+      command.ExecuteNonQuery();
+
+      int count = 0; // 记录成功保存的条目数
+
+      lock (queue_lock_) // 锁定队列，防止并发修改
+      {
+        foreach (var value in queue)
+        {
+          command.CommandText =
+              "INSERT OR REPLACE INTO PartHistory (PartName, TimeUnit, Timestamp, Value) VALUES (@partName, @timeUnit, @timestamp, @value)";
+          command.Parameters.Clear();
+          command.Parameters.AddWithValue("@partName", partName);
+          command.Parameters.AddWithValue("@timeUnit", timeUnit);
+          command.Parameters.AddWithValue("@timestamp", DateTime.Now); // 使用当前时间或数据时间
+          command.Parameters.AddWithValue("@value", value);
+          command.ExecuteNonQuery();
+          count++; // 增加计数
+        }
+      }
+
+      Serilog.Log.Information($"[SaveQueueToDatabase] 部件: {partName}, 时间单位: {timeUnit}, 保存数据大小: {count}");
+    }
+
+
+    public void LoadHistoryData()
+    {
+      using (var connection = new SqliteConnection("Data Source=history.db"))
+      {
+        connection.Open();
+
+        history_data_.one_hour_data_ = LoadQueueFromDatabase(connection, MainTitle, "OneHour");
+        history_data_.six_hour_data_ = LoadQueueFromDatabase(connection, MainTitle, "SixHours");
+        history_data_.day_data_ = LoadQueueFromDatabase(connection, MainTitle, "Day");
+      }
+    }
+
+    private Queue<double> LoadQueueFromDatabase(SqliteConnection connection, string partName, string timeUnit)
+    {
+      var command = connection.CreateCommand();
+      command.CommandText =
+          "SELECT Value FROM PartHistory WHERE PartName = @partName AND TimeUnit = @timeUnit ORDER BY Timestamp ASC";
+      command.Parameters.AddWithValue("@partName", partName);
+      command.Parameters.AddWithValue("@timeUnit", timeUnit);
+
+      var queue = new Queue<double>();
+      using (var reader = command.ExecuteReader())
+      {
+        while (reader.Read())
+        {
+          queue.Enqueue(reader.GetDouble(0));
+        }
+      }
+
+      // 记录日志
+      var logMessage = $"[LoadQueueFromDatabase] 部件: {partName}, 时间单位: {timeUnit}, 加载数据大小: {queue.Count}";
+      Serilog.Log.Information(logMessage);
+
+      return queue;
+    }
 
 
     /// <summary>
     /// 派生類需實現的方法，用於創建對應的詳細頁面
     /// </summary>
     public abstract Form GetDetailForm();
-    //public abstract void ResetChart();
 
     /// <summary>
     /// 派生類需實現的方法，用於更新數據
@@ -389,6 +476,8 @@ namespace LoadMonitor.Components
     protected abstract (string LeftText, string RightInfo) UpdateDetailData();
 
     protected abstract Action<string, string> DetailFormUpdater { get; }
+
+
   }
 
 }
