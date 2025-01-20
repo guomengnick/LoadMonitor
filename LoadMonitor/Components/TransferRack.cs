@@ -34,12 +34,20 @@ namespace LoadMonitor.Components
       single_form_.Invoke(new Action(() => single_form_.UpdateText(leftText, rightText)));
     };
 
-
+    private CartesianChart cartesianChart_;
 
     public override Form GetDetailForm()
     {
+
+      // 釋放舊的圖表
+      if (cartesianChart_ != null)
+      {
+        cartesianChart_.Dispose(); // 釋放資源
+        Serilog.Log.Information("釋放cartesianChart_資源");
+        cartesianChart_ = null;
+      }
       // 创建并配置要添加的 AngularGauge 控件
-      CartesianChart cartesianChart_ = new CartesianChart
+      cartesianChart_ = new CartesianChart
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]

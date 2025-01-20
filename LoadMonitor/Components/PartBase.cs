@@ -12,6 +12,7 @@ using Serilog;
 using LoadMonitor.Data;
 using System.Xml.Linq;
 using Microsoft.VisualBasic;
+using System.Diagnostics;
 
 
 namespace LoadMonitor.Components
@@ -35,6 +36,8 @@ namespace LoadMonitor.Components
     private Action<string, string> updateDetailTextAction_;
 
     public HistoryData history_data_;
+
+    private DateTime lastResetTime_;
 
     readonly protected SKColor line_color_;
     readonly protected SKColor fill_color_;
@@ -74,6 +77,9 @@ namespace LoadMonitor.Components
         MainForm owner, string image_path, string setting_name)
     {
       MainForm = owner;
+
+      // 初始化上次重置時間為現在
+      lastResetTime_ = DateTime.Now;
 
 
       MaxLoadingValue = maxLoadingValue;
@@ -168,11 +174,23 @@ namespace LoadMonitor.Components
     }
 
 
+    protected CartesianChart thumbnail_chart_;
+
     // 縮圖由基類創建，讓縮圖都長一樣
-    virtual protected CartesianChart CreateThumbnail()
+
+
+    virtual public CartesianChart CreateThumbnail()
     {
+      // 釋放舊的圖表
+      if (thumbnail_chart_ != null)
+      {
+        thumbnail_chart_.Dispose(); // 釋放資源
+        Serilog.Log.Information("釋放thumbnail_chart_資源");
+        thumbnail_chart_ = null;
+      }
+
       // 初始化图表
-      return new CartesianChart
+      thumbnail_chart_ = new CartesianChart
       {
         Dock = DockStyle.Fill, // 填满 Panel
         Series = new ISeries[]
@@ -186,7 +204,7 @@ namespace LoadMonitor.Components
               LineSmoothness = 0, // 无弧度
             },
           },
-        AnimationsSpeed = TimeSpan.FromMilliseconds(5000), // 设置动画持续时间为1秒
+        AnimationsSpeed = TimeSpan.Zero, // 设置动画持续时间为1秒
         XAxes = new[] {
           new Axis {
             MinLimit = 0,
@@ -201,6 +219,7 @@ namespace LoadMonitor.Components
         LegendPosition = LiveChartsCore.Measure.LegendPosition.Hidden,
         Legend = null,
       };
+      return thumbnail_chart_;
     }
 
     private void Initialize(double maxLoadingValue)
@@ -287,8 +306,41 @@ namespace LoadMonitor.Components
       var detail_texts = UpdateDetailData();
       //Log.Information($"部件:{MainTitle}detail_texts:{detail_texts}");
       DetailFormUpdater(detail_texts.LeftText, detail_texts.RightInfo);
+
+
+      // 檢查是否已超過半小時
+      if ((DateTime.Now - lastResetTime_).TotalSeconds >= 15)
+      {
+        Process currentProcess = Process.GetCurrentProcess();
+
+        Log.Information($"重載前Memory Usage: {currentProcess.PrivateMemorySize64 / 1024 / 1024} MB");
+        //CreateThumbnail();
+        thumbnail_.ResetChart();
+        ResetDetailForm();
+        Log.Information($"重載後Memory Usage: {currentProcess.PrivateMemorySize64 / 1024 / 1024} MB");
+
+      }
+      //Log.Information($"data size: {data_.Count}");
+      LogMemoryUsage();
     }
 
+    void LogMemoryUsage()
+    {
+      Process currentProcess = Process.GetCurrentProcess();
+      //Log.Information($"Memory Usage: {currentProcess.PrivateMemorySize64 / 1024 / 1024} MB");
+    }
+
+    private void ResetDetailForm()
+    {
+      // 更新 detailForm_
+      detailForm_ = GetDetailForm();
+
+      // 更新上次重置時間
+      lastResetTime_ = DateTime.Now;
+
+      // 如果需要顯示訊息或執行其他操作，可以在這裡加入邏輯
+      Log.Information($"{ MainTitle} Detail form has been reset.");
+    }
 
     private double GetWarningThreshold()//獲取此部件的"報警提示%數"
     {
@@ -329,6 +381,7 @@ namespace LoadMonitor.Components
     /// 派生類需實現的方法，用於創建對應的詳細頁面
     /// </summary>
     public abstract Form GetDetailForm();
+    //public abstract void ResetChart();
 
     /// <summary>
     /// 派生類需實現的方法，用於更新數據

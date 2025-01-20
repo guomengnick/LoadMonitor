@@ -78,7 +78,7 @@ namespace LoadMonitor.Components
           Dock = DockStyle.Fill,
         };
       }
-      rpm_.pie_chart_.AnimationsSpeed = TimeSpan.FromMilliseconds(5000);
+      rpm_.pie_chart_.AnimationsSpeed = TimeSpan.Zero;
       rpm_.SetGaugeMaxValue(10);
       return rpm_;
     }
@@ -92,13 +92,13 @@ namespace LoadMonitor.Components
           Dock = DockStyle.Fill,
         };
       }
-      power_.pie_chart_.AnimationsSpeed = TimeSpan.FromMilliseconds(5000);
+      power_.pie_chart_.AnimationsSpeed = TimeSpan.Zero;
       power_.SetGaugeMaxValue(300);
       return power_;
     }
 
 
-    protected override CartesianChart CreateThumbnail()
+    public override CartesianChart CreateThumbnail()
     {
       var chart = base.CreateThumbnail();//用基類製作一個出來
       if (chart.YAxes?.FirstOrDefault() is Axis yAxis)

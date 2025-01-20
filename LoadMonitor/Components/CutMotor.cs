@@ -32,6 +32,11 @@ namespace LoadMonitor.Components
       single_form_.Invoke(new Action(() => single_form_.UpdateText(leftText, rightText)));
     };
 
+    //public abstract void ReinitializeChart()
+    //{
+
+    //}
+
     public override Form GetDetailForm()
     {
       // 创建并配置要添加的 AngularGauge 控件
@@ -49,7 +54,7 @@ namespace LoadMonitor.Components
               LineSmoothness = 0, // 无弧度     
             },
           },
-        AnimationsSpeed = TimeSpan.FromMilliseconds(2500), // 设置动画持续时间为1秒
+        AnimationsSpeed = TimeSpan.Zero, // 设置动画持续时间为1秒
         EasingFunction = LiveChartsCore.EasingFunctions.ExponentialOut, // 设置缓动效果
         // 設置 X 軸
         XAxes = new Axis[]
@@ -118,6 +123,7 @@ namespace LoadMonitor.Components
 
       return single_form_;
     }
+
 
 
     protected override (string LeftText, string RightInfo) UpdateDetailData()

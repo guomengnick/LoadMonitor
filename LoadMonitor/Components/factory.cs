@@ -10,8 +10,8 @@ namespace LoadMonitor.Components
   public enum MachineType
   {
     //在線機
-    GAM320AT = 0, GAM330AT = 1, GAM360AT = 2, GAM310AT = 3, GAM300AT = 4, GAM380AT = 5,
-    GAM336AT = 6, GAM330AD = 7, GAM316AT = 8, GAM336AD = 9, GAM386AT = 10,
+    GAM320AT = 0, GAM330AT = 1, GAM360AT = 2, GAM310AT = 3, GAM300AT = 4, GAM380AT/*字串為'GAM385AT'*/ = 5,
+    GAM336AT = 6, GAM330AD = 7, GAM316AT/*停產，沒有這個圖*/ = 8, GAM336AD = 9, GAM386AT = 10,
     //離線機
     GAM330 = 100, GAM310 = 101, GAM320 = 102, GAM330D = 103, GAM386 = 104,
   }
@@ -25,7 +25,7 @@ namespace LoadMonitor.Components
         { MachineType.GAM360AT, "GAM360AT" }, { MachineType.GAM310AT, "GAM310AT" },
         { MachineType.GAM300AT, "GAM300AT" }, { MachineType.GAM380AT, "GAM385AT" },
         { MachineType.GAM336AT, "GAM336AT" }, { MachineType.GAM330AD, "GAM330AD" },
-        { MachineType.GAM316AT, "GAM316AT" }, { MachineType.GAM336AD, "GAM336AD" },
+        { MachineType.GAM316AT, "GAM316AT"/*不製作*/ }, { MachineType.GAM336AD, "GAM336AD" },
         { MachineType.GAM386AT, "GAM386AT" },
 
         { MachineType.GAM330, "GAM330" }, { MachineType.GAM310, "GAM310" },
@@ -79,9 +79,9 @@ namespace LoadMonitor.Components
       // 初始化基礎部件
       var parts_configs = new List<Config>
       {
-        new Config { Type = "Overview", Name = $"{MachineTypeHelper.ToString(type)} {Language.GetString("整機")}",
-            Key = 0, MaxCurrentValue = 5 ,
-          ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png", },
+        //new Config { Type = "Overview", Name = $"{MachineTypeHelper.ToString(type)} {Language.GetString("整機")}",
+        //    Key = 0, MaxCurrentValue = 5 ,
+          //ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Overview.png", },
       };
 
       if (spindle_ini_path != ""/*為空的話就不顯示主軸部件*/)
@@ -89,14 +89,27 @@ namespace LoadMonitor.Components
         Settings.Default.主軸參數檔案位置 = spindle_ini_path;
         Settings.Default.Save();
 
-        parts_configs.Add(new Config
+        //parts_configs.Add(new Config
+        //{
+        //  Type = "Spindle",
+        //  Name = Language.GetString("主軸"),
+        //  Key = 17,
+        //  MaxCurrentValue = 2,
+        //  ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Spindle.png"
+        //});
+
+        //判斷是否為雙切割軸
+        if (type == MachineType.GAM330AD || type == MachineType.GAM336AD)
         {
-          Type = "Spindle",
-          Name = Language.GetString("主軸"),
-          Key = 17,
-          MaxCurrentValue = 2,
-          ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Spindle.png"
-        });
+          parts_configs.Add(new Config
+          {
+            Type = "Spindle",
+            Name = Language.GetString("主軸") + "2",
+            Key = 18,
+            MaxCurrentValue = 2,
+            ImagePath = $@".\Doc\{MachineTypeHelper.ToString(type)}\Spindle2.png"
+          });
+        }
       }
 
       var directory_path = $@".\Doc\{MachineTypeHelper.ToString(type)}\";
@@ -289,7 +302,7 @@ namespace LoadMonitor.Components
     private IEnumerable<Config> Create330AT(string directory_path)// 330:4個電機軸 + 2 = 總共6個電機軸
     {
       List<Config> gam330 = new List<Config>();
-      gam330.AddRange(Create330($@".\Doc\{MachineTypeHelper.ToString(MachineType.GAM330)}\"));
+      gam330.AddRange(Create330($@".\Doc\{MachineTypeHelper.ToString(MachineType.GAM330AT)}\"));
 
       gam330.AddRange(new Config[]
       {
@@ -304,7 +317,7 @@ namespace LoadMonitor.Components
     private IEnumerable<Config> Create330AD(string directory_path)
     {
       List<Config> gam330ad = new List<Config>();
-      gam330ad.AddRange(Create330AT($@".\Doc\{MachineTypeHelper.ToString(MachineType.GAM330AT)}\"));
+      gam330ad.AddRange(Create330AT($@".\Doc\{MachineTypeHelper.ToString(MachineType.GAM330AD)}\"));
 
       gam330ad.AddRange(new Config[]
       {
@@ -366,16 +379,16 @@ namespace LoadMonitor.Components
       {
         new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}X", Key = 5, MaxCurrentValue = 1.9,
           ImagePath = $@"{directory_path}CutMotorX1.png" , SettingName = nameof(Settings.Default.切割X1負載率警示)},
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
-          ImagePath = $@"{directory_path}CutMotorY1.png" , SettingName = nameof(Settings.Default.切割Y1負載率警示)},
-        new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5,
-          ImagePath = $@"{directory_path}CutMotorZ1.png" , SettingName = nameof(Settings.Default.切割Z1負載率警示)},
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5,
-          ImagePath = $@"{directory_path}TransferRackX1.png", SettingName = nameof(Settings.Default.移載X負載率警示)},
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5,
-          ImagePath = $@"{directory_path}TransferRackY1.png", SettingName = nameof(Settings.Default.移載Y負載率警示) },
-        new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4,
-          ImagePath = $@"{directory_path}TransferRackZ1.png", SettingName = nameof(Settings.Default.移載Z負載率警示) },
+        //new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Y", Key = 3, MaxCurrentValue = 1.8,
+        //  ImagePath = $@"{directory_path}CutMotorY1.png" , SettingName = nameof(Settings.Default.切割Y1負載率警示)},
+        //new Config { Type = "CutMotor", Name = $"{Language.GetString("切割")}Z", Key = 6, MaxCurrentValue = 0.5,
+        //  ImagePath = $@"{directory_path}CutMotorZ1.png" , SettingName = nameof(Settings.Default.切割Z1負載率警示)},
+        //new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}X", Key = 1, MaxCurrentValue = 1.5,
+        //  ImagePath = $@"{directory_path}TransferRackX1.png", SettingName = nameof(Settings.Default.移載X負載率警示)},
+        //new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Y", Key = 7, MaxCurrentValue = 1.5,
+        //  ImagePath = $@"{directory_path}TransferRackY1.png", SettingName = nameof(Settings.Default.移載Y負載率警示) },
+        //new Config { Type = "TransferRack", Name = $"{Language.GetString("移載")}Z", Key = 2, MaxCurrentValue = 0.4,
+        //  ImagePath = $@"{directory_path}TransferRackZ1.png", SettingName = nameof(Settings.Default.移載Z負載率警示) },
       });
       return gam380at;
     }

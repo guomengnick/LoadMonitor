@@ -37,6 +37,7 @@ namespace LoadMonitor.Data
 
       // 根據讀取間隔計算各時間段的容量
       double interval_in_seconds = read_interval_ / 1000.0;
+      interval_in_seconds = 5000 / 1000.0;//TEST 使用預設5秒當成讀取間隔
       one_hour_capacity_ = (int)(3600 / interval_in_seconds);
       six_hour_capacity_ = (int)(3600 * 6 / interval_in_seconds);
       day_capacity_ = (int)(3600 * 24 / interval_in_seconds);

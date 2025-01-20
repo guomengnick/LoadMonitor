@@ -26,6 +26,14 @@ namespace LoadMonitor
                         rollOnFileSizeLimit: true) // 文件過大時滾動
           .CreateLogger();
 
+
+      string settingsFilePath = System.Configuration.ConfigurationManager.OpenExeConfiguration(
+          System.Configuration.ConfigurationUserLevel.None).FilePath;
+      string exePath = AppDomain.CurrentDomain.BaseDirectory;
+
+      Log.Information($"Settings File Path: {settingsFilePath}");
+      Log.Information($"Executable Path: {exePath}");
+
       string modelType = "5";
       string iniPath = "";
       if (args.Length == 1)

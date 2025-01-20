@@ -53,7 +53,7 @@ namespace LoadMonitor
       {
         Log.Information("不讀取RS485");
         ShowErrorMessage(Language.GetString("請選擇電流"));
-        update_timer_.Interval = 200;//一樣啟動，但就是數值都給0
+        update_timer_.Interval = 300;//一樣啟動，但就是數值都給0
         update_timer_.Start();//如果COM口沒有設置的話，就不要啟動
       }
     }

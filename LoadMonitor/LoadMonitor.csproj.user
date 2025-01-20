@@ -1,31 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Compile Update="Components\CutMotor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Components\Overview.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Components\PartBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Components\Spindle.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Components\TransferRack.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Form\DetailTextForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form\RemindForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Form\SettingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="TEST\SerialPortFormTEST.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Components\PartBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Components\CutMotor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Form\Single.cs">
+    <Compile Update="Form\LeftOneRightTwo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Form\LeftRight.cs">
@@ -34,16 +28,22 @@
     <Compile Update="Form\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form\LeftOneRightTwo.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Form\QuadGrid.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Components\TransferRack.cs">
-      <SubType>UserControl</SubType>
+    <Compile Update="Form\RemindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Form\SettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Form\Single.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Update="Form\Thumbnail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TEST\SerialPortFormTEST.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="TEST\TEST_Comm.cs">

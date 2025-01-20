@@ -153,7 +153,7 @@ namespace LoadMonitor
         MaxAngle = 270,
         MinValue = 0,
         MaxValue = 100,
-        AnimationsSpeed = TimeSpan.FromMilliseconds(5000), // 设置动画持续时间为1秒
+        AnimationsSpeed = TimeSpan.Zero, // 设置动画持续时间为1秒
         // out of livecharts properties...
         //Location = new System.Drawing.Point(0, 0),
         Size = new System.Drawing.Size(10, 10),
