@@ -27,7 +27,7 @@ namespace LoadMonitor
 
 
 
-    public System.Timers.Timer update_timer_ = new System.Timers.Timer(500);
+    public System.Timers.Timer update_timer_ = new System.Timers.Timer(5000);
     public System.Timers.Timer restart_timer_ = new System.Timers.Timer(7200000/*2個小時*/)
     {
       AutoReset = false/*避免多次觸發*/

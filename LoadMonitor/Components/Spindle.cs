@@ -36,7 +36,7 @@ namespace LoadMonitor.Components
 
     protected AngularGauge power_;
     protected AngularGauge rpm_;
-    private ThreadTimer timer_ = new ThreadTimer(5000);
+    private ThreadTimer timer_ = new ThreadTimer(10000);
     public Spindle(string name,
       Panel DetailChartPanel, double max_current, SKColor chart_color, MainForm owner, string image_path, string settingName) :
       base(name, max_current, DetailChartPanel, chart_color, owner, image_path, settingName) // 主轴最大负载值为 10A
@@ -287,7 +287,7 @@ namespace LoadMonitor.Components
       try
       {
         // 使用 FileStream 以只讀模式打開文件
-        using (var fileStream = new FileStream("spindle_info.ini", FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite))
+        using (var fileStream = new FileStream(Settings.Default.主軸參數檔案位置, FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite))
         using (var reader = new StreamReader(fileStream))
         {
           IniData data = new FileIniDataParser().ReadData(reader);
@@ -301,7 +301,7 @@ namespace LoadMonitor.Components
           string status = data["Spindle"]["Status"];
           string internalStatus = data["Spindle"]["InternalStatus"];
           string power = data["Spindle"]["Power"];
-          double powerValue = double.TryParse(power, out double value) ? value: 0.0;
+          double powerValue = double.TryParse(power, out double value) ? value : 0.0;
 
           string busVoltage = data["Spindle"]["BusVoltage"];
           string inverterTemp = data["Spindle"]["InverterTemperature"];
