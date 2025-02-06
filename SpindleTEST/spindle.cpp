@@ -21,7 +21,7 @@ TForm1 *Form1;
 __fastcall TForm1::TForm1(TComponent* Owner) : TForm(Owner)
 {
 
-	UpdateTimer->Interval = 3500; // 設定為 1000ms
+	UpdateTimer->Interval = 5000; // 設定為 1000ms
 	UpdateTimer->OnTimer = UpdateSpindleInfo; // 設定 Timer 的觸發函數
 
 }
@@ -82,27 +82,37 @@ void __fastcall TForm1::UpdateSpindleInfo(TObject *Sender)
 
 	try
 	{
-		// 隨機生成數值
-		int speed = GenerateRandomInt(37000, 10); // Speed
-		String status = GenerateRandomStatus(); // Status
-		String internalStatus = GenerateRandomStatus(); // InternalStatus
 
-		double busVoltage = GenerateRandomDouble(48.0, 0.1); // BusVoltage
-		double current = GenerateRandomDouble(1.5, 0.1); // Current
-		int motorTemperature = GenerateRandomInt(35, 0.1); // MotorTemperature
-		double inverterTemperature = GenerateRandomDouble(39, 0.1); // InverterTemperature
-		int power = current * busVoltage; //
+		for (int i = 1; i <= 2; i++)
+		{
+			// 隨機生成數值
+			int speed = GenerateRandomInt(37000, 10); // Speed
+			String status = GenerateRandomStatus(); // Status
+			String internalStatus = GenerateRandomStatus(); // InternalStatus
 
-		// 更新 INI 檔案內容（存儲到記憶體）
-		ini->WriteInteger("Spindle", "Speed", speed);
-		ini->WriteString("Spindle", "Status", status);
-		ini->WriteString("Spindle", "InternalStatus", internalStatus);
-		ini->WriteInteger("Spindle", "Power", power);
-		ini->WriteFloat("Spindle", "BusVoltage", busVoltage);
-		ini->WriteFloat("Spindle", "Current", current);
-		ini->WriteInteger("Spindle", "MotorTemperature", motorTemperature);
-		ini->WriteFloat("Spindle", "InverterTemperature", inverterTemperature);
+			double busVoltage = GenerateRandomDouble(48.0, 0.1); // BusVoltage
+			double current = GenerateRandomDouble(1.5, 0.1); // Current
+			int motorTemperature = GenerateRandomInt(35, 0.1); // MotorTemperature
+			double inverterTemperature = GenerateRandomDouble(39, 0.1); // InverterTemperature
+			int power = current * busVoltage; //
 
+
+
+			// 根據迴圈索引動態決定寫入的區段名稱
+			String sectionName = i == 1 ? "Spindle" : "Spindle2";
+
+			// 更新 INI 檔案內容（存儲到記憶體）
+			ini->WriteInteger(sectionName, "Speed", speed);
+			ini->WriteString(sectionName, "Status", status);
+			ini->WriteString(sectionName, "InternalStatus", internalStatus);
+			ini->WriteInteger(sectionName, "Power", power);
+			ini->WriteFloat(sectionName, "BusVoltage", busVoltage);
+			ini->WriteFloat(sectionName, "Current", current);
+			ini->WriteInteger(sectionName, "MotorTemperature", motorTemperature);
+			ini->WriteFloat(sectionName, "InverterTemperature", inverterTemperature);
+		}
+		ini->UpdateFile();
+		return;
 		// 將記憶體內容保存到檔案（共享模式）
 		TStringList *iniContent = new TStringList();
 		try
@@ -318,20 +328,6 @@ UnicodeString GetLoadMonitorWindowName()
 
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::Button1Click(TObject *Sender)
-{
-	loadMonitorWindowName = GetLoadMonitorWindowName();
-	if (!loadMonitorWindowName.IsEmpty())
-	{
-		Button1->Caption = L"找到: " + loadMonitorWindowName;
-	}
-	else
-	{
-		Button1->Caption = L"沒找到!";
-	}
-}
-
-// ---------------------------------------------------------------------------
 
 
 #include <System.IOUtils.hpp>
@@ -371,35 +367,4 @@ void LaunchLoadMonitor()
 // 讀取LoadMonitor狀態
 bool last_load_monitor_result_ = false;
 
-void __fastcall TForm1::Timer1Timer(TObject *Sender)
-{
-	loadMonitorWindowName = GetLoadMonitorWindowName();
-	// 如果有找到監控視窗名稱，就顯示'SpeedButton'按鈕
-	this->SpeedButtonLoadMonitor->Visible = !loadMonitorWindowName.IsEmpty();
-	if (!this->SpeedButtonLoadMonitor->Visible)
-	{
-		LaunchLoadMonitor();
-		return;
-	}
 
-	// 獲取監控系統的通知狀態
-	bool load_monitor_result = CheckNotification();
-
-	// 只有當狀態發生變化時才執行
-	if (load_monitor_result != last_load_monitor_result_)
-	{
-		if (load_monitor_result)
-		{
-			SpeedButtonLoadMonitor->Glyph->LoadFromFile(".\\Doc\\53_53_Original_1.bmp"); // 有通知時的圖案
-		}
-		else
-		{
-			SpeedButtonLoadMonitor->Glyph->LoadFromFile(".\\Doc\\53_53_Original.bmp"); // 無通知時的圖案
-		}
-	}
-
-	// 更新狀態
-	last_load_monitor_result_ = load_monitor_result;
-
-}
-// ---------------------------------------------------------------------------

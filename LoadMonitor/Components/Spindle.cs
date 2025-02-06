@@ -25,6 +25,7 @@ using Log = Serilog.Log;
 using static SkiaSharp.HarfBuzz.SKShaper;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LiveCharts.Wpf.Charts.Base;
+using System.Xml.Linq;
 
 
 namespace LoadMonitor.Components
@@ -292,19 +293,23 @@ namespace LoadMonitor.Components
         {
           IniData data = new FileIniDataParser().ReadData(reader);
 
+          // 判斷應讀取的 section，判斷主軸是否是"右邊的主軸"，有包含關鍵字2
+          string sectionName = base.MainTitle.Contains("2") ? "Spindle2" : "Spindle";
+
+
           // 獲取 INI 文件中的數據
-          string currentStr = data["Spindle"]["Current"];
-          string motorTempStr = data["Spindle"]["MotorTemperature"];
-          string speed = data["Spindle"]["Speed"];
+          string currentStr = data[sectionName]["Current"];
+          string motorTempStr = data[sectionName]["MotorTemperature"];
+          string speed = data[sectionName]["Speed"];
           double speedValue = double.TryParse(speed, out double rpm) ? rpm : 0.0;
 
-          string status = data["Spindle"]["Status"];
-          string internalStatus = data["Spindle"]["InternalStatus"];
-          string power = data["Spindle"]["Power"];
+          string status = data[sectionName]["Status"];
+          string internalStatus = data[sectionName]["InternalStatus"];
+          string power = data[sectionName]["Power"];
           double powerValue = double.TryParse(power, out double value) ? value : 0.0;
 
-          string busVoltage = data["Spindle"]["BusVoltage"];
-          string inverterTemp = data["Spindle"]["InverterTemperature"];
+          string busVoltage = data[sectionName]["BusVoltage"];
+          string inverterTemp = data[sectionName]["InverterTemperature"];
           // 尝试解析 busVoltage 和 inverterTemp 为浮点数
           double busVoltageValue = double.TryParse(busVoltage, out double bv) ? bv : 0.0;
           double inverterTempValue = double.TryParse(inverterTemp, out double it) ? it : 0.0;

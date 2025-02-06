@@ -15,6 +15,10 @@ namespace LoadMonitor
     [STAThread]
     static void Main(string[] args)
     {
+
+      
+      System.Threading.Thread.Sleep(2000);// 延遲一下，避免與上一次的啟動衝突，導致windows畫面閃爍
+
       Batteries.Init();
       // 创建并测试数据库连接
       using (var connection = new SqliteConnection("Data Source=history.db"))
@@ -39,8 +43,6 @@ namespace LoadMonitor
 
 
 
-      // 註冊全域退出事件
-      //Application.ApplicationExit += Application_Exit;
 
       // 初始化 Serilog，僅輸出到 Log 資料夾下的文件
       Log.Logger = new LoggerConfiguration()

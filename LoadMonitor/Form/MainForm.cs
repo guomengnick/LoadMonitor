@@ -42,6 +42,10 @@ namespace LoadMonitor
     {
       machine_type_ = machine_type;
       spindle_ini_path_ = spindle_ini_path;
+      this.ShowInTaskbar = false;//不要顯示在 windows任務欄上
+      this.WindowState = FormWindowState.Minimized;
+
+
 
       InitializeComponent();
       this.MouseWheel += MouseWheelTrigger;
@@ -347,7 +351,7 @@ namespace LoadMonitor
 
     private void InitializeRestartTimer()
     {
-      restart_timer_.Interval = 600000;
+      restart_timer_.Interval = 7200000;
       restart_timer_.Elapsed += RestartApplication;
       restart_timer_.Start();
 
@@ -365,19 +369,21 @@ namespace LoadMonitor
 
     private void PerformApplicationRestart()
     {
-      Serilog.Log.Information("程序即将重启...");
+      Serilog.Log.Information("程序即將重啟...");
 
-      // 保存所有数据并释放资源
       DisposePartBaseComponents();
 
-      //用初始化的參數，把自己啟動起來，這是 "GAM320AT" 啟動時傳入的參數
       var args = $"{(int)this.machine_type_}%{this.spindle_ini_path_}";
       string executablePath = Process.GetCurrentProcess().MainModule.FileName;
 
-      // 启动新的进程，传入参数
-      Process.Start(executablePath,  args);
-      Serilog.Log.Information($"Application restarted with arguments: {this.machine_type_}%{this.spindle_ini_path_}");
-      // 退出当前进程
+      // 使用延遲啟動新進程
+      //Task.Run(async () =>
+      //{
+        //await Task.Delay(500); // 延遲 500 毫秒
+        Process.Start(executablePath, args);
+        Serilog.Log.Information($"Application restarted with arguments: {this.machine_type_}%{this.spindle_ini_path_}");
+      //});
+
       Application.Exit();
     }
 
