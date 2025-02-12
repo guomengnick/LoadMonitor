@@ -7,8 +7,13 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion> <!-- 确保语言版本支持预览功能 -->
-    <EnablePreviewFeatures>true</EnablePreviewFeatures> <!-- 开启预览功能 -->
+    <EnablePreviewFeatures>true</EnablePreviewFeatures>
+    <ApplicationIcon>l3b24-yp1iv-001.ico</ApplicationIcon> <!-- 开启预览功能 -->
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="l3b24-yp1iv-001.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview3" />
